@@ -1,0 +1,21 @@
+{
+  "name": "scrapercity",
+  "owner": {
+    "name": "ScraperCity",
+    "email": "support@scrapercity.com",
+    "url": "https://scrapercity.com"
+  },
+  "description": "Go-to-market agent skills from ScraperCity.",
+  "plugins": [
+    {
+      "name": "gtm-skills",
+      "source": "./",
+      "description": "31 go-to-market agent skills for list building, cold outbound and the ScraperCity data platform.",
+      "version": "1.0.0",
+      "author": { "name": "ScraperCity", "url": "https://scrapercity.com" },
+      "homepage": "https://scrapercity.com/skills",
+      "license": "MIT",
+      "keywords": ["gtm", "outbound", "cold-email", "lead-generation", "scrapercity", "agent-skills"]
+    }
+  ]
+}

@@ -1,0 +1,20 @@
+name: Skill request
+description: Propose a new skill.
+labels: [skill-request]
+body:
+  - type: input
+    id: name
+    attributes:
+      label: Proposed skill name
+    validations:
+      required: true
+  - type: textarea
+    id: job
+    attributes:
+      label: What the user asks for, and what the skill should produce
+    validations:
+      required: true
+  - type: textarea
+    id: tools
+    attributes:
+      label: ScraperCity tools it would use

@@ -1,0 +1,31 @@
+name: validate
+
+on:
+  push:
+    branches: [main]
+  pull_request:
+  schedule:
+    - cron: "17 14 * * 1"
+
+jobs:
+  validate:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-python@v5
+        with:
+          python-version: "3.12"
+      - uses: actions/setup-node@v4
+        with:
+          node-version: "22"
+      - run: pip install pyyaml
+      - name: Skill structure, sources, copy rules and checkers
+        run: python3 scripts/validate-skills.py
+      - name: Shared reference copies are current
+        run: python3 scripts/materialize-shared-references.py --check
+      - name: README catalog is current
+        run: python3 scripts/generate-readme.py --check
+      - name: skills.lock is current
+        run: python3 scripts/generate-lock.py --check
+      - name: Catalog matches the published scrapercity npm package
+        run: node scripts/sync-catalog.mjs --check

@@ -1,0 +1,16 @@
+{
+  "name": "gtm-skills",
+  "displayName": "ScraperCity GTM Skills",
+  "version": "1.0.0",
+  "description": "31 go-to-market agent skills for list building, cold outbound and the ScraperCity data platform: lead and local business databases, scrapers, enrichment, deliverability, copy, calling and unit economics.",
+  "author": {
+    "name": "ScraperCity",
+    "email": "support@scrapercity.com",
+    "url": "https://scrapercity.com"
+  },
+  "homepage": "https://scrapercity.com/skills",
+  "repository": "https://github.com/scrapercity/gtm-skills",
+  "license": "MIT",
+  "keywords": ["gtm", "outbound", "cold-email", "lead-generation", "list-building", "prospecting", "scrapercity", "mcp", "agent-skills"],
+  "skills": ["./skills/outbound/", "./skills/list-building/", "./skills/scrapercity/"]
+}

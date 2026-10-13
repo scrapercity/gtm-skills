@@ -1,0 +1,23 @@
+name: Wrong or stale fact
+description: A price, rule, vendor feature or statistic in a skill is wrong or out of date.
+labels: [fact-check]
+body:
+  - type: input
+    id: file
+    attributes:
+      label: File and line
+      placeholder: skills/outbound/email-deliverability/SKILL.md:42
+    validations:
+      required: true
+  - type: textarea
+    id: says
+    attributes:
+      label: What it says
+    validations:
+      required: true
+  - type: textarea
+    id: true
+    attributes:
+      label: What is true, with a source link
+    validations:
+      required: true
