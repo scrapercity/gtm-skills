@@ -3,34 +3,54 @@ name: account-researcher
 description: >-
   Builds a one-page brief on a target company and its key people before
   outreach or a call: firmographics and team counts from the Lead Database,
-  the 3-4 people who own the decision with verified emails, the technologies
+  the people who own the decision with verified emails, the technologies
   that change the pitch (checked with Tech Stack Search only when they do),
   dated trigger events, and talking points that each cite a source. Use when
   the user says "research this account", "brief me on acme.com before my
   call", "what do we know about X", "account plan", or names 1-10 priority
-  companies for deep work before a sequence.
+  companies for deep work before a sequence. For buyers across many named
+  accounts use decision-maker-finder; across a market, icp-list-builder.
 license: MIT
 compatibility: Claude Code, Claude Desktop, Codex, GitHub Copilot, Cursor, Gemini CLI, Windsurf, Cline, OpenCode, Goose
 metadata:
-  version: "1.0.0"
+  version: "1.1.0"
   author: ScraperCity
   category: list-building
-  tags: [account-research, account-based, tech-stack, trigger-events, brief, decision-makers]
-  related_skills: [decision-maker-finder, icp-list-builder, ecommerce-by-techstack, signal-triggered-outbound, cold-email-copywriting, multi-channel-outreach, crm-enricher]
+  tags:
+    - account-research
+    - account-based
+    - tech-stack
+    - trigger-events
+    - brief
+    - decision-makers
+  related_skills:
+    - decision-maker-finder
+    - icp-list-builder
+    - ecommerce-by-techstack
+    - signal-triggered-outbound
+    - cold-email-copywriting
+    - multi-channel-outreach
+    - crm-enricher
   frameworks:
-    - "Gartner - B2B buying groups of 6 to 10 decision makers"
+    - "Gartner B2B Buying Report - buying groups of five to 11 stakeholders across five functions"
     - "MEDDIC (Dick Dunkel, Jack Napoli, John McMahon, PTC 1996) - economic buyer and champion"
     - "Craig Elias - trigger events and the window of dissatisfaction"
     - "US SEC - EDGAR filings (10-K, 8-K) as primary company evidence"
     - "Alex Berman - segment, account and person levels of personalization"
-  shared_references: [scrapercity-catalog.md, scrapercity-platform.md, scrapercity-agent-patterns.md, list-quality-standard.md, alex-berman-cold-email.md]
+    - "LinkedIn Sales Navigator - TeamLink and Connections of as warm paths into an account"
+  shared_references:
+    - scrapercity-catalog.md
+    - scrapercity-platform.md
+    - scrapercity-agent-patterns.md
+    - list-quality-standard.md
+    - alex-berman-cold-email.md
 ---
 
 # Account Researcher
 
 ## Overview
 
-This skill produces a brief of one to two pages per account: a snapshot (size, revenue, HQ, keywords, team counts), dated trigger events, the technologies that decide which pitch to use, the 3-4 people who own the decision with verified emails, a hypothesis with talking points that each cite a source, a contact plan, and the cost of the research.
+This skill produces a brief of one to two pages per account: a snapshot (size, revenue, HQ, keywords, team counts), dated trigger events, the technologies that decide which pitch to use, the people who own the decision with verified emails, a hypothesis with talking points that each cite a source, a contact plan, and the cost of the research.
 
 The mistake it prevents is research that costs an hour and changes nothing: ten tabs of trivia, a "tech stack" pasted from a profile, and an email that opens with the company's founding year. Every item in the brief has to change who gets contacted, what gets said, or when. Paid lookups follow the same rule. Tech Stack Search costs $4.99 per technology, so it runs only for a technology whose presence or absence flips the pitch.
 
@@ -47,7 +67,8 @@ Use a different skill when:
 | The user wants | Use |
 |-|-|
 | Decision makers at 50+ accounts, no per-account brief | `decision-maker-finder` |
-| A list of companies that match an ICP | `icp-list-builder` |
+| Decision-makers across a market defined by industry, size and geography, with counts, tiers and verified emails | `icp-list-builder` |
+| Company counts, a TAM or a tiered account universe | `tam-builder` |
 | Every store running a given app or platform | `ecommerce-by-techstack` |
 | A list built from an event (funding, hiring, leadership change) across many companies | `signal-triggered-outbound` |
 | The email itself, once the brief exists | `cold-email-copywriting` |
@@ -57,25 +78,27 @@ Use a different skill when:
 | Input | Why | Default if unknown |
 |-|-|-|
 | Account domain(s), 1-10 | Every lookup keys on domain | Ask; resolve names with `companyName` |
-| What the user sells, in one line | Picks the roles and the technologies worth checking | Ask |
+| What the user sells, in one line | Picks the roles and the technologies to check | Ask |
 | Purpose: first cold email, discovery call, renewal, expansion | Sets depth and which sections lead | First cold email |
-| Deadline and time box | Research expands to fill the time | Standard depth, 30 minutes per account |
-| Budget for paid lookups | Tech Stack Search is $4.99 per technology | $15 per account; ask above that |
+| Deadline and time box | Research expands to fill the time | Ask |
+| Budget for paid lookups | Tech Stack Search is $4.99 per technology | Ask |
 | Technologies that would change the pitch | Decides whether Tech Stack Search runs | Derive from the product in step 4 |
 
 ### Depth tiers
 
-| Tier | Time box | Paid tools | Use for |
-|-|-|-|-|
-| Quick | 10 minutes | `validate_emails` only | A reply that needs context in the next hour |
-| Standard | 30 minutes | Website Finder, Email Finder, validation; Tech Stack Search when it flips the pitch | Tier 1 accounts before a sequence |
-| Deep | 60-90 minutes | Standard plus EDGAR filings for public companies | Enterprise targets, a discovery call with an exec |
+The user sets the time box for each tier.
+
+| Tier | Paid tools | Use for |
+|-|-|-|
+| Quick | `validate_emails` only | A reply that needs context in the next hour |
+| Standard | Website Finder, Email Finder, validation; Tech Stack Search when it flips the pitch | Tier 1 accounts before a sequence |
+| Deep | Standard plus EDGAR filings for public companies | Enterprise targets, a discovery call with an exec |
 
 ## Authoritative Foundations
 
 | Source | What it contributes |
 |-|-|
-| Gartner B2B buying research | Complex purchases involve 6 to 10 decision makers. The brief names 3-4 of them by role so the rep knows who else will weigh in. |
+| Gartner B2B Buying Report (2022 survey) | The average enterprise buying group has five to 11 stakeholders from about five functions. The brief names the economic buyer, champion and evaluator by role, plus a backup, so the rep knows who else will weigh in. |
 | MEDDIC, created at PTC in 1996 by Dick Dunkel with Jack Napoli under John McMahon | Economic Buyer and Champion become the first two people in the brief; Metrics and Identify Pain shape the hypothesis. |
 | Craig Elias, trigger events (CustomerThink, 2008; book *SHiFT!*) | Buyers move from status quo into a "window of dissatisfaction" after a bad experience, a transition (new leader, new rules, new priorities) or new awareness. The Why Now section sorts every signal into those three types. |
 | US SEC EDGAR | For public companies, the 10-K (business description, risk factors) and 8-K (Item 5.02 for officer changes) are primary evidence. Full-text search covers filings since 2001. |
@@ -92,20 +115,20 @@ Write one line per account: domain, what the user sells, purpose, depth tier, bu
 
 ### 2. Snapshot from the Lead Database
 
-Call `query_lead_database` with `companyDomain` and `limit: 1`. The returned row carries company fields (industry, employee count, revenue, website, HQ city, state and country, keywords), and `pagination.total` is the number of people the database holds for the domain. Then size the teams that matter with more `limit: 1` counts, one per department or title family (for example sales titles, engineering titles). These counts cost nothing and tell the rep how big the team they are selling into is.
+Call `query_lead_database` with `companyDomain` and `limit: 1`. The returned row carries company fields (industry, employee count, revenue, website, HQ city, state and country, keywords), and `pagination.total` is the number of people the database holds for the domain. Then size the target teams with more `limit: 1` counts, one per department or title family (for example sales titles, engineering titles). These counts cost nothing and tell the rep how big the team they are selling into is.
 
 | Field read | Use in the brief |
 |-|-|
 | `company_industry`, `keywords` | One-line description; check it matches the user's ICP |
 | `employees_count` or `company_size` | Size band and which role map row applies |
 | `company_annual_revenue` | Budget plausibility for the deal size |
-| `company_city`, `company_state`, `company_country` | Time zone, law (CAN-SPAM, CASL, PECR) |
+| `company_city`, `company_state`, `company_country` | Time zone for send and call times; language of the email |
 | `pagination.total` for the domain | Contactable footprint |
 | Team-size counts | "41 people with sales titles" beats "mid-size sales team" |
 
 ### 3. Key people
 
-Pick the roles from the product category (the role map in `decision-maker-finder` lists 22 categories). Query the Lead Database with `companyDomain`, the role's `title` list, `seniority` and the universal `notTitle` set, `limit: 25`. Rank by title match, seniority, email present. For an empty role, run `scrape_website_finder` on the domain with one `jobTitle`. For a name without an email, run `find_emails`. Validate every email that did not come from Email Finder with `validate_emails`. Keep 3-4 people: economic buyer, champion, evaluator, and a backup.
+Pick the roles from the product category (the role map in `decision-maker-finder` lists 22 categories). Query the Lead Database with `companyDomain`, the role's `title` list, `seniority` and the universal `notTitle` set, `limit: 25`. Rank by title match, seniority, email present. For an empty role, run `scrape_website_finder` on the domain with one `jobTitle`. For a name without an email, run `find_emails`. Validate every email that did not come from Email Finder with `validate_emails`. Keep the economic buyer, champion, evaluator and a backup.
 
 For each person, add one person-level detail if it exists within the time box: start date in role, a post, a talk, a podcast. Cite it.
 
@@ -123,15 +146,15 @@ Tech Stack Search (`scrape_builtwith`) takes one `technology` and returns every 
 
 ### 5. Why now
 
-Collect dated signals from primary sources first: the company's newsroom and careers page, EDGAR for public companies, the executive's own posts or interviews, then press coverage. Sort each into Elias's three types (bad experience, transition, awareness). Signals older than 12 months go to background. Job postings count as transitions when they describe a new team, a new tool or a rebuild.
+Start with the seller's own history, which is free and the strongest opener: past meetings, demos, a closed-lost reason and date, and whether a champion from a current customer now works at the account (from the CRM, or a Sales Navigator lead list of customer champions filtered by Changed jobs). Then collect dated signals from primary sources: the company's newsroom and careers page, EDGAR for public companies, the executive's own posts or interviews, then press coverage. Sort each into Elias's three types (bad experience, transition, awareness). Signals older than the cutoff the user sets go to background. Job postings count as transitions when they describe a new team, a new tool or a rebuild.
 
 ### 6. Hypothesis and talking points
 
-Write a two-sentence hypothesis: the likely pain and why this quarter. Then 3-5 talking points, each tied to a cited source. A talking point that cannot cite a source is cut. Map them to MEDDIC: which metric the buyer is judged on, who signs, who champions.
+Write a two-sentence hypothesis: the likely pain and why this quarter. Then the talking points, each tied to a cited source. A talking point that cannot cite a source is cut. Map them to MEDDIC: which metric the buyer is judged on, who signs, who champions. Keep the phrases the buyer used in public (a post, a podcast, their own job posting) and write the talking points in those words.
 
 ### 7. Contact plan
 
-Order the people, pick the channel and day for each, and the angle. Never email two people at the same account on the same day; Berman's guidance is to start at the top and move down a level after one to two weeks without a reply. Put mobiles only where the user has a lawful use (see `decision-maker-finder` compliance notes).
+Check for a warm path first: if the user's team has Sales Navigator, look up the economic buyer with TeamLink or the "Connections of" filter; a colleague who knows them makes Day 1 an introduction request instead of a cold email (LinkedIn's Sales Solutions blog says buyers are five times more likely to engage when outreach comes through a mutual connection). Then order the people, pick the channel and day for each, and the angle. Never email two people at the same account at once; Berman's guidance is to start at the top and move down a level after one to two weeks without a reply, since several people at once can get the sender blocked company wide. Add a mobile only for a planned call, after checking the do-not-contact list.
 
 ### 8. Write and check
 
@@ -147,7 +170,7 @@ Fill `templates/output-template.md`, list every source with a URL and the date c
 | Email from a name and domain | `find_emails` | $0.05 per email found, free if not found |
 | Validate emails, read mail provider and gateway | `validate_emails` | $0.0072 per email |
 | Technology presence | `scrape_builtwith` (Tech Stack Search) | $4.99 per technology |
-| Mobile for a manual call, if asked | `find_mobiles` | $0.25 per number found, free if not found |
+| Mobile for a planned call, if asked | `find_mobiles` | $0.25 per number found, free if not found |
 | Runs | `check_run_status`, `download_results`, `list_runs` | Free |
 
 ### Calls
@@ -176,7 +199,7 @@ Missing role:
 
 Email for a known name: `{"contacts": [{"first_name": "Priya", "last_name": "Natarajan", "domain": "harborlinelogistics.example"}]}`
 
-Tech Stack Search, MCP: `{"technology": "HubSpot", "fileName": "techstack-hubspot-20261013"}`. CLI: `npx scrapercity builtwith "HubSpot"`. REST: `POST /api/v1/scrape/techstack`. Poll `check_run_status` after 30 seconds, then `download_results`, then search the CSV for the account's registrable domain.
+Tech Stack Search, MCP: `{"technology": "HubSpot", "fileName": "techstack-hubspot-20261013"}`. CLI: `npx scrapercity builtwith "HubSpot"`. REST: `POST /api/v1/scrape/techstack`. Poll `check_run_status`, then `download_results`, then search the CSV for the account's registrable domain.
 
 ### Worked cost estimate
 
@@ -191,7 +214,7 @@ One Standard brief, two technologies that flip the pitch (Salesforce and HubSpot
 | validate_emails | 3 emails | $0.0072 | $0.02 |
 | Total | | | $10.10 |
 
-Ten tier 1 accounts checked against the same two technology lists cost $9.98 for Tech Stack Search in total, not $99.80, so the per-account cost falls to about $1.12. Because the first brief exceeds $5, call `check_wallet`, show this table and wait for a yes.
+Ten tier 1 accounts checked against the same two technology lists cost $9.98 for Tech Stack Search in total, not $99.80, so the per-account cost falls to about $1.12. Call `check_wallet`, show this table and wait for a yes before any paid lookup.
 
 ### Error handling
 
@@ -209,13 +232,15 @@ Ten tier 1 accounts checked against the same two technology lists cost $9.98 for
 2. `account-people-[domain]-[date].csv`: the people table with the person columns from `references/list-quality-standard.md` section 2a plus `buying_role` and `found_by`.
 3. Saved Tech Stack Search CSVs named `techstack-[technology]-[date].csv` for reuse.
 
+What the reader receives is the deliverable only: no internal file paths, reference section numbers, tool ids or skill names (name the product, such as Lead Database, Email Validator or Website Finder, and describe the next action instead of naming a skill); no sales-framework acronyms (keep the content: who signs, who champions); each figure stated once; every outside number with its source and date on first mention; no value left as "you set" when a sourced default or a dated step can carry it; no table of checks that were not run (one "Not checked:" line instead); no repeated identical rows where one template plus a list will do. Next steps are a table with Step, Owner, Date and Done when.
+
 ## Quality Check
 
 - [ ] Every talking point and every Why Now signal cites a source ID that appears in Sources with a URL and a date checked.
-- [ ] Every signal has a date; anything older than 12 months is marked background.
+- [ ] Every signal has a date; anything older than the user's cutoff is marked background.
 - [ ] Every Tech Stack row says whether it changes the pitch; rows that do not were checked with free signals only.
 - [ ] Tech Stack Search ran only for technologies marked as changing the pitch, and the cost table shows $4.99 per technology.
-- [ ] Key People has 3-4 people, each with a buying role, an email status and a `found_by` tool; only `valid` emails are marked ready to send.
+- [ ] Key People names the economic buyer and champion (plus evaluator and backup when found), each with a buying role, an email status and a `found_by` tool; only `valid` emails are marked ready to send.
 - [ ] The contact plan never puts two people at the account on the same day.
 - [ ] The brief fits on two pages.
 - [ ] `scripts/check-output.py brief.md` prints PASS.
@@ -227,10 +252,11 @@ Ten tier 1 accounts checked against the same two technology lists cost $9.98 for
 | Paying $4.99 for a technology that does not change the pitch | Spend with no effect on the email | Run the decision table first; list only pitch-changing technologies. |
 | Reading "not detected" as "not used" | Detection misses tools without a public footprint, such as many CRMs | Say "not detected" and check one free signal. |
 | One Tech Stack Search per account | Same $4.99 paid ten times for one list | Run once per technology, reuse the CSV across accounts. |
-| Signals without dates | A two-year-old funding round reads as news | Date every signal; older than 12 months is background. |
+| Signals without dates | A two-year-old funding round reads as news | Date every signal; older than the user's cutoff is background. |
 | Opening with company trivia | Reads as a template; nothing for the buyer | Open with a dated trigger tied to their role. |
-| Emailing the CRO and the VP Sales the same morning | Looks like a blast; they compare notes | One person at a time, move down after one to two weeks. |
-| Using People Finder for a B2B brief | Public-record lookups on individuals are outside a sales brief's purpose | Stay with the Lead Database, Website Finder and Email Finder. |
+| Emailing the CRO and the VP Sales the same morning | Berman: several people at one company at once can get the sender blocked company wide | One person at a time, move down after one to two weeks. |
+| Using People Finder for a B2B brief | $0.0199 a search for home addresses and personal phones; nothing in them goes into a work email or a discovery call | Stay with the Lead Database, Website Finder and Email Finder. |
+| Skipping the seller's own history with the account | A past demo, a closed-lost on timing or a former customer champion now at the account is the strongest opener available, and it is free | Check the CRM and the champion's job change before any paid lookup (step 5). |
 
 ## Execution Artifacts
 

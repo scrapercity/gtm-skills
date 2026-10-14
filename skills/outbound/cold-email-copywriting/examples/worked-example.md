@@ -1,133 +1,198 @@
 # Cold Email Sequence: Shopify Subscription Stores Using Recharge
 
-Cell: US Shopify stores in food and beverage with Recharge installed, 10,000 to 150,000 estimated monthly visits. Platform: Instantly. Written: 2026-10-12.
+Illustrative example. Written: 2026-10-12. Platform: Instantly. Sender: Lena Ortiz, Retention Lab (a fictional retention email agency).
 
-Sender: Lena Ortiz, Retention Lab (a fictional retention email agency used for this example).
+## Copy Audit
 
-## Campaign Inputs
+### Original
 
-| Field | Value |
-|-|-|
-| Offer sentence | We help Shopify subscription brands in food and beverage cut month two cancellations by a third in 45 days with a skip-a-month email sent before the second charge. |
-| Segment and buyer | Founders and ecommerce leads at US Shopify food and beverage stores, 10,000 to 150,000 monthly visits |
-| Trigger or relevance fact | Recharge installed (subscription revenue at stake); store category |
-| Proof line source | Coffee subscription client, April to May 2026, Recharge cancellation report: month two cancellations 31% to 19% |
-| List source and tool | `scrape_store_leads` with platform "shopify", apps "Recharge", category "food & drink", countryCode "US", minEstimatedMonthlyVisits 10000, maxEstimatedMonthlyVisits 150000, emails true, totalLeads 1500 |
-| Framework | Trigger plus offer (touch 1), proof (touch 2), resource (touch 3), breakup (touch 4) |
+```text
+Hi {{first_name}},
 
-Cost of the list, shown to the user and approved after `check_wallet`: 1,500 leads x $0.0039 = $5.85; `find_emails` on 600 stores with no named contact, 300 found x $0.05 = $15.00; `validate_emails` on 1,500 addresses x $0.0072 = $10.80. Total $31.65.
+I hope this email finds you well! My name is Lena and I'm the founder of Retention Lab, a full-service retention agency. We help ecommerce brands grow with email, SMS, popups, loyalty programs and more. We have worked with over 50 brands and our clients love us.
 
-## Merge Fields and Fallbacks
+I'd love to set up a 30 minute call to walk you through our services and show you how we can help {{store_name}} grow revenue. Here is our case study deck: retentionlab.example/deck
 
-| Tag | Source field | Fill rate in sample | Fallback |
+Let me know what time works for you!
+
+Lena
+```
+
+Subject on the original: "Re: Partnership opportunity".
+
+| Line | Issue | Rule broken | Fix |
 |-|-|-|-|
-| first_name | Contact first name from Store Leads or Email Finder | 17 of 20 | there |
-| store_name | Store name, ".com" stripped | 20 of 20 | your store |
-| category | Store category, lowercased ("coffee", "tea", "snacks") | 19 of 20 | subscription |
+| Re: Partnership opportunity | Fake reply prefix and a pitch in the subject | No pitch in the subject; "Re:" only on a real reply | "second charge at {{store_name}}" |
+| Hi {{first_name}}, | No fallback; 3 of 20 sample rows rendered "Hi ," | Every merge tag needs a fallback | {{first_name \| there}} |
+| I hope this email finds you well! | The preview spends its first ten words on a pleasantry | The first ten words (subject plus preview) lead with relevance | Open with the client's top cancel reason, a fact the reader recognizes |
+| My name is Lena and I'm the founder of Retention Lab | Seller-first opening | Open with the reader, not I, we or our | Start with their subscribers; the sender appears in the signature only |
+| We help ecommerce brands grow with email, SMS, popups, loyalty programs and more. | A service list with no result, in vendor words, for no segment | Name the niche, a measured result and how it was reached | The strongest result, in their words, for Recharge stores: month two cancellations 31% to 19% in 45 days |
+| We have worked with over 50 brands and our clients love us. | Unverifiable claim | Proof must be measured and attributable | A same-category client with a number |
+| I'd love to set up a 30 minute call to walk you through our services | Heavy ask from a stranger, nothing worth replying for | One low-effort ask, with something worth replying for | "Want a copy of that email to adapt for your subscribers?" |
+| Here is our case study deck: retentionlab.example/deck | Link in touch 1 | Zero links in touch 1 | Remove; offer the email itself |
+| Let me know what time works for you! | Assumes the meeting and ends without a question | Last line ends in a question mark | Merged into the new ask |
+
+Original: 90 words, 12 I/we/our words vs 5 you/your references, 1 link in touch 1, 0 question marks.
+
+### Rewrite
+
+```text
+Hi {{first_name | there}},
+
+For a coffee brand on Shopify and Recharge, the top reason subscribers gave for cancelling before the second charge was "too much coffee."
+
+We help Shopify subscription brands on Recharge keep subscribers past that charge. One skip-a-month email, sent three days before it, cut this brand's month two cancellations from 31% to 19% in 45 days.
+
+Want a copy of that email to adapt for your subscribers?
+
+Lena
+```
+
+Rewrite: 70 words, 1 I/we/our word vs 1 you/your reference, 0 links, one question. It is touch 1 below.
 
 ## Sequence
 
+Sending: weekdays during business hours in each store's local time zone, under 50 sends per inbox per day, on days 0, 3, 7 and 11. Touches 2 to 4 reply in touch 1's thread.
+
 ### Touch 1
 
-Subject: Recharge churn at {{store_name | your store}}
+Thread: new
+Subject: second charge at {{store_name | your store}}
+Subject B: skip or cancel?
 Send day: 0
 
 ```text
 Hi {{first_name | there}},
 
-Noticed {{store_name | your store}} runs subscriptions on Recharge.
+For a coffee brand on Shopify and Recharge, the top reason subscribers gave for cancelling before the second charge was "too much coffee."
 
-For a coffee brand on the same setup, one skip-a-month email sent three days before the second charge cut month two cancellations from 31% to 19% in 45 days.
+We help Shopify subscription brands on Recharge keep subscribers past that charge. One skip-a-month email, sent three days before it, cut this brand's month two cancellations from 31% to 19% in 45 days.
 
-Want the email we used?
+Want a copy of that email to adapt for your subscribers?
+
+Lena
 ```
 
 ### Touch 2
 
-Subject: (same thread)
+Thread: reply to touch 1
+Subject: Re: second charge at {{store_name | your store}}
+Subject B: Re: skip or cancel?
 Send day: 3
 
 ```text
 Hi {{first_name | there}},
 
-One more data point. A tea subscription store tried the same email in June. Skips went up, cancellations went down, and they kept 41 more subscribers in the first month.
+Recharge already lets subscribers skip in the portal, so this may sound covered. The coffee store had portal skip too. The email put that option in their inbox three days before the charge.
 
-Should I send both versions so you can compare?
+A tea store added the same email in June and kept 41 more subscribers that first month.
+
+Want both versions side by side?
+
+Lena
 ```
 
 ### Touch 3
 
-Subject: (same thread)
+Thread: reply to touch 1
+Subject: Re: second charge at {{store_name | your store}}
+Subject B: Re: skip or cancel?
 Send day: 7
 
 ```text
 Hi {{first_name | there}},
 
-Different angle: most {{category | subscription}} brands we look at send nothing between the first order and the second charge.
+Different idea, before the holiday orders start. I'll go through the emails {{store_name | your store}} sends between the first box and the second charge and send you a written list of gaps within 3 business days.
 
-I mapped the four emails that fill that window, with send times. It fits on one page and needs no call.
+It's free, and the list is yours to keep either way.
 
-Want me to send it over?
+Want me to take a look?
+
+Lena
 ```
 
 ### Touch 4
 
-Subject: (same thread)
-Send day: 12
+Thread: reply to touch 1
+Subject: Re: second charge at {{store_name | your store}}
+Subject B: Re: skip or cancel?
+Send day: 11
 
 ```text
 Hi {{first_name | there}},
 
-I will close this out for now. If month two churn comes up later, reply here and I will pick it back up.
+Closing the file on this for now. If month two cancellations become a priority for {{store_name | your store}}, the coffee brand's email (31% to 19% in 45 days) is still yours to adapt.
 
-Or is someone else at {{store_name | your store}} the right person for retention?
+Is someone else on your team the right person for retention?
+
+Lena
 ```
 
-## Subject Line Tests
+## Variants
 
-| Test | Variant A | Variant B | Per variant | Decide on |
-|-|-|-|-|-|
-| 1 | Recharge churn at {{store_name}} | Question about {{store_name}} | 200 delivered | Positive replies per 100 delivered |
-| 2 | Winner of test 1 | month two at {{store_name}} | 200 delivered | Positive replies per 100 delivered |
+Each variant replaces touch 1 for the rows its gate selects. Touches 2 to 4 stay the same.
 
-Test 1 runs only after the ask test (touch 1 "Want the email we used?" against "Worth 10 minutes this week?") settles, per the strategy plan's test order.
+### Variant 1: founders
 
-## Footer and Compliance
+Kind: persona
+For: Founders and owners who run the store themselves and read fast: proof first, no setup line
+Gate: rows where the contact title contains Founder, Owner or CEO; every other row gets touch 1
+Subject: month two at {{store_name | your store}}
+
+```text
+Hi {{first_name | there}},
+
+A coffee brand on Shopify and Recharge was losing 31% of subscribers in month two. One skip-a-month email, sent three days before the second charge, cut that to 19% in 45 days.
+
+Want the email to adapt for {{store_name | your store}}?
+
+Lena
+```
+
+### Variant 2: Klaviyo stores
+
+Kind: signal
+For: Stores whose installed apps show they already send email from Klaviyo, the tool the coffee client used
+Gate: only rows where `apps` lists Klaviyo; rows without it get touch 1
+Subject: Recharge and Klaviyo at {{store_name | your store}}
+
+```text
+Hi {{first_name | there}},
+
+{{store_name | Your store}} runs Recharge and Klaviyo on Shopify, the same setup as a coffee brand we worked with in April.
+
+Their skip-a-month email, sent from Klaviyo three days before the second charge, cut month two cancellations from 31% to 19% in 45 days.
+
+Want it as a Klaviyo draft for your subscribers?
+
+Lena
+```
+
+## Footer
 
 ```text
 Lena Ortiz, Retention Lab
-2100 Example Avenue, Suite 400, Austin, TX 78701
 Not a fit? Reply "no" and I won't follow up.
 ```
 
-| Requirement | How it is met | Law or policy |
+## Merge Fields and Fallbacks
+
+Tags use Instantly's `{{tag | fallback}}` form.
+
+| Tag | List column | Fallback |
 |-|-|-|
-| Accurate From and subject | Real sender name and Retention Lab domain; subjects describe the email | CAN-SPAM (FTC) |
-| Postal address | Office address in every touch | CAN-SPAM (FTC) |
-| Opt-out | Reply-based opt-out in the footer plus Instantly's one-click unsubscribe header | CAN-SPAM; Google and Yahoo sender rules |
-| Opt-out processing | Same day via Instantly blocklist; legal limit 10 business days, Yahoo asks for 2 days | CAN-SPAM; Yahoo |
-| Geography | US stores only (countryCode "US"); no Canadian stores, so CASL does not apply | CASL scope |
-| Tracking | Open and click tracking off | Google sender guidelines (complaint risk); Apple MPP makes opens unreliable |
+| first_name | Contact first name | there |
+| store_name | Store name, ".com" stripped | your store |
 
-## QA Results
+## Test Plan
 
-| Touch | Words | Ends with question | Links | Fallback render ok |
-|-|-|-|-|-|
-| 1 | 42 | Yes | 0 | Yes, row with empty first_name rendered "Hi there," |
-| 2 | 41 | Yes | 0 | Yes |
-| 3 | 47 | Yes | 0 | Yes, empty category rendered "most subscription brands" |
-| 4 | 36 | Yes | 0 | Yes, empty store_name rendered "at your store" |
+| Test | Split | Per variant | Decide on |
+|-|-|-|-|
+| 1. Touch 1 ask | "Want a copy of that email" vs "Open to 10 minutes this week?" | 200 delivered | Positive replies per 100 delivered |
+| 2. Touch 1 subject | Subject vs Subject B as written | 200 delivered | Positive replies per 100 delivered |
 
-Rendered sample (row: first_name "Dana", store_name "Northpaw Coffee", category "coffee"), touch 1:
+Decide: once both arms reach 200 delivered, keep the arm whose positive replies beat the other's by at least 2 x the square root of both arms' positive replies added together (12 vs 4: a gap of 8, and 2 x the square root of 16 is 8, so keep the 12). A smaller gap is noise: keep sending both. Run one test at a time, in this order.
 
-```text
-Hi Dana,
+## Confirm Before Launch
 
-Noticed Northpaw Coffee runs subscriptions on Recharge.
-
-For a coffee brand on the same setup, one skip-a-month email sent three days before the second charge cut month two cancellations from 31% to 19% in 45 days.
-
-Want the email we used?
-```
-
-Why each line is there: the Recharge fact explains why a retention email is relevant now; the proof uses the same category and the same app; the ask offers an asset instead of a meeting, which is the variant under test. Every number comes from the client's Recharge report named in Campaign Inputs.
+Nothing open.

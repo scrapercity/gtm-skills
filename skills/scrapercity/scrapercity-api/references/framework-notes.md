@@ -59,9 +59,9 @@ Keep secrets out of source code and config committed to a repository, scope them
 ## How the sources combine
 
 1. The package decides what the API accepts and returns.
-2. scrapercity.com sets the limits a client must stay under.
+2. A client must stay under the limits scrapercity.com sets.
 3. The RFCs decide which calls are safe to repeat and how 429 is handled.
-4. The backoff paper sets the retry timing.
+4. Retry timing comes from the backoff paper.
 5. OWASP sets where the key lives.
 
 ## Sources

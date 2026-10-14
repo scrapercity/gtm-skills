@@ -38,7 +38,7 @@ Every command must exist in scrapercity 1.0.17 and use only flags that command r
 | `email-validate` on every new email, up to 500 a run for 22 runs | 11,000 | $0.0072 | $79.20 |
 | Total | | | $79.20 |
 
-Approval: Per run the ceiling is 500 x $0.0072 = $3.60, under the $5 line. Per month (22 weekdays) it is $79.20, 49.8% of the $159 Growth credit, leaving $79.80 for other work each cycle. Shown to Priya as a monthly figure and approved in writing on 2026-10-13. Each run uses 400 and 100 of the two databases' 100,000 a day allowances. At these rates the lead segment lasts about 47 runs (18,940 / 400, a little over 9 weeks) and the dentist segment about 99 runs (9,870 / 100, about 20 weeks); the script warns on a short day so a segment can be widened before it runs dry.
+Approval: Per run the ceiling is 500 x $0.0072 = $3.60. Per month (22 weekdays) it is $79.20, 49.8% of the $159 Growth credit, leaving $79.80 for other work each cycle. Shown to Priya as a monthly figure and approved in writing on 2026-10-13. Each run uses 400 and 100 of the two databases' 100,000 a day allowances. At these rates the lead segment lasts about 47 runs (18,940 / 400, a little over 9 weeks) and the dentist segment about 99 runs (9,870 / 100, about 20 weeks); the script warns on a short day so a segment can be widened before it runs dry.
 
 ## Script
 
@@ -159,5 +159,5 @@ exit 0
 | Dry run with targets set to 5 and 5 on 2026-10-13 | 5 leads and 5 dentists written, 10 emails validated for $0.07, file `validated-daily-feed-20261013-5a1d2e7b.csv` |
 | First full run 2026-10-14 | leads=400, dentists=100, emails=497 (3 duplicates removed), run 3c9e1f0a SUCCEEDED, cost 497 x $0.0072 = $3.58 |
 | Second run 2026-10-15 overlap check | `comm -12` on the two days' sorted email lists returned 0 shared emails |
-| Script lint | `bash -n daily-feed.sh` clean; `shellcheck` shows no errors |
+| Script lint | `bash -n daily-feed.sh` exits 0; `shellcheck` shows no errors |
 | Key exposure | `grep -c SCRAPERCITY_API_KEY= daily-feed.sh` returns 0 |

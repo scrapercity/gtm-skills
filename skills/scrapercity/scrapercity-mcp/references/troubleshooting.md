@@ -8,7 +8,7 @@ Work top to bottom. Each block gives the symptom, the check, and the fix. Behavi
 |---|---|---|---|
 | 1 | Node 18 or newer | `node --version` | `v18` or higher |
 | 2 | The server starts by hand | `SCRAPERCITY_API_KEY=YOUR_SCRAPERCITY_API_KEY npx -y --package scrapercity scrapercity-mcp` | No output, process waits for input (stdio). Ctrl+C to exit |
-| 3 | The client sees it | Claude Code `claude mcp list`; Desktop connectors list; Cursor Customize; VS Code "MCP: List Servers"; Gemini `/mcp` | `scrapercity` connected, 25 tools |
+| 3 | The client sees it | Claude Code `claude mcp list`; Desktop connectors list; Cursor Customize; VS Code "MCP: List Servers"; Gemini `/mcp`; Zed status dot in Settings, AI, MCP Servers; Hermes `hermes mcp test scrapercity` | `scrapercity` connected, 25 tools |
 | 4 | The key reaches it | Ask the agent to call `check_wallet` | JSON with `plan.name` |
 | 5 | Only one ScraperCity entry | Look at the full tool list | One `scrapercity` set, no "ScraperCity - B2B Lead Generation" |
 | 6 | Current tool set | `scrape_distress_list` present; `query_lead_database` has `after` and `excludeDelivered` | Both true |
@@ -59,7 +59,7 @@ Log locations: Claude Desktop `~/Library/Logs/Claude/mcp*.log` (macOS) or `%APPD
 
 The config runs `npx -y --package scrapercity` with no version, so the next start should fetch the newest release. npx caches packages, and a client that never restarted keeps the old process.
 
-1. Quit the client completely and reopen it. This fixes most cases.
+1. Quit the client completely and reopen it. Usually that is enough.
 2. Still stale: delete the npx cache and reopen.
    - macOS and Linux: `rm -rf ~/.npm/_npx`
    - Windows (PowerShell): `Remove-Item -Recurse -Force "$env:LocalAppData\npm-cache\_npx"`

@@ -1,6 +1,6 @@
 # Candidate Shortlist Report: Senior React engineers, Austin, TX
 
-Prepared 2026-10-13 for Northpoint Talent, a technical recruiting agency. Client: Ledgerline, a payments software company hiring three senior frontend engineers. Plan: Growth ($149/mo). Wallet before run: $121.60. People and companies are fictional and use the reserved `.example` domain; numbers use the 555-01XX range; counts are illustrative.
+Illustrative example. Prepared 2026-10-13 for Northpoint Talent, a technical recruiting agency. Client: Ledgerline, a payments software company hiring three senior frontend engineers. Plan: Growth ($149/mo). Wallet before run: $121.60. People and companies are fictional and use the reserved `.example` domain; numbers use the 555-01XX range; counts are illustrative.
 
 ## Role Brief
 
@@ -9,11 +9,13 @@ Prepared 2026-10-13 for Northpoint Talent, a technical recruiting agency. Client
 | Role as written | Senior Frontend Engineer (React, TypeScript), hybrid 2 days a week in Austin |
 | Seniority | Senior individual contributor; not managers |
 | Location | Person in Austin, TX metro |
-| Target companies | 25 Austin fintech and SaaS companies with React web products (poach list from the client) |
+| Pay band | $165,000 to $195,000 base plus equity |
+| Selling points | Owns the merchant dashboard end to end; weekly releases with no on-call rotation |
+| Target companies | 25 Austin fintech and SaaS companies with React web products: 9 ahead (Series C and later payments companies), 6 competitors, 4 alumni (the VP of Engineering's last two employers and two of the tech lead's), 6 adjacent (finance SaaS selling to the same merchants) |
 | Company traits | Fintech or SaaS keywords, 50 to 2,000 employees |
-| Screened by a human, not filtered | TypeScript depth, payments domain, work authorization, compensation |
+| Screened by a human, not filtered | TypeScript depth, payments domain, work authorization, current compensation |
 | Excluded employer domains | ledgerline.example, ledgerlinepay.example (client and its payments subsidiary) |
-| Do-not-poach accounts | tallyhq.example, brightfold.example, cobaltcare.example, meridianapps.example (agency clients under non-solicit) |
+| Do-not-poach accounts | tallyhq.example, brightfold.example, cobaltcare.example, meridianapps.example (current agency clients) |
 
 ## Search Strings
 
@@ -36,7 +38,9 @@ Prepared 2026-10-13 for Northpoint Talent, a technical recruiting agency. Client
 | Market-wide, Austin, senior, fintech or saas | 1,140 | Pull 600, about twice the shortlist need |
 | Client's Apollo URL passed as url | 690 | search_translation applied titles and location, approximated seniority; Lead Database covers it, so no Apollo run |
 
-QA on a 20-row sample found 3 React Native and mobile titles; Mobile, iOS and Android were added to notTitle and the market-wide pull re-run.
+A first 20-row read found 3 React Native and mobile titles; Mobile, iOS and Android were added to notTitle and the market-wide pull re-run.
+
+QA sample (20 random rows after the final pull): title fit 19 of 20, level fit 19 of 20, location 20 of 20, profile confirmed 5 of 5.
 
 ## Sourcing Funnel
 
@@ -67,50 +71,51 @@ Lead Database emails validated: 251 (214 valid, 22 catch_all, 5 unknown, 10 inva
 
 | Line | Units | Unit price | Cost |
 |-|-|-|-|
-| query_lead_database counts and pulls | 814 rows | Included in Growth | $0.00 |
-| validate_emails on Lead Database emails | 251 emails | $0.0072 | $1.81 |
-| find_emails for A and B without an email | 69 lookups, 41 found | $0.05 per email found | $2.05 |
-| find_mobiles for A tier | 84 inputs, 29 found | $0.25 per number found | $7.25 |
+| Lead Database counts and pulls | 814 rows | Included in Growth | $0.00 |
+| Email Validator on Lead Database emails | 251 emails | $0.0072 | $1.81 |
+| Email Finder for A and B without an email | 69 lookups, 41 found | $0.05 per email found | $2.05 |
+| Mobile Finder for A tier | 84 inputs, 29 found | $0.25 per number found | $7.25 |
 | Total | | | $11.11 |
 
 User go-ahead: agency lead approved the $26.26 ceiling in chat on 2026-10-13. Skipping the Apollo run saved at least the 500-lead minimum ($1.95) and a wait of one to several days.
 
-## Compliance Check
-
-| Item | Answer | Law or rule | Action |
-|-|-|-|-|
-| Email to US candidates | Work emails, one recruiter domain | CAN-SPAM | Sender identity, agency postal address, opt-out honored within 10 business days |
-| Calls | Recruiter dials A-tier mobiles by hand | TCPA, 47 U.S.C. 227(b) | No autodialer, prerecorded or AI voice |
-| Texts | None without consent | TCPA, 47 CFR 64.1200 | One manual text only after a call the candidate agreed to |
-| Filters and ranking | Title, seniority, company, location | EEOC guidance; ADEA | No graduation year or other age or protected-trait proxies |
-| Automated screening | Manual rubric reviewed by the recruiter | NYC Local Law 144 | Not an automated tool; role is in Austin |
-| Background data | None collected | FCRA | No People Finder or Criminal Records on candidates |
-| Poaching | Four clients excluded | Client contract non-solicitation clauses | Domains on the do-not-poach list for every search |
-
 ## Shortlist Sample
 
-| Name | Title | Company domain | Location | Tier | Rank score | email_status | Mobile |
+| Name | Title | Company domain | Location | Tier | Fit | email_status | Mobile |
 |-|-|-|-|-|-|-|-|
-| Maya Chen | Senior Frontend Engineer | tallyworks.example | Austin, TX | A | 100 | valid | +15125550131 |
-| Andre Silva | Staff UI Engineer | pinecrestpay.example | Austin, TX | A | 90 | valid | +15125550176 |
-| Grace Obi | Senior Software Engineer, Web | orbitfin.example | Round Rock, TX | A | 85 | valid | none found |
-| Tomas Reyes | Senior JavaScript Engineer | cedarloop.example | Austin, TX | B | 70 | valid | not run |
-| Hana Ito | Frontend Engineer | quillpoint.example | Austin, TX | B | 65 | catch_all | not run |
+| Maya Chen | Senior Frontend Engineer | tallyworks.example | Austin, TX | A | core+level+target | valid | +15125550131 |
+| Andre Silva | Senior UI Engineer | pinecrestpay.example | Austin, TX | A | core+level+target | valid | +15125550176 |
+| Grace Obi | Senior Web Engineer | orbitfin.example | Round Rock, TX | A | core+level+target | valid | none found |
+| Tomas Reyes | Senior JavaScript Engineer | cedarloop.example | Austin, TX | B | core+level | valid | not run |
+| Hana Ito | Senior Frontend Engineer | quillpoint.example | Austin, TX | B | core+level | catch_all | not run |
+| Priya Nair | Senior Full Stack Engineer | pinecrestpay.example | Austin, TX | B | adjacent+level+target | valid | not run |
 
 ## Outreach Plan
 
 | Step | Channel | Timing | Rule |
 |-|-|-|-|
-| 1 | Email from the recruiter | Day 1, weekday morning | Names the role, the client type (payments software), the hybrid schedule and the pay band; opt-out line |
-| 2 | Manual call to A-tier mobiles | Day 2 | 8 a.m. to 9 p.m. local; no voicemail drops by software |
-| 3 | LinkedIn connection note | Day 3 | Short, references the email |
-| 4 | Email follow-up | Day 6 | New detail: team size, stack, interview steps |
-| 5 | Final email | Day 12 | Closes the loop; anyone who opts out goes on the agency suppression list |
+| 1 | Email from the recruiter | Day 1, Sunday to Thursday | Under 400 characters: one line on the candidate's work, the role, the pay band, one selling point, a 15-minute ask |
+| 2 | Call to A-tier mobiles | Day 2 | Recruiter dials; the opener references the email |
+| 3 | LinkedIn connection note | Day 3, the recruiter's choice | Short, references the email |
+| 4 | Email follow-up | Day 8 | New detail: team size, interview steps; LinkedIn's data puts 90% of replies within a week, so this goes out once that week has passed |
+| 5 | Final email | Day 14, the recruiter's choice | Closes the loop and asks for a referral; anyone who opts out goes on the agency suppression list the same day |
+
+## Message Drafts
+
+The recruiter replaces the first line per candidate with one specific detail from their profile or their company's product; `{{first_name}}` and `{{company}}` are sequencer fields.
+
+### Email 1, day 1 (289 characters before merge fields fill)
+
+> Hi {{first_name}}, your frontend work at {{company}} is why I'm writing. An Austin payments software company is hiring senior React engineers to own its merchant dashboard: TypeScript, hybrid two days a week, $165k to $195k base plus equity, no on-call. Open to a 15-minute call this week?
+
+### Email 3, day 14 (189 characters before merge fields fill)
+
+> {{first_name}}, I'll stop here. If someone you've worked with would want this role ($165k to $195k, hybrid Austin), I'd be glad to hear their name. If timing changes for you, reply anytime.
 
 ## Next Steps
 
-1. Load the 255 candidates with valid emails into the recruiter's sequence in two waves (A tier first).
-2. Hold the 22 catch-all candidates for LinkedIn outreach; re-validate the 5 unknown emails after 72 hours.
+1. Import the 320 shortlisted candidates into Greenhouse as prospects in the role's pool, stage sourced, with source "ScraperCity, target companies" (tagged ahead, competitor, alumni or adjacent) or "ScraperCity, market-wide", so replies and hires count per search. Load the 255 with valid emails into the sequence in two waves, A tier first; alumni candidates get a first line naming the shared employer.
+2. Hold the 22 catch-all candidates for LinkedIn outreach; re-validate the 5 unknown emails before the second wave.
 3. Recruiter calls the 29 A-tier mobiles in week one.
-4. Report replies and screens to the client weekly; recount the market-wide search with excludeDelivered set to true in 30 days for new people.
-5. Delete long-list rows for people never contacted when the search closes.
+4. Tag every reply interested, not now, not looking, wrong fit, referred or opt out. After the first wave, the title term drawing the most wrong fit replies moves to notTitle, and the target reason with the lowest reply rate gets a smaller share of the next recount (new people only).
+5. Re-check title and employer for anyone not contacted by 2026-12-12, the agency's chosen wait; record how many had moved to set the next search's wait.

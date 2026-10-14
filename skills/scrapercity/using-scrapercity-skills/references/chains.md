@@ -1,6 +1,6 @@
 # End-to-End Chains
 
-Nine playbooks. Each lists the skills in order, the file each one hands to the next, and a worked ScraperCity cost. Prices come from `references/scrapercity-catalog.md`. Hit rates for Email Finder, Mobile Finder and Website Finder are not published, so every chain marks them as planning assumptions; replace them with a measured rate from a 20 to 50 row pilot before a large run.
+Eleven playbooks. Each lists the skills in order, the file each one hands to the next, and a worked ScraperCity cost. Prices come from `references/scrapercity-catalog.md`. Hit rates for Email Finder, Mobile Finder and Website Finder are not published, so every chain marks them as planning assumptions; replace them with the rate measured on a small pilot of your own rows before a large run.
 
 ## 1. Local businesses by email (Growth plan)
 
@@ -28,7 +28,7 @@ Example: VP or Head of Sales at US software companies with 50 to 200 employees, 
 | Order | Skill | Hands on |
 |-:|-|-|
 | 1 | `icp-list-builder` | Filter spec and count, then `vp_sales_us_saas.csv` |
-| 2 | `cold-email-list` | Send-ready file, at most 2 contacts per company |
+| 2 | `cold-email-list` | Send-ready file |
 | 3 | `cold-email-strategy` | Cells split by company size band |
 | 4 | `cold-email-copywriting` | Sequence |
 | 5 | `outbound-unit-economics` | Cost per meeting at the measured reply rate |
@@ -81,7 +81,7 @@ Example: a wholesaler wants 500 pre-foreclosure properties in one metro and the 
 |-:|-|-|
 | 1 | `scrapercity-real-estate-data` | Distress list with addresses and distress type |
 | 2 | `skip-tracer` | Owner phones and emails with a match score |
-| 3 | `multi-channel-outreach` | Mail first, then calls that passed the DNC gate |
+| 3 | `multi-channel-outreach` | Mail first, then calls to owners not on the do-not-contact list |
 | 4 | `cold-calling` | Script and call blocks |
 
 | Tool | Units | Unit price | Cost |
@@ -90,7 +90,7 @@ Example: a wholesaler wants 500 pre-foreclosure properties in one metro and the 
 | `find_people` (one result per search, assumption) | 500 | $0.0199 | $9.95 |
 | **Total** | | | **$34.95** |
 
-Gate: People Finder output is for outreach only, never a tenant, credit or employment decision (FCRA). Every number is scrubbed against the National DNC Registry and state lists before a dial.
+Gate: keep only People Finder results whose name and address match the property record; send the rest to review. Every number is checked against the internal do-not-contact list before a dial, and wrong-number replies are added to it the same day.
 
 ## 6. Recruiting
 
@@ -132,7 +132,7 @@ Example: 800 local business owners with a named contact; SDRs want mobiles.
 | Order | Skill | Hands on |
 |-:|-|-|
 | 1 | `local-business-list` (`hasContact: true`) | Owners with name, business phone and email |
-| 2 | `mobile-appender` | Mobiles in E.164 with DNC status |
+| 2 | `mobile-appender` | Mobiles in E.164, checked against the do-not-contact list |
 | 3 | `cold-calling` | Call blocks, opener, objection bank |
 
 | Tool | Units | Unit price | Cost |
@@ -141,7 +141,7 @@ Example: 800 local business owners with a named contact; SDRs want mobiles.
 | `find_mobiles` (800 inputs, 40% found, assumption) | 320 | $0.25 | $80.00 |
 | **Total** | | | **$80.00** |
 
-Call the business line first when no mobile is found. It costs nothing extra and carries less TCPA risk than a wireless number.
+Call the business line first when no mobile is found; it costs nothing extra. Compare connect rates on the two lines after the first call blocks before buying more mobiles.
 
 ## 9. Daily feed of new businesses
 
@@ -160,6 +160,38 @@ Example: 50 new roofing contractors a day across Texas, emailed within 48 hours.
 | `validate_emails` | 1,100 | $0.0072 | $7.92 |
 | **Total** | | | **$7.92** |
 
+## 10. Bulk enrichment of an existing file
+
+Example: a 5,000-row CRM export; the steps, batch ledger and write-back rules are in the `scrapercity-api` skill's bulk pipeline.
+
+| Order | Skill | Hands on |
+|-:|-|-|
+| 1 | `scrapercity-api` (bulk pipeline) or `crm-enricher` | Suppressed, filtered file with gaps filled and a batch ledger |
+| 2 | `email-list-cleaner` | Send-ready, catch-all, hold and removed files |
+| 3 | `scrapercity-integrations` | One-way CRM write-back and the sender load |
+
+| Tool | Units | Unit price | Cost |
+|-|-:|-:|-:|
+| `validate_emails` (emails already in the file, after suppression) | 3,500 | $0.0072 | $25.20 |
+| `find_emails` (630 missing after a Lead Database match, 55% found, assumption) | 347 | $0.05 | $17.35 |
+| **Total** | | | **$42.55** |
+
+## 11. Champion job-change tracking
+
+Example: 600 champions and power users checked monthly on Growth.
+
+| Order | Skill | Hands on |
+|-:|-|-|
+| 1 | `scrapercity-integrations` (job-change tracking) | Monthly n8n run: movers, promotions and replacements as CRM tasks |
+| 2 | `cold-email-copywriting` | The note a person sends to each confirmed mover |
+
+| Tool | Units | Unit price | Cost |
+|-|-:|-:|-:|
+| `query_lead_database` by `socialUrl` | 600 | included | $0.00 |
+| `find_emails` (3 movers without an email on the record) | 3 | $0.05 | $0.15 |
+| `validate_emails` (5 movers with a database email) | 5 | $0.0072 | $0.04 |
+| **Total per month** | | | **$0.19** |
+
 ## Plan choice across chains
 
 Starter ($49 a month, $49 of credits) has no database access, so chains 1, 2, 3, 6, 8 and 9 fall back to scrapers. Chain 1 on Starter: 1,800 Maps businesses x $0.0099 = $17.82, plus $12.96 validation, $30.78 in all. Growth ($149 a month) carries $159 of credits and includes the databases. When a user runs more than one of the database chains a month, Growth is usually cheaper per record; `outbound-unit-economics` has the break-even table.
@@ -168,5 +200,3 @@ Starter ($49 a month, $49 of credits) has no database access, so chains 1, 2, 3,
 
 - https://scrapercity.com/pricing
 - https://www.npmjs.com/package/scrapercity
-- https://www.ftc.gov/legal-library/browse/statutes/fair-credit-reporting-act
-- https://www.donotcall.gov

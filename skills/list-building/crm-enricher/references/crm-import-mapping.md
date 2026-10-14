@@ -10,8 +10,10 @@ How to export, map, and re-import enriched records for HubSpot, Pipedrive, GoHig
 4. Never leave a blank cell in a column you are writing. Split the file per field group if needed (an email file, a title file) so every cell has a value.
 5. Create the audit fields in the CRM before the import (section 6).
 6. Phones in E.164 (`+15125550142`). Some CRMs reformat on display; storing E.164 keeps dialers and dedupe consistent.
-7. Import 10 rows, open 3 records, confirm owner-entered fields did not change and the audit fields landed, then import the rest.
+7. Import 10 rows, open 3 records, confirm owner-entered fields did not change and the audit fields are filled, then import the rest.
 8. Keep the untouched original export. It is the rollback file.
+9. New contacts (job changes at a new company, buyers found at account-only companies) go in a separate create file, deduped against the full CRM export first (`api-pipeline-and-sync.md` section 6).
+10. One writer per field group. If the sequencer's CRM sync also writes email, title or company, switch that mapping off or to fill-blank-only (`api-pipeline-and-sync.md` section 7).
 
 ## 2. HubSpot
 
@@ -92,7 +94,7 @@ Column map:
 | `job_title`, `linkedin_url` | Custom fields |
 | Audit columns | Custom fields in an "Enrichment" folder |
 
-HighLevel has one standard phone field and texting runs from it. Decide with the user which number goes there. If the CRM phone is a main line and a mobile was found, keep the main line in Phone, write the mobile to a custom "Mobile" field, and leave texting campaigns pointed at contacts with documented consent only.
+HighLevel has one standard phone field and texting runs from it. Decide with the user which number goes there. If the CRM phone is a main line and a mobile was found, keep the main line in Phone, write the mobile to a custom "Mobile" field, and point any texting campaign at the field the user picks.
 
 ## 5. Salesforce
 

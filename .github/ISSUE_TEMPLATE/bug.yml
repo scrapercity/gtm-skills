@@ -1,0 +1,42 @@
+name: Bug
+description: The installer, a checker script, a validator or CI does something wrong.
+labels: [bug]
+body:
+  - type: input
+    id: where
+    attributes:
+      label: Which file or command
+      placeholder: install.sh --target cursor --scope project
+    validations:
+      required: true
+  - type: textarea
+    id: steps
+    attributes:
+      label: Steps to reproduce
+      description: The exact commands you ran, from a fresh clone if you can.
+    validations:
+      required: true
+  - type: textarea
+    id: expected
+    attributes:
+      label: What you expected
+    validations:
+      required: true
+  - type: textarea
+    id: got
+    attributes:
+      label: What happened instead
+      description: Paste the full output. Remove any API key first.
+      render: text
+    validations:
+      required: true
+  - type: input
+    id: env
+    attributes:
+      label: Environment
+      placeholder: macOS 15, bash 3.2, Python 3.12, Node 22, agent and version
+  - type: input
+    id: commit
+    attributes:
+      label: Repo commit or release tag
+      placeholder: git rev-parse --short HEAD

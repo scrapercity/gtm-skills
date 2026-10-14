@@ -1,82 +1,131 @@
 # Cold Email Sequence: [fill]
 
-Cell: [fill]. Platform: [fill]. Written: [fill].
+Written: [fill]. Platform: [fill].
 
-## Campaign Inputs
+## Copy Audit
 
-| Field | Value |
-|-|-|
-| Offer sentence | [fill] |
-| Segment and buyer | [fill] |
-| Trigger or relevance fact | [fill] |
-| Proof line source | [fill] |
-| List source and tool | [fill] |
-| Framework | [fill] |
+Audit mode only; delete this section in write mode.
 
-## Merge Fields and Fallbacks
-
-| Tag | Source field | Fill rate in sample | Fallback |
-|-|-|-|-|
-| [fill] | [fill] | [fill] | [fill] |
-
-## Sequence
-
-### Touch 1
-
-Subject: [fill]
-Send day: [fill]
+### Original
 
 ```text
 [fill]
+```
+
+| Line | Issue | Rule broken | Fix |
+|-|-|-|-|
+| [fill] | [fill] | [fill] (state the rule; no source names without a link) | [fill] |
+| [fill] | [fill] | [fill] | [fill] |
+| [fill] | [fill] | [fill] | [fill] |
+
+Original: [fill] words, [fill] I/we/our words vs [fill] you/your references.
+
+### Rewrite
+
+```text
+[fill]
+
+[fill] (sign-off: sender first name or {{sender_first_name}})
+```
+
+Rewrite: [fill] words, [fill] I/we/our words vs [fill] you/your references.
+
+## Sequence
+
+Sending: [fill] (weekdays, window in the recipient's time zone, cap per inbox per day, send days). Touches 2 to 4 reply in touch 1's thread.
+
+### Touch 1
+
+Thread: new
+Subject: [fill] (no merge tag whose fill rate is assumed or low)
+Subject B: [fill]
+Send day: [fill]
+
+```text
+[fill] (greeting; a statement opener with the proof or the moment in their week; who you serve, naming every segment marker; the proof; one question)
+
+[fill] (sign-off)
 ```
 
 ### Touch 2
 
-Subject: (same thread)
+Thread: reply to touch 1
+Subject: [fill]
+Subject B: [fill]
 Send day: [fill]
 
 ```text
 [fill]
+
+[fill] (sign-off)
 ```
 
 ### Touch 3
 
-Subject: (same thread)
+Thread: reply to touch 1
+Subject: [fill]
+Subject B: [fill]
 Send day: [fill]
 
 ```text
 [fill]
+
+[fill] (sign-off)
 ```
 
 ### Touch 4
 
+Thread: reply to touch 1
 Subject: [fill]
+Subject B: [fill]
 Send day: [fill]
 
 ```text
-[fill]
+[fill] (breakup; restates touch 1's proof in one line; referral question)
+
+[fill] (sign-off)
 ```
 
-## Subject Line Tests
+## Variants
 
-| Test | Variant A | Variant B | Per variant | Decide on |
-|-|-|-|-|-|
-| [fill] | [fill] | [fill] | [fill] | [fill] |
+Each variant replaces touch 1 for the rows its gate selects.
 
-## Footer and Compliance
+### Variant 1: [fill]
+
+Kind: [fill] (persona, or signal)
+For: [fill]
+Gate: [fill] (which rows get it, by list field; what every other row gets)
+Subject: [fill]
 
 ```text
 [fill]
+
+[fill] (sign-off)
 ```
 
-| Requirement | How it is met | Law or policy |
+## Footer
+
+```text
+[fill] (sender full name and company, or {{sender_name}}, {{sender_company}})
+[fill] (opt-out line)
+```
+
+## Merge Fields and Fallbacks
+
+Tags use [fill] form.
+
+| Tag | List column | Fallback |
 |-|-|-|
 | [fill] | [fill] | [fill] |
 
-## QA Results
+## Test Plan
 
-| Touch | Words | Ends with question | Links | Fallback render ok |
-|-|-|-|-|-|
-| [fill] | [fill] | [fill] | [fill] | [fill] |
+| Test | Split | Per variant | Decide on |
+|-|-|-|-|
+| [fill] | [fill] | [fill] | [fill] |
 
-Rendered sample: [fill]
+Decide: [fill] (the gap between arms needed to act, from the arms' own counts; otherwise keep sending)
+
+## Confirm Before Launch
+
+1. [fill] (each open question once: the proposed offer, a missing fact, the sender details; or "Nothing open.")

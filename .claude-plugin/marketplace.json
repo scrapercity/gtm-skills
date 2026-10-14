@@ -5,16 +5,20 @@
     "email": "support@scrapercity.com",
     "url": "https://scrapercity.com"
   },
-  "description": "Go-to-market agent skills from ScraperCity.",
+  "description": "Go-to-market agent skills from ScraperCity: lead lists, cold email infrastructure, copy, calling and reply handling.",
   "plugins": [
     {
       "name": "gtm-skills",
+      "displayName": "ScraperCity GTM Skills",
       "source": "./",
       "description": "31 go-to-market agent skills for list building, cold outbound and the ScraperCity data platform.",
       "version": "1.0.0",
       "author": { "name": "ScraperCity", "url": "https://scrapercity.com" },
       "homepage": "https://scrapercity.com/skills",
+      "repository": "https://github.com/scrapercity/gtm-skills",
       "license": "MIT",
+      "category": "sales",
+      "tags": ["outbound", "cold-email", "lead-generation", "list-building", "deliverability", "cold-calling"],
       "keywords": ["gtm", "outbound", "cold-email", "lead-generation", "scrapercity", "agent-skills"]
     }
   ]

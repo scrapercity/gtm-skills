@@ -1,13 +1,13 @@
 # ICP Filter Recipes for `query_lead_database`
 
-36 starting filter sets, grouped by the seller's market. Each recipe is a JSON body for `query_lead_database` with `limit: 1` (the count call). Change `limit` to 100 and add `after` for the pull.
+37 starting filter sets, grouped by the seller's market. Each recipe is a JSON body for `query_lead_database` with `limit: 1` (the count call). Change `limit` to 100 and add `after` for the pull.
 
 ## How to use these recipes
 
 1. Pick the recipe whose buyer and segment are closest to the user's example customers.
 2. Replace the employee band, keywords and geography with the traits from SKILL.md step 1.
 3. Run the count. If it returns 0, remove `industry` first: industry labels in the database may be spelled differently from the ones written here. `keywords` is the more forgiving filter.
-4. Read 5 returned rows before pulling. If 2 or more are off-target, tighten `notTitle` or `notKeywords`.
+4. Read the returned rows before pulling. Tighten `notTitle` or `notKeywords` with the words behind any off-target row.
 
 Title strings are partial match and comma separated. `notTitle` excludes any title containing one of its terms. Full synonym and exclusion sets live in `title-synonyms-and-exclusions.md`.
 
@@ -230,7 +230,22 @@ For store-level filters (platform, installed apps, monthly visits) use `ecommerc
  "country": ["United States"], "hasEmail": true, "limit": 1}
 ```
 
-### D5. Restaurant groups (POS, procurement, staffing)
+### D5. Warehouse, 3PL and fulfillment operators (automation, robotics, WMS)
+
+One count per buying-group family (`title-synonyms-and-exclusions.md`); this is the day-to-day owner family. Brokers and forwarders run no warehouses, so they leave through `notKeywords` and the site check.
+
+```json
+{"title": "VP Operations, VP Warehouse Operations, VP Distribution, VP Fulfillment, VP Contract Logistics, Director of Operations, Director of Warehouse Operations, Director of Distribution, Director of Fulfillment, General Manager",
+ "notTitle": "assistant, intern, former, sales, business development, account, transportation, fleet, brokerage, freight, coordinator, supervisor, analyst",
+ "keywords": ["3pl", "third party logistics", "contract logistics", "warehousing", "fulfillment", "distribution center", "cold storage"],
+ "notKeywords": ["freight brokerage", "freight forwarding", "customs brokerage", "moving", "courier", "staffing", "saas"],
+ "minEmployees": 200, "maxEmployees": 2000,
+ "companyCountry": ["United States"], "hasEmail": true, "limit": 1}
+```
+
+Count `notKeywords` terms one at a time: hybrid 3PLs that also broker freight can lose rows to "freight brokerage"; if a term removes warehouse operators, drop it and let the site check decide. Benchmark: Census SUSB 2022 counts 1,159 Warehousing and Storage (NAICS 493) firms with 200-1,999 employees (`count-and-paging-runbook.md` section 9).
+
+### D6. Restaurant groups (POS, procurement, staffing)
 
 ```json
 {"title": "Owner, CEO, COO, Director of Operations, VP Operations, Managing Partner",
@@ -331,15 +346,15 @@ For agent-level lists use `scrape_zillow_agents` or the real estate skills.
 
 ### G1. UK SaaS sales leaders
 
-Copy A1 and set `"country": ["United Kingdom"]`. UK corporate subscribers can receive B2B marketing email under PECR without prior consent, with identity and opt-out; sole traders cannot. Check `references/outbound-compliance-primer.md`.
+Copy A1 and set `"country": ["United Kingdom"]`. UK titles lean on "Sales Director" and "Commercial Director" where US firms say "VP Sales"; add both to `title`, and add "Managing Director" for companies under 50 employees.
 
 ### G2. DACH industrial buyers
 
-Copy D2 and set `"companyCountry": ["Germany", "Austria", "Switzerland"]`. Add German title forms to `title`: Geschäftsführer, Leiter Produktion, Werksleiter, Einkaufsleiter. GDPR and national unfair competition rules apply; get local legal review before emailing.
+Copy D2 and set `"companyCountry": ["Germany", "Austria", "Switzerland"]`. Add German title forms to `title`: Geschäftsführer, Leiter Produktion, Werksleiter, Einkaufsleiter. Write the email in German for German-language titles; English titles at the same company usually read English.
 
 ### G3. Canada, any recipe
 
-Add `"country": ["Canada"]`. CASL requires consent; implied consent can apply to a conspicuously published business address when the message relates to the person's role. Keep `source_detail` so you can show where the address came from.
+Add `"country": ["Canada"]`. For Quebec, add French title forms (Directeur des ventes, Vice-président des ventes, Directeur commercial) and set `state` to Quebec in a separate count, so French-language copy goes only to that slice. Keep `source_detail` on every row so the origin of each address can be shown on request.
 
 ## Exclusion add-ons that apply to most recipes
 
@@ -366,6 +381,5 @@ If the user already has a people search in a tool such as Apollo.io, pass it as 
 
 - ScraperCity MCP tool schema for `query_lead_database` (scrapercity npm package): https://www.npmjs.com/package/scrapercity
 - ScraperCity CLI repository: https://github.com/scrapercity/scrapercity-cli
-- ICO, PECR electronic mail marketing: https://ico.org.uk/for-organisations/direct-marketing-and-privacy-and-electronic-communications/guide-to-pecr/electronic-and-telephone-marketing/electronic-mail-marketing/
-- CRTC, CASL FAQ: https://crtc.gc.ca/eng/com500/faq500.htm
 - April Dunford, A quickstart guide to positioning: https://www.aprildunford.com/post/a-quickstart-guide-to-positioning
+- US Census Bureau, 2022 SUSB annual data tables (NAICS 493 firm count by size): https://www.census.gov/data/tables/2022/econ/susb/2022-susb-annual.html

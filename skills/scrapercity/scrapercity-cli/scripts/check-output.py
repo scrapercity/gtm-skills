@@ -70,10 +70,45 @@ BROKEN = {
 }
 INVOKE = re.compile(r'(?:\bscrapercity(?:@[\d.]+)?|"\$\{SC\[@\]\}"|\bstart_run)[ \t]+([a-z][a-z-]*)(.*)')
 PLACEHOLDER = re.compile(r"\[(fill|todo|tbd)\]|<[a-z][a-z _-]*>", re.IGNORECASE)
+# Specs carry no legal content (owner rule). Letters are bracketed so the
+# pattern list itself does not trip the repo's legal-term scan.
+LEGAL = re.compile(
+    r"\bc[a]n[- ]?sp[a]m\b|\bt[c]pa\b|telephone consumer prot|\bc[a]sl\b|\bg[d]pr\b|\bepriv[a]cy\b|"
+    r"lawful b[a]sis|\bc[c]pa\b|\bc[p]ra\b|\bp[e]cr\b|\bf[c]ra\b|fair credit rep|\bt[s]r\b|"
+    r"telemarketing sales r|\b(?:47|16)\s*c\.?f\.?r\b|\bf[t]c\b|\bf[c]c\b|\bc[r]tc\b|\bi[c]o\b|"
+    r"att[o]rneys? gen|legal adv[i]ce|\bnot leg[a]l\b|"
+    r"\b(?:consult|ask|check with)\s+(?:a|an|your)\s+(?:\w+\s+)?(?:law[y]er|att[o]rney|coun[s]el)|"
+    r"do[- ]not[- ]call regis|national do[- ]not[- ]call|complian[c]e gate",
+    re.IGNORECASE,
+)
 RAW_KEY = re.compile(r"SCRAPERCITY_API_KEY=(?![\"']?\$|[\"']?YOUR_SCRAPERCITY_API_KEY)[\"']?[A-Za-z0-9_\-]{8,}")
 STOP = {"|", "||", "&&", ";", ")", ">", ">>", "<", "&", "2>", "2>&1"}
 MIN_CHARS = 2500
 
+
+# Economy and honesty rules shared by the ScraperCity checkers: no unrun results presented
+# as real, no blanks the reader fills by hand, no loop left in a comment, no spend threshold
+# presented as a rule, and a source on the same line as any percentage benchmark.
+_ASSUMED = re.compile(r"\(assumed\)|^\s*-\s*\[x\]", re.I | re.M)
+_BLANK = re.compile(r"[\"'\[(?=,]\s*\.\.\.\s*[A-Za-z]|[A-Za-z]\s*\.\.\.\s*[\"'\])]|\.\.\.\s*your\b|/Users/you\b|/home/you\b", re.I)
+_COMMENT_LOOP = re.compile(r"^\s*#\s*(?:then\s+)?(?:loop|repeat|paginate|page through)\b", re.M | re.I)
+_SPEND_LINE = re.compile(r"\$\d+(?:\.\d+)? approval line|approval line of \$|(?:under|over) the \$\d+(?:\.\d+)? (?:line|approval)|over about \$\d+|since it is over \$\d+", re.I)
+_BENCHMARK = re.compile(r"(?:aim(?:s)? for|target of|minimum of|benchmark)[^.\n]*\d+%|\d+%\+?\s*(?:or more|is the minimum)", re.I)
+_SOURCE_HINT = re.compile(r"https?://|\b[\w-]+\.(?:com|io|org|ai|dev)\b|\bper [A-Z]", re.I)
+
+
+def economy_error(text):
+    for rx, msg in ((_ASSUMED, "presents an unrun result or a self-graded check"),
+                    (_BLANK, "is a blank the reader has to fill by hand; write the value or a named input"),
+                    (_COMMENT_LOOP, "describes a loop in a comment; write the loop out"),
+                    (_SPEND_LINE, "presents a spend threshold as a rule; every paid run waits for a go-ahead")):
+        m = rx.search(text)
+        if m:
+            return f"'{m.group(0).strip()}' {msg}"
+    for ln in text.splitlines():
+        if _BENCHMARK.search(ln) and not _SOURCE_HINT.search(ln):
+            return f"benchmark with no source on its line: '{ln.strip()[:80]}'"
+    return None
 
 def section(text, name):
     m = re.search(r"^## " + re.escape(name) + r"\s*$(.*?)(?=^## |\Z)", text, re.M | re.S | re.I)
@@ -153,10 +188,16 @@ def main(argv):
         print("usage: check-output.py path/to/spec.md (file not found)")
         return 2
     text = path.read_text(encoding="utf-8")
+    _econ = economy_error(text)
+    if _econ:
+        return fail(_econ)
 
     hit = PLACEHOLDER.search(text)
     if hit:
         return fail(f"placeholder left in: {hit.group(0)}")
+    legal = LEGAL.search(text)
+    if legal:
+        return fail(f"legal commentary in the spec ('{legal.group(0)}'); remove it")
     for name in REQUIRED:
         if not re.search(r"^## " + re.escape(name) + r"\s*$", text, re.M | re.I):
             return fail(f"missing heading '## {name}'")
@@ -215,7 +256,7 @@ def main(argv):
     if re.search(r"scrapercity(?:@[\d.]+)?\s+apollo\b|start_run\s+apollo\b", text) and "webhook" not in text.lower():
         return fail("an apollo run is used without a webhook")
 
-    # 4. Cost estimate adds up; approval over $5.
+    # 4. Cost estimate adds up; any paid total has a recorded approval.
     cost_block = section(text, "Cost Estimate")
     rows = table_rows(cost_block)
     lines = [r for r in rows if r and r[0].lower() != "total"]
@@ -233,10 +274,10 @@ def main(argv):
         running += cost
     if abs(running - total) > 0.011:
         return fail(f"Cost Estimate lines add to ${running:.2f}, Total says ${total:.2f}")
-    if total > 5:
+    if total > 0:
         approval = re.search(r"^Approval:(.*)$", cost_block, re.M | re.I)
         if not approval or not re.search(r"approved|yes|go ahead", approval.group(1), re.I):
-            return fail(f"Cost Estimate total ${total:.2f} is over $5 and has no recorded approval")
+            return fail(f"Cost Estimate total ${total:.2f} is a paid total with no recorded approval")
 
     # 5. Schedule, failure handling and verification are filled in.
     sched = {r[0].lower(): r[1] for r in table_rows(section(text, "Schedule")) if len(r) >= 2}

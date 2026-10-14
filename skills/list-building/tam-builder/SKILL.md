@@ -1,36 +1,63 @@
 ---
 name: tam-builder
 description: >-
-  Builds a total addressable market file: defines the market, counts it in the
-  Lead Database and Local Business Database, pulls every account with cursor
-  paging, fills coverage gaps with Google Maps or Store Leads scrapes, dedupes by
-  domain then normalized business name keeping the most complete record, and
-  delivers one company-level CSV with a source column, a coverage estimate and
-  TAM/SAM/SOM in accounts and dollars. Use when the user asks "how big is my
-  market", "build our TAM", "every X in Y", or "account universe".
+  Builds a company-level market file: every account in a defined market,
+  counted, pulled, deduped across sources and outside lists, with a coverage
+  estimate, TAM/SAM/SOM in accounts and dollars, and on request a fit score and
+  Tier 1 to 3 cut to team capacity. Use when the user asks "how big is my
+  market", "build our TAM", "every X in Y", "account universe", "which
+  accounts should we target first", or "tier our accounts", and wants
+  companies rather than people. Counts the Lead Database and Local Business
+  Database, fills gaps with Google Maps or Store Leads, imports state license
+  files, associations, exhibitor lists and similar registers with a found-in-N
+  confidence tier. When the user wants the decision-makers at those companies
+  with counts, tiers, cost and verified emails, use icp-list-builder; for
+  buyers at a named account list, decision-maker-finder.
 license: MIT
 compatibility: Claude Code, Claude Desktop, Codex, GitHub Copilot, Cursor, Gemini CLI, Windsurf, Cline, OpenCode, Goose
 metadata:
-  version: "1.0.0"
+  version: "1.1.0"
   author: ScraperCity
   category: list-building
-  tags: [tam, market-sizing, account-universe, local-business-database, lead-database, dedupe]
-  related_skills: [icp-list-builder, local-business-list, ecommerce-by-techstack, decision-maker-finder, crm-enricher, scrapercity-local-business-database, scrapercity-lead-database]
+  tags:
+    - tam
+    - market-sizing
+    - account-universe
+    - account-scoring
+    - tiering
+    - local-business-database
+    - lead-database
+    - dedupe
+  related_skills:
+    - icp-list-builder
+    - local-business-list
+    - ecommerce-by-techstack
+    - decision-maker-finder
+    - account-researcher
+    - signal-triggered-outbound
+    - crm-enricher
+    - scrapercity-local-business-database
+    - scrapercity-lead-database
   frameworks:
-    - "US Census Bureau - County Business Patterns and NAICS as an outside benchmark"
+    - "US Census Bureau - County Business Patterns (employer) and Nonemployer Statistics as outside benchmarks"
     - "Lincoln-Petersen and Chapman capture-recapture estimators for coverage"
     - "April Dunford - best-fit segment before market size"
     - "Public Suffix List - registrable domain as the company key"
-  shared_references: [scrapercity-catalog.md, scrapercity-platform.md, list-quality-standard.md]
+    - "State license files (Texas TDLR) and the CMS NPPES provider file as registry cross-checks"
+    - "David Skok - CAC recovered within 12 months, used as the spend ceiling per tier"
+  shared_references:
+    - scrapercity-catalog.md
+    - scrapercity-platform.md
+    - list-quality-standard.md
 ---
 
 # TAM Builder
 
 ## Overview
 
-This skill produces an account universe: one row per real company in a defined market, pulled from every ScraperCity source that covers it, deduped, with a `source` column showing where each row came from. It adds a coverage estimate (how much of the real market the file holds) and a TAM, SAM and SOM in accounts and dollars.
+This skill produces an account universe: one row per distinct company in a defined market, pulled from every ScraperCity source that covers it, deduped, with a `source` column showing where each row came from. It adds a coverage estimate (the share of the market the file holds), a TAM, SAM and SOM in accounts and dollars, and, when the user wants to know where to start, a fit score and Tier 1 to 3 cut to the team's capacity.
 
-It prevents two failures. The first is quoting a market size from one database count, which double counts people as companies and misses businesses the source does not hold. The second is merging three sources without a dedupe key, which inflates the market by 20-40% and sends the same business three emails.
+It prevents three failures. The first is quoting a market size from one database count, which double counts people as companies and misses businesses the source does not hold. The second is merging three sources without a dedupe key, which inflates the market and sends the same business three emails. The third is a Tier 1 list built from a score nobody tested and sized beyond what the reps can work.
 
 ## When to Use
 
@@ -39,15 +66,19 @@ It prevents two failures. The first is quoting a market size from one database c
 - "Every Shopify store selling pet supplies in the US."
 - "Account universe for territory planning."
 - "Which metros have the most targets per rep?"
+- "Which 100 accounts should our AEs work first?" or "Tier our account list."
 
 Use a different skill when:
 
 | The user wants | Use |
 |-|-|
-| A send-ready contact list for a campaign now | `icp-list-builder` or `cold-email-list` |
+| The people who decide at companies in a market, with company and contact counts, tiers, cost and verified emails | `icp-list-builder` |
+| A send-ready file formatted for one sequencer | `cold-email-list` |
 | Local businesses in one city with emails | `local-business-list` |
 | Stores filtered by installed apps or tech | `ecommerce-by-techstack` |
 | Buyers at the accounts this file produces | `decision-maker-finder` |
+| A one-page brief on the Tier 1 accounts | `account-researcher` |
+| Accounts picked by a recent event (funding, hiring, new leader) | `signal-triggered-outbound` |
 | The TAM loaded into a CRM | `crm-enricher` |
 
 ## Prerequisites
@@ -59,16 +90,19 @@ Use a different skill when:
 | Geography | Location filters, metro splits | Ask |
 | Annual contract value (ACV) | Dollar TAM | Ask; report accounts only if unknown |
 | Territories or metros the team can serve | SAM | Same as TAM geography |
+| Closed won and lost deals with domains, rep headcount | Scoring weights, tier sizes (only when tiers are asked for) | Assumed weights labeled as such; one Capacity line asks for headcount |
+| ACV, gross margin and win rates per tier from the CRM | Spend ceilings per tier | Leave ceilings out |
 | Plan | Databases need Growth or Scale | `check_wallet` |
 
 ## Authoritative Foundations
 
 | Source | Contribution |
 |-|-|
-| US Census Bureau, County Business Patterns (CBP) and NAICS | CBP publishes establishment counts by industry code and geography each year. Use it as an outside check: if your deduped file holds far fewer accounts than CBP lists for the NAICS code, coverage is low; far more means the definition is too loose. CBP counts establishments with paid employees, so owner-only shops are missing from it. |
+| US Census Bureau, County Business Patterns (CBP) and Nonemployer Statistics (NES) | CBP counts establishments with paid employees by NAICS code and county (latest data year 2023, released June 2025); NES counts businesses with no paid employees (latest data year 2024). CBP is the benchmark for a market of firms with staff; CBP plus NES bounds a market that includes owner-only shops. Far below CBP means low coverage; far above means the definition is too loose. |
 | Lincoln-Petersen and Chapman capture-recapture estimators | With two independent samples of one population, total size is about n1 times n2 divided by the overlap. Applied to two sources in one metro it estimates how many businesses neither source has. |
 | April Dunford, best-fit customers | TAM is only useful when sized for the segment that values the product most. Define the market from the best-fit customer traits, then size it. |
 | Public Suffix List | The registrable domain is the most stable company key across sources; `shop.acme.co.uk` and `acme.co.uk` are one company. |
+| David Skok, SaaS Metrics 2.0 | Acquisition cost recovered within 12 months. Applied: first-year gross profit times the expected win rate per worked account caps what each tier may spend per account. |
 | `references/list-quality-standard.md` | Company schema, business name key, dedupe precedence, completeness score, `source` vocabulary. |
 
 Detail in `references/framework-notes.md`.
@@ -90,7 +124,7 @@ One sentence with all four parts: business type, geography, size band, exclusion
 ### 3. Count every source before pulling
 
 - Local Business Database: one call with `limit: 1`, read `pagination.total`. That is a business count.
-- Lead Database: `pagination.total` counts people, not companies. Use a one-per-company title set (Owner, Founder, CEO, President, General Manager), pull a 500-row sample, compute unique domains divided by rows, and multiply the total by that ratio for an estimated company count.
+- Lead Database: `pagination.total` counts people, not companies. Use a one-per-company title set (Owner, Founder, CEO, President, General Manager), pull a sample (the worked example uses 500 rows), compute unique domains divided by rows, and multiply the total by that ratio for an estimated company count.
 - Store Leads: there is no free count. Run a `totalLeads: 100` probe with the filters ($0.0039 per lead, $0.39) and read the rows to confirm the filters fit before a large job.
 - Maps: there is no count call. Estimate from metro size (see `references/coverage-and-dedupe-playbook.md`) and cap with `maxCrawledPlacesPerSearch`.
 
@@ -102,15 +136,15 @@ Put the counts in one table with the projected cost and show it to the user. Sto
 
 ### 5. Fill gaps
 
-Decide where to scrape by comparing database counts per metro against population or against CBP per county. Metros where the database count per 100k residents is under half the state average are gap candidates. For each:
+Decide where to scrape by comparing database counts per metro against population or against CBP per county. Metros with the lowest database count per 100k residents against the state average are gap candidates; the user picks the cutoff. For each:
 
-- `scrape_maps` with `searchStringsArray` set to 2-4 keyword variants and `locationQuery` set to each sub-city (metros split into sub-cities; lists in `references/coverage-and-dedupe-playbook.md`).
+- `scrape_maps` with `searchStringsArray` set to the category's keyword variants and `locationQuery` set to each sub-city (metros split into sub-cities; lists in `references/coverage-and-dedupe-playbook.md`).
 - Before paying, read the `local_business_database` block a Maps run can return: it reports matches already in the database that the account does not have yet. Pull those from the database first.
-- Poll `check_run_status` every 60 seconds, then `download_results`.
+- Poll `check_run_status` until the run reaches SUCCEEDED, then `download_results`.
 
 ### 6. Normalize and dedupe
 
-Normalize every row to the business schema (`references/list-quality-standard.md` section 2b). Then dedupe in two passes:
+Normalize every row to the business schema (`references/list-quality-standard.md` section 2b). Then dedupe in three passes:
 
 1. Registrable `domain` (blank for social-only websites).
 2. `business_name_key` plus `postal_code`, then `business_name_key` plus `street`, for rows with no domain.
@@ -118,9 +152,13 @@ Normalize every row to the business schema (`references/list-quality-standard.md
 
 When rows match, keep the most complete record by completeness score, fill empty fields from the other rows, and join every contributing source into `source` (for example `local_db|maps`).
 
+### 6b. Import outside lists and tier confidence
+
+When the market has a public register (banks, credit unions, nonprofits, federal contractors, public companies, schools), pull the register first: its count is the TAM denominator and the ScraperCity pulls supply people and emails (`references/market-definition-recipes.md`, Public registries). Add the outside lists that fit the market (the vertical table in the same file names one per market): state license files and association directories for trades, the CMS NPPES provider file for healthcare, exhibitor and sponsor lists for vendor markets, Inc. 5000 for growth segments, G2 categories and GitHub organizations for software, Crunchbase for funded companies, job boards for companies hiring a role. None is a ScraperCity source: tag rows `source = user_upload` with the list name in `import_sources`. Dedupe each list against itself, then against the file (domain, then phone, then name key + ZIP). Matched rows add to `import_sources`; new rows join only when they fit and carry a domain or phone; the rest go to a review file. Count `found_in` per account and label it: found in 3 or more sources High, 2 Medium, 1 Low. The labels name the count; a hand check of Low and High accounts on the user's file shows what each level means. Then write Source Yield: per source, accounts contributed, accounts no other source found, cost, and cost per unique account; a paid source whose unique accounts cost more than the Tier 3 spend ceiling (when the user's deal inputs set one) is dropped from the next refresh. Procedure, source table, overlap and yield reports: `references/coverage-and-dedupe-playbook.md` sections 9 to 12.
+
 ### 7. Estimate coverage
 
-Pick 1-3 metros covered by two sources. Run Chapman's estimator on the overlap (formula and caveats in `references/coverage-and-dedupe-playbook.md`). Report observed accounts, estimated true count, and coverage percentage. Compare the statewide deduped count against the CBP establishment count for the NAICS code when the user can supply it.
+Pick 1-3 metros covered by two sources. Run Chapman's estimator on the overlap (formula and caveats in `references/coverage-and-dedupe-playbook.md`). Report observed accounts, estimated true count, and coverage percentage. Compare the statewide deduped count against the CBP establishment count for the NAICS code (data.census.gov, County Business Patterns filtered to the NAICS code and state; the Census API needs a free key), and add the NES count when the market includes owner-only businesses.
 
 ### 8. Size TAM, SAM, SOM
 
@@ -130,7 +168,13 @@ Pick 1-3 metros covered by two sources. Run Chapman's estimator on the overlap (
 | SAM | Accounts the team can serve (territories, languages, size band) times ACV |
 | SOM | A 12-month share of SAM the user commits to, stated as an assumption |
 
-Deliver the CSV and the report in `templates/output-template.md`. Run `scripts/check-output.py`.
+### 9. Score and tier (when asked)
+
+Follow `references/account-scoring-and-tiers.md`: hard exclusions first, score only columns filled on at least the share of SAM rows the user sets (report every column's fill rate), points from win-rate lift (10 x log2 of lift, capped at plus or minus 10) when closed deals join the file, tier sizes from rep capacity, a spend ceiling per account only when the user supplies ACV, gross margin and win rates per tier (written on a "Deal inputs (from you):" line; otherwise the column is left out), and a backtest on current customers (Tier 1 and 2 must hold a larger share of customers than of SAM, a concentration above 1.0x, or the higher bar the user sets). Fit sets the tier; three things move an account up one tier for the next send cycle (Alex Berman spaces cycles 30 to 60 days apart, alexberman.com, October 2026): a dated trigger, first-party engagement from the user's CRM or marketing tool (pricing page visit, webinar, a past reply), and a warm path (a former customer champion now works there, a TeamLink connection). Write the Account Tiers section with its Capacity and Backtest lines, and book the quarter-end read: meetings per 100 accounts worked, by tier.
+
+### 10. Deliver
+
+Deliver the CSV and the report in `templates/output-template.md`, including Source Overlap and Source Yield. Run `scripts/check-output.py`.
 
 ## ScraperCity Implementation
 
@@ -187,8 +231,12 @@ The two database pulls use 9.8% and 6.2% of their daily allowances. $35.64 excee
 
 ## Output Format
 
-1. `tam-[market]-[date].csv`: one row per account, business schema from the quality standard plus `source`, `source_detail`, `completeness_score`, `metro`, `in_sam` (true or false).
-2. A report from `templates/output-template.md`: market definition, source counts, pull and dedupe funnel, source mix, coverage estimate, TAM/SAM/SOM, metro breakdown, cost, next steps.
+1. `tam-[market]-[date].csv`: one row per account, business schema from the quality standard plus `source`, `source_detail`, `import_sources`, `found_in`, `confidence`, `completeness_score`, `metro`, `in_sam` (true or false).
+2. `tam-review-[market]-[date].csv`: outside-list rows held for review, with a reason.
+3. A report from `templates/output-template.md`: market definition, source counts, pull and dedupe funnel, source mix, source overlap, source yield (unique accounts and cost per unique account per source, with a keep or drop call for the next refresh), coverage estimate, TAM/SAM/SOM, metro breakdown, account tiers when asked, cost, output schema, next steps.
+4. When tiers were asked for: `fit_score`, `tier` and `tier_reason` columns in the CSV.
+
+What the reader receives is the deliverable only: no internal file paths, reference section numbers, tool ids or skill names (name the product, such as Lead Database or Email Validator, and describe the next action instead of naming a skill); each figure stated once; every outside number with its source and date on first mention; no spend ceiling without the user's deal inputs; no invented team size (one Capacity line asks for headcount); no table of checks that were not run (one "Not checked:" line instead); no legal commentary. Next Steps is a table with Step, Owner, Date and Done when.
 
 ## Quality Check
 
@@ -198,8 +246,11 @@ The two database pulls use 9.8% and 6.2% of their daily allowances. $35.64 excee
 - [ ] Funnel adds up from raw rows to final accounts with a reason on each drop.
 - [ ] Source mix rows sum to the final account count.
 - [ ] Every row has a `source` value from the controlled vocabulary.
+- [ ] Source Overlap: found-in-N rows sum to the final count, confidence matches N, and each outside list reconciles (rows = matched + new + held).
 - [ ] Coverage estimate shows observed, estimated and percentage, with its caveat.
 - [ ] TAM, SAM and SOM each show accounts, ACV and dollars, and SOM states its assumption.
+- [ ] Source Yield shows unique accounts per source, never more than the source contributed, with a keep or drop decision.
+- [ ] If tiers are included: hard exclusions listed, tier counts sum to SAM, Tier 1 fits the stated capacity, and the Backtest line shows a concentration above 1.0x.
 - [ ] `scripts/check-output.py report.md` prints PASS.
 
 ## Common Pitfalls
@@ -209,18 +260,28 @@ The two database pulls use 9.8% and 6.2% of their daily allowances. $35.64 excee
 | Quoting `pagination.total` from the Lead Database as a company count | It counts people; a 40-person firm can appear 40 times | One leader title per company, sample the domain ratio, dedupe by domain. |
 | Deduping only by name | "ABC Heating" and "ABC Heating & Air LLC" survive as two | Domain first, then name key plus ZIP, then phone. |
 | Deduping only by domain | Franchise locations sharing one domain collapse into one row | For local markets keep one row per location; use phone as the location key. |
-| One Maps search for a whole metro | Maps searches return a limited set per query; outer suburbs vanish | Split into sub-cities and keyword variants. |
+| One Maps search across a metro | Maps searches return a limited set per query; outer suburbs vanish | Split into sub-cities and keyword variants. |
 | Paying for Maps rows the database already has | Double spend | Pull the database first; read the `local_business_database` block in the Maps response. |
-| Treating capture-recapture as exact | Both sources favor businesses with an online presence, so the estimate is a floor | Say so in the report; cross-check with CBP. |
+| Treating capture-recapture as exact | Both sources favor businesses with an online presence, so the population estimate is a floor and the coverage share is a ceiling | Say so in the report; cross-check with CBP and a registry file. |
 | A TAM in dollars with no ACV source | Board decks repeat it | State ACV and where it came from. |
+| Adding every outside-list row to the TAM | License files hold individuals and lapsed licenses; exhibitor lists hold vendors | New rows join only with fit plus a domain or phone; the rest go to review. |
+| Quoting the TAM without its Low share | A file heavy with single-source accounts can overstate the market | Report found-in-N next to every TAM count. |
+| Scoring on a column filled for half the rows | Data-rich accounts float to Tier 1 whatever their fit | Report fill rates; score only columns at or above the user's minimum fill. |
+| Cutting Tier 1 by score alone | 600 Tier 1 accounts for two reps get Tier 3 treatment | Size tiers from capacity, then read the cutoff. |
+| Scoring intent and engagement into the fit score | A pricing-page visit at a misfit account outranks a perfect-fit account; the score decays weekly | Fit sets the tier; triggers, engagement and warm paths move it up one tier for the next send cycle. |
+| Never reading the tiers after launch | A Tier 1 that books no more meetings than Tier 2 costs AE time for nothing | Quarter-end: meetings per 100 accounts worked by tier; Tier 1 at or below Tier 2 means re-weight. |
+| Sizing a bank, nonprofit or contractor market from a database count | A public register lists every member | Pull the register first and report coverage against it. |
+| Using a score nobody tested | The ranking reflects opinions about fit | Backtest on current customers; at or below 1.0x concentration, re-weight. |
+| Buying a source again because it was in last month's run | Paid rows that only duplicate the databases | Read Source Yield; drop a paid source whose unique accounts cost more than the tier ceiling. |
 
 ## Execution Artifacts
 
 | File | Open it when |
 |-|-|
 | `references/framework-notes.md` | You need the reasoning or source behind a rule, or the routing table. |
-| `references/market-definition-recipes.md` | Writing the market definition and the per-source filters (24 markets). |
-| `references/coverage-and-dedupe-playbook.md` | Gap-fill decisions, metro sub-city splits, capture-recapture, dedupe passes, merge rules. |
+| `references/market-definition-recipes.md` | Writing the market definition and the per-source filters (27 markets), and the public registers (FDIC, NCUA, IRS, SAM.gov, EDGAR, NCES) that count regulated and registered markets. |
+| `references/coverage-and-dedupe-playbook.md` | Gap-fill decisions, metro sub-city splits, capture-recapture, dedupe passes, merge rules, outside-list imports, found-in-N confidence, the source-overlap and source-yield reports. |
+| `references/account-scoring-and-tiers.md` | Step 9: hard exclusions, scorable columns, lift points, capacity-based tiers, spend ceilings, the customer backtest. |
 | `references/list-quality-standard.md` | Schema, normalization, dedupe precedence, source vocabulary (shared). |
 | `references/scrapercity-catalog.md` | Prices and parameters (shared). |
 | `references/scrapercity-platform.md` | Database rules and daily allowances (shared). |
@@ -233,6 +294,8 @@ The two database pulls use 9.8% and 6.2% of their daily allowances. $35.64 excee
 - `icp-list-builder` for a contact list from one slice of this TAM.
 - `local-business-list` for one city with validated emails.
 - `ecommerce-by-techstack` for online store markets by app or technology.
-- `decision-maker-finder` to add buyers to the accounts.
+- `decision-maker-finder` to add buyers to the accounts, starting with Tier 1.
+- `account-researcher` for a brief on each Tier 1 account.
+- `signal-triggered-outbound` to find the triggers that lift an account one tier.
 - `crm-enricher` to load the account universe into HubSpot or Pipedrive.
 - `scrapercity-local-business-database` and `scrapercity-lead-database` for every parameter.

@@ -42,8 +42,8 @@ One row per call the integration makes. Paths come from `references/endpoint-ref
 
 | Tool | Completion signal | Poll interval | Give up after |
 |---|---|---|---|
-| `validate_emails` | Poll status | First check at 30 s, then every 30 s | 30 min, then alert with the runId |
-| `scrape_apollo` | Webhook to `https://feeds.example-agency.com/hooks/sc-7f3a9c2e41b8`, plus the hourly `sweep.py` | No polling; the sweep runs every 60 min | 5 days, then alert with the runId |
+| `validate_emails` | Poll status | Every 15 s (the npm client's interval) | 10 min, the top of its 1 to 10 minute delivery time, then alert with the runId |
+| `scrape_apollo` | Webhook to `https://feeds.example-agency.com/hooks/sc-7f3a9c2e41b8`, plus the hourly `sweep.py` | No polling; the sweep runs every 60 min | 4 days, the published maximum, then alert with the runId |
 
 ## Database Paging
 
@@ -67,7 +67,7 @@ One row per call the integration makes. Paths come from `references/endpoint-ref
 | 401 | Stop the job, alert "key invalid", check the environment file for quotes | No |
 | 402 | Stop before the validator POST, alert with balance and estimate | No, until the wallet is topped up |
 | 409 on a start | Look up `/runs?hours=1` by `file_name` and reuse that runId | No, reuse the earlier run |
-| 429 | Reads: wait 30 s, then backoff. Starts: check `/runs` first, then wait 30 s and retry once | Yes, reads up to 5 tries; starts once |
+| 429 | Reads: wait 30 s, then backoff. Starts: check `/runs` first, then wait 30 s and retry once | Yes, reads up to 5 tries (the samples' setting); starts once |
 | 503 on the database | Log the filters, alert; next run splits the search by `companyState` | No, narrow first |
 | Timeout on a POST start | Wait 10 s, look in `/runs`, resubmit only if no matching run exists | Only after the lookup |
 
@@ -77,7 +77,7 @@ One row per call the integration makes. Paths come from `references/endpoint-ref
 |---|---|
 | Peak requests per minute | 8 (wallet, count, 5 database pages at 1 a second, validator start) |
 | Concurrent scrapes | 2 at most (validator plus a running Apollo job) |
-| Pacing | Database pages 1 a second; status checks every 30 s; the sweep makes 1 call an hour plus 1 download per new run |
+| Pacing | Database pages 1 a second; status checks every 15 s; the sweep makes 1 call an hour plus 1 download per new run |
 
 ## Cost Estimate
 
@@ -91,7 +91,7 @@ Prices from `references/scrapercity-catalog.md`. Lead Database rows are included
 | `validate_emails` on the Apollo leads | 2,000 | $0.0072 | $14.40 |
 | Total per month | | | $101.40 |
 
-$101.40 is under the $159 of monthly Growth credits. The first daily run costs $3.60 and the Apollo run plus its validation $22.20, both shown to the agency owner before go-live because each is close to or over the $5 approval line. If the Apollo start response shows `lead_database.matches` of 640, those 640 come from the database at no wallet charge and the Apollo `count` drops to 1,360, saving 640 x $0.0039 = $2.50.
+$101.40 is under the $159 of monthly Growth credits. The first daily run costs $3.60 and the Apollo run plus its validation $22.20, both shown to the agency owner and approved before go-live. If the Apollo start response shows `lead_database.matches` of 640, those 640 come from the database at no wallet charge and the Apollo `count` drops to 1,360, saving 640 x $0.0039 = $2.50.
 
 ## Test Plan
 

@@ -4,9 +4,11 @@ description: >-
   Builds integrations on the ScraperCity REST API: Bearer auth, every scraper
   start endpoint, the RUNNING to SUCCEEDED status lifecycle, CSV downloads,
   webhooks for Apollo and long runs, database paging with the after cursor,
-  POST bodies for long filters, and a retry policy that never starts a paid
-  run twice. Produces an API integration spec with endpoints, error handling,
-  a rate budget and a cost table, plus tested curl, Python and Node clients.
+  POST bodies for long filters, a retry policy that never starts a paid run
+  twice, and a staged bulk pipeline for enriching an existing CSV or CRM
+  export with a batch ledger and result routing. Produces an API integration
+  spec with endpoints, error handling, a rate budget and a cost table, plus
+  tested curl, Python and Node clients.
   Use when the user is writing code against app.scrapercity.com, asks for an
   endpoint, a request body, a webhook receiver, how to page the Lead Database,
   what a 409 or 429 means, or wants a cron job or backend service that pulls
@@ -17,8 +19,25 @@ metadata:
   version: "1.0.0"
   author: ScraperCity
   category: scrapercity
-  tags: [api, rest, webhooks, pagination, retries, python, node, curl]
-  related_skills: [using-scrapercity-skills, scrapercity-mcp, scrapercity-cli, scrapercity-integrations, scrapercity-lead-database, scrapercity-local-business-database, scrapercity-real-estate-data, email-list-cleaner, crm-enricher]
+  tags:
+    - api
+    - rest
+    - webhooks
+    - pagination
+    - retries
+    - python
+    - node
+    - curl
+  related_skills:
+    - using-scrapercity-skills
+    - scrapercity-mcp
+    - scrapercity-cli
+    - scrapercity-integrations
+    - scrapercity-lead-database
+    - scrapercity-local-business-database
+    - scrapercity-real-estate-data
+    - email-list-cleaner
+    - crm-enricher
   frameworks:
     - "ScraperCity - scrapercity npm package 1.0.17 (lib/client.mjs, AGENT_DOCS.txt)"
     - "ScraperCity - API docs and how-to-use pages (rate limits, webhooks, retention)"
@@ -27,7 +46,10 @@ metadata:
     - "IETF RFC 6750 - Bearer Token Usage"
     - "AWS Architecture Blog - Exponential Backoff and Jitter (Marc Brooker)"
     - "OWASP - Secrets Management Cheat Sheet"
-  shared_references: [scrapercity-catalog.md, scrapercity-platform.md, scrapercity-agent-patterns.md]
+  shared_references:
+    - scrapercity-catalog.md
+    - scrapercity-platform.md
+    - scrapercity-agent-patterns.md
 ---
 
 # ScraperCity REST API
@@ -56,6 +78,8 @@ The mistakes it prevents:
 - "How do I page through 30,000 local businesses?"
 - "My Apollo URL is too long for a GET."
 - "Give me curl for wallet, status and download."
+- "Enrich this 5,000-row CRM export: validate what has emails, find the missing ones, write back to HubSpot."
+- "How big should each batch be, and how do I rerun a failed one without paying twice?"
 
 Use a different skill for nearby jobs:
 
@@ -114,7 +138,7 @@ Full slug list, bodies and response fields: `references/endpoint-reference.md`.
 - Databases: same filters with `limit=1`, read `pagination.total`. No wallet charge.
 - Scrapers: compute the ceiling from the body (for example `searchStringsArray` length x `maxCrawledPlacesPerSearch` x $0.0099 for `scrape_maps`). The formula table is in `references/scrapercity-agent-patterns.md`.
 - `scrape_maps` and `scrape_apollo` start responses can carry `local_business_database` or `lead_database` with `matches` already in the databases. On Growth or Scale, pull those from the database first.
-- Over about $5: show the estimate and get a yes. Over half the balance: say what will be left.
+- Before any paid run: show the estimate, say what will be left in the wallet, and get a yes (or stay under the per-run amount the user set).
 
 ### 4. Start each paid run exactly once
 
@@ -122,16 +146,19 @@ Full slug list, bodies and response fields: `references/endpoint-reference.md`.
 - Pass `fileName` where the tool accepts it (`scrape_apollo`, `scrape_builtwith`, `scrape_store_leads`, `scrape_property_lookup`) so `/api/v1/runs` can find the run by `file_name`.
 - 409: the same search was accepted in the last couple of minutes. Find it in `GET /api/v1/runs?hours=1` and reuse it.
 - 429: look in `/runs` first. If nothing matches, wait 30 s and retry once.
-- Timeout or reset: wait 10 s, look in `/runs`, resubmit only if nothing matches.
+- Timeout or reset: look in `/runs` (the samples wait 10 s first), resubmit only if nothing matches.
 - Keep at most 10 runs in flight.
 
 ### 5. Wait the right way
 
+The npm client polls every 15 s with a 1-hour timeout; AGENT_DOCS gives each tool's delivery time.
+
 | Tool group | Signal |
 |---|---|
-| `validate_emails`, `find_emails`, `find_mobiles`, `search_criminal_records`, `scrape_builtwith`, `scrape_store_leads` | Poll every 30 s, give up at 30 min |
-| `scrape_maps`, `scrape_yelp`, `scrape_angi`, `scrape_zillow_agents`, `scrape_bizbuysell`, `scrape_crexi`, `scrape_airbnb`, `scrape_website_finder`, `find_people`, `scrape_property_lookup`, `scrape_distress_list` | Poll every 2 min, give up at 2 h |
-| `scrape_apollo` | Webhook. Without one, poll once an hour at most |
+| `validate_emails`, `find_emails`, `find_mobiles`, `find_people`, `scrape_property_lookup`, `search_criminal_records`, `scrape_builtwith` | Poll every 15 s; alert if still running after 10 min (delivery 1 to 10 min) |
+| `scrape_store_leads` | Instant; one status check |
+| `scrape_maps`, `scrape_yelp`, `scrape_angi`, `scrape_zillow_agents`, `scrape_bizbuysell`, `scrape_crexi`, `scrape_airbnb`, `scrape_website_finder`, `scrape_distress_list` | Poll every 15 s; alert if still running after 30 min (delivery 5 to 30 min) |
+| `scrape_apollo` | Webhook. Without one, poll once an hour at most (delivery up to 4 days) |
 
 Status is `RUNNING`, then `SUCCEEDED`, `FAILED` or `CANCELLED`. Show `handled / requested` as progress. On `FAILED`, read `statusMessage` and `GET /api/v1/scrape/logs/{runId}` before changing inputs.
 
@@ -160,7 +187,11 @@ Register the receiver URL at app.scrapercity.com/dashboard/webhooks (dashboard o
 
 GET arrays use repeated keys; POST arrays are JSON arrays; booleans go as `"true"`. Identical requests within 30 s return 429, so a loop must change `after` each call or wait. A 503 means the search ran too long: narrow it, do not hammer it. Each database allows 100,000 new records a day, reset at midnight UTC.
 
-### 9. Write the spec and test it
+### 9. Bulk files: run the staged pipeline
+
+When the input is a file the user already has, follow `references/bulk-enrichment-pipeline.md`: intake and clean, suppress and filter before paying, route each row by its gap (database first, then pay-on-find tools), one run per tool per batch of about 1,000, a batch ledger row per run, routing for every result status, a 20-row QA sample, and one-way CRM write-back that never overwrites owner, stage or deal fields.
+
+### 10. Write the spec and test it
 
 Fill `templates/output-template.md`, run the test plan (wallet, count, a 3-email validator run for $0.02, a fake webhook post sent twice), then `python3 scripts/check-output.py spec.md`.
 
@@ -205,7 +236,7 @@ run_id = sc.start("apollo", {"url": APOLLO_URL, "count": 2000, "fileName": "apol
 import * as sc from './scrapercity-client.mjs' // references/code-samples.md
 
 const runId = await sc.start('maps', { searchStringsArray: ['roofing contractor'], locationQuery: 'Denver, CO', maxCrawledPlacesPerSearch: 200 })
-await sc.waitFor(runId, { everyMs: 120000, giveUpMs: 7200000 })
+await sc.waitFor(runId, { everyMs: 15000, giveUpMs: 1800000 })
 await sc.download(runId, `maps-roofing-denver-co-${runId.slice(0, 8)}.csv`)
 for await (const biz of sc.dbAll(sc.LOCAL, { keyword: ['dentist'], location: ['Austin TX'], hasEmail: true })) { /* load */ }
 ```
@@ -224,7 +255,7 @@ A monthly job for a SaaS outbound agency on Growth: 500 new VP Sales leads a wee
 | `validate_emails` on the Apollo leads | 2,000 | $0.0072 | $14.40 |
 | **Total per month** | | | **$101.40** |
 
-That fits inside the $159 of monthly Growth credits. The Apollo run plus validation is $22.20, over the $5 line, so it is shown and approved before the first start. Requests: 5 database calls a day at 1 a second, about 60 status checks per validator run at 30 s, one webhook-driven download for Apollo. Peak 8 a minute against a limit of 100.
+That fits inside the $159 of monthly Growth credits. The Apollo run plus validation is $22.20, shown and approved before the first start. Requests: 5 database calls a day at 1 a second, up to 40 status checks per validator run at 15 s over its 1 to 10 minute delivery time, one webhook-driven download for Apollo. Peak 10 a minute against a limit of 100.
 
 ## Output Format
 
@@ -242,18 +273,23 @@ An API integration spec in Markdown from `templates/output-template.md`:
 
 Plus the client files from `references/code-samples.md` adapted to the job. Check the spec with `python3 scripts/check-output.py spec.md`.
 
+A single-endpoint question (a path, a body, what a 409 means) gets the call and its handling in a few lines, not a spec. The spec is for integrations that run unattended.
+
+- Each fact once; every call and script written out in full (no `"..."` values, no loop described in a comment); no counts or results marked assumed. If nothing has run, say so once at the top.
+- What the reader receives is the deliverable only: no internal file paths, reference section numbers or runbook IDs; another skill is named only in a handoff line that tells the user what to run next; no tables of checks that were not run (one "Not checked:" line instead); and no repeated identical rows where one template plus a list will do.
+
 ## Quality Check
 
 - Every path matches `references/endpoint-reference.md`; downloads use `/api/downloads/{runId}`.
 - Scraper starts are POST; wallet, runs, status, logs and downloads are GET; cancel is POST.
 - No API key appears in code, config committed to a repo, logs or the spec.
-- No code path resubmits a POST start without first checking `/api/v1/runs`.
+- Any code path that resubmits a POST start checks `/api/v1/runs` first.
 - 409 is handled by reuse; 401, 402 and 403 stop the job.
 - Apollo uses a webhook plus an hourly sweep, or polls no more than once an hour.
 - Database reads use `after` for multi-page pulls and never pair `excludeDelivered=true` with `page` above 1.
 - Requests over 6,000 characters of query string go as POST bodies.
 - Peak load stays under 100 requests a minute and 10 concurrent scrapes.
-- The cost table uses catalog prices, and anything over about $5 was approved.
+- The cost table uses catalog prices, and every paid step was approved before it ran.
 - `python3 -m py_compile` / `node --check` pass on the delivered files.
 
 ## Common Pitfalls
@@ -272,6 +308,8 @@ Plus the client files from `references/code-samples.md` adapted to the job. Chec
 | Downloading days later | Results are stored for 48 hours | Download on the webhook or the next sweep |
 | Copying endpoint paths from an old guide | Some older pages show paths that are not in the package | Use `references/endpoint-reference.md`; when in doubt, the catalog wins |
 | Using `estimatedCost` from a start response as the bill | It is an estimate for that request | Budget from catalog prices; reconcile from `/api/v1/runs` |
+| Enriching a CRM export before suppressing customers, unsubscribes and recent contacts | Pays to find people the team must not email | Suppress and filter first; pay only on rows that survive |
+| Two-way sync between the enrichment output and the CRM | Old CRM values overwrite fresh results on the next sync | One-way write-back with only-if-empty rules |
 
 ## Execution Artifacts
 
@@ -281,6 +319,7 @@ Plus the client files from `references/code-samples.md` adapted to the job. Chec
 | `references/endpoint-reference.md` | You need a path, method, request body, response field, webhook detail or database parameter. |
 | `references/code-samples.md` | You need a working client in curl, Python or Node, a webhook receiver, or the hourly sweep. |
 | `references/errors-and-retries.md` | You hit an error code, need the retry rule for a call, or need to budget requests per minute. |
+| `references/bulk-enrichment-pipeline.md` | The input is an existing CSV or CRM export: stages, gap routing, batch size, ledger, result routing, write-back rules, metrics. |
 | `templates/output-template.md` | Start every API integration spec here. |
 | `examples/worked-example.md` | A complete spec for a daily Lead Database feed plus a monthly Apollo run. |
 | `scripts/check-output.py` | Run on the finished spec before handing it over. |

@@ -21,7 +21,7 @@ Run the steps in this order. Each step works on the output of the one before.
 | 11 | Check the structure rules (section 2); failures go to `removed.csv` with reason `syntax` | `dana@@acme.example` | removed | Yes |
 | 12 | Build `email_key` for dedupe (section 4) | `Dana.Ruiz+events@Gmail.com` | `danaruiz@gmail.com` | Yes |
 
-Never auto-fix a corporate domain. `acme.co` may be the company's real domain, and `acme-inc.com` may be a second brand. When a corporate domain looks wrong, leave it and let the validator answer.
+Never auto-fix a corporate domain. `acme.co` may be the company's own domain, and `acme-inc.com` may be a second brand. When a corporate domain looks wrong, leave it and let the validator answer.
 
 ## 2. Structure rules
 
@@ -51,7 +51,7 @@ Apply it to the lowercased address. Pair it with the length checks; a regex alon
 | Case | Action |
 |-|-|
 | Non-ASCII domain (`müller.example`) | Convert the domain to its ASCII punycode form for validation and keep the original in `email_raw` |
-| Non-ASCII local part (`josé@acme.example`) | Legal under RFC 6531 (SMTPUTF8), but many sending tools reject it. Route to `role_review.csv` with note `utf8_local_part` |
+| Non-ASCII local part (`josé@acme.example`) | Valid under RFC 6531 (SMTPUTF8), but many sending tools reject it. Route to `role_review.csv` with note `utf8_local_part` |
 | Mojibake (`JosÃ©`) | Fix the file encoding first (step 1); if it persists, remove with reason `syntax` |
 
 ## 3. Consumer-domain typo map
@@ -99,14 +99,12 @@ Never send to `noreply`, `no-reply`, `donotreply` or `mailer-daemon`: remove wit
 
 | List type | `is_role = true` rows | Why |
 |-|-|-|
-| Named B2B contacts (cold email) | `role_review.csv` | A named list should reach the named person; role rows read as a blast to an admin |
+| Named B2B contacts (cold email) | `role_review.csv` | A named list should reach the named person, not a shared inbox |
 | Local businesses (dentists, roofers) | Keep in the main flow | The owner often reads `info@` or `office@` |
 | Ecommerce stores | Keep in the main flow | `hello@` and `support@` are often the only published address |
-| Newsletter to opted-in subscribers | Keep | Consent exists |
+| Newsletter to opted-in subscribers | Keep | The subscriber asked for the mail |
 | CRM import | Keep with the flag | Status is information, not a send decision |
 | Ads audience upload | Exclude | No person behind the address |
-
-Threshold from the quality standard: role addresses stay at 5% or less of a named B2B send file.
 
 ## 6. Free-provider addresses
 
@@ -116,14 +114,14 @@ gmail.com, googlemail.com, yahoo.com, ymail.com, rocketmail.com, outlook.com, ho
 
 | List type | `is_free = true` | Rule |
 |-|-|-|
-| Named B2B, the row has a company domain that differs | `role_review.csv` with note `personal_address` | A personal inbox for a business contact draws more complaints |
+| Named B2B, the row has a company domain that differs | `role_review.csv` with note `personal_address` | A personal inbox, not the business address the list targets; the user decides whether to use it |
 | Named B2B, sole proprietor or no company domain | Keep | The business runs on that address |
 | Local business list | Keep | Many small businesses publish a Gmail address |
 | Ecommerce stores | Keep | Same |
 
 ## 7. Disposable addresses
 
-The validator returns `disposable` for temporary inbox providers. A local pre-filter saves the validation charge for the obvious ones: mailinator.com, guerrillamail.com, 10minutemail.com, temp-mail.org, yopmail.com, trashmail.com, sharklasers.com, getnada.com, dispostable.com. Remove matches with reason `disposable` and add them to the blocklist. A disposable share above 2% marks the source as a sign-up or giveaway form; treat its rows as tier C.
+The validator returns `disposable` for temporary inbox providers. A local pre-filter saves the validation charge for the obvious ones: mailinator.com, guerrillamail.com, 10minutemail.com, temp-mail.org, yopmail.com, trashmail.com, sharklasers.com, getnada.com, dispostable.com. Remove matches with reason `disposable` and add them to the blocklist. Disposable rows clustered in one source mark it as a sign-up or giveaway form; treat its rows as tier C.
 
 ## 8. Reason codes for removed.csv
 
@@ -136,7 +134,7 @@ The validator returns `disposable` for temporary inbox providers. A local pre-fi
 | `customer`, `open_opportunity`, `competitor`, `do_not_contact` | Matched a CRM or user-maintained domain list |
 | `network_role` | abuse, noc, security, postmaster, hostmaster |
 | `invalid`, `disposable` | Validator result |
-| `unknown_twice` | Still `unknown` after the 72-hour retry on a tier C list |
+| `unknown_twice` | Still `unknown` after the one retry on a tier C list |
 
 ## Sources
 

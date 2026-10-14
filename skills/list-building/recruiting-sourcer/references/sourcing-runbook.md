@@ -1,6 +1,6 @@
 # Sourcing Runbook
 
-Operational steps from role brief to contactable shortlist: source choice, target-company batching, Apollo runs with webhooks, exclusions, ranking and contact enrichment.
+Operational steps from role brief to contactable shortlist: source choice, target-company batching, Apollo runs with webhooks, exclusions, tiering and contact enrichment.
 
 ## 1. Choosing the source
 
@@ -15,7 +15,7 @@ Operational steps from role brief to contactable shortlist: source choice, targe
 ## 2. Target-company searches
 
 1. Collect the poach list as domains. Use `companyName` only when the domain is unknown, then read the company website from results and switch to the domain.
-2. `companyDomain` takes several domains comma-separated. Batch about 10 domains per call so the 100-row page is not dominated by one large company; page with `after` per batch.
+2. `companyDomain` takes several domains comma-separated. Batch domains in small groups, counting each batch with `limit: 1`, so one large company does not fill every 100-row page; page with `after` per batch.
 3. Keep the same `title`, `notTitle` and `seniority` across batches.
 4. Count per batch and record which companies return 0 for the title family (often a naming difference: "Software Engineer, Web" at one company, "UI Engineer" at another).
 
@@ -25,9 +25,9 @@ Add company traits that describe the client's world: `keywords` (fintech, saas, 
 
 | `pagination.total` vs planned long list | Action |
 |-|-|
-| Under half | Widen: more title terms, drop `keywords`, add nearby cities or remote states |
-| Half to 3x | Pull |
-| Over 3x | Tighten: seniority, company size, keywords |
+| Below the planned long list | Widen: more title terms, drop `keywords`, add nearby cities or remote states |
+| Near the plan | Pull |
+| Far more than the recruiter will review | Tighten: seniority, company size, keywords |
 | 0 | Remove the newest filter; probe seniority or department values |
 | 503 | Fewer title terms, add a state, smaller domain batches |
 
@@ -36,7 +36,7 @@ Add company traits that describe the client's world: `keywords` (fintech, saas, 
 ```text
 1. Confirm the URL is a people search in Filters 1.0 format.
 2. Register a webhook at app.scrapercity.com/dashboard/webhooks.
-3. check_wallet; show count x $0.0039; wait for a go-ahead if over $5.
+3. check_wallet; show count x $0.0039; wait for a go-ahead.
 4. scrape_apollo {url, count, fileName}; save the runId.
 5. Tell the user the run can take hours to several days; end the session.
 6. On the webhook (runId, fileName, leadsCount), call check_run_status to confirm SUCCEEDED, then download_results.
@@ -50,35 +50,34 @@ Cost examples: 500 leads $1.95; 1,000 $3.90; 5,000 $19.50; 50,000 $195.00.
 | Step | Match on | Source of truth |
 |-|-|-|
 | Hiring company and subsidiaries | Registrable `company_domain` and known brand domains | Client |
-| Do-not-poach accounts | `company_domain` | Agency's client list and non-solicit agreements |
-| Already in the client's ATS or rejected in the last 6 months | Email, LinkedIn URL | Client export |
-| Contacted by the agency for another role in the last 90 days | Email | Agency CRM |
+| Do-not-poach accounts | `company_domain` | Agency's client list |
+| Already in the client's ATS or rejected within the client's look-back window | Email, LinkedIn URL | Client export |
+| Contacted by the agency for another role within the agency's own window | Email | Agency CRM |
 | Opted out of contact | Email, LinkedIn URL, phone | Agency suppression list |
 
 Report each count. A domain match also catches people who list a subsidiary brand as their employer only if the subsidiary domain is on the list, so ask for brand domains explicitly.
 
 ## 6. QA sample
 
-Read 20 random rows (or 2%, up to 50):
+Read a random sample of rows (the size is the recruiter's call; the example reads 20):
 
 1. Title fits the family and level.
 2. Company is plausible for the brief (not an agency when the client wants product experience).
 3. Location matches.
-4. LinkedIn URL opens to the same person (check 5).
+4. LinkedIn URL opens to the same person (check a few).
 
-Two or more misfits: fix `notTitle` or the company filters and re-pull, rather than hand-deleting.
+When misfits share a pattern, fix `notTitle` or the company filters and re-pull, rather than hand-deleting.
 
-## 7. Ranking rubric
+## 7. Tiers
 
-| Points | Evidence | Notes |
+| Fit | Evidence | Tier |
 |-|-|-|
-| 40 | Core title family | Adjacent titles (for example Full Stack for a frontend role) get 20 |
-| 20 | Seniority matches | One level off gets 10 |
-| 20 | Company on the target list | Same industry but not on the list gets 10 |
-| 10 | Person in the target metro or time zone | Neighboring metro gets 5 |
-| 10 | Company size or stage matches | |
+| `core+level+target` | Core title family, seniority matches, company on the target list | A |
+| `core+level` | Core title family, seniority matches, found market-wide | B |
+| `adjacent+level+target` | Adjacent title (for example Full Stack for a frontend role) at a target company, seniority matches | B |
+| Anything else | Adjacent title market-wide, or level off | C |
 
-A: 80 to 100. B: 60 to 79. C: under 60. The rubric is applied by the agent and checked by the recruiter; it is a manual sort, not an automated hiring decision. If the client wants an automated score to screen candidates for New York City roles, review Local Law 144 first.
+Location, company size and keywords are search filters, so every pulled row already meets them. The recruiter reads the A tier before outreach.
 
 ## 8. Contact enrichment
 
@@ -88,9 +87,23 @@ A: 80 to 100. B: 60 to 79. C: under 60. The rubric is applied by the agent and c
 | Find missing work emails | A and B | `find_emails` with first name, last name, domain | $0.05 per found |
 | Mobiles | A only | `find_mobiles`, LinkedIn URL first, else work email, one input per person | $0.25 per found |
 
-Personal emails are out of scope: Email Finder returns work addresses, and People Finder is a public-records tool that does not belong in candidate workflows.
+Personal emails are out of scope: Email Finder returns work addresses.
 
-## 9. Outputs
+## 9. GitHub as a second source for engineering roles
+
+Engineers who list a location and write code in public show up in GitHub's user search even when their title is unusual or missing from a database. GitHub documents these user-search qualifiers: `location:`, `language:` (users whose repositories are mostly in that language), `repos:`, `followers:`, `created:` and `type:user`. The REST search endpoint returns up to 100 users per page and up to 1,000 results per search; authenticated search requests are limited to 30 a minute.
+
+| Step | Rule |
+|-|-|
+| Query | `type:user location:Austin language:TypeScript repos:>5`; split by `created:` year ranges when a query passes 1,000 results |
+| Read | Profile name, company, blog and public email when present; many profiles have none |
+| Match | Company to a domain, then the Lead Database by name and `companyDomain`; misses go to Email Finder with first name, last name and domain |
+| Tier | Same tiers as the database rows; a public repo in the role's language goes in the screening notes |
+| Exclude | Same employer and do-not-poach rules; `source` = `user_upload` with `source_detail` = the GitHub query |
+
+Use it to fill a thin market-wide count or to find people at target companies whose titles miss the family. Expect most profiles to lack a company or name; budget the matching time before promising a count.
+
+## 10. Outputs
 
 | File | Contents |
 |-|-|
@@ -105,4 +118,5 @@ Personal emails are out of scope: Email Finder returns work addresses, and Peopl
 - ScraperCity platform facts (Lead Database, url parameter, search_translation): references/scrapercity-platform.md
 - ScraperCity agent patterns (webhooks, polling): references/scrapercity-agent-patterns.md
 - ScraperCity, how to use: https://scrapercity.com/how-to-use
-- NYC DCWP final rules summary for Local Law 144: https://perkinscoie.com/en/news-insights/nyc-adopts-final-rules-for-law-governing-automated-employment-decision-tools.html
+- GitHub Docs, Searching users (qualifiers): https://docs.github.com/en/search-github/searching-on-github/searching-users
+- GitHub Docs, REST API search endpoints (100 per page, 1,000 results per search, 30 requests a minute authenticated): https://docs.github.com/en/rest/search/search

@@ -1,0 +1,13 @@
+#!/usr/bin/env bash
+# Pre-commit hook: the offline checks, so a commit never carries a stale generated file,
+# an em dash, a restricted name or a secret. Turn it on once per clone:
+#
+#   git config core.hooksPath .githooks
+#
+# Skip it for one commit with git commit --no-verify (CI still runs every check).
+set -euo pipefail
+ROOT="$(git rev-parse --show-toplevel)"
+if git diff --cached --name-only | grep -q '^skills/'; then
+  exec "$ROOT/scripts/check-all.sh" --offline
+fi
+exec "$ROOT/scripts/check-all.sh" --offline --fast

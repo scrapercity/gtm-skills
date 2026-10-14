@@ -62,10 +62,10 @@ A company with HQ in New York and sales reps in Denver: `companyState: ["New Yor
 ## Title matching
 
 - Partial match means `"CEO"` also matches longer titles that contain it, such as "CEO and Co-Founder".
-- Short stems pull noise. `"VP"` matches every VP in every function. Pair a function word: `"VP Sales, VP of Sales, Vice President Sales, Vice President of Sales"`.
+- Short stems pull unrelated titles. `"VP"` matches every VP in every function. Pair a function word: `"VP Sales, VP of Sales, Vice President Sales, Vice President of Sales"`.
 - `"Owner"` matches "Product Owner". Add `notTitle: "Product Owner"` for small-business owner pulls.
 - `"Director"` matches "Art Director" and "Director of First Impressions". Use `department` or a function word.
-- `notTitle` is the cleanup tool. A standard noise list for sales leadership pulls: `"Assistant, Intern, Coordinator, Executive Assistant, Operations"`.
+- `notTitle` is the cleanup tool. A standard exclusion list for sales leadership pulls: `"Assistant, Intern, Coordinator, Executive Assistant, Operations"`.
 - Keep the title list under about 25 stems. Long lists slow the search and invite a 503.
 
 ## Keyword matching
@@ -100,7 +100,7 @@ A value that returns 0 on a broad US search is not a value the database uses. Ea
 
 Confirmed in the ScraperCity source as examples: `sales`, `engineering`.
 
-No complete list is published in the package. Probe candidate values the same way as seniority (swap `seniority=$s` for `department=$d`) before relying on them. Candidates worth probing first: `marketing`, `finance`, `human_resources`, `operations`, `information_technology`, `legal`, `product_management`, `customer_success`. Keep only the ones that return a non-zero total, and record them in the pull plan.
+No complete list is published in the package. Probe candidate values the same way as seniority (swap `seniority=$s` for `department=$d`) before relying on them. Probe these candidates first: `marketing`, `finance`, `human_resources`, `operations`, `information_technology`, `legal`, `product_management`, `customer_success`. Keep only the ones that return a non-zero total, and record them in the pull plan.
 
 When a department value cannot be confirmed, use title stems instead. `title: "Marketing"` with `notTitle: "Assistant, Intern, Coordinator"` covers the marketing department without depending on a department label.
 

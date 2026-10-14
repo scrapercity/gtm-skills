@@ -5,7 +5,7 @@ For 22 product categories: who holds the budget (slot 1, economic buyer), who ow
 ## How to read the map
 
 - `seniority` values documented in the tool: `vp`, `director`, `c_suite`. Other values (`manager`, `owner`, `founder`, `head`, `senior`) may exist; test with a `limit: 1` call before relying on them.
-- Company size shifts the slots. Use the size adjustments at the end.
+- Company size changes which titles fill each slot. Use the size adjustments at the end.
 - Add the universal `notTitle` set to every call: `assistant, intern, former, retired, advisor, board, investor`.
 
 ## Sales, marketing and revenue products
@@ -188,9 +188,23 @@ Under 200 employees there is often no CISO; slot 1 becomes CTO or VP IT.
 | 11-50 | Founder, CEO, or the one department head | Department head if separate from slot 1 | Skip |
 | 51-500 | VP of the owning department | Director or manager who runs the process | Optional |
 | 501-5,000 | VP or SVP | Director | Manager or evaluator |
-| 5,000+ | SVP or division head; outbound to C-suite rarely lands | Director in the right business unit | Evaluator |
+| 5,000+ | SVP or division head | Director in the right business unit | Evaluator |
+
+Industry can change the committee too. Ask the user which reviewers (information security, vendor risk) joined their past deals in the account's industry, and map those names from the committee table below.
 
 For companies over 5,000 employees, add the business unit or region to `title` ("VP Operations North America") or filter by `state` to find the person who owns the account's territory.
+
+## Committee roles to map, not email
+
+When the user says these roles joined their past deals of this size, map them by name from the same Lead Database pass and keep them in the committee file.
+
+| Role | Joins when | `title` |
+|-|-|-|
+| Procurement | Contract and vendor setup | Procurement, Purchasing, Sourcing, Vendor Management |
+| IT security review | Any product that touches company data or logins | Information Security, IT Security, Security Architect, GRC |
+| Finance | Spend above the department's own approval limit | Controller, Finance Director, FP&A |
+| IT owner of the systems | The product integrates with existing systems | IT Director, Enterprise Applications, Systems Manager |
+| End-user lead | Rollout and adoption | The category's slot 2 manager titles at other sites or regions |
 
 ## Ranking candidates within a slot
 
@@ -204,6 +218,6 @@ When the database returns several people for one slot at a domain:
 
 ## Sources
 
-- Gartner, The B2B buying journey: https://www.gartner.com/en/sales/insights/b2b-buying-journey
+- Gartner, B2B Buying Report: https://emt.gartnerweb.com/ngw/globalassets/en/sales-service/documents/trends/gartner-b2b-buying-report.pdf
 - MEDDICC, Who created MEDDIC: https://meddicc.com/resources/who-created-meddic
 - ScraperCity MCP tool schemas for `query_lead_database` and `scrape_website_finder`: https://www.npmjs.com/package/scrapercity

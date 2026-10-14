@@ -11,8 +11,9 @@ Which sources shape this skill, what each contributes, and which file to open fo
 | Batch target companies, run market-wide searches | `sourcing-runbook.md` sections 2 and 3 |
 | Start and track an Apollo run with a webhook | `sourcing-runbook.md` section 4 |
 | Remove the hiring company and do-not-poach accounts | `sourcing-runbook.md` section 5 |
-| Rank candidates | `sourcing-runbook.md` section 7 |
-| Write outreach rules and the compliance table | `candidate-outreach-compliance.md` |
+| Tier candidates | `sourcing-runbook.md` section 7 |
+| Add GitHub user search for engineers | `sourcing-runbook.md` section 9 |
+| Pick target companies by reason, draft the four messages, tag replies, import to the ATS | `candidate-messages-and-handoff.md` |
 | Validate emails, normalize phones | `references/list-quality-standard.md` (shared) |
 | Quote a price | `references/scrapercity-catalog.md` (shared) |
 
@@ -22,49 +23,49 @@ Which sources shape this skill, what each contributes, and which file to open fo
 
 Cathey's long-running sourcing blog treats search as information retrieval: the sourcer's job is to anticipate the many ways qualified people describe themselves, and narrow exact-phrase keywords cut out good candidates. Applied here as the title-family method: a core noun, specialty words, spelling variants, and an exclusion set for drag-ins, with level handled by the `seniority` filter where possible.
 
-### EEOC and the ADEA
+### LinkedIn InMail and salary-range data
 
-The EEOC states that job advertisements and recruitment practices may not show a preference for or discourage people based on race, color, religion, sex, national origin, age (40 or older), disability or genetic information, and gives "recent college graduates" as an ad example that can deter older applicants. It also notes that word-of-mouth recruiting can be discriminatory when it produces a workforce of mostly one group. Applied rules: filters and ranking use job-related evidence only; target-company searches are paired with market-wide searches.
+LinkedIn's Talent Blog analyzed tens of millions of recruiter InMails sent from May 2021 to April 2022: messages under 400 characters drew responses 22% above average, messages over 1,200 characters 11% below; one-by-one sends ran about 15% above bulk sends; Friday and Saturday ran 4% and 8% below average; 65% of responses arrived within 24 hours and 90% within a week. A separate LinkedIn survey reported that 91% of US respondents said a salary range in a job post affects whether they apply. Applied rules: first message under 400 characters with the pay band, sent Sunday to Thursday, follow-up after day 7. The LinkedIn note and the closing email go out on days the recruiter sets.
 
-### New York City Local Law 144
+### Greenhouse bulk prospect import
 
-Enforced from July 5, 2023, under rules adopted April 6, 2023. An automated employment decision tool (a machine learning, statistical or AI process producing a score or ranking that substantially assists or replaces discretionary hiring decisions) needs a bias audit within one year before use, a public summary, and at least 10 days' notice to candidates. Fines run from $500 to $1,500 per violation. Applied rule: the ranking rubric here is a manual sort a recruiter reviews; automated screening for NYC roles gets a legal review first.
+Greenhouse's help center documents the bulk prospect import: a template spreadsheet with first and last name required, source and credit mapped during import, pool and stage names matched to the CRM settings, and a recommended maximum of 8,000 prospects per import. Applied rule: import the shortlist with a source per search so replies and hires can be counted by search.
 
-### FTC v. Spokeo and the FCRA
+### US Bureau of Labor Statistics, Employee Tenure
 
-In 2012 the FTC settled with Spokeo for $800,000, saying it acted as a consumer reporting agency by marketing people profiles to human resources, recruiters and background screeners without FCRA procedures. Applied rule: candidate sourcing uses business contact tools; people-search and criminal record tools stay out of candidate workflows, and any background check runs through a consumer reporting agency with the candidate's authorization.
+The BLS reported a median of 4.1 years with the current employer for wage and salary workers in January 2026. Applied rule: a shortlist that waits loses people to job moves, so title and employer are re-checked before outreach; the recruiter sets the wait from the share who had moved at the last re-check.
 
-### GDPR Article 14
+### GitHub Docs, user search
 
-When data comes from a third party, the controller gives the person its identity, purposes, legal basis, legitimate interests, data categories, source, retention, rights, and the right to complain, at the latest within one month or at first contact. Applied rule: the first email to an EU or UK candidate carries a short source and privacy line.
-
-### CAN-SPAM and CASL
-
-The FTC guide ties CAN-SPAM coverage to a message's primary purpose. PeopleScout's compliance note says these laws also apply to talent acquisition teams that email candidates, without settling which candidate emails are commercial. CRTC's CASL FAQ covers implied consent for conspicuously published addresses. Applied rule: CAN-SPAM mechanics on every candidate email; CASL treatment for Canadian candidates unless counsel decides otherwise.
-
-### TCPA and 47 CFR 64.1200
-
-Autodialed, prerecorded or artificial-voice calls and texts to wireless numbers need consent regardless of content; AI voices count as artificial (FCC, February 2024); consent can be revoked by any reasonable means (rules effective April 11, 2025). Applied rule: recruiters dial by hand; no mass texting without consent.
+GitHub documents user-search qualifiers (`location:`, `language:`, `repos:`, `followers:`, `created:`, `type:user`), and its REST search returns up to 100 users per page and 1,000 results per search, with authenticated search limited to 30 requests a minute. Applied rule: a free second source for engineering roles when the market-wide count is thin.
 
 ### ScraperCity catalog and platform facts
 
 The catalog defines `scrape_apollo` (Apollo.io people-search URLs in Filters 1.0 format, `count` 500 to 50,000, $0.0039 per lead), `find_emails`, `find_mobiles` and `validate_emails` with their prices. The platform facts file and the MCP tool description define the Lead Database filters used here (`title`, `notTitle`, `seniority`, `department`, `companyName`, `companyDomain`, person and company location, size and keyword filters) and the `url` parameter with `search_translation`. Apollo runs take hours to several days, so they run behind a webhook.
 
+## Inputs this skill asks for instead of assuming
+
+| Setting | Where it comes from |
+|-|-|
+| Shortlist size and how many candidates get mobiles | How many the recruiter will call |
+| QA sample size | The recruiter's choice; the example reads 20 rows |
+| ATS look-back window for rejected candidates | The client |
+| When a title term moves to `notTitle`, and how the next pull splits by target reason | `wrong_fit` share by title term and reply rate by reason after the first wave |
+| How long a shortlist may wait before a re-check | Share of candidates who had moved at the last re-check |
+| LinkedIn note and closing email days | The recruiter |
+
 ## What this skill does not do
 
 - Screen candidates for skills, years of experience, visa status or compensation; the data does not hold those reliably and a recruiter screens them.
 - Find personal emails or home addresses.
-- Make or support hiring decisions with automated scores.
 
 ## Sources
 
 - Glen Cathey, Boolean Black Belt: https://booleanblackbelt.com/
-- EEOC, Prohibited employment policies and practices: https://www.eeoc.gov/prohibited-employment-policiespractices
-- NYC Local Law 144 final rules (summary): https://perkinscoie.com/en/news-insights/nyc-adopts-final-rules-for-law-governing-automated-employment-decision-tools.html
-- FTC Spokeo settlement (summary): https://www.hunton.com/privacy-and-cybersecurity-law-blog/ftc-fines-data-broker-800000-alleged-fcra-violations
-- GDPR Article 14: https://gdpr-info.eu/art-14-gdpr/
-- FTC, CAN-SPAM Act compliance guide: https://www.ftc.gov/business-guidance/resources/can-spam-act-compliance-guide-business
-- PeopleScout, Compliance corner: https://www.peoplescout.com/insights/compliance-corner-can-spam-casl/
-- CRTC, CASL FAQ: https://crtc.gc.ca/eng/com500/faq500.htm
-- 47 U.S.C. 227: https://www.law.cornell.edu/uscode/text/47/227
+- LinkedIn Talent Blog, InMail response data: https://business.linkedin.com/talent-solutions/blog/trends-and-research/2021/these-inmails-get-best-response-rates
+- LinkedIn, salary ranges in job posts: https://www.linkedin.com/business/talent/blog/talent-acquisition/why-you-should-include-salary-ranges-in-job-posts
+- Greenhouse Support, Bulk import prospects: https://support.greenhouse.io/hc/en-us/articles/203871039-Bulk-import-prospects-from-spreadsheet
+- US Bureau of Labor Statistics, Employee Tenure (January 2026, checked 2026-10-13): https://www.bls.gov/news.release/tenure.nr0.htm
+- GitHub Docs, Searching users: https://docs.github.com/en/search-github/searching-on-github/searching-users
+- GitHub Docs, REST API search endpoints: https://docs.github.com/en/rest/search/search
 - ScraperCity tool catalog: references/scrapercity-catalog.md

@@ -16,6 +16,7 @@ REQUIRED = [
     "Tech Stack Search",
     "Pull Funnel",
     "Validation Results",
+    "Named Contacts",
     "Cost Estimate",
     "Sample Rows",
     "Next Steps",
@@ -31,6 +32,17 @@ PARAMS = {
     "state", "filename", "visitsmin", "visitsmax", "salesmin", "salesmax", "employeesmin", "employeesmax",
 }
 BUCKETS = ["valid", "catch_all", "unknown", "invalid", "disposable"]
+# Deliverables carry no legal content. Same terms as scripts/validate-skills.py
+# --check-legal; the bracketed letters keep this file from matching its own terms.
+LEGAL = re.compile(
+    r"\b(?:CAN[- ]?SP[A]M|T[C]PA|T[S]R|C[A]SL|G[D]PR|C[C]PA|C[P]RA|P[E]CR|F[C]RA|F[T]C|F[C]C|C[R]TC|I[C]O|D[N]C)\b"
+    r"|\b(?:47|16)\s*C\.?F\.?R\b|U\.S\.C|Do[- ]Not[- ]Call|Att[o]rneys? Gen[e]ral|leg[a]l advi[c]e|\bnot leg[a]l\b"
+    r"|\bcompliance\b|\bconsent\b|lawful bas[i]s"
+    r"|\b(?:consult|ask|check with|speak (?:to|with)|talk (?:to|with))\s+(?:a|an|your)\s+(?:\w+\s+)?(?:lawy[e]r|attorn[e]y|couns[e]l)",
+    re.I,
+)
+# Deliverables name products, never tool ids or internal paths (SKILL.md Output Format).
+BANNED = re.compile(r"references/|SKILL\.md|query_lead_database|query_local_business_database|validate_emails|find_emails|find_mobiles|scrape_[a-z_]+|check_wallet|check_run_status|download_results", re.I)
 
 
 def num(text):
@@ -78,6 +90,13 @@ def main(argv):
     angle = re.search(r"<[A-Za-z][^>\n]{0,60}>", text)
     if angle:
         return fail("angle-bracket placeholder left in: " + angle.group(0))
+    for i, line in enumerate(text.splitlines(), 1):
+        m = LEGAL.search(line)
+        if m:
+            return fail(f"line {i}: legal content '{m.group(0)}'; deliverables carry none")
+    banned = BANNED.search(text)
+    if banned:
+        return fail("deliverable carries an internal path or a tool id: " + banned.group(0))
     if len(text) < MIN_CHARS:
         return fail(f"report too short ({len(text)} chars, need {MIN_CHARS})")
     total_rows = sum(len(table_rows(section(text, h))) for h in REQUIRED)
@@ -150,6 +169,29 @@ def main(argv):
     total = next((v for k, v in vals.items() if k.startswith("total")), None)
     if total is None or abs(sum(vals[b] for b in BUCKETS) - total) > 0.5:
         return fail("validation buckets do not sum to Total validated")
+
+    # Named contacts: one row per tier, a method, and named emails never above the store count.
+    tier_ready = {r[0].strip().lower(): num(r[4]) or 0 for r in tiers}
+    nc = table_rows(section(text, "Named Contacts"))
+    if not nc:
+        return fail("Named Contacts needs a row per tier")
+    for r in nc:
+        if len(r) < 4 or not r[1]:
+            return fail("Named Contacts rows need Tier, Method, Stores, With a named valid email")
+        if r[0].strip().lower() not in tier_ready:
+            return fail(f"Named Contacts tier '{r[0]}' is not in Tier Bands")
+        stores, named = num(r[2]), num(r[3])
+        if stores is None or named is None or named > stores:
+            return fail(f"Named Contacts '{r[0]}' needs numeric counts with named emails no larger than stores")
+
+    # QA sample line: at least three checks written as N of M.
+    qa = re.search(r"QA sample[^\n]*", text, re.I)
+    checks = re.findall(r"(\d+) of (\d+)", qa.group(0)) if qa else []
+    if len(checks) < 3:
+        return fail("add a QA sample line with at least three 'N of M' checks")
+    for n, m in checks:
+        if int(m) == 0 or int(n) > int(m):
+            return fail(f"QA sample check {n} of {m} is not a valid count")
 
     # Sample rows: valid email, known tier.
     sample = table_rows(section(text, "Sample Rows"))

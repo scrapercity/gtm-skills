@@ -15,7 +15,7 @@ How to shape the send-ready CSV for Instantly, Smartlead, Lemlist and EmailBison
 | Verification at upload | Optional, billed in Instantly credits | Not covered | Enrichment at import can be billed | Not covered |
 | Blank cells | Not covered | The value does not appear in the email | Not covered | Not covered |
 
-Rows marked "not covered" or "not stated" mean the cited page does not say; test with a 5-row file before a full upload.
+Rows marked "not covered" or "not stated" mean the cited page does not say; test with a small file before a full upload.
 
 ## 2. Header map
 
@@ -48,7 +48,7 @@ Columns that stay in the master file only: `email_status`, `email_validated_at`,
 | Step | Rule |
 |-|-|
 | Encoding | Save as UTF-8 so accented names survive |
-| Header row | One row, no blank columns, no merged cells |
+| Header row | One row, without blank columns or merged cells |
 | Booleans | Remove true and false columns from the import file (Instantly asks for this) |
 | Whitespace | Trim every cell |
 | Phone numbers and ZIPs | Keep as text; never open the CSV by double-clicking in a spreadsheet app |
@@ -76,10 +76,10 @@ with open("master.csv", newline="", encoding="utf-8") as f, open("wave1.csv", "w
 |-|-|-|
 | Duplicate check across campaigns | On | Keeps one person in one campaign |
 | Skip leads on block, unsubscribe and bounce lists (Smartlead options) | Skip | Suppression must hold inside the platform too |
-| Verification at upload | Off when every row was validated with `validate_emails` within 30 days | Avoids paying twice; turn it on for rows older than 30 days |
-| Daily limit per mailbox | 30 | House standard, `references/deliverability-primer.md` |
-| Bounce auto-pause | On, at the lowest threshold the platform allows | Instantly's default pauses at 5% after 200 sends; the house target is under 2% |
-| Catch-all file | Separate campaign, about 10% of total daily sends, oldest warmed mailboxes | Catch-all addresses accept at validation and can bounce on send |
+| Verification at upload | Off when every row was validated with `validate_emails` within four weeks | Avoids paying twice; turn it on for older rows (Hunter's 2025 test: over 2% of a list invalid after four weeks) |
+| Daily limit per mailbox | 30 | Instantly recommends 30 campaign emails per account per day; Berman keeps inboxes under 50 |
+| Bounce auto-pause | On, threshold set to 2% | Instantly's default pauses at 5% once a campaign has sent 200 and the threshold is adjustable; Berman keeps bounces under 2% |
+| Catch-all file | Separate campaign at the user's daily volume | Catch-all addresses accept at validation and can bounce on send |
 | Send window | Recipient's business hours | Time zone from `person_state` or `company_state` |
 
 ## 5. Blocklist import
@@ -91,14 +91,14 @@ Before the leads: import the invalid and disposable addresses from validation, p
 | # | Check | Pass when |
 |-|-|-|
 | 1 | Authentication | SPF, DKIM and DMARC pass on a test message from each sending domain |
-| 2 | Warmup | Each mailbox has 14+ days of warmup before its first cold send |
-| 3 | Daily limit | 30 per mailbox set in the platform |
+| 2 | Warmup | Each mailbox has at least 2 weeks of warmup before its first cold send (Instantly; Berman says 2 to 4 weeks) |
+| 3 | Daily limit | Set in the platform, under 50 per mailbox |
 | 4 | Bounce auto-pause | On |
 | 5 | Blocklist | Imported before the leads |
 | 6 | Duplicate check | On at upload |
-| 7 | Copy compliance | Opt-out line and physical address in every step |
-| 8 | Validation age | Every row validated within 30 days of its send date, or a re-validation date set |
-| 9 | Catch-all | Separate capped campaign |
+| 7 | Unsubscribe | Unsubscribe in every step; removals added to the blocklist the same day (Google and Yahoo bulk-sender rules: one-click unsubscribe, processed within 2 days) |
+| 8 | Validation age | Every row validated within four weeks of its send date, or a re-validation date set |
+| 9 | Catch-all | Separate campaign at the user's daily volume |
 | 10 | Waves | Wave 1 holds only `company_contact_order = 1` |
 | 11 | Variables | Every variable in the copy is filled on every row or has a fallback |
 | 12 | Test send | One test lead per variant renders without empty variables |
@@ -111,4 +111,8 @@ Before the leads: import the invalid and disposable addresses from validation, p
 - Smartlead, How to map CSV columns in Smartlead campaigns: https://helpcenter.smartlead.ai/en/articles/409-how-to-map-csv-columns-in-smartlead-campaigns
 - Lemlist, How to import leads from a CSV file: https://help.lemlist.com/en/articles/4515109-how-to-import-leads-from-a-csv-file
 - EmailBison, Custom variables: https://docs.emailbison.com/leads/custom-variables.md
-- FTC, CAN-SPAM Act compliance guide: https://www.ftc.gov/business-guidance/resources/can-spam-act-compliance-guide-business
+- Instantly, Account and campaign limits: https://help.instantly.ai/en/articles/6248612-account-and-campaign-limits
+- Google, Email sender guidelines: https://support.google.com/a/answer/81126
+- Yahoo, Sender best practices: https://senders.yahooinc.com/best-practices/
+- Hunter, Email verification guide, email data decay (4 Nov 2025): https://hunter.io/email-verification-guide/email-data-decay
+- Alex Berman, Cold email templates (bounces under 2%): https://alexberman.com/cold-email-templates

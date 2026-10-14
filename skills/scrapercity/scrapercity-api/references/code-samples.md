@@ -100,7 +100,7 @@ import urllib.request
 BASE = os.environ.get("SCRAPERCITY_BASE", "https://app.scrapercity.com")
 LONG_QUERY = 6000      # the npm client switches database reads to POST past this many characters
 RATE_LIMIT_WAIT = 30   # seconds to wait after a 429
-MAX_TRIES = 5
+MAX_TRIES = 5          # set from how long the job can wait between failures
 LEADS = "/api/v1/database/leads"
 LOCAL = "/api/v1/database/local-businesses"
 
@@ -226,8 +226,9 @@ def start(slug, body, match=None):
     return _send("POST", path, body)["runId"]
 
 
-def wait_for(run_id, every=30, give_up=1800):
-    """Poll a short run. Never use this for scrape_apollo: register a webhook instead."""
+def wait_for(run_id, every=15, give_up=1800):
+    """Poll a short run (the npm client polls every 15 s; the README gives 1-30 minutes for every
+    scraper but Apollo). Never use this for scrape_apollo: register a webhook instead."""
     deadline = time.time() + give_up
     while time.time() < deadline:
         s = status(run_id)
@@ -311,8 +312,8 @@ rows = list(sc.db_all(sc.LEADS, dict(FILTERS, excludeDelivered=True), max_rows=D
 emails = sorted({r["email"].lower() for r in rows if r.get("email")})
 cost = len(emails) * VALIDATE_PRICE
 print(f"new leads: {len(rows)}, unique emails: {len(emails)}, validation estimate: ${cost:.2f}")
-if cost > balance * 0.5:
-    sys.exit("validation would use over half the wallet; stop and ask")
+if cost > balance:
+    sys.exit("validation costs more than the wallet holds; stop and top up")
 
 if rows:
     with open("leads-new.csv", "w", newline="", encoding="utf-8") as fh:
@@ -323,7 +324,7 @@ if rows:
 if emails:
     run_id = sc.start("email-validator", {"emails": emails})
     print(f"validator run: {run_id}")
-    sc.wait_for(run_id, every=30, give_up=1800)
+    sc.wait_for(run_id, every=15, give_up=600)   # validation delivers in 1-10 min (AGENT_DOCS)
     size = sc.download(run_id, f"validated-{run_id[:8]}.csv")
     print(f"downloaded {size} bytes")
 ```
@@ -436,7 +437,7 @@ const BASE = process.env.SCRAPERCITY_BASE || 'https://app.scrapercity.com'
 const LONG_QUERY = 6000
 export const LEADS = '/api/v1/database/leads'
 export const LOCAL = '/api/v1/database/local-businesses'
-export const settings = { rateLimitWaitMs: 30000, maxTries: 5 }
+export const settings = { rateLimitWaitMs: 30000, maxTries: 5 } // maxTries: set from how long the job can wait
 const sleep = (ms) => new Promise((resolve) => setTimeout(resolve, ms))
 
 export class ScraperCityError extends Error {
@@ -528,7 +529,7 @@ export async function start (slug, body, match) {
 }
 
 // Poll a short run. Never use this for scrape_apollo: register a webhook instead.
-export async function waitFor (runId, { everyMs = 30000, giveUpMs = 1800000 } = {}) {
+export async function waitFor (runId, { everyMs = 15000, giveUpMs = 1800000 } = {}) {
   const deadline = Date.now() + giveUpMs
   while (Date.now() < deadline) {
     const s = await status(runId)
@@ -601,7 +602,7 @@ if (ceiling > Number(w.wallet.total_balance_dollars)) throw new Error('not enoug
 
 const runId = await sc.start('maps', body)
 console.log(`run ${runId}`)
-const done = await sc.waitFor(runId, { everyMs: 120000, giveUpMs: 7200000 })
+const done = await sc.waitFor(runId, { everyMs: 15000, giveUpMs: 1800000 }) // Maps delivers in 5-30 min (AGENT_DOCS)
 console.log(`handled ${done.handled} of ${done.requested}`)
 const bytes = await sc.download(runId, `maps-roofing-denver-co-${runId.slice(0, 8)}.csv`)
 console.log(`saved ${bytes} bytes`)
@@ -662,7 +663,7 @@ http.createServer((req, res) => {
 1. `python3 -m py_compile scrapercity_client.py daily_feed.py webhook_receiver.py sweep.py` and `node --check scrapercity-client.mjs maps-job.mjs webhook-receiver.mjs`.
 2. Run `wallet()` alone. A 401 means the key is wrong or has stray quotes.
 3. Run a database count with `limit: 1`. No wallet charge.
-4. Start the cheapest real run you can: `validate_emails` on 3 addresses costs 3 x $0.0072 = $0.02.
+4. Start the cheapest paid run you can: `validate_emails` on 3 addresses costs 3 x $0.0072 = $0.02.
 5. Post a fake notification to the receiver with a run id you already have: `curl -X POST localhost:8080/hooks/scrapercity-change-me -H "Content-Type: application/json" -d '{"runId":"RUN_ID","fileName":"test","leadsCount":3}'`. It should download once and ignore a second post.
 
 ## Sources

@@ -11,7 +11,7 @@ Runbook for every way a `query_lead_database` call goes wrong. Find the symptom,
 | 402 | Wallet balance too low | Run `check_wallet`, report the shortfall, wait for the user |
 | 403 | Account cancelled or a charge is processing | Stop and tell the user. Also run `check_wallet`: if `plan.name` is Starter, the database needs Growth ($149/mo) |
 | 409 `filters_not_applied_yet` | The company filters named in the response cannot be used yet | Nothing was returned or counted. Retry later, or drop the listed filters and filter the rows yourself |
-| 429 | Rate limited (scrapercity.com/api-docs: 100 requests a minute per key) | Back off 60 seconds, retry once. Keep paging loops under 100 calls a minute |
+| 429 | Rate limited (scrapercity.com/api-docs: 100 requests a minute per key) | Wait at least 30 seconds (AGENT_DOCS: a repeat within 30 s is a 429), retry once. Keep paging loops under 100 calls a minute |
 | 503 | The search ran too long | Narrow: add a location or a size band, cut the title list, cut keywords. Retry |
 | Query refused, no JSON | Query string over about 16KB | Send the same parameters as `POST /api/v1/database/leads` with a JSON body |
 
@@ -28,7 +28,7 @@ Runbook for every way a `query_lead_database` call goes wrong. Find the symptom,
 
 ## Sample looks wrong
 
-Pull 20 rows (`limit: 20`) and tally:
+Pull the sample (for example `limit: 20`) and tally:
 
 | Off-target pattern | Cause | Fix |
 |---|---|---|
@@ -39,7 +39,7 @@ Pull 20 rows (`limit: 20`) and tally:
 | Companies outside the size band | Employee count differs from what the user saw elsewhere | Widen or narrow the band by one step and compare |
 | Missing emails | `hasEmail` not set | Set `hasEmail: true` |
 
-Acceptance: 18 of 20 or better on title, size and geography. Below that, fix and re-run the count.
+Acceptance: the pass mark agreed with the user before the sample, on title, size and geography. Below it, fix and re-run the count.
 
 ## Paging problems
 
@@ -99,7 +99,7 @@ Never poll an Apollo run more than once an hour. Register a webhook at app.scrap
 1. The count came from a call with the final filters.
 2. The person vs company location choice is written next to each geography filter.
 3. Any `search_translation` gaps are listed.
-4. The 20-row QA result is stated.
+4. The sample QA result and its pass mark are stated.
 
 ## Sources
 

@@ -20,7 +20,7 @@ This file lists the sources behind the skill, what each one contributes, and whi
 
 ### ScraperCity Lead Database API (primary)
 
-The published `scrapercity` npm package (version 1.0.17) is the behavior source. Three files matter:
+The published `scrapercity` npm package (version 1.0.17) is the behavior source, in these files:
 
 - `bin/mcp.mjs` defines `query_lead_database` and the description of every parameter: title is partial match with commas for several, keywords are company tags with any match, `companyCountry`/`companyState`/`companyCity` are company HQ and not the person, `excludeDelivered` needs `page` kept at 1 or the `after` cursor, `limit` maxes at 100 and defaults to 50.
 - `bin/cli.mjs` defines `db-leads`, its flag names, which flags take comma lists, and that it prints the total, the next cursor and the first 3 rows.
@@ -39,13 +39,9 @@ scrapercity.com/api-docs adds two operating limits used in the daily pull design
 
 People-search URLs that users paste often come from Apollo.io. Apollo's People API docs list the seniority vocabulary (`owner`, `founder`, `c_suite`, `partner`, `vp`, `head`, `director`, `manager`, `senior`, `entry`, `intern`) and say a person needs to match one listed seniority. They also say Apollo's own title search includes similar titles unless told otherwise. That explains why a URL count in Apollo and the database count can differ, and it is why the skill reads `search_translation` before trusting a number.
 
-### FTC CAN-SPAM compliance guide
+### US Bureau of Labor Statistics, Employee Tenure (January 2026)
 
-CAN-SPAM has no B2B exemption. Each message needs accurate header information, a non-deceptive subject, a valid postal address and an opt-out that is honored within 10 business days. Each violating email can draw a penalty of up to $53,088. The skill hands every pull to validation and to `cold-email-list`, which applies these rules.
-
-### ICO PECR guidance on electronic mail marketing
-
-In the UK, corporate subscribers (companies, LLPs, government bodies) can receive marketing email without prior consent, but sole traders and some partnerships count as individuals and need consent. The sender has to identify itself and give a valid address for opt-outs. For UK pulls, the skill adds `minEmployees` (for example 10) to cut sole traders, and notes the rule in the plan.
+Median tenure with the current employer was 4.1 years. Spread evenly, that is roughly 1.4% of a contact list changing employer each month (a planning estimate; replace it with your measured rate). It is why the skill dates every pull and re-checks named people by `socialUrl` before an important send; recurring champion checks are the job-change recipe in the `scrapercity-integrations` skill.
 
 ### Alex Berman (ScraperCity founder)
 
@@ -54,9 +50,9 @@ His companies send millions of cold emails a month and have booked 500k+ meeting
 ## How the sources combine
 
 1. ScraperCity docs decide what the API does.
-2. The catalog decides what anything costs.
+2. Costs come from the catalog.
 3. Apollo docs explain URL translation gaps.
-4. CAN-SPAM and PECR decide what happens before anyone is emailed.
+4. Tenure data sets how long a pulled record stays usable before a re-check.
 5. Segment-per-offer decides how big each pull should be.
 
 ## Sources
@@ -67,5 +63,4 @@ His companies send millions of cold emails a month and have booked 500k+ meeting
 - https://scrapercity.com/llm-info
 - https://scrapercity.com/api-docs
 - https://docs.apollo.io/reference/people-api-search
-- https://www.ftc.gov/business-guidance/resources/can-spam-act-compliance-guide-business
-- https://ico.org.uk/for-organisations/direct-marketing-and-privacy-and-electronic-communications/guide-to-pecr/electronic-and-telephone-marketing/electronic-mail-marketing/
+- https://www.bls.gov/news.release/tenure.nr0.htm

@@ -23,7 +23,37 @@ MIN_TABLE_ROWS = 35
 STATUSES = ["valid", "valid_catch_all", "unknown", "invalid", "disposable"]
 FILES = ["send_ready", "catch_all", "hold_unknown", "removed"]
 PRICE = 0.0072
+# Deliverables carry no legal content (owner rule, 2026-10-13): the same terms that
+# scripts/validate-skills.py --check-legal rejects. Bracketed letters keep this file
+# from matching its own patterns; acronyms are case-sensitive like the validator's.
+LEGAL = re.compile("|".join([
+    r"\bCAN[- ]?SP[A]M\b", r"\bT[C]PA\b", r"Telephone Consumer Prot[e]ction",
+    r"(?-i:\bC[A]SL\b)", r"(?-i:Anti-Spam Legisl[a]tion)",
+    r"\bG[D]PR\b", r"General Data Protection Reg[u]lation", r"\beP[r]ivacy\b",
+    r"lawful b[a]sis", r"legitimate interests? assess[m]ent",
+    r"(?-i:\bC[C]PA\b|\bC[P]RA\b|California Consumer Priv[a]cy)",
+    r"(?-i:\bP[E]CR\b|Privacy and Electronic Comm[u]nications)",
+    r"(?-i:\bF[C]RA\b|Fair Credit Rep[o]rting)", r"(?-i:\bT[S]R\b|Telemarketing Sales R[u]le)",
+    r"\b(?:47|16)\s*C[.]?F[.]?R\b",
+    r"(?-i:\b(?:F[T]C|F[C]C|C[R]TC|I[C]O)\b|Federal (?:Trade|Communications) Comm[i]ssion"
+    r"|Information Comm[i]ssioner|Att[o]rneys? Gen[e]ral)",
+    r"\bleg[a]l adv[i]ce\b", r"\bnot leg[a]l\b",
+    r"\b(?:consult|ask|check with|speak (?:to|with)|talk (?:to|with))\s+(?:with\s+)?(?:a|an|your)\s+"
+    r"(?:\w+\s+)?(?:l[a]wyer|att[o]rney|couns[e]l|solic[i]tor|leg[a]l (?:team|advis[eo]r))",
+    r"Do[- ]Not[- ]Call Reg[i]stry|National Do[- ]Not[- ]Call|donotc[a]ll\.gov", r"\bcompliance g[a]tes?\b",
+]), re.I)
 
+
+
+# The reader gets product names (Lead Database, Email Finder, Mobile Finder, Email
+# Validator, Website Finder), never agent tool ids, skill names, repo paths or run plumbing.
+INTERNAL = re.compile(
+    r"\b(?:check_wallet|list_runs|check_run_status|download_results|cancel_run|query_lead_database"
+    r"|query_local_business_database|find_emails|find_mobiles|find_people|validate_emails|scrape_[a-z_]+)\b"
+    r"|\b(?:crm-enricher|email-list-cleaner|mobile-appender|cold-email-list|icp-list-builder"
+    r"|decision-maker-finder|scrapercity-lead-database|scrapercity-integrations|skip-tracer|cold-calling)\b"
+    r"|\b(?:references|templates|examples)/|SKILL\.md|check-output\.py|\bRun ID:|\"tool\"\s*:",
+)
 
 def num(text):
     m = re.search(r"-?\d[\d,]*\.?\d*", text or "")
@@ -75,6 +105,13 @@ def main(argv):
     angle = re.search(r"<[A-Za-z][^>@\n]{0,60}>", text)
     if angle:
         return fail("angle-bracket placeholder left in: " + angle.group(0))
+    legal = LEGAL.search(text)
+    if legal:
+        return fail(f"deliverable carries legal content ('{legal.group(0)}'); remove it (owner rule)")
+    for i, line in enumerate(text.splitlines(), 1):
+        m = INTERNAL.search(line)
+        if m:
+            return fail(f"line {i}: internal id or path '{m.group(0)}'; use product names and plain steps")
     if len(text) < MIN_CHARS:
         return fail(f"report too short ({len(text)} chars, need {MIN_CHARS})")
     all_rows = sum(len(table_rows(section(text, h))) for h in REQUIRED)
@@ -131,18 +168,18 @@ def main(argv):
     if send_ready > found["valid"] + 0.5:
         return fail("send_ready.csv has more rows than valid results; catch-all or unknown rows leaked in")
 
-    # Cost: validate_emails units equal the validated total and the dollar figure equals units x $0.0072.
+    # Cost: the Email Validator units equal the validated total and the dollar figure equals units x $0.0072.
     cost_rows = table_rows(section(text, "Cost Estimate"))
-    vrow = next((r for r in cost_rows if "validate_emails" in r[0].lower()), None)
+    vrow = next((r for r in cost_rows if r[0].lower().startswith("email validator")), None)
     if not vrow or len(vrow) < 4:
-        return fail("Cost Estimate needs a validate_emails row")
+        return fail("Cost Estimate needs an Email Validator row")
     units, dollars = num(vrow[1]), money(vrow[3])
     if units is None or dollars is None:
-        return fail("validate_emails cost row needs units and a $ cost")
+        return fail("Email Validator cost row needs units and a $ cost")
     if abs(units - total) > 0.5:
-        return fail(f"validate_emails units {units:.0f} != Total validated {total:.0f}")
+        return fail(f"Email Validator units {units:.0f} != Total validated {total:.0f}")
     if abs(units * PRICE - dollars) > 0.01:
-        return fail(f"validate_emails cost ${dollars:.2f} != {units:.0f} x $0.0072 = ${units * PRICE:.2f}")
+        return fail(f"Email Validator cost ${dollars:.2f} != {units:.0f} x $0.0072 = ${units * PRICE:.2f}")
     if not re.search(r"total[^\n]*\$\d", section(text, "Cost Estimate"), re.I):
         return fail("Cost Estimate needs a total with a $ figure")
 

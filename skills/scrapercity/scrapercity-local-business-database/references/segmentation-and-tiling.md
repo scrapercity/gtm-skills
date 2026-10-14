@@ -13,42 +13,41 @@ BrightLocal's Local Consumer Review Survey 2026 (1,002 US adults) is the basis. 
 | 4.0 stars | 68% require 4+ stars | `minRating: 4.0` or `maxRating: 3.9` |
 | 4.5 stars | 31% require 4.5+ stars | `minRating: 4.5` |
 | 20 reviews | 47% will not use a business with fewer than 20 reviews | `maxReviews: 19` or `minReviews: 20` |
-| 3 months | 74% care only about reviews from the last three months | The database has no review date filter. Mention recency in copy, do not filter on it |
+| 3 months | 74% look for reviews written in the last three months | The database has no review date filter, so this line cannot be filtered |
 
-### Standard four-segment cut
+### Standard segment cut
 
-| Segment | Filters | What it says about the business | Opening angle |
+| Segment | Filters | Where it sits | Example opening angle |
 |---|---|---|---|
-| A. Leaders | `minRating: 4.5, minReviews: 20` | Busy, trusted, likely at capacity | Capacity, staffing, premium pricing, second location |
-| B. Solid | `minRating: 4.0, maxRating: 4.4, minReviews: 20` | Good, but below the 4.5 line that 31% use | Small lift in rating moves them into the top filter |
-| C. Thin | `minRating: 4.0, minReviews: 5, maxReviews: 19` | Rated well but under 20 reviews, which 47% of consumers avoid | Review generation, visibility |
-| D. At risk | `maxRating: 3.9, minReviews: 5` | Below the 4-star line 68% require | Reputation repair, service quality, response to reviews |
-
-Businesses with fewer than 5 reviews and no rating are a fifth group (E): often new or inactive. Pull them with `maxReviews: 4` and treat as a separate test.
+| A. Leaders | `minRating: 4.5, minReviews: 20` | Above the 4.5 line 31% use, past the 20-review line | Capacity, staffing, premium pricing, second location |
+| B. Solid | `minRating: 4.0, maxRating: 4.4, minReviews: 20` | Between the 4.0 and 4.5 lines | Moving into the 4.5 group |
+| C. Thin | `minRating: 4.0, maxReviews: 19` | Rated well but under the 20-review line 47% of consumers use | Review generation, visibility |
+| D. At risk | `maxRating: 3.9, minReviews: 1` | Below the 4-star line 68% apply | Reputation repair, response to reviews |
+| E. No reviews | `maxReviews: 0` | No rating yet | A separate test |
 
 ### Running the cut
 
-For each segment, send the same `keyword` and `location` with the segment filters and `limit: 1`, record `pagination.total`. Then pull each segment with its own cursor. Google ratings carry one decimal, so A (4.5 and up) and B (4.0 to 4.4) do not overlap. B and C split at 20 reviews, D takes everything under 4.0 with 5+ reviews, and E takes 0 to 4 reviews, so the five groups cover the market once. Still dedupe on business id or `title` plus `address` before the send.
+For each segment, send the same `keyword` and `location` with the segment filters and `limit: 1`, record `pagination.total`. Then pull each segment with its own cursor. Google ratings carry one decimal, so A (4.5 and up) and B (4.0 to 4.4) do not overlap. B and C split at 20 reviews, D takes everything under 4.0 with at least one review, and E takes businesses with none, so the five groups cover the market once. Still dedupe on business id or `title` plus `address` before the send.
 
 ### Segment design for other offers
 
 | Offer | Segments |
 |---|---|
 | Review management software | D (at risk), C (thin), then B |
-| Booking or scheduling software | A (leaders, at capacity), then B |
+| Booking or scheduling software | A (leaders), then B |
 | Web design | Any rating, `hasWebsite` false rows from a pull without the flag, split by `reviews_count` 0-19 vs 20+ |
 | Local SEO | C (thin) and B (solid), with `hasWebsite: true` |
-| Staffing or recruiting | A (leaders), high `reviews_count` signals volume |
-| Financing or equipment | A and B, `minReviews: 50` as a proxy for years in business |
+| Staffing or recruiting | A (leaders) |
+| Financing or equipment | A and B |
 
 ### Message fit, one line each
 
 | Segment | Example first line (adapt to the offer) |
 |---|---|
-| A | "Saw 340 reviews at 4.8 for [business], which usually means the calendar is full." |
-| B | "You're at 4.3 on Google. A tenth of a star more puts you inside the 4.5 filter a third of local searchers use." |
-| C | "4.7 stars on 11 reviews. Nearly half of local customers skip a business under 20." |
-| D | "Noticed [business] is at 3.6 on Google, and two-thirds of local customers filter for 4 stars." |
+| A | "Saw 340 reviews at 4.8 for [business]." |
+| B | "You're at 4.3 on Google. 31% of consumers only use businesses at 4.5 stars or more." |
+| C | "4.7 stars on 11 reviews. 47% of consumers won't use a business with fewer than 20." |
+| D | "Noticed [business] is at 3.6 on Google, and 68% of consumers only use businesses with 4 stars or more." |
 
 The bracketed name is filled per row from `title`. The stats in these lines are from BrightLocal 2026; cite them as such in any public copy.
 
@@ -56,7 +55,7 @@ The bracketed name is filled per row from `title`. The stats in these lines are 
 
 ### Why tile
 
-A search over a dense category in a big metro can run long and return 503. Splitting the metro into boxes gives fast calls, clean progress tracking, and a natural unit for daily pulls.
+A search over a dense category in a big metro can run long and return 503. Splitting the metro into boxes gives fast calls, per-tile progress tracking, and a natural unit for daily pulls.
 
 ### Box format
 
@@ -66,16 +65,18 @@ A search over a dense category in a big metro can run long and return 503. Split
 
 USGS: one degree of latitude is about 69 miles. One degree of longitude is about 54.6 miles at 38 degrees north and shrinks toward the poles (roughly 69 x cos(latitude)).
 
-| Tile size (degrees) | North-south | East-west at 30 N | East-west at 40 N | Use for |
-|---|---|---|---|---|
-| 0.5 | 34.5 mi | 29.9 mi | 26.4 mi | Sparse categories, whole metros |
-| 0.25 | 17.3 mi | 14.9 mi | 13.2 mi | Default for dense categories |
-| 0.1 | 6.9 mi | 6.0 mi | 5.3 mi | Restaurants and salons in a downtown core |
+| Tile step (degrees) | North-south | East-west at 30 N | East-west at 40 N |
+|---|---|---|---|
+| 0.5 | 34.5 mi | 29.9 mi | 26.4 mi |
+| 0.25 | 17.3 mi | 14.9 mi | 13.2 mi |
+| 0.1 | 6.9 mi | 6.0 mi | 5.3 mi |
+
+The step is set by counting: any tile that returns 503 splits into four at half the step.
 
 ### Tile generator (Python, stdlib)
 
 ```python
-def tiles(min_lat, min_lng, max_lat, max_lng, step=0.25):
+def tiles(min_lat, min_lng, max_lat, max_lng, step):
     out = []
     lat = min_lat
     while lat < max_lat:
@@ -86,8 +87,8 @@ def tiles(min_lat, min_lng, max_lat, max_lng, step=0.25):
         lat += step
     return out
 
-# Austin metro, about 30.0 to 30.75 N and -98.0 to -97.4 W
-for b in tiles(30.0, -98.0, 30.75, -97.4):
+# Austin metro, about 30.0 to 30.75 N and -98.0 to -97.4 W, at a 0.25 degree step
+for b in tiles(30.0, -98.0, 30.75, -97.4, 0.25):
     print(b)
 ```
 
@@ -96,14 +97,14 @@ The Austin call above gives 3 rows by 3 columns = 9 tiles (the last column is 0.
 ### Tile workflow
 
 1. Get the metro's bounding box (from a map, or from `lat`/`lng` min and max in a city-level sample pull).
-2. Generate tiles at 0.25 degrees.
-3. Count each tile. Split any tile that returns 503 or more than 20,000 into four (half the step).
+2. Generate tiles at a starting step.
+3. Count each tile. Split any tile that returns 503 into four (half the step).
 4. Pull tile by tile with `after`. Log tile, count, last cursor.
 5. Dedupe on business id across tiles. A business on a tile edge appears in only one tile when boxes share edges, but dedupe anyway.
 
 ### Metro boxes to start from
 
-Approximate bounding boxes; widen if suburbs matter.
+Approximate bounding boxes; widen them to take in the suburbs you need.
 
 | Metro | box |
 |---|---|
@@ -123,8 +124,8 @@ Approximate bounding boxes; widen if suburbs matter.
 | Metro of named suburbs | `location` list of cities, up to 2,000 |
 | ZIP-based territories (franchise or sales territories) | `location` list of ZIP codes |
 | Dense downtown, or territory drawn on a map | `box` tiles |
-| Whole state, sparse category | `state` alone |
-| Whole state, dense category | `state` plus city list, or tiles |
+| Statewide, sparse category | `state` alone |
+| Statewide, dense category | `state` plus city list, or tiles |
 
 ## Sources
 

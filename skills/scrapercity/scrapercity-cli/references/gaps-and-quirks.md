@@ -30,7 +30,7 @@ What the CLI does not have, and flag combinations that do something other than w
 
 ## Parser quirks, reproduced
 
-In several commands the CLI collects positional arguments before it removes flags, so a flag's value can land in the positional list.
+In several commands the CLI collects positional arguments before it removes flags, so a flag's value can end up in the positional list.
 
 | You type | What is sent | Workaround |
 |---|---|---|
@@ -38,7 +38,7 @@ In several commands the CLI collects positional arguments before it removes flag
 | `website-finder --file d.txt --title CEO` | `domains: ["d.txt", "CEO", ...file lines]` | Same: MCP or REST |
 | `scrapercity builtwith Shopify --name shopify-us` | `technology: "Shopify shopify-us"` | `scrapercity builtwith Shopify` with no other flags; the run is still billed $4.99 for the one technology |
 | `bizbuysell URL --limit 50` | `startUrls: [URL, "50"]` | Omit `--limit` (default `maxItems` 100, ceiling $0.99), or MCP or REST |
-| `mobile-find --file inputs.txt` | `inputs: ["inputs.txt", ...lines]` | The file name finds nothing, and Mobile Finder bills only numbers found. For a clean input list: `xargs npx -y scrapercity@1.0.17 mobile-find < inputs.txt` (xargs may split a very long list into several runs) |
+| `mobile-find --file inputs.txt` | `inputs: ["inputs.txt", ...lines]` | The file name finds nothing, and Mobile Finder bills only numbers found. To send only the file's lines: `xargs npx -y scrapercity@1.0.17 mobile-find < inputs.txt` (xargs may split a very long list into several runs) |
 | `criminal John Smith --state CA` | `name: "John Smith CA"` | Always `criminal --name "John Smith" --state CA` |
 | `distress-list --max 50 "Tampa, FL"` | `search: "50"` | Market first: `distress-list "Tampa, FL" --max 50` |
 | `apollo --count 2000 URL` | `url: "--count"`, which is not a search URL | URL first: `apollo URL --count 2000` |

@@ -1,159 +1,207 @@
 # CRM Enrichment Report: HubSpot contacts, US mid-market payroll prospects
 
-Prepared 2026-10-13 for Northbeam Payroll, which sells payroll software to US companies with 20 to 500 employees. CRM: HubSpot, contacts and companies. Plan: Growth ($149/mo). Wallet before run: $184.20. Run ID: crm-enrich-20261013-hubspot. Company and person names are fictional and use the reserved `.example` domain.
+_Illustrative example. Companies, people, counts and run results are invented to show the format; companies use the reserved `.example` domain. Prices are ScraperCity catalog prices._
+
+Run completed 2026-10-13 for Tallyroll (tallyroll.example), which sells payroll software to US companies with 20 to 500 employees; counts are actual. CRM: HubSpot, contacts and companies. Plan: Growth ($149/mo).
+
+## Summary
+
+| Question | Answer |
+|-|-|
+| What happens | Every existing email validated; blank emails filled from the Lead Database, then Email Finder; titles, seniority and company fields refreshed and job changes caught; mobiles added for Director-and-above Finance, HR and People contacts on open deals; written back update-only with an audit trail |
+| Fields after the run | Email, Email Status (new), Email Validated At (new), Job Title, Seniority (new), Department (new), Mobile Phone Number (buyers on open deals), LinkedIn Profile URL, Industry, Number of Employees |
+| Campaign-ready emails | 2,080 valid (2,028 existing contacts, 52 new contacts), plus 168 catch-all addresses for a separate lane |
+| Cost | $56.81 of credits against a $119.56 ceiling, inside Growth's $159 monthly credit, so cash is the $149 plan; $0.03 per campaign-ready email, $0.26 per dial-ready mobile (96 numbers) |
+| Time | Lookups ran in one day; the AEs return the review file by 2026-10-20 |
+| Approvals needed | Review file decisions from the two AEs by 2026-10-20 |
 
 ## Input Profile
 
 | Measure | Count |
 |-|-|
-| Records exported | 2,438 contacts, plus 60 companies with no associated contact |
-| Suppressed (opt-out, unsubscribe, DND), skipped | 38 |
+| Records exported | 2,459 contacts, plus 60 companies with no contact |
+| Suppressed or test records, skipped | 59 (38 opted out or unsubscribed, 12 test records, 9 Tallyroll employees) |
 | Records in scope | 2,400 |
-| Missing email | 640 |
-| Existing emails | 1,760 |
+| Missing email | 640; the other 1,760 had never been validated |
 | Missing job title | 410 |
-| Missing mobile, in scope (SQL and opportunity stages) | 520 |
-| Missing mobile, out of scope (other stages) | 1,660 |
-| Missing company size | 900 rows across 610 company domains |
-| Missing industry | 780 rows |
-| Duplicate CRM records flagged | 26 |
-
-Identifier counts across the 640 missing-email rows: 61 with a LinkedIn URL and no company domain, 498 with first name, last name and domain, 52 with a company name but no domain, 29 with none of these.
+| Mobile scope (accounts, seniority, departments) | 680 contacts on SQL and opportunity deals; 340 are Director and above in Finance, HR or People after the title refresh; 30 already had a mobile, so 310 missing |
+| Missing company size or industry | 900 rows missing size across 610 domains; 780 missing industry |
+| Duplicate CRM records flagged | 26, left for HubSpot's merge tool |
 
 ## Field Rules
 
-| Field | Precedence | Policy | Approved by |
-|-|-|-|-|
-| email | CRM, find_emails, Lead Database after validation | fill_blank_only | RevOps lead, 2026-10-12 |
-| email (invalid) | find_emails replacement, old value kept in prior_email | replace_if_invalid | RevOps lead, 2026-10-12 |
-| job_title (blank) | CRM, Lead Database on a high match | fill_blank_only | RevOps lead, 2026-10-12 |
-| job_title (different) | CRM wins; database value to enriched_title | stage_for_review | RevOps lead, 2026-10-12 |
-| mobile | CRM, find_mobiles | fill_blank_only | RevOps lead, 2026-10-12 |
-| company_name | CRM wins; job changes staged | stage_for_review | RevOps lead, 2026-10-12 |
-| industry, number of employees | CRM, Lead Database company fields | fill_blank_only | RevOps lead, 2026-10-12 |
-| contact owner, lifecycle stage, lead status | CRM only | never_overwrite | RevOps lead, 2026-10-12 |
-| second phone | Lead Database phone when CRM phone differs | append_new | RevOps lead, 2026-10-12 |
+| Field | Precedence | Policy |
+|-|-|-|
+| email (blank) | HubSpot; Lead Database email once validated valid; Email Finder | fill_blank_only |
+| email (validated invalid) | Email Finder replacement; old address kept in prior_email | replace_if_invalid |
+| email (catch-all result for a blank) | Written to enriched_email for review, not to Email | stage_for_review |
+| job_title (blank) | HubSpot; Lead Database on a high match | fill_blank_only |
+| job_title (different from the database) | HubSpot wins; database title to enriched_title | stage_for_review |
+| seniority, department (new properties) | Lead Database on a high match | fill_blank_only |
+| company_name (different: job change) | HubSpot wins; new company to the review file | stage_for_review |
+| mobile | HubSpot; Mobile Finder for the mobile scope above | fill_blank_only |
+| industry, number of employees | HubSpot; Lead Database company fields; Email Validator company columns | fill_blank_only |
+| number of employees, different size band | HubSpot wins; new band staged for the account owner | stage_for_review |
+| second phone | Lead Database phone when the HubSpot phone differs | append_new |
+| contact owner, lifecycle stage, lead status, subscription and opt-out properties | HubSpot only | never_overwrite |
+
+Approval: Priya Natarajan (RevOps lead) approved the sheet and the $119.56 ceiling on 2026-10-12, after the pilots below.
 
 ## Routing Plan
 
-| Gap | Identifier class | Rows | First call | Paid fallback |
+| Gap | Identifier class | Rows | First step (included) | Paid fallback |
 |-|-|-|-|-|
-| Email missing | LinkedIn URL, no domain | 61 | query_lead_database socialUrl | find_emails once the domain is known |
-| Email missing | first + last + domain | 498 | query_lead_database companyDomain, match names locally | find_emails |
-| Email missing | name + company name only | 52 | query_lead_database companyName | find_emails with domain if resolved, else company_name |
-| Email missing | no domain, company or URL | 29 | none | flag NO_DOMAIN |
-| Email invalid | first + last + domain | 97 | none | find_emails |
-| Title missing | domain | 372 | query_lead_database companyDomain | none |
-| Title missing | LinkedIn URL only | 22 | query_lead_database socialUrl | none |
-| Title missing | nothing usable | 16 | none | flag NO_IDENTIFIER |
-| Company size and industry | company domain | 610 domains | query_lead_database companyDomain, limit 1 | none |
-| Mobile, in scope | LinkedIn URL (300) or email (190) | 490 | none | find_mobiles |
-| Mobile, in scope | neither | 30 | none | flag NO_IDENTIFIER |
-| Account-only companies | company domain | 60 | query_lead_database companyDomain plus People titles | scrape_website_finder, jobTitle Head of People |
+| Email missing | LinkedIn URL, no domain | 61 | Lead Database by LinkedIn URL, then Email Validator | Email Finder once the match gives a domain |
+| Email missing | first + last + domain | 498 | Lead Database people at the domain, name matched locally, then Email Validator | Email Finder |
+| Email missing | name + company name | 52 | Lead Database by company name to resolve the domain | Email Finder with the domain, else the company name |
+| Email missing | nothing usable | 29 | None | Flag NO_DOMAIN |
+| Every existing email | any | 1,760 | Email Validator (also returns company name, industry and size for the domain) | None |
+| Email invalid | name + domain, person still at the company | 98 | None | Email Finder replacement |
+| Email Finder misses | company name on record | 120 | None | Email Finder again with the company name in place of the website domain |
+| Title, seniority, department | LinkedIn URL, email or name + domain | 1,640 | Lead Database person lookup | None |
+| Company size and industry | company domain | 610 domains | Lead Database company fields, one record per domain | Email Validator company columns |
+| Mobile | LinkedIn URL (190) or work email only (100) | 290 | None | Mobile Finder; a second pass with the work email for URL misses |
+| Mobile | neither identifier | 20 | None | Flag NO_IDENTIFIER |
+| Job changers at the new company | new domain from the Lead Database | 9 | Lead Database email from the LinkedIn URL match, validated | Email Finder for the 3 without a valid one |
+| Account-only companies | company domain | 60 | Lead Database by domain with a Finance or People title | Website Finder, title Head of People, for the 38 the database missed |
+
+Match tiers: high 1,120, medium 96, low 54, none 370, of 1,640 attempted. High matches are written per the field rules, medium matches are staged, low and none write nothing. Nine LinkedIn URL matches list a different company than HubSpot: those people changed jobs.
 
 ## Cost Estimate
 
-| Line | Units | Unit price | Ceiling | Actual |
+| Line | Units | Unit price | Actual | Ceiling |
 |-|-|-|-|-|
-| query_lead_database | 1,490 calls (83 socialUrl, 685 people-at-domain incl. 74 extra pages, 52 companyName, 610 company reads, 60 account-only) | Included in Growth | $0.00 | $0.00 |
-| validate_emails, existing plus Lead Database emails | 1,978 emails | $0.0072 | $14.24 | $14.24 |
-| find_emails | 480 lookups, 290 found | $0.05 per email found | $24.00 | $14.50 |
-| find_mobiles | 490 inputs, 147 found | $0.25 per number found | $122.50 | $36.75 |
-| scrape_website_finder | 38 domains, 27 contacts found | $0.0499 per contact found | $1.90 | $1.35 |
-| validate_emails, new account contacts | 49 emails | $0.0072 | $0.35 | $0.35 |
-| Total | | | $162.99 | $67.19 |
+| Lead Database | 2,162 calls (380 by LinkedIn URL, 1,060 people-at-domain including extra pages, 52 by company name, 610 company reads, 60 account-only) | Included in Growth | $0.00 | $0.00 |
+| Email Validator | 2,112 emails (1,760 existing, 267 Lead Database emails, 36 unknown retries, 49 new account contacts) | $0.0072 | $15.21 | $15.21 |
+| Email Finder, pass 1 | 479 lookups (378 blanks, 98 invalid replacements, 3 job changers), 292 found | $0.05 per email found | $14.60 | $23.95 |
+| Email Finder, pass 2 (company name retry) | 120 lookups, 18 found | $0.05 per email found | $0.90 | $6.00 |
+| Mobile Finder, pass 1 (URL, else work email) | 290 inputs, 87 found | $0.25 per number found | $21.75 | $72.50 |
+| Mobile Finder, pass 2 (work email, URL misses only) | 95 inputs, 12 found | $0.25 per number found | $3.00 | $0.00 extra: only pass-1 misses enter |
+| Website Finder | 38 domains, 27 contacts found | $0.0499 per contact found | $1.35 | $1.90 |
+| Total | | | $56.81 | $119.56 |
 
-User go-ahead: RevOps lead approved the $162.99 ceiling in chat on 2026-10-12 after a 50-row pilot (Email Finder 29 of 50 hits, Mobile Finder 15 of 50). The Lead Database returned 41,870 rows across two days, under the 100,000 a day allowance.
+Pilots before the go-ahead: Email Finder found 29 of 50, Mobile Finder 15 of 50. Email Finder and Mobile Finder bill only on a hit, so the ceiling is every lookup hitting.
 
 ## Fill Results
 
 | Field | Missing before | Filled | Staged | Unfilled | Filled by |
 |-|-|-|-|-|-|
-| email | 640 | 430 | 0 | 210 | Lead Database 211 (validated valid or catch_all), find_emails 219 |
-| job_title | 410 | 266 | 38 | 106 | Lead Database high matches 266; medium matches staged |
-| mobile (in scope) | 520 | 147 | 0 | 373 | find_mobiles |
-| number of employees | 900 | 812 | 0 | 88 | Lead Database company read |
-| industry | 780 | 702 | 0 | 78 | Lead Database company read |
-| new contact at account-only company | 60 | 47 | 0 | 13 | Lead Database 22, scrape_website_finder 25 valid or catch_all |
+| job_title (blank) | 410 | 266 | 38 | 106 | Lead Database high matches; medium matches staged |
+| seniority and department (rows looked up) | 1,640 | 1,120 | 96 | 424 | Lead Database high matches; medium matches staged |
+| mobile (scope above) | 310 | 99 | 0 | 211 | Mobile Finder pass 1 87, pass 2 12 |
+| number of employees | 900 | 812 | 0 | 88 | Lead Database 760, Email Validator company columns 52 |
+| industry | 780 | 702 | 0 | 78 | Lead Database 660, Email Validator company columns 42 |
+| contact at an account-only company | 60 | 47 | 0 | 13 | Lead Database 22, Website Finder 25 (2 of its 27 failed validation) |
 
-Invalid existing emails: 103 found by validation. 71 replaced through find_emails (old value in prior_email), 32 kept with email_status invalid and flagged EMAIL_INVALID.
+## Email Position After the Run
 
-Email status after the run, existing plus Lead Database emails (1,978 validated): valid 1,677, catch_all 149, unknown 36, invalid 110, disposable 6.
+| Group | Before | After |
+|-|-:|-:|
+| Valid, validated 2026-10-13, person still at the company (main campaign) | 0 known | 2,028 |
+| Catch-all (separate lane, see Refresh Schedule) | 0 known | 165 |
+| Old address still valid, person moved (never emailed at the old company) | 0 known | 5 |
+| Invalid, no replacement (kept with Email Status invalid) | unknown | 32 |
+| No email | 640 | 170 |
+| New contacts in the create file (8 job changers at their new company, 44 account-only buyers) | 0 | 52 valid, 3 catch-all |
 
-## Match Confidence
-
-| Tier | Count | Action |
-|-|-|-|
-| high | 520 | Written per field policy |
-| medium | 62 | Staged to review file, nothing written |
-| low | 39 | Nothing written, flagged AMBIGUOUS_MATCH |
-| none | 332 | Nothing written, flagged NOT_FOUND |
-| Total attempted | 953 | Lead Database person lookups (socialUrl and people-at-domain) |
-
-Of the 520 high matches, 9 socialUrl matches listed a different company than HubSpot. Flagged JOB_CHANGE; company and email untouched.
+Valid is 1,494 existing addresses that validated, 20 unknowns that validated on retry, 71 invalid addresses replaced and 448 blanks filled (Lead Database 211, Email Finder 219, then 18 on the company-name retry), less the 5 movers.
 
 ## Write-back Mapping
 
-| Enricher column | CRM field | Import setting |
+Contacts and companies are separate imports keyed on Record ID, update existing only, with "Don't import data in unmapped columns" selected; untouched columns are left out of the file so nothing is blanked.
+
+| Column | CRM field | Import setting |
 |-|-|-|
-| crm_record_id | Record ID | Identifier; update existing only |
+| crm_record_id | Record ID (contact) | Identifier; update existing only |
 | email | Email | Don't overwrite ticked in the fill file; unticked only in the 71-row replacement file |
+| email_status, email_validated_at | New properties Email Status (dropdown) and Email Validated At (date) | Always written |
 | job_title | Job Title | Don't overwrite ticked |
-| mobile | Mobile Phone Number | Don't overwrite ticked; E.164 |
-| phone_2 | Custom property Phone 2 | Append only; Don't overwrite ticked |
-| linkedin_url | Custom property LinkedIn Profile URL | Don't overwrite ticked |
-| industry | Company Industry via companies file | Mapped to dropdown; 41 unmapped values to Industry (enriched) |
-| employees | Company Number of Employees via companies file | Don't overwrite ticked |
-| enrich_* audit columns | Custom properties, group Enrichment | Always written |
+| seniority, department | New properties Seniority and Department | Don't overwrite ticked |
+| mobile | Mobile Phone Number | Don't overwrite ticked; E.164; never Phone Number |
+| phone_2 | New property Phone 2 | Don't overwrite ticked |
+| linkedin_url | LinkedIn Profile URL | Don't overwrite ticked |
+| industry, employees | Industry and Number of Employees, companies file keyed on company Record ID | Don't overwrite ticked; 41 industry values outside the dropdown go to Industry (enriched) |
+| enriched_title, enriched_company, enriched_email | New properties, group Enrichment | Review file only; accepted values re-imported |
+| enrich_run_id (crm-enrich-20261013-hubspot), enriched_at, enrich_fields_changed, enrich_source, enrich_confidence, enrich_status, enrich_flags, prior_email | New properties, group Enrichment | Always written; enrich_run_id is the rollback filter |
 
-## Audit Columns
-
-| Column | Example | Rule |
-|-|-|-|
-| enrich_run_id | crm-enrich-20261013-hubspot | Same on every touched row |
-| enriched_at | 2026-10-13 | Date of write-back |
-| enrich_fields_changed | email;job_title | Only fields written, not staged |
-| enrich_source | email=email_finder;job_title=lead_db | One source per written field |
-| enrich_confidence | high | Tier of the person match |
-| enrich_status | filled | filled, staged, kept_existing, not_found, skipped_rule, suppressed |
-| enrich_flags | JOB_CHANGE;TITLE_CONFLICT | Every reason code for the row |
-| prior_email | m.ruiz@oldco.example | Set only when replace_if_invalid fired |
-| email_status | valid | Validator bucket |
-| email_validated_at | 2026-10-13 | Date of validation or Email Finder lookup |
+The 55 new contacts go in a third file, create-only mode, deduped against the full 2,459-row export on email, LinkedIn URL, then name plus domain (0 matches).
 
 ## Unfilled Flags
 
 | Reason code | Count | Field | Next action |
 |-|-|-|-|
-| NOT_FOUND | 181 | email | Retry in 90 days |
-| NO_DOMAIN | 29 | email | Rep adds company |
-| AMBIGUOUS_MATCH | 21 | job_title | Rep picks from review file |
-| NOT_FOUND | 69 | job_title | Retry in 90 days |
-| NO_IDENTIFIER | 16 | job_title | Research by hand |
-| NOT_FOUND | 343 | mobile | No action; no charge was made |
-| NO_IDENTIFIER | 30 | mobile | Add LinkedIn URL |
-| NOT_FOUND | 62 domains, 88 rows | employees | Rep fills from website |
-| NOT_FOUND | 78 | industry | Rep fills |
-| EMAIL_INVALID | 32 | email | Do not email; call or LinkedIn |
-| JOB_CHANGE | 9 | company | New contact at new company, replacement at old account |
-| TITLE_CONFLICT | 57 | job_title | Rep accepts or rejects staged title |
-| DUPLICATE_IN_CRM | 26 | record | Merge in HubSpot |
+| NO_DOMAIN | 29 | email | Rep adds the company website; the row reruns on the next refresh |
+| EMAIL_INVALID | 32 | email | Not emailed; rep calls or connects on LinkedIn |
+| DOMAIN_NO_MAIL | 7 domains, 11 contacts | email | Account owner checks whether the company closed or was acquired; a new domain goes back through the Lead Database |
+| TITLE_CONFLICT | 57 | job_title | AE accepts or rejects the staged title |
+| AMBIGUOUS_MATCH | 21 | job_title | AE picks the right person from the review file |
+| SIZE_BAND_CHANGE | 34 | employees | Account owner accepts or rejects the new band |
+| JOB_CHANGE | 9 | company | Replacement contact at the old account (Next Steps) |
+| DUPLICATE_IN_CRM | 26 | record | Merge in HubSpot before the campaign |
 
-## Sample Rows
+Not checked: funding, hiring, intent and SIC or NAICS codes; no tool in the plan returns them.
 
-| crm_record_id | Field | Prior value | New value | Source | Confidence | Status |
-|-|-|-|-|-|-|-|
-| 51203 | email | (blank) | dana.okafor@ledgerline.example | lead_db, validated valid | high | filled |
-| 51877 | email | m.ruiz@ledgerline.example (invalid) | maria.ruiz@ledgerline.example | email_finder | high | filled |
-| 52410 | job_title | (blank) | Director of People Operations | lead_db | high | filled |
-| 53022 | job_title | (blank) | HR Manager | lead_db, nickname match Bob to Robert | medium | staged |
-| 53318 | mobile | (blank) | +15125550142 | mobile_finder | high | filled |
-| 54001 | company_name | Shipwise | Quotient Labs (in enriched_company) | lead_db socialUrl | high | staged |
+## How to Run It
+
+The Lead Database pull was 2,162 calls returning 41,870 rows, under the 100,000 new leads a day allowance; at the API's 100 requests a minute it needs at least 22 minutes, so it runs as a script. Set `SCRAPERCITY_API_KEY`, put one domain per line in `domains.txt`, and run `python3 lead_db_lookup.py domains.txt`:
+
+```python
+import json, os, sys, time, urllib.parse, urllib.request
+from pathlib import Path
+
+API = "https://app.scrapercity.com/api/v1/database/leads"
+HDR = {"Authorization": "Bearer " + os.environ["SCRAPERCITY_API_KEY"]}
+cache = Path("lead_db_cache"); cache.mkdir(exist_ok=True)
+for domain in dict.fromkeys(l.strip().lower() for l in open(sys.argv[1]) if l.strip()):
+    out = cache / f"{domain}.json"
+    if out.exists():                       # a restart skips finished domains
+        continue
+    rows, after = [], "0"
+    try:
+        for _ in range(5):                 # at most 5 pages of 100 per domain
+            q = urllib.parse.urlencode({"companyDomain": domain, "limit": 100, "after": after})
+            req = urllib.request.Request(f"{API}?{q}", headers=HDR)
+            with urllib.request.urlopen(req, timeout=60) as r:
+                body = json.load(r)
+            rows += body.get("data", [])
+            after = (body.get("pagination") or {}).get("next_after")
+            time.sleep(0.7)                # stays under 100 requests a minute
+            if not after:
+                break
+        out.write_text(json.dumps(rows))
+    except Exception as err:               # retried next run, never counted as not found
+        with open("retry.csv", "a") as f:
+            f.write(f"{domain},{getattr(err, 'code', type(err).__name__)}\n")
+```
+
+For the LinkedIn URL lookups, send `socialUrl` with `limit` 5 in place of `companyDomain`. The paid steps run from the command line after `npx scrapercity login`:
+
+```text
+npx scrapercity email-validate --file emails.txt       # one address per line
+npx scrapercity email-find --file contacts.csv         # header first_name,last_name,domain,company_name; no commas inside a field
+npx scrapercity mobile-find --file mobile_inputs.txt   # one LinkedIn URL or email per line, no header
+npx scrapercity poll RUN_ID                            # each command prints its RUN_ID
+npx scrapercity download RUN_ID
+```
+
+Website Finder needs the job title with the domain list, so it runs through REST: `POST https://app.scrapercity.com/api/v1/scrape/website-finder` with the same Bearer header and a body of `domains` and `jobTitle` ("Head of People"); poll and download it the same way.
+
+## Refresh Schedule
+
+| Segment | Check | Next date | Cadence | Owner | Cost |
+|-|-|-|-|-|-|
+| Send gate | HubSpot active segment: Email Status valid, Email Validated At within 90 days (ZeroBounce: verify at least once a quarter), no opt-out or JOB_CHANGE flag; sequences enroll only from it | 2026-10-14 | Built once | Priya Natarajan | $0.00 |
+| Catch-all lane (168 addresses) | Separate campaign once the main campaign's first 200 sends bounce under 2% (Berman's bounce line; Instantly runs its bounce check after 200 sends); paused past 2% | 2026-10-21 | Once | Priya Natarajan | $0.00 |
+| Contacts entering a later sequence | Email Validator on rows last validated more than 90 days before the send | 2027-01-11 | Before each send | Priya Natarajan | $7.20 per 1,000 |
+| 680 SQL and opportunity contacts | Lead Database job-change sweep by LinkedIn URL; about 9 to 16 changes a month at a planning decay of 1.3% to 2.3% a month (BLS median tenure 4.1 years, January 2026; ZeroBounce 2026 decay report, at least 23% a year) | 2026-11-13 | Monthly, Tallyroll's choice | Priya Natarajan | $0.00 on Growth |
+| 610 active account domains | Title and company refresh; employees written only on a size-band change | 2027-01-13 | Quarterly, Tallyroll's choice | Priya Natarajan | $0.00 on Growth |
+| Mobiles reps mark wrong | Mobile Finder for those people only | 2026-11-16 | On rep flags | Sales manager | $0.25 per number found |
 
 ## Next Steps
 
-1. Import the 10-row test file update-only, open records 51203, 51877 and 53318, confirm owner fields unchanged, then import the remaining 2,390 rows.
-2. Send the review file (62 medium matches, 57 title conflicts, 9 job changes) to the two AEs who own those accounts; re-import accepted values on 2026-10-20.
-3. Create new contacts for the 9 job changes at their new companies and find replacements at the old accounts with the Lead Database by companyDomain.
-4. Route the 147 new mobiles through the mobile-appender TCPA and DNC gate before any dialer campaign.
-5. Re-validate catch_all and unknown emails before the next sequence; re-run title and size enrichment on 2027-01-13.
+1. 2026-10-14, Priya: import 10 rows update-only, open records 51203, 51877 and 53318 to confirm owner and stage fields did not change and the audit properties are filled, then import the other 2,390 rows. The original export is the rollback file.
+2. 2026-10-14, Priya: build the send-gate segment and enroll its 2,028 contacts in the main campaign.
+3. 2026-10-15, Priya: import the 55-row create file in create-only mode; enroll the 8 job changers in the main campaign as their own "new role" segment and the 44 account-only buyers with the rest; the 3 catch-all creates join the catch-all lane.
+4. 2026-10-16, sales manager: before the 99 mobiles load into the dialer, hold any number found on two or more contacts (3 held), drop numbers already in a Phone Number field, and remove anyone on the suppression list; if the dialer is a power dialer, keep only numbers the team's carrier lookup returns as mobile. 96 numbers load.
+5. 2026-10-20, the two AEs: work the review file (96 medium matches, 57 title conflicts, 34 size-band changes, 9 job changes); Priya re-imports accepted values update-only the same day.
+6. 2026-10-20, the two AEs: find a replacement contact at each of the 9 accounts the job changers left, from the Lead Database people at that domain with the departed person's title.

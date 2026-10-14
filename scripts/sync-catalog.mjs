@@ -58,7 +58,7 @@ if (missing.length) {
   process.exit(1)
 }
 
-const clean = (s) => String(s || '').replace(/[–—]/g, '-').replace(/\|/g, '/').replace(/\s+/g, ' ').trim()
+const clean = (s) => String(s || '').replace(/[\u2013\u2014]/g, '-').replace(/\|/g, '/').replace(/\s+/g, ' ').trim()
 const priceOf = (t) => {
   if (PRICE_OVERRIDES[t.name]) return PRICE_OVERRIDES[t.name]
   const m = /Cost: (.*?)\.?$/.exec(t.description)

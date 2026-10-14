@@ -82,7 +82,7 @@ Prices from `references/scrapercity-catalog.md`. Smartlead, GoHighLevel and n8n 
 | Test batch before go-live (50 emails) | 50 | $0.0072 | $0.36 |
 | Total for the first month | | | $47.88 |
 
-Each weekday run spends 300 x $0.0072 = $2.16. The monthly total of $47.88 was shown to the agency owner and approved before the schedule went live, since it is over $5. It leaves about $83 of the current balance for other work.
+Each weekday run spends 300 x $0.0072 = $2.16. The monthly total of $47.88 was shown to the agency owner and approved before the schedule went live. It leaves about $83 of the current balance for other work.
 
 ## Dedupe and Idempotency
 

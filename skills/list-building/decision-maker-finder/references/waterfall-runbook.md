@@ -1,6 +1,6 @@
 # Waterfall Runbook
 
-The step-by-step mechanics behind the decision maker waterfall: cleaning the account list, batching Lead Database calls, ranking candidates into slots, choosing the next tool for each empty slot, building the Website Finder, Email Finder and Mobile Finder payloads, and recovering from failures. Prices come from `references/scrapercity-catalog.md`. Run rules (wallet, polling, retries) come from `references/scrapercity-agent-patterns.md`.
+The step-by-step mechanics behind the decision maker waterfall: cleaning the account list, batching Lead Database calls, ranking candidates into slots, choosing the next tool for each empty slot, building the Website Finder, Email Finder and Mobile Finder payloads, and recovering from failures. Prices and run rules (start, poll, download, error codes) come from `references/scrapercity-catalog.md`.
 
 ## 1. Account list preparation
 
@@ -26,13 +26,7 @@ Accept the domain only when the returned company name, state and size agree with
 
 ### Batching
 
-`companyDomain` takes a comma-separated list. Batch 25 domains per call for most lists; drop to 10 if a call returns 503 (the search ran too long). Run one call per slot so `seniority` and `title` stay specific to the role.
-
-| List size | Calls per slot at 25 domains | Calls for 2 slots |
-|-|-:|-:|
-| 100 accounts | 4 | 8 |
-| 300 accounts | 12 | 24 |
-| 1,000 accounts | 40 | 80 |
+`companyDomain` takes a comma-separated list. Pick a batch size and halve it when a call returns 503, which means the search ran too long (`references/scrapercity-platform.md`). Run one call per slot so `seniority` and `title` stay specific to the role. Calls per slot = accounts / batch size, rounded up; multiply by the number of slots.
 
 When the body gets long (many domains plus a long title list), send `POST /api/v1/database/leads` with a JSON body. The package switches to POST past about 6,000 characters and a query string over about 16KB is refused.
 
@@ -41,7 +35,7 @@ When the body gets long (many domains plus a long title list), send `POST /api/v
 1. First call per batch: same filters with `limit: 1`. Read `pagination.total`.
 2. If `total` is 100 or less, one call with `limit: 100` returns everything.
 3. If `total` is over 100, page with `after: "0"`, then each `pagination.next_after` until it is null.
-4. Large accounts can return dozens of directors. Tighten with `seniority` or a shorter `title` list before paging past 300 rows for a 25-domain batch.
+4. Large accounts can return dozens of directors. Tighten with `seniority` or a shorter `title` list before paging through rows you will not rank into a slot.
 
 ```json
 {"companyDomain": "northbayfoods.example, pinecrestmfg.example, ridgefieldpackaging.example",
@@ -51,27 +45,24 @@ When the body gets long (many domains plus a long title list), send `POST /api/v
  "limit": 100, "after": "0"}
 ```
 
-Leave `hasEmail` off on the slot calls. A person with the right title and no email is still worth $0.05 at Email Finder, and the miss is free. Turn `hasEmail` on only when the user wants email-ready rows and nothing else.
+Leave `hasEmail` off on the slot calls. Email Finder can still find an email for a person with the right title, at $0.05 per hit, and the miss is free. Turn `hasEmail` on only when the user wants email-ready rows and nothing else.
 
 ### Daily allowance
 
-Every record returned is saved to the account; only new records count toward the 100,000 a day allowance. A 1,000-account run with 2 slots rarely returns more than 5,000 people, so the allowance only shapes very large account lists (split those across days by state).
+Every record returned is saved to the account; only new records count toward the 100,000 a day allowance. Read `pagination.total` from the count calls; when the sum passes the allowance, split the pull across days by state.
 
 ## 3. Ranking candidates into slots
 
-For each domain, group returned people by slot, then score:
+For each domain, group returned people by slot, then rank them by these signals in order (the first difference decides):
 
-| Signal | Points |
-|-|-:|
-| Title matches the slot's first title exactly (after normalization) | 5 |
-| Title matches another title in the slot list | 3 |
-| Seniority equals the slot's top seniority | 2 |
-| Email present | 2 |
-| Person country equals company HQ country | 1 |
-| Title contains a region or business unit that matches the user's territory | 1 |
-| Title contains "interim", "acting" or "fractional" | -2 |
+1. Title matches the slot's first title exactly (after normalization), then another title in the slot list.
+2. Seniority equals the slot's top seniority.
+3. Email present.
+4. Title names a region or business unit that matches the user's territory.
+5. Person country equals company HQ country.
+6. Title does not contain "interim", "acting" or "fractional".
 
-Keep the top scorer as primary and the second as backup. Send to the primary only. Ties go to the person with an email, then the newer `pulled_at`.
+Keep the top person as primary and the second as backup. Send to the primary only. Remaining ties go to the newer `pulled_at`.
 
 One person can fit two slots (a COO who also runs quality at a 60-person company). Assign them to slot 1 and leave slot 2 for someone else at the account; never put one person in two rows.
 
@@ -85,7 +76,7 @@ One person can fit two slots (a COO who also runs quality at a 60-person company
 | Empty | 50-1,000 | `scrape_website_finder` with the slot's primary title, then the fallback title | One title per run |
 | Empty | Over 1,000 | `scrape_apollo` with an Apollo.io people search for those domains, or Website Finder with a region-specific title | Apollo takes hours to days; use a webhook |
 | Email came back `invalid` | Any | `find_emails` with the same name and domain | A replacement often exists when the person still works there |
-| Email came back `valid_catch_all` | Any | Hold file | Do not spend on a second source; the domain accepts everything |
+| Email came back `catch_all` (raw `valid_catch_all`) | Any | Hold file | Do not spend on a second source; the domain accepts everything |
 | Still empty after two titles | Any | Gaps file | Stop spending on this slot |
 
 ## 5. Website Finder runs
@@ -135,17 +126,17 @@ Ceiling per run: domains x $0.0499. A 104-domain run costs at most $5.19.
 | Name and company, no domain | `{"first_name": "Mei", "last_name": "Takahashi", "company_name": "Harvest Lane Bakery"}` (lower match rate; resolve the domain first when you can) |
 | Initial only for first name | Skip; find the full name on the company site first |
 
-Send in batches of up to 500 contacts per run so a failure only costs one batch's retry. Ceiling: contacts x $0.05.
+Split large lists into several runs so a failure only costs one batch's retry. Ceiling: contacts x $0.05.
 
 ## 7. Validation
 
-Collect every email from the Lead Database and Website Finder, dedupe on the lowercased address, apply suppression, then send one `validate_emails` run with the array. Map `email_result` with `references/list-quality-standard.md` section 5: `valid` to the main file, `valid_catch_all` and `unknown` to the hold file, `invalid` and `disposable` removed. For `invalid` rows, the branch table sends the name back to Email Finder.
+Collect every email from the Lead Database and Website Finder, dedupe on the lowercased address, apply suppression, then send one `validate_emails` run with the array. Map `email_result` into the quality standard's buckets: `valid` to the main file, `valid_catch_all` (bucket `catch_all`) and `unknown` to the hold file, `invalid` and `disposable` removed. For `invalid` rows, the branch table sends the name back to Email Finder.
 
 ## 8. Mobile Finder
 
 `find_mobiles` takes `inputs`: work emails or social profile URLs, auto-detected. It bills $0.25 per number found and nothing on a miss.
 
-1. Confirm the use with the user and apply `mobile-and-contact-compliance.md` before the run.
+1. Confirm the call block with the user and run the decision table in `mobile-and-phone-handling.md` before the run.
 2. Send only the slots the user asked for, and only rows with a valid email or a profile URL.
 3. Store results in `mobile` as E.164. A number that comes back on a business main line stays in `phone`.
 
@@ -153,7 +144,7 @@ Ceiling: inputs x $0.25. For 244 slot 1 contacts that is $61.00; show it and wai
 
 ## 9. Apollo side path for large accounts
 
-Use when an account has over 1,000 employees and the database returned nobody for a slot.
+Use when an account has over 1,000 employees and the database returned zero people for a slot.
 
 1. Build a people search on Apollo.io with Filters 1.0 for those domains and the slot's seniority and titles; copy the URL.
 2. Before paying, run `query_lead_database` with `url` set to that search and `limit: 1`. If `search_translation` shows the filters applied and `pagination.total` covers the need, pull from the database instead.
@@ -185,7 +176,7 @@ Keep one row per run: date, tool, slot, title, input count, run id, status, foun
 
 | Failure | What happened | Action |
 |-|-|-|
-| 503 on a Lead Database batch | The search ran too long | Halve the batch (25 to 10 domains), shorten the title list, retry |
+| 503 on a Lead Database batch | The search ran too long | Halve the batch, shorten the title list, retry |
 | 409 `filters_not_applied_yet` | Some company filters cannot be used yet | Drop those filters or retry later |
 | 0 rows for a domain the user knows has staff | Domain mismatch (subsidiary, rebrand, regional site) | Search `companyName`; try the parent domain; note the alias |
 | Website Finder run FAILED | Read `statusMessage` and logs | Resubmit once; on a second failure split the domain list in half |
@@ -224,7 +215,30 @@ mobiles       = numbers found x 0.25           ceiling: inputs x 0.25
 apollo        = count x 0.0039                 minimum count 500
 ```
 
-Hit rates vary by industry, company size and title, and this repo publishes no fixed rate for any tool. To turn a ceiling into an expected cost, run a 20-input test first (20 domains for Website Finder, 20 contacts for Email Finder, 20 emails for Mobile Finder), take the test's hit rate, and multiply: expected = full input x test hit rate x price. Quote the ceiling to the user with the expected cost next to it, and keep your own hit rates per list type in the run log.
+Hit rates vary by industry, company size and title, and this repo publishes no fixed rate for any tool. To turn a ceiling into an expected cost, run a test batch first at a size the user picks, take the test's hit rate, and multiply: expected = full input x test hit rate x price. Quote the ceiling to the user with the expected cost next to it, and keep your own hit rates per list type in the run log.
+
+## 14. Committee file (when map-only roles exist)
+
+Map-only roles are found in the same Lead Database pass and cost nothing from the wallet. They go to `decision-makers-[list]-[date]-committee.csv`, never to the sequencer.
+
+| Roles that joined the user's past deals | Map-only roles | `title` for the batch call |
+|-|-|-|
+| Evaluator only | Slot 3 evaluator from the role map, when the user contacts fewer than 3 slots | The category's slot 3 titles |
+| Procurement, IT security, finance | Slot 3 plus the roles named | `Procurement, Purchasing, Sourcing, Information Security, IT Security, Controller, Finance Director` |
+
+Columns: `account_domain`, `first_name`, `last_name`, `title`, `buying_role` (Evaluator, Procurement, Security review, Finance), `email` if returned (not validated, since nobody emails these rows yet), `found_by = lead_db`. When the AE books a meeting, validate the committee emails for that one account ($0.0072 each) before the first send to them.
+
+## 15. Role audit after launch
+
+The user sets the review count and both thresholds before launch.
+
+| Count at the review | Threshold | Action |
+|-|-|-|
+| Wrong-person answers for one slot title (not-now answers excluded; they are timing) | The user's wrong-person share | Replace the title in the slot; re-run section 2 for accounts not yet contacted |
+| Referrals naming another title | The user's referral count | Add that title to the slot's list ahead of the current one |
+| Bounces on Website Finder emails versus Lead Database emails | Website Finder bounce rate clearly above the database rate | Validate Website Finder results again before the next send; check the title match rule |
+
+Log the counts in the run log so the next list for the same product starts from the corrected role map.
 
 ## Sources
 
@@ -232,4 +246,4 @@ Hit rates vary by industry, company size and title, and this repo publishes no f
 - ScraperCity CLI repository: https://github.com/scrapercity/scrapercity-cli
 - ScraperCity, How to use: https://scrapercity.com/how-to-use
 - Public Suffix List: https://publicsuffix.org/
-- Gartner, The B2B buying journey: https://www.gartner.com/en/sales/insights/b2b-buying-journey
+- Gartner, B2B Buying Report: https://emt.gartnerweb.com/ngw/globalassets/en/sales-service/documents/trends/gartner-b2b-buying-report.pdf

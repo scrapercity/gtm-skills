@@ -30,8 +30,8 @@ Which sources shape this skill, what each contributes, and which file to open fo
 
 | Vendor doc | Contribution |
 |---|---|
-| Clay University: HTTP API integration overview; webhook integration guide | HTTP API column settings, header accounts stored encrypted per workspace, request limit and duration, conditional runs, webhook source and its 50,000-submission cap |
-| n8n docs: HTTP Request node, pagination cookbook, common issues, Webhook node, Extract From File | Header Auth credential, pagination with `$pageCount` and `$response`, Batching and Retry On Fail, test vs production webhook URLs, Respond Immediately, CSV extraction from binary |
+| Clay University: HTTP API integration overview; webhook integration guide; formula generator | HTTP API column settings, header accounts stored encrypted per workspace, request limit and duration, conditional runs, webhook source and its 50,000-submission cap, formulas as JavaScript expressions with `{{Column}}` references |
+| n8n docs and the `n8n-nodes-base` 2.15.1 package node definitions: HTTP Request node, pagination cookbook, common issues, Webhook node, Extract From File | Header Auth credential, pagination with `$pageCount` and `$response`, the parameter names behind the importable workflow, repeated query keys from 4.3 on and the `Brackets` array default, Batching and Retry On Fail, test vs production webhook URLs, Respond Immediately, CSV extraction from binary |
 | Zapier help: Send webhooks, Trigger Zaps from webhooks, Webhooks by Zapier rate limits, JavaScript code, Schedule by Zapier | Custom Request for Bearer headers, Catch Hook, Professional plan requirement, 20,000 requests per 5 minutes per user, Code steps with `fetch` returning arrays, hourly schedule |
 | Make apps and help: HTTP, CSV, Webhooks, scheduling | Make a request with keychain credentials and Parse response, 1 to 300 s timeout, Custom webhook queue, 300 requests per 10 s, 410 after 5 idle days, Parse CSV, At regular intervals scheduling |
 | Pipedream docs: Triggers, Environment variables, Limits | HTTP trigger URL and `$.respond`, secret environment variables, 30 s and 60 s default timeouts, 300 s and 750 s maximums, 10 requests a second on HTTP triggers, 512KB bodies |
@@ -43,6 +43,8 @@ Which sources shape this skill, what each contributes, and which file to open fo
 | Vendor doc | Contribution |
 |---|---|
 | HubSpot developer docs | Batch upsert by email, 100 per batch, private app tokens as Bearer, burst and daily limits by tier |
+| Attio API reference and rate limiting guide | Assert a person by unique `email_addresses`, token scopes, 25 writes and 100 reads a second, `Retry-After` on 429 |
+| Salesforce REST API and limits cheatsheet | sObject Collections upsert on an External ID field, 200 records per request, `allOrNone`, daily API request allocation and where to read usage |
 | Pipedrive developer docs | `x-api-token` header, API v2 persons body, contact-sync 403 on some fields, token-based daily budget and burst limits, 40-token search cost |
 | HighLevel API docs and help center | Contacts upsert body and dedupe behavior, Private Integration tokens, `Version` header, 100 per 10 s and 200,000 a day |
 | Instantly API v2 docs | Bulk add of up to 1,000 leads, skip flags, scopes, 100 a second and 6,000 a minute per workspace |
@@ -60,7 +62,7 @@ Which sources shape this skill, what each contributes, and which file to open fo
 ## How the sources combine
 
 1. ScraperCity's package and API docs decide the request, the limits and the async pattern.
-2. Each platform's docs decide where the key lives and how loops, schedules and webhooks are built.
+2. Where the key lives, and how loops, schedules and webhooks are built, comes from each platform's docs.
 3. Each destination's docs decide the body, batch size and pacing.
 4. The field mapping joins the two sides, and validation sits between the pull and any sender.
 
@@ -85,6 +87,11 @@ Which sources shape this skill, what each contributes, and which file to open fo
 - https://developer.lemlist.com/api-reference/endpoints/leads/create-lead-in-campaign
 - https://docs.emailbison.com/get-started/authentication
 - https://help.manyreach.com/en/articles/60-how-to-connect-n8n-to-manyreach-using-api-integration
+- https://developer.salesforce.com/docs/atlas.en-us.api_rest.meta/api_rest/resources_composite_sobjects_collections_upsert.htm
+- https://developer.salesforce.com/docs/platform/salesforce-app-limits-cheatsheet/guide/salesforce-app-limits-platform-api.html
+- https://university.clay.com/docs/formula-generator
+- https://docs.attio.com/api-reference/people/assert-a-person-record
+- https://www.npmjs.com/package/n8n-nodes-base
 - https://www.rfc-editor.org/rfc/rfc6750
 - https://www.itu.int/rec/T-REC-E.164
 - https://cheatsheetseries.owasp.org/cheatsheets/Secrets_Management_Cheat_Sheet.html

@@ -31,7 +31,7 @@ Intent to skill. Match the request against the trigger phrases, then read the fi
 | Mailbox setup | "set up inboxes", "warmup", "signatures" | `inbox-setup` | Sender identity per mailbox | Mailbox seats |
 | Inbox placement | "spam folder", "blocklisted", "bounce rate", "Postmaster" | `email-deliverability` | Pre-send gate and health check | $0.0072 per validation |
 | Choose a sequencer | "Instantly or Smartlead", "import into Lemlist" | `sending-platforms` | Requirements table | Sequencer seats |
-| Cold calling | "call script", "SDR call blocks", "cold call local businesses" | `cold-calling` | DNC and TCPA gate | Mobile Finder $0.25 per number found |
+| Cold calling | "call script", "SDR call blocks", "cold call local businesses" | `cold-calling` | Load the do-not-contact list into the dialer | Mobile Finder $0.25 per number found |
 | Event-based outreach | "new businesses", "just switched to Shopify", "pre-foreclosure list weekly" | `signal-triggered-outbound` | Define the signal and its repeat pull | Repeat-pull volume |
 | Cost and ROI | "cost per meeting", "is outbound worth it", "which plan" | `outbound-unit-economics` | Inputs table | Model only |
 
@@ -46,6 +46,11 @@ Intent to skill. Match the request against the trigger phrases, then read the fi
 | Deep Lead Database work | "filter by revenue", "people-search URL", "daily new leads" | `scrapercity-lead-database` |
 | Deep Local Business Database work | "map box", "rating filter", "businesses with a named contact" | `scrapercity-local-business-database` |
 | Real estate data | "Zillow agents", "pre-foreclosure", "property owner", "Crexi", "BizBuySell" | `scrapercity-real-estate-data` |
+| Waterfall across sources | "waterfall", "try the database first", "fallback provider", "Clay waterfall" | `scrapercity-integrations` (waterfall recipes) |
+| Enrich a file in bulk | "enrich this CSV", "bulk validate", "batch enrichment", "rerun failed rows" | `scrapercity-api` (bulk pipeline); `crm-enricher` when the file is a CRM export with owner rules |
+| Job changes | "champion left", "job change alerts", "track our past buyers" | `scrapercity-integrations` (job-change tracking) |
+| Real-time form routing | "enrich form fills", "route demo requests by company size" | `scrapercity-integrations` (inbound form recipe) |
+| Install the skills | "install these skills", "add the router to Codex", "check my install" | `using-scrapercity-skills` (install section) |
 
 ## Tie-breakers
 
@@ -55,9 +60,8 @@ Intent to skill. Match the request against the trigger phrases, then read the fi
 | "Phone numbers" | Business line or a person's mobile? | Business line: database or Maps phone field. Mobile: `mobile-appender`. |
 | "Find the owner" | Of a business or of a property? | Business: `decision-maker-finder` (or `hasContact` in the Local Business Database). Property: `skip-tracer`. |
 | "Apollo" | Does the user have an Apollo people-search URL? | Yes: `scrape_apollo` through `scrapercity-lead-database` (compare with the database first). No: Lead Database filters. |
-| "Verify" | Emails, or a person's identity? | Emails: `email-list-cleaner`. Identity: `skip-tracer`, with the FCRA boundary stated. |
+| "Verify" | Emails, or a person's identity? | Emails: `email-list-cleaner`. Identity: `skip-tracer`, keeping only results whose name and address match. |
 | Starter plan and a database intent | Growth costs $100 a month more and carries $110 more in credits. Does the database save more than that on this job? | Price both; let the user choose. |
-| Background check request for hiring or renting | Purpose is an eligibility decision | Decline that purpose. Public-records tools here are for prospecting and research only. |
 
 ## Phrases that need a question first
 
@@ -65,13 +69,10 @@ Ask one question before routing when the request is:
 
 - "Get me leads" with no buyer named. Ask who they sell to.
 - "As many as possible" with no budget. Ask for a ceiling, then quote the count.
-- A country outside the US with phone or SMS in the plan. Ask which countries, because the gate changes.
-- A list for "texting". Ask whether consent exists; without it, route to email or calling with the TCPA gate.
+- A country outside the US. Ask which countries, because the Lead Database separates person country from company country and the Local Business Database takes two-letter codes.
 
 ## Sources
 
 - https://www.npmjs.com/package/scrapercity
 - https://scrapercity.com/pricing
 - https://scrapercity.com/skills
-- https://www.ftc.gov/legal-library/browse/statutes/fair-credit-reporting-act
-- https://www.ecfr.gov/current/title-47/chapter-I/subchapter-B/part-64/subpart-L/section-64.1200

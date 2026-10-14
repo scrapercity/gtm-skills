@@ -26,23 +26,19 @@ Can repeating this call cost money or create a second run?
 | 409 `filters_not_applied_yet` | Lead Database company filters not usable yet | Drop those filters or retry later | n/a |
 | 429 | Rate limited, or a repeat within 30 seconds | Wait at least 30 seconds, then retry with backoff | Look in `/runs` first; if no matching run, wait 30 seconds and retry once |
 | 503 | Temporarily unavailable, or a database search ran too long | Database: narrow the search. Other reads: backoff and retry | Retry later; check `/runs` first |
-| Timeout, connection reset, no response | Unknown outcome | Retry with backoff | Do not resubmit blind. Wait about 10 seconds, check `/runs`, resubmit only if no matching run exists |
+| Timeout, connection reset, no response | Unknown outcome | Retry with backoff | Do not resubmit blind. Check `/runs` (the samples wait 10 s first), resubmit only if no matching run exists |
 
 ## Backoff
 
 For calls marked safe:
 
 ```
-attempt 1 fails -> wait 2 s + jitter
-attempt 2 fails -> wait 4 s + jitter
-attempt 3 fails -> wait 8 s + jitter
-attempt 4 fails -> wait 16 s + jitter
-attempt 5 fails -> give up and report
-429 at any attempt -> wait at least 30 s instead
-cap any single wait at 60 s; jitter is 0 to 1 s
+attempt n fails -> wait min(cap, base x 2^n) with random jitter, then retry
+429 at any attempt -> wait at least 30 s instead (AGENT_DOCS: a repeat within 30 s is a 429)
+attempt MAX_TRIES fails -> give up and report
 ```
 
-Full jitter spreads retries from parallel workers so they do not hit the limit again on the same second (AWS Architecture Blog, "Exponential Backoff and Jitter"). HTTP 429 itself is defined in RFC 6585 section 4; ScraperCity does not document a `Retry-After` header, so the client cannot rely on one.
+Set `base`, `cap` and `MAX_TRIES` from how long the job can wait; ScraperCity publishes no values for them. The code samples use base 2 s, cap 60 s and 5 tries. Full jitter spreads retries from parallel workers so they do not hit the limit again on the same second (AWS Architecture Blog, "Exponential Backoff and Jitter"). HTTP 429 itself is defined in RFC 6585 section 4; ScraperCity does not document a `Retry-After` header, so the client cannot rely on one.
 
 ## Duplicate windows
 
@@ -66,23 +62,24 @@ scrapercity.com/api-docs lists 100 requests a minute per key and 10 scrapes runn
 | Workload | Requests | Fits in 100 a minute? |
 |---|---|---|
 | Database pull of 10,000 rows | 100 calls of 100 rows | Yes if paced at 1 call a second (60 a minute); 100 calls back to back would hit the limit |
-| Polling 10 short runs every 30 s | 20 a minute | Yes |
-| Polling 10 short runs every 5 s | 120 a minute | No. Poll every 30 s or more |
+| Polling 10 short runs every 15 s | 40 a minute | Yes |
+| Polling 10 short runs every 5 s | 120 a minute | No. Poll every 15 s or more |
 | Clay table of 5,000 rows, one database lookup per row at 10 a second | 600 a minute | No. Set the column to 1 request per 1,000 ms |
 | One webhook plus one status call plus one download per finished run | 2 a run | Yes |
 
-Rules of thumb:
+Pacing that follows from those limits:
 
 1. Pace sequential calls at one a second or slower. That leaves 40 a minute of headroom for status checks and other tools on the same key.
 2. One key per automation. Two automations on one key share the 100 a minute.
 3. Never more than 10 starts in flight. Queue the eleventh until a run finishes.
-4. Poll on the schedule for the tool, never faster:
+4. Poll at the npm client's 15-second interval or slower, and alert at the top of the tool's published delivery time:
 
-| Tool group | First check | Then every | Give up after |
-|---|---|---|---|
-| `validate_emails`, `find_emails`, `find_mobiles`, `search_criminal_records`, `scrape_builtwith`, `scrape_store_leads` | 30 s | 30 s | 30 min |
-| `scrape_maps`, `scrape_yelp`, `scrape_angi`, `scrape_zillow_agents`, `scrape_bizbuysell`, `scrape_crexi`, `scrape_airbnb`, `scrape_website_finder`, `find_people`, `scrape_property_lookup`, `scrape_distress_list` | 2 min | 2 min | 2 h |
-| `scrape_apollo` | Webhook | 60 min if there is no webhook | Several days |
+| Tool group | Check every | Alert after (AGENT_DOCS delivery time) |
+|---|---|---|
+| `validate_emails`, `find_emails`, `find_mobiles`, `find_people`, `scrape_property_lookup`, `search_criminal_records`, `scrape_builtwith` | 15 s | 10 min (1 to 10 min) |
+| `scrape_store_leads` | One check | Not `SUCCEEDED` on the first check (instant) |
+| `scrape_maps`, `scrape_yelp`, `scrape_angi`, `scrape_zillow_agents`, `scrape_bizbuysell`, `scrape_crexi`, `scrape_airbnb`, `scrape_website_finder`, `scrape_distress_list` | 15 s | 30 min (5 to 30 min) |
+| `scrape_apollo` | Webhook; once an hour at most without one | 4 days (up to 4 days) |
 
 ## Daily database allowance
 
@@ -109,7 +106,7 @@ A pull that would pass 100,000 new records in a UTC day stops early. Split it ac
 | Database 503 | Search too broad | Count the same filters with a narrower location | Add a location, size band or category; tile by state or map box |
 | Same rows every call | `page` fixed and no `after`, or `excludeDelivered` with `page` above 1 | Inspect the query string | Use `after` from `pagination.next_after` |
 | 414 or a refused request on a database GET | Query string too long | Measure the encoded query | Send the same parameters as a POST JSON body |
-| Webhook never arrives | URL not registered, not public, or the receiver returned non-2xx | Dashboard webhook page, receiver logs | Fix the URL; the hourly sweep downloads anything missed |
+| Webhook never arrives | URL unregistered or private, or the receiver returned non-2xx | Dashboard webhook page, receiver logs | Fix the URL; the hourly sweep downloads anything missed |
 | Duplicate imports downstream | Receiver not keyed on `runId` | Look for the same `runId` twice in your log | Record handled `runId`s before importing |
 
 ## Sources

@@ -53,7 +53,7 @@ wait_run() {               # usage: wait_run RUN_ID SECONDS_BETWEEN MAX_CHECKS
   done
   echo "run $run still $s after $max checks" >&2; return 2
 }
-wait_run "$run" 120 90      # 2 minutes apart, up to 3 hours
+wait_run "$run" 60 "$MAX_CHECKS"   # one check a minute; set MAX_CHECKS from how long this job's runs take
 ```
 
 Apollo: do not script a wait at all in an interactive session. Start it, store the id, and let the webhook registered at app.scrapercity.com/dashboard/webhooks trigger the download job. If there is no webhook, `wait_run "$run" 3600 96` checks hourly for up to 4 days.
@@ -155,7 +155,7 @@ jsonl_to_csv() {   # usage: jsonl_to_csv in.jsonl out.csv
 
 ## 7. Pipe a CSV into enrichment
 
-Pull a clean, deduplicated email list out of any CSV, whatever the column is called:
+Pull a deduplicated email list out of any CSV, whatever the column is called:
 
 ```bash
 grep -Eoh '[A-Za-z0-9._%+-]+@[A-Za-z0-9.-]+\.[A-Za-z]{2,}' out/*-"${TODAY}".jsonl \
@@ -183,9 +183,39 @@ PY
 "${SC[@]}" email-find --file contacts.csv
 ```
 
+## 7b. Hand the valid rows to a sender
+
+The CLI has no push-to-sequencer command, so the last hop is a REST call to the sender. Keep only rows the validator marked valid, then post them in batches. The validator's result column has appeared under more than one name in ScraperCity's guides, so the script reads the header and uses whichever exists.
+
+```bash
+python3 -I - "out/validated-daily-feed-${TODAY}-${run:0:8}.csv" > "out/send-ready-${TODAY}.jsonl" <<'PY'
+import csv, json, sys
+rows = list(csv.DictReader(open(sys.argv[1], newline="")))
+col = next((c for c in ("email_result", "status", "result") if rows and c in rows[0]), None)
+if col is None:
+    sys.exit("no result column in the validator CSV header; map it by hand")
+for r in rows:
+    if (r.get(col) or "").strip().lower() == "valid":
+        print(json.dumps({"email": r["email"].strip().lower()}))
+PY
+
+# Instantly API v2: up to 1,000 leads per call; batches of 100 with a pause keep clear of the workspace limit
+split -l 100 "out/send-ready-${TODAY}.jsonl" out/batch-
+for f in out/batch-*; do
+  jq -s --arg c "$INSTANTLY_CAMPAIGN_ID" \
+    '{campaign_id: $c, skip_if_in_workspace: true, verify_leads_on_import: false, leads: .}' "$f" \
+  | curl -sS --fail-with-body -X POST https://api.instantly.ai/api/v2/leads/add \
+      -H "Authorization: Bearer $INSTANTLY_API_KEY" -H "Content-Type: application/json" -d @- >/dev/null
+  sleep 2
+done
+rm -f out/batch-*
+```
+
+Before the first run, list the distinct values in that column (`python3 -I -c` or a spreadsheet filter); if valid rows carry a different word, change the comparison. `verify_leads_on_import: false` because these rows were validated minutes ago; paying the sender to verify them again buys nothing. Email Finder results are validated when found, so a file of fresh `email-find` results skips `email-validate` too; validate anything older than 30 days or from outside ScraperCity. Other senders (Smartlead 400 per call, Lemlist 1 per call) and their field names: the `scrapercity-integrations` skill.
+
 ## 8. Cron
 
-Cron starts jobs with a minimal environment: no shell profile, a short `PATH`, no `SCRAPERCITY_API_KEY`. Put both in the script.
+Cron starts jobs with a minimal environment: it skips the shell profile, sets a short `PATH` and leaves out `SCRAPERCITY_API_KEY`. Put both in the script.
 
 ```bash
 # ~/.config/scrapercity/env  (chmod 600)
@@ -260,5 +290,6 @@ Branch on stderr text when a failure needs its own handling: a message about bal
 - https://man7.org/linux/man-pages/man1/flock.1.html
 - https://curl.se/docs/manpage.html
 - https://jqlang.org/manual/
+- https://developer.instantly.ai/api-reference/lead/add-leads-in-bulk-to-a-campaign-or-list
 - https://docs.github.com/en/actions/reference/workflows-and-actions/events-that-trigger-workflows
 - https://docs.github.com/en/actions/security-for-github-actions/security-guides/using-secrets-in-github-actions

@@ -27,7 +27,42 @@ GEO = {"country", "state", "city", "companycountry", "companystate", "companycit
 PLACEHOLDER = re.compile(r"\[(fill|todo|tbd)\]|<[a-z][a-z _-]*>", re.IGNORECASE)
 MIN_CHARS = 1800
 DAILY_CAP = 100000
+# Plans carry no legal content (owner rule). Letters are bracketed so the
+# pattern list itself does not trip the repo's legal-term scan.
+LEGAL = re.compile(
+    r"\bc[a]n[- ]?sp[a]m\b|\bt[c]pa\b|telephone consumer prot|\bc[a]sl\b|\bg[d]pr\b|\bepriv[a]cy\b|"
+    r"lawful b[a]sis|\bc[c]pa\b|\bc[p]ra\b|\bp[e]cr\b|\bf[c]ra\b|fair credit rep|\bt[s]r\b|"
+    r"telemarketing sales r|\b(?:47|16)\s*c\.?f\.?r\b|\bf[t]c\b|\bf[c]c\b|\bc[r]tc\b|\bi[c]o\b|"
+    r"att[o]rneys? gen|legal adv[i]ce|\bnot leg[a]l\b|"
+    r"\b(?:consult|ask|check with)\s+(?:a|an|your)\s+(?:\w+\s+)?(?:law[y]er|att[o]rney|coun[s]el)|"
+    r"do[- ]not[- ]call regis|national do[- ]not[- ]call|complian[c]e gate",
+    re.IGNORECASE,
+)
 
+
+# Economy and honesty rules shared by the ScraperCity checkers: no unrun results presented
+# as real, no blanks the reader fills by hand, no loop left in a comment, no spend threshold
+# presented as a rule, and a source on the same line as any percentage benchmark.
+_ASSUMED = re.compile(r"\(assumed\)|^\s*-\s*\[x\]", re.I | re.M)
+_BLANK = re.compile(r"[\"'\[(?=,]\s*\.\.\.\s*[A-Za-z]|[A-Za-z]\s*\.\.\.\s*[\"'\])]|\.\.\.\s*your\b|/Users/you\b|/home/you\b", re.I)
+_COMMENT_LOOP = re.compile(r"^\s*#\s*(?:then\s+)?(?:loop|repeat|paginate|page through)\b", re.M | re.I)
+_SPEND_LINE = re.compile(r"\$\d+(?:\.\d+)? approval line|approval line of \$|(?:under|over) the \$\d+(?:\.\d+)? (?:line|approval)|over about \$\d+|since it is over \$\d+", re.I)
+_BENCHMARK = re.compile(r"(?:aim(?:s)? for|target of|minimum of|benchmark)[^.\n]*\d+%|\d+%\+?\s*(?:or more|is the minimum)", re.I)
+_SOURCE_HINT = re.compile(r"https?://|\b[\w-]+\.(?:com|io|org|ai|dev)\b|\bper [A-Z]", re.I)
+
+
+def economy_error(text):
+    for rx, msg in ((_ASSUMED, "presents an unrun result or a self-graded check"),
+                    (_BLANK, "is a blank the reader has to fill by hand; write the value or a named input"),
+                    (_COMMENT_LOOP, "describes a loop in a comment; write the loop out"),
+                    (_SPEND_LINE, "presents a spend threshold as a rule; every paid run waits for a go-ahead")):
+        m = rx.search(text)
+        if m:
+            return f"'{m.group(0).strip()}' {msg}"
+    for ln in text.splitlines():
+        if _BENCHMARK.search(ln) and not _SOURCE_HINT.search(ln):
+            return f"benchmark with no source on its line: '{ln.strip()[:80]}'"
+    return None
 
 def section(text, name):
     m = re.search(r"^## " + re.escape(name) + r"\s*$(.*?)(?=^## |\Z)", text, re.M | re.S | re.I)
@@ -63,6 +98,9 @@ def main(argv):
         print("usage: check-output.py path/to/plan.md (file not found)")
         return 2
     text = path.read_text(encoding="utf-8")
+    _econ = economy_error(text)
+    if _econ:
+        return fail(_econ)
 
     hit = PLACEHOLDER.search(text)
     if hit:
@@ -110,13 +148,24 @@ def main(argv):
         return fail("Cost and Allowance needs a total line")
 
     qa = section(text, "Sample QA")
-    m = re.search(r"(\d+)\s*/\s*20", qa)
+    m = re.search(r"On-target rows\s*\|\s*(\d+)\s*/\s*(\d+)", qa, re.I)
     if not m:
-        return fail("Sample QA must report on-target rows as N / 20")
-    if int(m.group(1)) < 18:
-        return fail(f"Sample QA shows {m.group(1)} / 20 on target; fix filters before pulling (need 18+)")
+        return fail("Sample QA must report on-target rows as N / sample size")
+    mark = re.search(r"Pass mark[^|]*\|\s*(\d+)\s*/\s*(\d+)", qa, re.I)
+    if not mark:
+        return fail("Sample QA must state the pass mark set before the sample, as N / sample size")
+    on, size = int(m.group(1)), int(m.group(2))
+    need, mark_size = int(mark.group(1)), int(mark.group(2))
+    if size != mark_size or on > size:
+        return fail("Sample QA on-target rows and pass mark must use the same sample size")
+    if on < need:
+        return fail(f"Sample QA shows {on} / {size} on target, under the pass mark of {need}; fix filters before pulling")
 
-    print(f"PASS - lead pull plan: {len(filters)} filters, total {total}, QA {m.group(1)}/20")
+    legal = LEGAL.search(text)
+    if legal:
+        return fail(f"legal commentary in the plan ('{legal.group(0)}'); remove it")
+
+    print(f"PASS - lead pull plan: {len(filters)} filters, total {total}, QA {on}/{size}")
     return 0
 
 

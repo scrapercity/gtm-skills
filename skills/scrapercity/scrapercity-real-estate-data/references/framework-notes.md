@@ -8,10 +8,10 @@ Which sources shape this skill, what each contributes, and which file to open fo
 |---|---|
 | Inputs, outputs, limits and CLI flags for a tool | `references/tool-reference.md` |
 | A plan for a specific persona (agent, wholesaler, investor, lender, CRE broker, business broker) | `references/workflow-playbooks.md` |
-| Rules for calling, texting, mailing or emailing owners; FCRA boundary; state wholesaling laws | `references/compliance-guide.md` |
+| Channel order, match confidence, the suppression list, message rules, reply triage, the Contact Hygiene table | `references/contact-routing-guide.md` |
 | Catalog prices and schemas | `references/scrapercity-catalog.md` (shared) |
-| ScraperCity's own compliance boundary for public-records tools | `references/scrapercity-platform.md` (shared) |
-| Cross-skill TCPA, DNC, CAN-SPAM, CASL and GDPR basics | `references/outbound-compliance-primer.md` (shared) |
+| Plans and database access | `references/scrapercity-platform.md` (shared) |
+| Wallet checks, polling, approvals | `references/scrapercity-agent-patterns.md` (shared) |
 
 ## Sources and contributions
 
@@ -22,46 +22,33 @@ Which sources shape this skill, what each contributes, and which file to open fo
 - `AGENT_DOCS.txt` says Property Lookup needs a full address with city, state and ZIP.
 - The catalog entry for Crexi lists the three URL forms and the 400 for a map view with no location.
 - ScraperCity product pages list the Zillow Agents output fields (name, phone, email, screen name, profile URL, specialties, languages, active listings, recent sales, rating, reviews, license number), the Crexi sample fields (property, address, type, price, square footage, broker name, phone and firm, cap rate, NOI and others) and the BizBuySell sample fields (title, location, price, EBITDA, revenue, cash flow, broker name, phone and firm, year established, employees, reason for selling and others).
-- `references/scrapercity-platform.md`: People Finder, skip tracing and Property Lookup return public-record data; the user is responsible for a lawful basis; the skills treat these results as prospecting data only, never for employment, tenant, credit or insurance decisions.
 
-### Telephone Consumer Protection Act, 47 U.S.C. 227 (FCC)
+### USPS Publication 28, Postal Addressing Standards
 
-Autodialed or artificial or prerecorded voice calls to wireless numbers need the called party's prior express consent. A private plaintiff can recover the greater of actual loss or $500 per violation, and a court may triple it for willful or knowing violations. Someone who gets more than one call in 12 months in violation of the Do Not Call rules can sue for up to $500 per violation. Contribution: the reason owner mobiles never go into an autodialer or a texting tool without consent.
+Standard street suffix and unit abbreviations and the ZIP format. Contribution: the address normalization used before Property Lookup and People Finder runs, before dedupe across ZIP runs, and in the match-confidence test.
 
-### 47 CFR 64.1200 (FCC rules)
+### Google Email sender guidelines and FAQ; Yahoo Sender Hub best practices
 
-No telephone solicitation to a residential subscriber before 8 a.m. or after 9 p.m. at the called party's location. Registry numbers are protected until the consumer removes them. Prior express written consent is a signed written agreement with clear disclosure. Several provisions treat text messages as calls. Contribution: calling windows and the consent definition in the compliance gate.
+Bulk senders need a one-click unsubscribe, removals within 2 days (Google asks for 48 hours), and a spam complaint rate under 0.3% (Google asks for under 0.1%). Contribution: the email rows in the Contact Hygiene table.
 
-### FTC Telemarketing Sales Rule and the Do Not Call Registry
+### Hunter, Cold Email Guide (October 2023)
 
-Lists must be scrubbed against the Registry at least every 31 days. An established business relationship lasts 18 months after the last purchase or transaction, or 3 months after an inquiry. Most calls to businesses are exempt from the DNC provisions. Penalties reach $53,088 per violation. Contribution: scrub cadence, and why Crexi and BizBuySell broker lists route differently from homeowner lists.
+Hunter's guide to bounce rates says bounces should not exceed 2% of the emails sent. Contribution: the hard bounce pause in `references/contact-routing-guide.md`.
 
-### Fair Credit Reporting Act (FTC guidance)
+### Settings this skill measures instead of assuming
 
-Tenant background checks are consumer reports; using one for a housing decision triggers permissible purpose certification and adverse action notices. Contribution: the hard line that People Finder and Property Lookup results never feed tenant, credit, employment or insurance decisions.
-
-### CFPB Regulation O (12 CFR 1015)
-
-A mortgage assistance relief provider is anyone offering to arrange relief such as stopping a foreclosure or modifying a loan. No fee before the consumer signs the lender's written agreement, and communications must state the company is not affiliated with the government or the lender. Contribution: the script rule that pre-foreclosure outreach makes purchase offers, not foreclosure-rescue promises, unless the user complies with Regulation O.
-
-### State wholesaling and equity purchase laws
-
-- Illinois Real Estate License Act: a pattern of business means two or more deals in any 12-month period, so wholesaling more than one property a year needs a license.
-- Oklahoma Predatory Real Estate Wholesaler Prohibition Act: effective November 1, 2021, wholesalers need a real estate license (Oklahoma Real Estate Commission).
-- Pennsylvania Act 52 of 2024: wholesalers are treated as brokers or salespersons, contracts need written disclosures, and the seller can cancel until midnight of the 30th day after signing or conveyance, whichever is first.
-- Ohio SB 155: effective March 2, 2026, a wholesaler disclosure form before contract; a homeowner who did not get and sign it can cancel before closing.
-- South Carolina Real Estate Commission guidance: marketing the underlying property for compensation is brokerage and needs a license.
-- California Civil Code 1695.4: an owner selling a residence in foreclosure to an equity purchaser can cancel until midnight of the fifth business day after signing, or 8 a.m. on the sale date if earlier.
-- Florida Telephone Solicitation Act (amended 2023): consent rules for automated calls and texts, with a 15-day notice-and-cure window for texts after the recipient replies STOP.
-
-Contribution: the state column in the compliance check. These are summaries, not legal advice; the plan always tells the user to confirm with a local real estate attorney.
+| Setting | Where it comes from |
+|---|---|
+| Call attempts per number | The attempt after which your outcome data shows no further connects |
+| Call block hours | The hours with the best connect rate in your outcome data |
+| Which rows get Property Lookup for price history | The rows the user will make offers on |
 
 ## How the sources combine
 
 1. The catalog decides which tool and what it costs.
-2. The channel decides which federal rule applies (TCPA and TSR for calls and texts, CAN-SPAM for email).
-3. The state decides which wholesaling or equity purchase rule applies.
-4. The use decides whether FCRA is in play (if yes, stop).
+2. Address standards decide whether two records are the same property and the same person.
+3. The recipient type decides the channel order; match confidence decides who gets a call.
+4. Mailbox provider rules decide the email settings; the suppression list decides who hears from anyone at all.
 
 ## Sources
 
@@ -70,15 +57,8 @@ Contribution: the state column in the compliance check. These are summaries, not
 - https://scrapercity.com/zillow-agents-scraper
 - https://scrapercity.com/crexi-scraper
 - https://scrapercity.com/bizbuysell-scraper
-- https://www.law.cornell.edu/uscode/text/47/227
-- https://www.ecfr.gov/current/title-47/chapter-I/subchapter-B/part-64/subpart-L/section-64.1200
-- https://www.ftc.gov/business-guidance/resources/qa-telemarketers-sellers-about-dnc-provisions-tsr
-- https://www.ftc.gov/business-guidance/resources/using-consumer-reports-what-landlords-need-know
-- https://www.ecfr.gov/current/title-12/chapter-X/part-1015
-- https://oklahoma.gov/orec/resources/blog/wholesale-act.html
-- https://www.barley.com/act-52-imposes-new-regulations-on-real-estate-wholesaling-in-pennsylvania/
-- https://www.ohiorealtors.org/blog/2306/real-estate-wholesaling-legislation-takes-effect/
-- https://www.llr.sc.gov/re/News/Wholesaling-Assignment-of-Contracts-Guidance.pdf
-- https://rejournals.com/real-estate-wholesaling-in-illinois-an-investment-strategy-under-scrutiny/
-- https://california.public.law/codes/civil_code_section_1695.4
-- https://www.mcguirewoods.com/client-resources/alerts/2023/5/pro-business-amendments-to-floridas-mini-tcpa-now-in-effect
+- https://pe.usps.com/text/pub28/welcome.htm
+- https://support.google.com/a/answer/81126
+- https://support.google.com/a/answer/14229414
+- https://senders.yahooinc.com/best-practices/
+- https://hunter.io/cold-email-guide/email-bounce-rate

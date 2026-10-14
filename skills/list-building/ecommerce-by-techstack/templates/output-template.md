@@ -39,6 +39,8 @@ Prepared [fill date] for [fill company]. Offer: [fill offer and monthly price]. 
 |-|-|-|-|-|
 | [fill] | [fill] | [fill] | [fill] | [fill] |
 
+App Store review flag: [fill, or "Not checked: no competitor app in this offer"]
+
 ## Pull Funnel
 
 | Stage | Rows | Dropped | Reason |
@@ -56,6 +58,12 @@ Prepared [fill date] for [fill company]. Offer: [fill offer and monthly price]. 
 | disposable | [fill] | [fill] |
 | Total validated | [fill] | [fill] |
 
+## Named Contacts
+
+| Tier | Method | Stores | With a named valid email | Note |
+|-|-|-|-|-|
+| [fill] | [fill] | [fill] | [fill] | [fill] |
+
 ## Cost Estimate
 
 | Line | Units | Unit price | Cost |
@@ -68,6 +76,8 @@ Prepared [fill date] for [fill company]. Offer: [fill offer and monthly price]. 
 | Domain | Platform | Category | Apps | Tier | Email | email_status | Est. monthly sales |
 |-|-|-|-|-|-|-|-|
 | [fill] | [fill] | [fill] | [fill] | [fill] | [fill] | [fill] | [fill] |
+
+QA sample (20 random rows): store live [fill] of 20, category fit [fill] of 20, app visible on the site [fill] of 20, sales band plausible [fill] of 20.
 
 ## Next Steps
 

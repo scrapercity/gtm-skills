@@ -15,15 +15,34 @@ metadata:
   version: "1.0.0"
   author: ScraperCity
   category: scrapercity
-  tags: [local-business, google-maps, smb, local-leads, database, mcp]
-  related_skills: [using-scrapercity-skills, scrapercity-mcp, scrapercity-cli, scrapercity-api, local-business-list, scrapercity-lead-database, email-list-cleaner, cold-email-list, cold-calling]
+  tags:
+    - local-business
+    - google-maps
+    - smb
+    - local-leads
+    - database
+    - mcp
+  related_skills:
+    - using-scrapercity-skills
+    - scrapercity-mcp
+    - scrapercity-cli
+    - scrapercity-api
+    - local-business-list
+    - scrapercity-lead-database
+    - email-list-cleaner
+    - cold-email-list
+    - cold-calling
   frameworks:
     - "ScraperCity - Local Business Database API reference (scrapercity npm package 1.0.17)"
     - "Google Business Profile - category guidelines"
     - "BrightLocal - Local Consumer Review Survey 2026"
     - "USGS - distance covered by a degree of latitude and longitude"
-    - "FTC - CAN-SPAM Act compliance guide for business"
-  shared_references: [scrapercity-catalog.md, scrapercity-platform.md, list-quality-standard.md, outbound-compliance-primer.md, scrapercity-agent-patterns.md]
+    - "Google - Email sender guidelines (2024)"
+  shared_references:
+    - scrapercity-catalog.md
+    - scrapercity-platform.md
+    - list-quality-standard.md
+    - scrapercity-agent-patterns.md
 ---
 
 # ScraperCity Local Business Database
@@ -38,7 +57,7 @@ The mistakes it prevents:
 
 - Paying $0.0099 per business for a `scrape_maps` run when the database returns the same search in seconds at no extra cost.
 - Sending one generic email to a 4.9-star clinic with 800 reviews and a 3.1-star clinic with 9 reviews.
-- A 503 on "restaurants in Texas" because nobody narrowed by city, category or map box.
+- A 503 on "restaurants in Texas" because the search was never narrowed by city, category or map box.
 - Reading an empty result as "no market" when `searched_as` shows the place was not found, or the `lead_database` block shows 100+ people for the same search.
 
 ## When to Use
@@ -75,9 +94,9 @@ Use a different skill for nearby jobs:
 | ScraperCity Local Business Database API (npm `scrapercity` 1.0.17) | Every filter, `searched_as`, the `lead_database` fallback block, `search_translation`, paging, POST for long requests, error branches, returned fields |
 | `references/scrapercity-catalog.md` | Prices for the scrapers and enrichment around the database: `scrape_maps` $0.0099 per business, `scrape_yelp` $0.0099 per result, `scrape_angi` $0.0099 per listing, `validate_emails` $0.0072 per email, `find_emails` $0.05 per email found |
 | Google Business Profile category guidelines | A business picks the most specific category that says what it is. Search the specific category first ("Pediatric dentist"), then the broad word ("dentist") |
-| BrightLocal Local Consumer Review Survey 2026 | 68% of consumers require 4+ stars, 47% will not use a business with fewer than 20 reviews, 74% care only about reviews from the last three months. Basis for the rating and review segments |
-| USGS | One degree of latitude is about 69 miles; one degree of longitude is about 54.6 miles at 38 degrees north. Basis for map box sizes |
-| FTC CAN-SPAM guide | No B2B exemption. Headers, postal address and a 10-business-day opt-out apply to every email to these businesses |
+| BrightLocal Local Consumer Review Survey 2026 | 68% of consumers will only use a business with 4+ stars, 31% only 4.5+, 47% will not use one with fewer than 20 reviews, 74% look for reviews written in the last three months. Basis for the rating and review segments |
+| USGS | One degree of latitude is about 69 miles; one degree of longitude is about 54.6 miles at 38 degrees north. Converts a map box from degrees to miles |
+| Google Email sender guidelines | Mail to these businesses lands in the same Gmail and Workspace inboxes as any other: one-click unsubscribe on bulk mail, removals within 48 hours, spam rate under 0.1% |
 
 Routing and detail: `references/framework-notes.md`.
 
@@ -130,20 +149,21 @@ A 503 means the search ran too long. Add a category, a city, a state or a postal
 
 ### 5. Segment by rating and reviews
 
-Run one count per segment so the message can match it. Default bands (from the BrightLocal 2026 thresholds):
+Run one count per segment so the message can match it. Bands from the BrightLocal 2026 lines (4.0 stars, 4.5 stars, 20 reviews):
 
-| Segment | Filters | Typical angle |
+| Segment | Filters | Line it sits on |
 |---|---|---|
-| Leaders | `minRating: 4.5`, `minReviews: 20` | Growth, capacity, premium offers |
-| Solid | `minRating: 4.0`, `maxRating: 4.4`, `minReviews: 20` | Edge past the 4.5-star cut that 31% of consumers apply |
-| Thin reviews | `minRating: 4.0`, `minReviews: 5`, `maxReviews: 19` | Under the 20-review line 47% of consumers use |
-| At risk | `maxRating: 3.9`, `minReviews: 5` | Below the 4-star line 68% of consumers require |
+| Leaders | `minRating: 4.5`, `minReviews: 20` | Above the 4.5-star line 31% of consumers apply |
+| Solid | `minRating: 4.0`, `maxRating: 4.4`, `minReviews: 20` | Between the 4.0 and 4.5 lines |
+| Thin reviews | `minRating: 4.0`, `maxReviews: 19` | Under the 20-review line 47% of consumers use |
+| At risk | `maxRating: 3.9`, `minReviews: 1` | Below the 4-star line 68% of consumers apply |
+| No reviews | `maxReviews: 0` | No rating yet |
 
-Add a fifth group for `maxReviews: 4` (new or inactive). The five bands do not overlap; dedupe on business id anyway before sending. More segment designs in `references/segmentation-and-tiling.md`.
+The five bands do not overlap; dedupe on business id anyway before sending. Opening angles per offer are in `references/segmentation-and-tiling.md`.
 
 ### 6. Tile big metros with `box`
 
-`box` is `"minLat,minLng,maxLat,maxLng"`. For a dense category in a big metro, split the metro into tiles about 0.25 degrees on a side (about 17 by 13 miles at 38 degrees north) and run each tile. A box that cannot be read returns 400. Tiling recipe and a stdlib tile generator are in `references/segmentation-and-tiling.md`.
+`box` is `"minLat,minLng,maxLat,maxLng"`. For a dense category in a big metro, split the metro into equal tiles, count each with `limit: 1`, and split any tile that returns 503 into four (half the step). The USGS figures convert a step in degrees to miles (0.25 degrees is about 17 by 14 miles at 38 degrees north). A box that cannot be read returns 400. Tiling recipe and a stdlib tile generator are in `references/segmentation-and-tiling.md`.
 
 ### 7. Pull with the cursor
 
@@ -151,7 +171,7 @@ Add a fifth group for `maxReviews: 4` (new or inactive). The five bands do not o
 
 ### 8. QA and hand off
 
-Check 20 rows: category fits, address inside the place, rating and reviews inside the segment band, email or phone present as required. Send emails to `validate_emails` before any campaign. For businesses without a named contact, run `find_emails` only where you have a person's name and the website domain.
+Check a random sample of rows (the size is your call; the example checks 20): category fits, address inside the place, rating and reviews inside the segment band, email or phone present as required. When misses share a pattern, add a `notCategory` or tighten the place before the bulk pull. Send emails to `validate_emails` before any campaign. For businesses without a named contact, run `find_emails` only where you have a person's name and the website domain.
 
 ## ScraperCity Implementation
 
@@ -212,10 +232,10 @@ Dentists in the Austin metro, `hasEmail: true`. Count check returns 1,146. 412 h
 |---|---:|---:|---:|
 | Local Business Database pull (12 calls of up to 100) | 1,146 | included in Growth | $0.00 |
 | `validate_emails` (1,146 businesses, 1,388 emails) | 1,388 | $0.0072 | $9.99 |
-| `find_emails` for owners named on 300 websites without a contact (55% found assumed) | 165 found | $0.05 | $8.25 |
-| **Total paid** | | | **$18.24** |
+| `find_emails` for owners named on 300 websites without a contact, ceiling if every lookup finds one | 300 | $0.05 | $15.00 |
+| **Total paid, ceiling** | | | **$24.99** |
 
-The same 1,146 businesses through `scrape_maps` would cost 1,146 x $0.0099 = $11.35 before enrichment, with no rating filters and no named contacts. Show this table and get a go-ahead, since the total is over $5.
+Email Finder bills only emails found, so the actual line is found emails x $0.05. The same 1,146 businesses through `scrape_maps` would cost 1,146 x $0.0099 = $11.35 before enrichment, without rating filters or named contacts. Show this table and get a go-ahead before any paid step.
 
 ## Output Format
 
@@ -231,16 +251,19 @@ A local pull plan in Markdown from `templates/output-template.md`:
 
 Check it with `python3 scripts/check-output.py plan.md`.
 
+- Each fact once; every call and script written out in full (no `"..."` values, no loop described in a comment); no counts or results marked assumed. If nothing has run, say so once at the top.
+- What the reader receives is the deliverable only: no internal file paths, reference section numbers or runbook IDs; another skill is named only in a handoff line that tells the user what to run next; no tables of checks that were not run (one "Not checked:" line instead); and no repeated identical rows where one template plus a list will do.
+
 ## Quality Check
 
-- Every search row uses a real `query_local_business_database` parameter.
+- Every search row uses a parameter that exists in `query_local_business_database`.
 - `country` values are two-letter codes.
 - Every `box` reads as four numbers with min below max.
 - A count from a `limit: 1` call is shown before the bulk pull.
 - Every segment states its rating band and review band, and the segments are deduped.
 - `excludeDelivered` is never paired with `page` above 1.
-- The cost table uses catalog prices, and spend over $5 is approved first.
-- 18 of 20 sample rows or better match category, place and segment.
+- The cost table uses catalog prices, and paid spend is approved first.
+- Sample QA reports on-target rows as "N / M", and any shared miss pattern is fixed in the search.
 
 ## Common Pitfalls
 
@@ -248,13 +271,12 @@ Check it with `python3 scripts/check-output.py plan.md`.
 |---|---|---|
 | `country: ["United States"]` | Country takes two-letter codes on this database | `["US"]` |
 | Keyword in slang ("AC guys") | `matches_nothing` in `searched_as` | Use the category a business picks: "HVAC contractor", "Air conditioning contractor" |
-| "restaurants" across a whole state | 503, and one message for 40,000 kinds of restaurant | Split by cuisine `category`, by city, or tile with `box` |
+| "restaurants" statewide | 503, and one message for 40,000 kinds of restaurant | Split by cuisine `category`, by city, or tile with `box` |
 | Comma-separated `--location` on the CLI | "Austin, TX" splits wrong | Use semicolons between places |
 | Treating `category: ["restaurant"]` as exact | A word also finds categories that contain it, so "restaurant" pulls "Fast food restaurant" too | Add `notCategory: ["Fast food restaurant"]`, or list the specific categories you want |
 | Running `scrape_maps` before checking the database | Pays $0.0099 per business for rows already included | Count in the database first |
 | Ignoring `lead_database` on an empty search | Misses 100+ people the Lead Database has | Offer the Lead Database route with its filters |
 | One message for every rating | A 4.9-star leader and a 3.2-star shop need different openers | Segment with `minRating`/`maxRating` and review bands |
-| Calling mobiles without checks | `contact_mobile` numbers fall under TCPA and DNC rules | See `references/outbound-compliance-primer.md` before any call or text campaign |
 
 ## Execution Artifacts
 
@@ -270,7 +292,6 @@ Check it with `python3 scripts/check-output.py plan.md`.
 | `references/scrapercity-catalog.md` | Prices for scrapers and enrichment. |
 | `references/scrapercity-platform.md` | Plans, allowance and paging rules. |
 | `references/list-quality-standard.md` | Acceptance bar for the final list. |
-| `references/outbound-compliance-primer.md` | Before calling or texting `contact_mobile` numbers, or emailing outside the US. |
 | `references/scrapercity-agent-patterns.md` | Wallet checks and confirmation before spend. |
 
 ## Related Skills

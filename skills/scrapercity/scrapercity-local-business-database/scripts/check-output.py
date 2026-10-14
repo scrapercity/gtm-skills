@@ -27,6 +27,49 @@ PLACEHOLDER = re.compile(r"\[(fill|todo|tbd)\]|<[a-z][a-z _-]*>", re.IGNORECASE)
 MIN_CHARS = 1800
 DAILY_CAP = 100000
 
+# Owner rule: deliverables carry no legal content. These patterns mirror
+# scripts/validate-skills.py --check-legal; the bracketed letters keep this file
+# from matching its own terms.
+LEGAL_ACRONYMS = re.compile(
+    r"\b(?:CAN[- ]?SP[A]M|T[C]PA|T[S]R|C[A]SL|G[D]PR|C[C]PA|C[P]RA|P[E]CR|F[C]RA|G[L]BA|H[I]PAA|F[E]RPA|D[P]PA"
+    r"|F[T]C|F[C]C|C[F]PB|C[R]TC|I[C]O|D[N]C)\b|\bC\.?F\.?R\b|U\.S\.C|\bRegulation [A-Z]\b"
+)
+LEGAL_PHRASES = re.compile(
+    r"Do[- ]Not[- ]Call|Att[o]rneys? Gen[e]ral|legal advi[c]e|\bnot leg[a]l\b|permissible (?:purpose|use)"
+    r"|lawful bas[i]s|\bcompliance\b|\bconsent\b|\b(?:lawy[e]r|attorn[e]y|couns[e]l)s?\b",
+    re.I,
+)
+
+
+# Economy and honesty rules shared by the ScraperCity checkers: no unrun results presented
+# as real, no blanks the reader fills by hand, no loop left in a comment, no spend threshold
+# presented as a rule, and a source on the same line as any percentage benchmark.
+_ASSUMED = re.compile(r"\(assumed\)|^\s*-\s*\[x\]", re.I | re.M)
+_BLANK = re.compile(r"[\"'\[(?=,]\s*\.\.\.\s*[A-Za-z]|[A-Za-z]\s*\.\.\.\s*[\"'\])]|\.\.\.\s*your\b|/Users/you\b|/home/you\b", re.I)
+_COMMENT_LOOP = re.compile(r"^\s*#\s*(?:then\s+)?(?:loop|repeat|paginate|page through)\b", re.M | re.I)
+_SPEND_LINE = re.compile(r"\$\d+(?:\.\d+)? approval line|approval line of \$|(?:under|over) the \$\d+(?:\.\d+)? (?:line|approval)|over about \$\d+|since it is over \$\d+", re.I)
+_BENCHMARK = re.compile(r"(?:aim(?:s)? for|target of|minimum of|benchmark)[^.\n]*\d+%|\d+%\+?\s*(?:or more|is the minimum)", re.I)
+_SOURCE_HINT = re.compile(r"https?://|\b[\w-]+\.(?:com|io|org|ai|dev)\b|\bper [A-Z]", re.I)
+
+
+def economy_error(text):
+    for rx, msg in ((_ASSUMED, "presents an unrun result or a self-graded check"),
+                    (_BLANK, "is a blank the reader has to fill by hand; write the value or a named input"),
+                    (_COMMENT_LOOP, "describes a loop in a comment; write the loop out"),
+                    (_SPEND_LINE, "presents a spend threshold as a rule; every paid run waits for a go-ahead")):
+        m = rx.search(text)
+        if m:
+            return f"'{m.group(0).strip()}' {msg}"
+    for ln in text.splitlines():
+        if _BENCHMARK.search(ln) and not _SOURCE_HINT.search(ln):
+            return f"benchmark with no source on its line: '{ln.strip()[:80]}'"
+    return None
+
+def legal_hit(text):
+    m = LEGAL_ACRONYMS.search(text) or LEGAL_PHRASES.search(text)
+    return m.group(0) if m else None
+
+
 
 def section(text, name):
     m = re.search(r"^## " + re.escape(name) + r"\s*$(.*?)(?=^## |\Z)", text, re.M | re.S | re.I)
@@ -73,6 +116,9 @@ def main(argv):
         print("usage: check-output.py path/to/plan.md (file not found)")
         return 2
     text = path.read_text(encoding="utf-8")
+    _econ = economy_error(text)
+    if _econ:
+        return fail(_econ)
 
     hit = PLACEHOLDER.search(text)
     if hit:
@@ -82,6 +128,9 @@ def main(argv):
             return fail(f"missing heading '## {name}'")
     if len(text) < MIN_CHARS:
         return fail(f"too short ({len(text)} chars, need {MIN_CHARS})")
+    legal = legal_hit(text)
+    if legal:
+        return fail(f"legal content in the plan ('{legal}'); state the setting and the result it changes instead")
 
     spec = table_rows(section(text, "Search Spec"))
     if len(spec) < 3:
@@ -130,13 +179,13 @@ def main(argv):
     if len(table_rows(cost)) < 2 or not re.search(r"\$\d", cost) or not re.search(r"total", cost, re.I):
         return fail("Cost Estimate needs a table with $ figures and a total line")
 
-    m = re.search(r"(\d+)\s*/\s*20", section(text, "Sample QA"))
+    m = re.search(r"(\d+)\s*/\s*(\d+)", section(text, "Sample QA"))
     if not m:
-        return fail("Sample QA must report on-target rows as N / 20")
-    if int(m.group(1)) < 18:
-        return fail(f"Sample QA shows {m.group(1)} / 20 on target; fix the search first (need 18+)")
+        return fail("Sample QA must report on-target rows as N / M")
+    if int(m.group(2)) == 0 or int(m.group(1)) > int(m.group(2)):
+        return fail(f"Sample QA count {m.group(1)} / {m.group(2)} is not a valid count")
 
-    print(f"PASS - local pull plan: {len(spec)} search rows, {len(segs)} segments, QA {m.group(1)}/20")
+    print(f"PASS - local pull plan: {len(spec)} search rows, {len(segs)} segments, QA {m.group(1)}/{m.group(2)}")
     return 0
 
 

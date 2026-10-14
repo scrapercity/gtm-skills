@@ -20,7 +20,7 @@ Company fields per the package docs: `company_industry`, `company_size`, `employ
 | `company_domain` | `company_domain` | Registrable domain |
 | `linkedin_url` | `linkedin_url` | No query string |
 | `mobile_number` | `mobile` | E.164; keep out of the sequencer unless calls are a step |
-| `city`, `state`, `country` | `person_city`, `person_state`, `person_country` | Drives time zone and law |
+| `city`, `state`, `country` | `person_city`, `person_state`, `person_country` | Drives time zone |
 | `company_industry` | `company_industry` | Plain words for copy: "software" not "computer software" |
 | `employees_count` | `company_employees` | Integer; band word for copy |
 
@@ -44,7 +44,7 @@ Fields per the package docs: `title` (business name), `category_name`, `address`
 
 ### 1c. Google Maps scraper (`scrape_maps`, $0.0099 per business)
 
-The listing fields match the Local Business Database set used throughout this repo (business name, category, address, phone, website, rating, review count). Scraper CSV headers can differ in case or naming from the database JSON, so map from the downloaded header row, not from memory. Maps listings carry no named contact: route rows to a non-personalized variant or enrich first (`scrape_website_finder` with `domains` and one `jobTitle`, $0.0499 per contact found).
+The listing fields match the Local Business Database set used throughout this repo (business name, category, address, phone, website, rating, review count). Scraper CSV headers can differ in case or naming from the database JSON, so map from the downloaded header row. Maps listings carry no named contact: route rows to a non-personalized variant or enrich first (`scrape_website_finder` with `domains` and one `jobTitle`, $0.0499 per contact found).
 
 ### 1d. Store Leads (`scrape_store_leads`, $0.0039 per lead)
 
@@ -76,7 +76,7 @@ Upload the normalized file with headers already renamed to what the platform exp
 | `company_domain` or `website` | Website | `website` | custom variable | custom variable | `domain`, `{{DOMAIN}}` |
 | `phone` | Phone | `phone_number` | `phone` | custom variable | `phone`, `{{PHONE}}` |
 | `linkedin_url` | custom variable `linkedin` | `linkedin_profile` | `linkedinUrl` | custom variable | `personalSocial` |
-| `title` | custom variable `title` | custom field | `jobTitle` | custom variable `title` | `jobPosition`, `{{JOB_POSITION}}` |
+| `title` | `job_title` on the bulk API; custom variable `title` on CSV | custom field | `jobTitle` | custom variable `title` | `jobPosition`, `{{JOB_POSITION}}` |
 | Copy variables (`category`, `rating`, `reviews`, `app_trigger`, `industry_plain`) | Custom variables | Custom fields | Extra fields become variables | Custom variables created first | `custom1` to `custom20`, merge `{{CUSTOM_1}}` |
 
 Platform limits that shape the file:
@@ -87,13 +87,13 @@ Platform limits that shape the file:
 | Smartlead | 40 custom variables per lead on CSV import; API `custom_fields` up to 200 per lead; up to 400 leads per API request | Smartlead help and API reference |
 | EmailBison | Custom variables must exist in the workspace before they can be attached | EmailBison docs |
 | ManyReach | `custom1` to `custom20`; `{{CUSTOM_1}}` works, `{{CUSTOM1}}` is rejected; `companySize` up to 32 characters | scrapercity.com/integrations/manyreach |
-| Lemlist | 20 requests per 2 seconds per key on the API | scrapercity.com/integrations/lemlist |
+| Lemlist | 20 requests per 2 seconds per key on the API; custom variable values are text, and characters other than letters, digits, `_`, `-`, space and `#` become `_` | lemlist API reference |
 
-House rule: keep copy variables to 10 or fewer per campaign and column names to 20 characters or fewer, which fits every platform above.
+Keep custom variables to 20 or fewer (ManyReach's `custom1` to `custom20` and the scrapercity.com Smartlead page's 20 per lead are the lowest limits above) and column names to 20 characters or fewer (Instantly's limit). That fits every platform above.
 
 ## 3. Fallbacks
 
-Fill fallbacks in the file, not in the template, so every platform renders the same.
+Fill fallbacks in the file so every platform renders the same.
 
 | Column | Fallback | When no fallback reads naturally |
 |-|-|-|
@@ -113,26 +113,35 @@ Check: zero empty cells in any column used in copy, and no `{{` in a rendered pr
 |-|-|-|
 | 1 | Normalize every file (list quality standard section 3) | Required columns filled |
 | 2 | Dedupe inside the file and against the sequencer workspace on lowercased email | 0 duplicates |
-| 3 | Suppress: unsubscribes, bounces, complaints, customers, open deals, competitors, contacted in the last 90 days | 0 matches |
-| 4 | Validate with `validate_emails` ($0.0072 per email) any row older than 30 days | 100% of main-file rows `valid` |
+| 3 | Suppress: unsubscribes, bounces, complaints, customers, open deals, competitors, anyone contacted inside the user's re-contact gap (Alex Berman waits 30 to 60 days between cycles) | 0 matches |
+| 4 | Validate with `validate_emails` ($0.0072 per email) any row last checked before the user's re-check window | 100% of main-file rows `valid` |
 | 5 | Split files: main (valid), catch-all, role-address variant, non-personalized variant | Each file maps to one campaign or variant |
 | 6 | Rename headers to the platform's names (section 2) | Header row matches the table |
 | 7 | Upload with duplicate checks on and every block list honored | Instantly "Check for Duplicates" checked; Smartlead `ignore_global_block_list`, `ignore_unsubscribe_list` and `ignore_community_bounce_list` all false; ManyReach `addOnlyIfNew=true` |
 | 8 | Reconcile counts | rows sent = rows imported + reported duplicates + reported blocklisted + reported invalid |
-| 9 | Preview 10 rendered emails, including 2 with fallbacks | No raw tags; names and numbers read right |
+| 9 | Preview rendered emails, including rows that use fallbacks | No raw tags; names and numbers read right |
 | 10 | Enroll into a paused campaign, then start | Sends match the ramp row from `inbox-setup` |
 
 ### API pushes
 
-| Platform | Call | Batch | Dedupe flags |
-|-|-|-|-|
-| Instantly | `POST https://api.instantly.ai/api/v2/leads` with `campaign`, `email`, `first_name`, `last_name`, `company_name`, `website`, `custom_variables` | One lead per call | `skip_if_in_workspace`, `skip_if_in_campaign` |
-| Smartlead | `POST https://server.smartlead.ai/api/v1/campaigns/{id}/leads?api_key=...` with `lead_list` and `settings` | Up to 400 per request (scrapercity.com integration page uses 100) | `ignore_duplicate_leads_in_other_campaign` false unless intended |
-| Lemlist | `POST https://api.lemlist.com/api/campaigns/{campaignId}/leads/` | One lead per call; duplicate returns a 4xx, skip it | API rejects duplicates |
-| EmailBison | `POST {workspace}/api/leads`, then `POST {workspace}/api/campaigns/{id}/leads` with `lead_ids` | One create per lead, attach many | Dedupe locally first |
-| ManyReach | `POST https://api.manyreach.com/api/v2/prospects/bulk?listId=...&campaignId=...` | 100 per call | `addOnlyIfNew=true`, `notInOtherCampaign=true` |
+| Platform | Call | Batch | Dedupe flags | Read back |
+|-|-|-|-|-|
+| Instantly | `POST https://api.instantly.ai/api/v2/leads/add` with `campaign_id` (or `list_id`) and a `leads` array; custom fields inside `custom_variables` | Up to 1,000 per call | `skip_if_in_workspace` (overrides the other two), `skip_if_in_campaign`, `skip_if_in_list`; `verify_leads_on_import: false` after `validate_emails` | `leads_uploaded`, `in_blocklist`, `skipped_count`, `invalid_email_count`, `duplicate_email_count`, `remaining_in_plan` |
+| Smartlead | `POST https://server.smartlead.ai/api/v1/campaigns/{id}/leads?api_key=...` with `lead_list` and `settings` | Up to 400 per request; send 100 (scrapercity.com integration page) | The four `ignore_*` settings all false | `added_count`, `skipped_count`, `skipped_leads` |
+| Lemlist | `POST https://api.lemlist.com/api/campaigns/{campaignId}/leads/?deduplicate=true&verifyEmail=false` | One lead per call | `deduplicate=true` returns 409 for a lead in another campaign; 400 `LEAD_ALREADY_IN_CAMPAIGN` for this one | Count 200s, 409s and 400s per batch |
+| EmailBison | `POST {workspace}/api/leads`, then `POST {workspace}/api/campaigns/{id}/leads` with `lead_ids` | One create per lead, attach many | Dedupe locally first | Lead ids returned |
+| ManyReach | `POST https://api.manyreach.com/api/v2/prospects/bulk?listId=...&campaignId=...` | 100 per call | `addOnlyIfNew=true`, `notInOtherCampaign=true` | Response counts |
 
-Store every API key in an environment variable. Handle 429 with exponential backoff and one retry per batch, and log every response so a partial batch can be resumed without double-adding.
+Rate limits that set the push speed (vendor docs, checked 2026-10-13):
+
+| Platform | Limit | Scope | Practical pace |
+|-|-|-|-|
+| Instantly | 100 requests a second, 6,000 a minute | Per workspace, shared by every key and API v1 | Bulk add makes this a non-issue for imports |
+| Smartlead | Standard 60 a minute and 1,000 an hour; Pro 120 a minute and 3,000 an hour | Per API key | 100 leads per call, about 50 calls a minute on Standard |
+| Lemlist | 20 requests per 2 seconds | Per API key | 10 a second, one lead each |
+| HubSpot private app | 100 (Free, Starter) or 190 (Professional, Enterprise) per 10 seconds | Per app | Batch upserts of 100 |
+
+Store every API key in an environment variable. On 429, wait for `Retry-After` when the response carries it, otherwise back off exponentially (1, 2, 4, 8, 16 seconds) with one retry per batch, and log every response so a partial batch resumes without double-adding.
 
 ## 5. Dedupe across ScraperCity pulls
 
@@ -141,6 +150,7 @@ Store every API key in an environment variable. Handle 429 with exponential back
 | Lead Database and Local Business Database | `excludeDelivered: true` with `page: 1` or the `after` cursor | Returns only records this account does not already have |
 | Scrapers (Maps, Store Leads, Apollo) | None built in | Keep a local set of lowercased emails and domains already pushed; check before each push |
 | Sequencer | Platform duplicate check | Catches what the local set missed |
+| Agency, several clients | One master set of lowercased emails across all clients | Sequencer duplicate checks stop at the workspace or client, so they never see another client's campaigns. A prospect in one client's active sequence is skipped for every other client until the re-contact gap after that sequence ends (Alex Berman waits 30 to 60 days between cycles) |
 
 ## 6. Suppression sync
 
@@ -153,11 +163,12 @@ One suppression list per company, pushed to every sequencer and the CRM.
 | Hard bounce | Sequencer webhook | Every sequencer's block list (email) |
 | Customer or open deal | CRM | Block list (domain) before each import |
 
-Timing: same day, 24 hours at most (house standard; Google 48 hours, Yahoo 2 days, CAN-SPAM 10 business days).
+Timing: the same day, in every tool. Google's 48 hours and Yahoo's 2 days are the outer limits.
 
 ## Sources
 
 - ScraperCity tool catalog: `references/scrapercity-catalog.md`
+- Alex Berman, TAM strategy breakdown (30 to 60 days between cycles; checked 2026-10-13): https://alexberman.com/cold-email-tam-strategy-skip-followups-breakdown
 - ScraperCity platform facts: `references/scrapercity-platform.md`
 - scrapercity npm package (AGENT_DOCS field lists): https://www.npmjs.com/package/scrapercity
 - ScraperCity, Instantly integration: https://scrapercity.com/integrations/instantly
@@ -167,9 +178,14 @@ Timing: same day, 24 hours at most (house standard; Google 48 hours, Yahoo 2 day
 - ScraperCity, ManyReach integration: https://scrapercity.com/integrations/manyreach
 - Instantly, How to import leads via CSV: https://help.instantly.ai/en/articles/6254215-how-to-import-leads-via-csv
 - Instantly, API v2 leads: https://developer.instantly.ai/api/v2/lead
+- Instantly, Add leads in bulk: https://developer.instantly.ai/api-reference/lead/add-leads-in-bulk-to-a-campaign-or-list
+- Instantly, Rate limit: https://developer.instantly.ai/getting-started/rate-limit
+- Smartlead, Rate limits: https://api.smartlead.ai/guides/rate-limits
+- lemlist, Create lead in campaign: https://developer.lemlist.com/api-reference/endpoints/leads/create-lead-in-campaign
+- lemlist, Rate limits: https://developer.lemlist.com/api-reference/getting-started/rate-limits
+- HubSpot, Legacy private apps (rate limits): https://developers.hubspot.com/docs/apps/legacy-apps/private-apps/overview
 - Smartlead, How to map CSV columns: https://helpcenter.smartlead.ai/en/articles/409-how-to-map-csv-columns-in-smartlead-campaigns
 - Smartlead, Add leads to a campaign (API): https://api.smartlead.ai/reference/add-leads-to-a-campaign-by-id
 - EmailBison, Custom variables: https://docs.emailbison.com/leads/custom-variables
 - Google, Email sender guidelines FAQ: https://support.google.com/a/answer/14229414
 - Yahoo Sender Hub, Best practices: https://senders.yahooinc.com/best-practices/
-- FTC, CAN-SPAM Act compliance guide: https://www.ftc.gov/business-guidance/resources/can-spam-act-compliance-guide-business

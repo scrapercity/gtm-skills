@@ -63,7 +63,7 @@ Billed count from the run: [fill emailCount and run id]
 
 | Item | Units | Unit price | Cost |
 |-|-|-|-|
-| validate_emails | [fill] | $0.0072 | [fill] |
+| Email Validator | [fill] | $0.0072 | [fill] |
 | Total paid usage | | | [fill] |
 
 Approval: [fill who approved and when]

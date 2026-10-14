@@ -195,7 +195,7 @@ A query string over about 16KB is refused before the search runs. The package se
 | When | A run reaches `SUCCEEDED` or `FAILED` |
 | Method | POST with a JSON body |
 | Payload fields documented | `runId`, `fileName`, `leadsCount` (scrapercity-cli `SKILL.md`). Neither scrapercity.com/how-to-use nor /api-docs lists further fields, a signature header or a retry schedule |
-| Receiver contract | Answer 200 fast. Then call the status endpoint with `runId` to learn the outcome and confirm the notification is real, and download only on `SUCCEEDED` |
+| Receiver contract | Answer 200 fast. Then call the status endpoint with `runId` to learn the outcome and confirm the notification, and download only on `SUCCEEDED` |
 | Idempotency | Key work on `runId` so a repeated delivery does not import twice |
 | Backstop | An hourly sweep of `GET /api/v1/runs?hours=48` for `SUCCEEDED` runs not yet handled |
 | Security | Use HTTPS and a long random path. Since no signature is documented, the status call is the authenticity check |

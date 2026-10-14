@@ -27,16 +27,16 @@
 
 Approval: [fill]
 
-## Compliance Check
+## Contact Hygiene
 
-| Channel | Recipients | Law | Action |
+| Channel | Recipients | Rule | Operating reason |
 |---|---|---|---|
 | [fill] | [fill] | [fill] | [fill] |
 | [fill] | [fill] | [fill] | [fill] |
 
-State rule: [fill]
+Match test: [fill]
 
-FCRA boundary: [fill]
+Suppression list: [fill]
 
 ## Outreach Routing
 

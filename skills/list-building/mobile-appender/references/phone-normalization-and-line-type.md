@@ -28,7 +28,7 @@ Percent-encoded slugs (non-Latin names) stay encoded. Do not decode them.
 
 ### One input per person
 
-Build a person key (`linkedin_url`, else `email`). If a person has both, send the URL. Deduplicate on the person key before the pilot.
+Build a person key (`linkedin_url`, else `email`). If a person has both, send the URL in the first run and keep the email for a second run on URL misses only. Deduplicate on the person key before the pilot.
 
 ## 2. Output to E.164
 
@@ -56,7 +56,7 @@ Regex used by the checker: `^\+[1-9]\d{7,14}$`.
 
 ### Why the number alone is not enough
 
-US and Canadian numbers can be ported between carriers and between wireline and wireless service, so an exchange once assigned to a mobile carrier can now hold a landline and the reverse. The FCC recognizes this with a 15-day safe harbor for automated voice calls to numbers just ported from wireline to wireless. Practical result: a lookup is the only way to know.
+Numbers move between switches and carriers, so the prefix is no longer an effective way to determine line type (Service Objects, September 10, 2015). An exchange once assigned to a mobile carrier can now hold a landline, and the reverse. A lookup is the only way to know.
 
 ### Lookup output to `line_type`
 
@@ -64,14 +64,14 @@ A carrier lookup such as Twilio Lookup Line Type Intelligence returns values lik
 
 | Lookup value | `line_type` | Dial-plan effect |
 |-|-|-|
-| mobile | mobile | Wireless rules apply; normal manual dialing |
-| landline | landline | Hold if the plan is a mobile-only list; SMS will not deliver |
+| mobile | mobile | Callable |
+| landline | landline | Hold if the plan is a mobile-only list |
 | fixedVoip | voip_fixed | Desk phone through a business VoIP service; often a direct dial; hold for review |
-| nonFixedVoip | voip_nonfixed | Google Voice style number; can be personal; treat like a mobile for consent |
+| nonFixedVoip | voip_nonfixed | Google Voice style number; can be personal; review by hand |
 | tollFree, premium, sharedCost, uan | other | Drop from a mobile list |
 | voicemail, pager | other | Drop |
 | personal | other | Review by hand |
-| unknown | unknown | Hold if automated use is planned |
+| unknown | unknown | Hold if the plan needs true mobiles |
 
 Canadian numbers may need separate approval in some lookup services; when the lookup errors, keep `line_type = unknown`.
 
@@ -79,14 +79,13 @@ Canadian numbers may need separate approval in some lookup services; when the lo
 
 | Plan | Lookup needed? |
 |-|-|
-| Manual dialing only, small list | Optional; reps will learn the line type on the first call |
-| Any automated dialing with consent | Yes, every number |
-| Any SMS | Yes, every number |
+| Click-to-call, small list | Optional; reps will learn the line type on the first call |
+| Power dialer that should only ring mobiles | Yes, every number |
 | Writing numbers back into a CRM mobile field | Recommended, so the field means what it says |
 
 ## 4. Shared and suspicious numbers
 
-| Pattern | What it usually is | Status |
+| Signal | What it usually is | Status |
 |-|-|-|
 | Same number on two or more people | Office main line or reception | `hold_shared_number` |
 | Same number as the company's published main line | Switchboard | Move to `phone`, not `mobile` |
@@ -104,18 +103,17 @@ Use the person's city and state (or country) to set `tz` as an IANA zone such as
 | `mobile` | `+15125550142` | E.164 text |
 | `input_used` | `linkedin_url` | Which identifier found it |
 | `line_type` | `mobile` | Section 3 values or `unchecked` |
-| `dnc_status` | `clear` | `clear`, `national`, `state`, `internal`, `unscrubbed` |
-| `dnc_checked_at` | `2026-10-13` | ISO date |
+| `suppressed` | `no` | `yes`, `no`, `unchecked` |
+| `suppression_checked_at` | `2026-10-13` | ISO date |
 | `tz` | `America/Chicago` | IANA zone |
-| `dial_status` | `callable_manual` | Vocabulary in `tcpa-dnc-gate.md` section 4 |
-| `sms_allowed` | `no` | `yes` only with text consent |
+| `dial_status` | `callable` | Vocabulary in `dial-status-and-suppression.md` section 3 |
 | `source` | `mobile_finder` | Controlled vocabulary |
 
 ## Sources
 
 - Twilio, What is E.164: https://www.twilio.com/docs/glossary/what-e164
 - Twilio, Lookup Line Type Intelligence: https://www.twilio.com/docs/lookup/v2-api/line-type-intelligence
-- 47 CFR 64.1200(a)(1)(iv), ported-number safe harbor: https://www.ecfr.gov/current/title-47/chapter-I/subchapter-B/part-64/subpart-L/section-64.1200
+- Service Objects, The Benefits and Uses of Local Number Portability (2015-09-10): https://www.serviceobjects.com/blog/the-benefits-and-uses-of-local-number-portability/
 - Ofcom, Numbering (070 personal numbering guidance): https://www.ofcom.org.uk/phones-and-broadband/phone-numbers/numbering
 - North American Numbering Plan Administrator: https://www.nationalnanpa.com/
 - IANA Time Zone Database: https://www.iana.org/time-zones

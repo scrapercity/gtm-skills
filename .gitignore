@@ -5,3 +5,17 @@ node_modules/
 *.csv
 !skills/**/*.csv
 .env
+.env.*
+!.env.example
+
+# Generated index at the repo root (scripts/generate-indexes.py)
+!/taxonomy.csv
+
+# Release zips from ./install.sh --zip dist/... and local install tests
+dist/
+*.zip
+
+# Editor folders
+.idea/
+.vscode/
+*.swp

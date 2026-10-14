@@ -1,107 +1,178 @@
-# Multi-Channel Outreach Plan: HVAC contractors in Dallas-Fort Worth
+# Multi-Channel Outreach Plan: finance leaders at Texas trucking carriers
 
-Prepared 2026-10-13 for Northbeam Dispatch (fictional company used as an example), which sells an after-hours call answering and booking service to HVAC contractors at $650 a month. Average customer stays 12 months, so one closed deal is worth about $7,800. Prices checked 2026-10-13.
+Illustrative example. Prepared 2026-10-13 for Tallyroad (tallyroad.example, a fictional company), which sells accounts payable automation to trucking carriers at a public $1,200 a month for up to 2,000 invoices on an annual contract, so one closed deal is worth $14,400. Prices checked 2026-10-13.
+
+Not checked: line type of the direct dials (no carrier lookup was run).
 
 ## Summary
 
-The list is 1,140 HVAC contractors across nine Dallas-Fort Worth cities, pulled from the Local Business Database with a phone, an email and at least 20 Google reviews. Tier A (280 contractors with 150+ reviews and a named contact) gets a 14 business day cadence of 4 emails, 3 calls and 1 postcard. Tier B (520 with 40 to 149 reviews) gets 4 emails and 2 calls to the business line. Tier C (340 with 20 to 39 reviews) gets email only. LinkedIn is left out: the Local Business Database returns no LinkedIn URL for these owners, and few trade owners work from LinkedIn. After the phone gate, 144 tier A owners have a callable mobile; the other 136 get business-line calls. ScraperCity data costs $27.21 (validation $8.21, Mobile Finder $19.00 for 76 numbers found). Cash cost for the program is $611.06, or $2,804.39 with rep time. The user approved the $19.00 Mobile Finder run and the $336.00 postcard order on 2026-10-13.
+Each tier A carrier gets a 14 business day CFO cadence (four emails, three calls, a letter and three LinkedIn touches), then the same cadence for the controller from day 16 only if the CFO has not replied; each tier B carrier gets one finance contact on four emails, two calls and a LinkedIn request. The launch covers 604 contacts at 468 Dallas-Fort Worth and Houston carriers with 50 to 200 employees, in four weekly cohorts from Tuesday 20 October 2026. Cash cost is at most $702.85 ($4,525.14 with rep time, if every controller thread runs). Approve the $24.50 Mobile Finder run and two Sales Navigator Core seats ($479.96 for two months) before launch.
 
 ## Channel Roles
 
-| Channel | Role in this plan | Used for tiers | Not used because |
+| Channel | Job in this plan | Tiers | Why not used elsewhere |
 |-|-|-|-|
-| Email | Carries the offer and the proof: "a Plano contractor booked 31 after-hours jobs in September that used to go to voicemail" | A, B, C | Used everywhere |
-| Phone | Converts owners who will not answer email; mobiles for tier A, business line for tier A without a callable mobile and for tier B | A, B | Tier C deal value per contact cannot carry rep time |
-| LinkedIn | None | None | No LinkedIn URLs in the data; trade owners rarely work from LinkedIn |
-| Direct mail | Pattern break that lands on the owner's desk at the shop address | A | Postcard at $1.20 is over the tier B break-even per contact |
+| Email | Carries the offer, the Ridgeline Freight proof and the price | A, B | Used everywhere |
+| Phone | Turns a finance lead who reads but does not reply into a meeting; mobiles for tier A, direct dial or main line for tier B | A, B | Mobiles cost $0.25 per number found, so tier B uses lines already on the record |
+| LinkedIn | Makes Dana's and Ben's names familiar before the calls; every contact with a LinkedIn URL gets a request, and Sales Navigator signals set the order | A, B | Used everywhere a URL exists |
+| Direct mail | One-page letter to each tier A CFO at the company address; its own URL and number measure whether it earns its cost | A (CFO only) | Tier B break-even per contact does not carry a letter |
+| SMS | Confirms or moves a meeting after the prospect asks to text; no WhatsApp | A, B after a reply | Never a first touch |
 
 ## Contact Tiers
 
-| Tier | Rule | Contacts | Channels |
+| Tier | Rule | Accounts and contacts | Channels |
 |-|-|-|-|
-| A | `reviews_count` 150 or more and `contact_first_name` present | 280 | Email, mobile or business-line call, postcard |
-| B | `reviews_count` 40 to 149 | 520 | Email, business-line call |
-| C | `reviews_count` 20 to 39 | 340 | Email only |
-| Total | | 1,140 | |
+| A | 100 to 200 employees, CFO or VP Finance and a controller both found | 136 accounts, 272 contacts | Email, mobile or direct-dial calls, LinkedIn, CFO letter |
+| B | 50 to 99 employees, or only one finance contact found; controller preferred | 332 accounts, 332 contacts | Email, direct-dial or main-line calls, LinkedIn request |
 
-Break-even per contact at a 25% close rate: tier A at a 3% meeting rate carries $7,800 x 25% x 3% = $58.50, far above its $9.31 cost per contact (`references/channel-cost-model.md` section 5). Meeting rates are hypotheses to replace after the first 300 contacts finish.
+Threads: at tier A carriers the CFO starts on day 1 with the cost angle. The controller starts on day 16, the Tuesday after the CFO's last touch, with the invoice-entry angle, and only if the CFO has not replied on any channel. The two threads never overlap, and a reply from either person stops both.
 
 ## Cadence
 
-| Tier | Day | Channel | Touch | Owner | Gate |
-|-|-|-|-|-|-|
-| A | 1 | Email | Touch 1: review count fact, Plano proof, question | Sequencer (Instantly) | CAN-SPAM: postal address and opt-out line in the footer |
-| A | 2 | Phone | Call 1, live rep, click-to-call, voicemail V1 | Jordan Pike (SDR) | TCPA 47 CFR 64.1200 and National DNC scrub passed; internal DNC clear; 09:00 to 20:00 Central (strictest state window applied everywhere) |
-| A | 3 | Direct mail | Postcard M1 mailed to the shop `address`, lands about day 8 | Ops, print vendor | Business address; email or phone opt-out checked; opt-out line printed |
-| A | 4 | Email | Touch 2 in thread: second proof (missed-call count) | Sequencer | CAN-SPAM footer |
-| A | 6 | Phone | Call 2 at the other window, no voicemail | Jordan Pike | TCPA and DNC as day 2; 1 call per day, 3 per cadence (Florida FTSA cap of 3 per 24 hours is stricter than needed) |
-| A | 9 | Email | Touch 3: references the postcard headline | Sequencer | CAN-SPAM footer |
-| A | 12 | Phone | Call 3, voicemail V3 (breakup) | Jordan Pike | TCPA and DNC as day 2 |
-| A | 14 | Email | Touch 4: breakup | Sequencer | CAN-SPAM footer |
-| B | 1 | Email | Touch 1 | Sequencer | CAN-SPAM footer |
-| B | 3 | Phone | Business line, front desk F1, ask for the owner by name | Sam Okafor (SDR) | Business landline per TSR B2B exemption; internal DNC clear; 09:00 to 20:00 Central |
-| B | 4 | Email | Touch 2 | Sequencer | CAN-SPAM footer |
-| B | 9 | Phone | Business line, F1 at the other window | Sam Okafor | TSR B2B exemption, internal DNC clear, TCPA calling window |
-| B | 11 | Email | Touch 3 | Sequencer | CAN-SPAM footer |
-| B | 15 | Email | Touch 4: breakup | Sequencer | CAN-SPAM footer |
-| C | 1, 4, 9, 15 | Email | Touches 1 to 4 | Sequencer | CAN-SPAM footer |
+Checks: every email carries a one-click unsubscribe; every call block starts from the internal do-not-call list and opt-outs on any channel; every LinkedIn touch is done by hand in LinkedIn (manual). Days are business days from day 1, a Tuesday; times are the recipient's local time.
 
-Stop rule: a reply on any channel, a booked meeting, or an opt-out on any channel stops every channel for that contact and for every other contact at the same business (`domain` or `phone` match). A rep logs the stop in Instantly (lead status) and in the call sheet the same day.
+| Tier | Day | Time | Channel | Touch | Owner | Skip when |
+|-|-|-|-|-|-|-|
+| A | 1 (Tue) | 07:30 to 08:30 | Email | E1f to the CFO | Dana Ortiz | Email invalid or unknown: skip that person's email rows; calls and LinkedIn run |
+| A | 1 (Tue) | 11:00 to 12:00 | LinkedIn | CFO profile view | Dana Ortiz | No LinkedIn URL: skip the CFO's LinkedIn rows |
+| A | 1 (Tue) | Mailed by 15:00, arrives about day 5 | Direct mail | M1 letter to the CFO at the company address | Dana Ortiz (signed) | No street address: skip, and E2f drops its first sentence |
+| A | 3 (Thu) | 08:00 to 10:00 | Phone | Call 1 to the CFO: O1f, voicemail V1f | Dana Ortiz | No number passed the check: main line with F1 |
+| A | 5 (Mon) | 11:00 to 12:00 | LinkedIn | L1 connection request to the CFO | Dana Ortiz | Already connected: skip to day 9 |
+| A | 7 (Wed) | 16:00 to 17:00 | Phone | Call 2 to the CFO: O1f, no voicemail | Dana Ortiz | Reached on call 1 and asked for email: skip |
+| A | 9 (Fri) | 07:30 to 08:30 | Email | E2f, references the letter | Dana Ortiz | Connection accepted since day 5: L2 instead (accept-skips-email) |
+| A | 11 (Tue) | 11:00 to 12:00 | LinkedIn | Connected and L2 sent: VN1 voice note from the mobile app. Connected after day 9: L2. Not connected: I1 InMail | Dana Ortiz | Not connected and no InMail credit left: skip |
+| A | 12 (Wed) | 08:00 to 10:00 | Phone | Call 3 to the CFO: O1f, voicemail V3 | Dana Ortiz | Spoke on an earlier call: no voicemail |
+| A | 14 (Fri) | 07:30 to 08:30 | Email | E3f breakup | Dana Ortiz | None; last CFO touch |
+| A | 16 (Tue) | 07:30 to 08:30 | Email | E1c to the controller | Dana Ortiz | CFO replied on any channel: skip every controller row |
+| A | 16 (Tue) | 11:00 to 12:00 | LinkedIn | Controller profile view | Dana Ortiz | No LinkedIn URL: skip the controller's LinkedIn rows |
+| A | 18 (Thu) | 08:00 to 10:00 | Phone | Call 1 to the controller: O1c, voicemail V1c | Dana Ortiz | No number passed the check: main line with F1 |
+| A | 19 (Fri) | 07:30 to 08:30 | Email | E2c in thread | Dana Ortiz | E1c hard bounced: skip the rest of email |
+| A | 20 (Mon) | 11:00 to 12:00 | LinkedIn | L1 connection request to the controller | Dana Ortiz | Already connected: skip to day 24 |
+| A | 22 (Wed) | 16:00 to 17:00 | Phone | Call 2 to the controller: O1c, no voicemail | Dana Ortiz | Reached on call 1 and asked for email: skip |
+| A | 24 (Fri) | 07:30 to 08:30 | Email | E3c in thread | Dana Ortiz | Connection accepted since day 20: L2 instead (accept-skips-email) |
+| A | 26 (Tue) | 11:00 to 12:00 | LinkedIn | Same branch as day 11: VN1, L2 or I1 | Dana Ortiz | Not connected and no InMail credit left: skip |
+| A | 27 (Wed) | 08:00 to 10:00 | Phone | Call 3 to the controller: O1c, voicemail V3 | Dana Ortiz | Spoke on an earlier call: no voicemail |
+| A | 29 (Fri) | 07:30 to 08:30 | Email | E4c breakup | Dana Ortiz | None; last touch for the carrier |
+| B | 1 (Tue) | 07:30 to 08:30 | Email | E1c | Ben Hale | Email invalid or unknown: skip email rows; calls and LinkedIn run |
+| B | 3 (Thu) | 08:00 to 10:00 | Phone | Call 1: direct dial with O1c, or the main line with F1; voicemail V1c | Ben Hale | No phone on the record: skip both calls |
+| B | 4 (Fri) | 07:30 to 08:30 | Email | E2c in thread | Ben Hale | E1c hard bounced: skip the rest of email |
+| B | 5 (Mon) | 11:00 to 12:00 | LinkedIn | L1 connection request | Ben Hale | No LinkedIn URL: skip |
+| B | 7 (Wed) | 16:00 to 17:00 | Phone | Call 2: O1c or F1, no voicemail | Ben Hale | Front desk said they do not take calls: skip |
+| B | 9 (Fri) | 07:30 to 08:30 | Email | E3c in thread | Ben Hale | Connection accepted since day 5: L2 instead (accept-skips-email) |
+| B | 14 (Fri) | 07:30 to 08:30 | Email | E4c breakup | Ben Hale | None; last touch |
+| All | Within 5 minutes of a request to text | 08:00 to 17:00 | SMS | S1 confirmation, then one reminder the day before | Account owner | No request to text: confirm by email |
+| All | Meeting minus 5 business days | 08:00 to 10:00 | Phone | C1 confirmation call; ask the buyer to bring the operational owner (the AP clerk or AP lead) | Account owner | Meeting booked under a week out: ask on the booking call |
+| All | Meeting minus 24 hours | 07:30 to 08:30 | Email | C2 confirmation in the invite thread | Account owner | Rescheduled: move to the new date |
+| All | Meeting minus 2 to 3 hours | Meeting time minus 2 hours | Phone | C3 reminder call if C2 got no reply | Account owner | Replied to C2: skip |
 
-Cohorts: 70 tier A and 130 tier B contacts start each week for 4 weeks, so two SDRs at 2 hours of calling a day cover the 62.7 hours of dialing.
+Account owner per tier: Dana Ortiz owns every tier A carrier on every channel, both people included; Ben Hale owns every tier B carrier. Each rep's mailbox, LinkedIn profile, caller ID, letter signature and texting number carry that rep's name, so a reply on any channel reaches the rep who stops the rest.
 
-## Compliance Gates
+Stop rule: a reply on any channel, a booked meeting or an opt-out stops every prospecting touch for everyone at that carrier, the same day. A booked meeting moves the person to C1 to C3; an opt-out stops those too. A contact who finishes the cadence with no reply re-enters only with a new dated reason and new copy. Never branch on email opens: Apple Mail Privacy Protection records opens that never happened.
 
-| Gate | Applies to | Rule and law | Result for this list |
-|-|-|-|-|
-| Dialing method | All calls | TCPA 47 CFR 64.1200(a)(1)(iii): no autodialer, prerecorded or AI voice calls to cell phones without prior express consent. Plan uses live reps on click-to-call only | Pass for all calls; no voicemail drops, no AI voice |
-| Internal DNC and cross-channel opt-outs | All calls and mail | 47 CFR 64.1200(d) company-specific DNC list; any email unsubscribe also stops calls and mail | 2 tier A mobiles removed |
-| National DNC Registry | Mobiles (Mobile Finder and `contact_mobile`) | 47 CFR 64.1200(c)(2) and (e); FTC TSR Q&A: registry refreshed every 31 days. Business-to-business exemption not relied on for mobiles | Registry file for 7 DFW area codes dated 2026-10-02; 26 mobiles removed |
-| Calling window | All calls | 47 CFR 64.1200(c)(1) 08:00 to 21:00; Texas Bus. & Com. Code 301.051 09:00 start and Florida FTSA 20:00 stop applied as the house window | 09:00 to 20:00 Central, all contacts are in Texas |
-| Call frequency | All calls | Florida FTSA 3 calls per 24 hours; house cap 1 a day, 3 per cadence | Enforced in the call sheet |
-| Email content | All email touches | CAN-SPAM: accurate headers, non-deceptive subject, postal address, opt-out honored within 10 business days (house: 24 hours) | Footer set in Instantly |
-| Mail | Tier A postcards | CAN-SPAM does not cover mail; house rule: business address only, opt-out line, no imitation of official mail | 280 business addresses, 0 residential |
-| Data use | All ScraperCity data | ScraperCity terms; FCRA purposes excluded (prospecting only) | Prospecting only |
+LinkedIn branch: an accepted connection replaces the next scheduled email with L2 on that email's day (accept-skips-email); later emails continue in the original thread. Contacts who posted in the past 30 days, changed jobs in the past 90 days or follow Tallyroad go first in each day's requests.
+
+LinkedIn volume: at most 68 connection requests per seat per rolling 7 days for Dana (34 CFOs plus 34 controllers in the heaviest week) and 83 for Ben, under the community estimate of about 100 a week (Overloop, July 2026), sent 10 to 25 a day; invitations pending 3 to 4 weeks are withdrawn. InMail stays inside each Core seat's 50 monthly credits.
+
+Daily run order: C1 to C3 confirmations first, then replies and callbacks inside their response times, then cadence calls at 08:00 to 10:00 and 16:00 to 17:00, then LinkedIn tasks at 11:00, then the phone check on tomorrow's cohort. Each rep's caller ID (214-555-0137 for Dana, 214-555-0152 for Ben) is checked for a spam label before the first block and after any drop in pickups, and swapped if labeled.
+
+## Tool Setup
+
+- HubSpot sequences, one per thread (tier A CFO, tier A controller, tier B), each sending from the owning rep's mailbox; catch-all addresses go in their own copy of each sequence.
+- Sequence settings: the reply and meeting switches set to "All contacts at the company", and "Unenroll contacts from the same company" on, so a reply from the CFO also stops the controller.
+- LinkedIn rows: "Sales Navigator - Connection request task" and "Sales Navigator - InMail task" steps through HubSpot's Sales Navigator integration; profile views and voice notes as general tasks. The rep completes each one in LinkedIn.
+- Call rows: "Call task" steps on days 3, 7 and 12 (and 18, 22 and 27 for controllers). When a call reaches a conversation, the rep unenrolls the contact while logging it.
+- HubSpot unenrolls on its unsubscribe link and on a bounce; the rep adds call and LinkedIn opt-outs to the same suppression list the same day.
+
+## Reply Branches
+
+Response times: interested replies within 5 minutes in business hours, every other human reply within 2 to 4 business hours (Berman). A reply that fits two rows takes the higher one in this order: opt-out, angry, bounce, interested, referral, objection, not now, wrong person.
+
+| Reply or outcome | Channel | Action across channels | Owner and SLA | Text to send |
+|-|-|-|-|-|
+| Interested, asks for a time | Any | Stop every prospecting touch at the carrier; offer two times | Account owner, 5 minutes | "Glad to. Thursday 10:00 or Friday 14:00 Central for 20 minutes? I'll bring Ridgeline's before and after." |
+| Accepts a time | Any | Invite within 5 minutes; start C1 to C3 | Account owner, 5 minutes | "Booked for Thursday 10:00 Central, invite on its way. Could your AP lead join? They'll have the questions I can answer best." |
+| Price question | Any | Treat as interested; answer in one line, then offer the call | Account owner, 5 minutes | "It's $1,200 a month for up to 2,000 invoices on an annual contract; more invoices or more entities move it up. Easiest to size on your volume: Thursday 10:00 or Friday 14:00 Central for 20 minutes?" |
+| "Send me something" | Any | Treat as interested; stop the cadence | Account owner, 5 minutes | "Short version: Ridgeline went from three days of month-end entry to one. Worth 20 minutes Thursday 10:00 or Friday 14:00 Central to run three of your invoices through it?" |
+| Forwarded internally | Any | Stop the forwarder; start the named person as a warm thread naming the forwarder | Account owner, 2 to 4 business hours | "Thanks for passing it along. I'll write to Sam directly so it doesn't sit in your inbox." |
+| Referral to a named colleague | Any | Stop the referrer; start the named person on day 1 with the referrer named in line one | Account owner, 2 to 4 business hours | To the referrer: "Thanks, I'll reach out to Sam and mention you pointed me there." |
+| Wrong person or left the company | Any | Stop that person; find the current role holder in the B2B Lead Database and start them on day 1 | Account owner, 2 to 4 business hours | "Thanks for letting me know. Who handles accounts payable there now?" |
+| Not now, with or without a date | Any | Stop; task on the date given, or the first week of next quarter (Tallyroad's setting) | Account owner, 2 to 4 business hours | "Understood. I'll check back the first week of February and not before." |
+| Uses a competitor or current vendor | Any | Stop; log the vendor and any renewal date | Account owner, 2 to 4 business hours | "Makes sense. If renewal comes up, I can show the difference on your own invoices in 20 minutes. I won't follow up before then." |
+| Not interested | Any | Stop all channels; suppress from every sequence | Account owner, 2 to 4 business hours | "Understood, thanks for telling me. I'll close the file." |
+| Opt-out: unsubscribe, "stop", "don't call", "remove me" | Any | Suppress email, phone, LinkedIn and mail the same day; number to the internal do-not-call list | Ops, same day | Email: none. Phone: "Understood, I'll take you off our list." |
+| Angry or threatening | Any | Suppress everywhere the same day; the sales manager decides any reply | Sales manager, same day | None |
+| Out of office | Email | Pause that person until the return date; never email the named delegate | HubSpot, automatic | None |
+| Hard bounce | Email | Stop email for that person; calls and LinkedIn continue | Ops, immediately | None |
+| Connection accepted, no message | LinkedIn | Skip the next email; send L2 that day | Account owner, that day | L2 |
+| Reply inside LinkedIn | LinkedIn | Classify with the rows above and answer in LinkedIn | Account owner, same time as the matching row | Text from the matching row |
+| Conversation on a call, meeting agreed | Phone | Send the invite while on the call; unenroll; stop the cadence | Account owner, on the call | "Sending the invite now so it's on your calendar before we hang up." |
+| Prospect returns a call or a voicemail | Phone | Treat as interested; call back | Account owner, 5 minutes | "Thanks for calling back. You'd asked about month-end invoices: Thursday 10:00 or Friday 14:00 Central for 20 minutes?" |
+| "Call me back at 3" | Phone | Book the callback; it counts toward 3 calls per cadence | Account owner, at the time given | None |
+| Front desk or assistant answers | Phone | F1; log the direct line and best time | Account owner | F1 |
+| Voicemail | Phone | V1f or V1c on call 1, none on call 2, V3 on call 3 | Account owner | V1f, V1c, V3 |
+| Wrong or disconnected number | Phone | Mark the number bad; email and LinkedIn continue | Account owner, that day | None |
+| Asks to text | Any | S1 from the rep's own number | Account owner, 5 minutes | S1 |
+| Letter returned undeliverable | Mail | Remove the address; E2f goes without its letter sentence | Ops | None |
 
 ## Channel Copy
 
-| Code | Channel | Copy or reference |
+Copy shows Dana's name and number; Ben's tier B copy is the same with his name and 214-555-0152. Merge fields fall back to "there" and "your company".
+
+| Code | Channel | Copy (emails: Subject, then Body under 75 words) |
 |-|-|-|
-| E1 to E4 | Email | Written in `cold-email-copywriting`. E1 subject "after-hours calls at {{business_name}}", first line "{{business_name}} has {{reviews_count}} reviews, which usually means the phone rings after 6pm too." Body under 90 words, ends with a question |
-| V1 | Phone voicemail | "Hi Ray, Jordan with Northbeam. I emailed you about after-hours calls at Reyes Air, the one with the Plano numbers. 214-555-0137, again 214-555-0137." (under 30 seconds) |
-| V3 | Phone voicemail | "Hi Ray, Jordan with Northbeam, last call from me. If nights are covered, I'll close the file. If not, Tuesday's email has the Plano numbers. 214-555-0137, 214-555-0137." |
-| F1 | Business line | "Hi, this is Sam with Northbeam. Is Ray in today? I emailed him about the after-hours line." |
-| M1 | Postcard, 6 x 9 | Front: "31 after-hours jobs booked in September for one Plano contractor." Back: two lines on how the line answers and books, `northbeam.co/dfw` and 214-555-0137, sender name, return address, "Prefer no mail? Call or email and we'll remove you." |
+| E1c | Email | Subject: month-end AP at {{company\|your company}}. Body: Hi {{first_name\|there}}, carriers your size usually key repair, fuel and lumper invoices by hand and code each one to a unit before close. Ridgeline Freight in Fort Worth runs about 90 trucks and cut month-end AP entry from three days to one after moving those invoices into Tallyroad. How many days does AP take at {{company\|your company}} at month end? Dana Ortiz, Tallyroad |
+| E2c | Email | Subject: same thread as E1c. Body: Hi {{first_name\|there}}, one more number from Ridgeline: repair cost now posts to each truck the week the invoice arrives, so maintenance sees cost per unit before close. Is coding repair spend to units a manual step for your team today? Dana |
+| E3c | Email | Subject: same thread as E1c. Body: Hi {{first_name\|there}}, Ridgeline's AP clerk stopped chasing drivers for lumper receipts: drivers photograph them and Tallyroad matches each one to the load. Worth 20 minutes to run three of your own invoices through it? Dana |
+| E4c | Email | Subject: same thread as E1c. Body: Hi {{first_name\|there}}, I'll close the file on this. If month-end AP ever runs past two days, reply "later" and I'll check back next quarter. Dana |
+| E1f | Email | Subject: AP cost at {{company\|your company}}. Body: Hi {{first_name\|there}}, carriers your size usually key repair, fuel and lumper invoices by hand at month end. Tallyroad is $1,200 a month for up to 2,000 invoices, and Ridgeline Freight in Fort Worth moved one AP role to billing three months after starting. Worth 20 minutes to see what that looks like for {{company\|your company}}? Dana Ortiz, Tallyroad |
+| E2f | Email | Subject: same thread as E1f. Body: Hi {{first_name\|there}}, I mailed you a one-page letter last week with Ridgeline's before and after. Short version: three days of month-end entry became one, at $1,200 a month. Do you track how long AP close takes? Dana |
+| E3f | Email | Subject: same thread as E1f. Body: Hi {{first_name\|there}}, last note from me. If AP cost comes up in next year's budget, reply "budget" and I'll send the Ridgeline numbers then. Dana |
+| O1f | Phone | "Hi {{first_name}}, Dana Ortiz with Tallyroad. The reason I'm calling is AP cost at {{company}}: repair, fuel and lumper invoices keyed by hand at month end. Can I take 30 seconds on why, and you tell me if it's worth a conversation?" |
+| O1c | Phone | "Hi {{first_name}}, Dana Ortiz with Tallyroad. The reason I'm calling is month-end invoice entry at {{company}}. Can I take 30 seconds on why, and you tell me if it's worth a conversation?" |
+| V1c | Phone | "Hi {{first_name}}, Dana with Tallyroad. I emailed you Tuesday about repair and lumper invoices at month end, the one with the Ridgeline numbers. 214-555-0137, again 214-555-0137." |
+| V1f | Phone | "Hi {{first_name}}, Dana with Tallyroad. I sent you a note about AP cost at {{company}}, $1,200 a month against one AP role. 214-555-0137, again 214-555-0137." |
+| V3 | Phone | "Hi {{first_name}}, Dana with Tallyroad, last call from me. If month-end AP is handled, I'll close the file. If not, my email has the Ridgeline numbers. 214-555-0137, 214-555-0137." |
+| F1 | Phone | "Hi, this is Dana with Tallyroad. Is {{first_name}} in? I emailed about month-end invoices." When asked why: "It's about how repair and fuel invoices get entered. Is there a better time, or a direct line?" |
+| L1 | LinkedIn | "Hi {{first_name}}, I sent you a note about month-end AP at {{company}}. Connecting here too; I work with Texas carriers on invoice entry." (about 135 characters) |
+| L2 | LinkedIn | "Thanks for connecting, {{first_name}}. How many days does AP take at month end for you today?" |
+| VN1 | LinkedIn | Voice note under 30 seconds, recorded by Dana in the LinkedIn mobile app: "Hi {{first_name}}, Dana from Tallyroad, thanks for connecting. Ridgeline Freight cut month-end AP entry from three days to one. Quick question: how many days does it take at {{company}}?" |
+| I1 | LinkedIn | Subject: month-end AP at {{company}}. Body: "Hi {{first_name}}, carriers your size usually key repair, fuel and lumper invoices by hand before close. Ridgeline Freight cut that from three days to one with Tallyroad. Worth 20 minutes to run three of your invoices through it?" No link, no attachment |
+| M1 | Direct mail | One-page letter, plain envelope, first-class stamp, signed by Dana: "Dear {{first_name}}, Ridgeline Freight in Fort Worth runs about 90 trucks. Its AP team used to spend three days at month end keying repair, fuel and lumper invoices; with Tallyroad it takes one, and one AP role moved to billing. Tallyroad is $1,200 a month for up to 2,000 invoices. If a 20-minute look at three of your own invoices is useful, call me at 214-555-0137 or visit tallyroad.example/txcarriers. Dana Ortiz, Tallyroad." Return address |
+| S1 | SMS | "Hi {{first_name}}, Dana from Tallyroad confirming Thursday 10:00 Central. Reply STOP to opt out." |
+| C1 | Phone | "Hi {{first_name}}, Dana with Tallyroad, confirming Thursday at 10:00. Could your AP lead join? They'll know the invoice volumes." |
+| C2 | Email | Subject: in the invite thread. Body: Hi {{first_name\|there}}, still on for tomorrow at 10:00 Central? Joining from Tallyroad: Dana Ortiz. Dana |
+| C3 | Phone | "Hi {{first_name}}, Dana from Tallyroad. Still good for 10:00? I'll have the Ridgeline numbers up." |
 
-## Data and Cost
+## Launch and Cost
 
-`check_wallet` on 2026-10-13: $284.40 balance, Growth plan. Counts came from `query_local_business_database(keyword=["hvac contractor","air conditioning contractor"], location=["Dallas TX","Fort Worth TX","Plano TX","Arlington TX","Irving TX","Frisco TX","McKinney TX","Garland TX","Denton TX"], hasPhone=true, hasEmail=true, minReviews=20, limit=1)`, `pagination.total` 1,140.
+Calendar: cohort 1 starts Tuesday 20 October 2026; cohorts 2 to 4 start 27 October, 3 November and 10 November, each with 34 tier A and 83 tier B carriers. The last controller touch lands Friday 18 December. Rows on 26 or 27 November (Thanksgiving) move to the next business day. Email send window: 07:30 to 08:30 Central (Tallyroad's setting).
+
+Data pulled: B2B Lead Database, trucking carriers in the Dallas-Fort Worth and Houston metros with 50 to 200 employees, titles CFO, VP Finance and Controller: 604 contacts at 468 carriers. Email Validator: 488 valid, 71 valid catch-all, 17 unknown, 28 invalid. Mobile Finder on tier A work emails: 98 numbers found, none on the internal do-not-call list or opted out; the other 174 tier A contacts get direct-dial or main-line calls.
 
 | Line | Channel | Count | Unit price | Cost |
 |-|-|-|-|-|
-| Local Business Database pull | All | 1,140 | Included on Growth ($149 a month, already paid) | $0.00 |
-| `validate_emails` | Email | 1,140 | $0.0072 | $8.21 |
-| `find_mobiles` test on tier A `contact_email` | Phone | 50 inputs, 21 found (42%) | $0.25 per number found | $5.25 |
-| `find_mobiles` remaining tier A without `contact_mobile` | Phone | 134 inputs, 55 found | $0.25 per number found | $13.75 |
-| DNC Registry access, 7 DFW area codes (5 free) | Phone | 2 paid area codes | $85 a year | $170.00 |
-| Postcards, all-in | Direct mail | 280 | $1.20 | $336.00 |
-| Cold email sends on existing infrastructure | Email | 4,172 sends (1,043 valid and catch-all contacts x 4) | $0.01866 | $77.85 |
-| Rep dialing time (assumption: 30 dials an hour, $35 an hour loaded) | Phone | 1,880 dials = 62.7 hours | $35 an hour | $2,193.33 |
-| Total | All | | | $2,804.39 |
+| B2B Lead Database pull | All | 604 contacts at 468 carriers | Included on Growth ($149 a month, already paid) | $0.00 |
+| Email Validator | Email | 604 | $0.0072 | $4.35 |
+| Mobile Finder test on tier A work emails | Phone | 50 inputs, 18 found (36%) | $0.25 per number found | $4.50 |
+| Mobile Finder on the other tier A contacts | Phone | 222 inputs, 80 found | $0.25 per number found | $20.00 |
+| CFO letters printed in-house, first-class stamp | Direct mail | 136 | $1.12 ($0.82 stamp from 12 July 2026 plus $0.30 paper and envelope, Tallyroad's cost) | $152.32 |
+| Sales Navigator Core | LinkedIn | 2 seats x 2 months | $119.99 a month (LinkedIn compare-plans page, checked 2026-10-13) | $479.96 |
+| Cold email sends on existing mailboxes | Email | 2,236 (559 sendable contacts x 4) | $0.01866 | $41.72 |
+| Rep dialing time (Tallyroad's inputs: 30 dials an hour, $35 an hour loaded) | Phone | 1,480 dials = 49.3 hours | $35 an hour | $1,726.67 |
+| Rep LinkedIn time (Tallyroad's input: 7.5 minutes per contact across view, request and message) | LinkedIn | 479 contacts with a LinkedIn URL = 59.9 hours | $35 an hour | $2,095.62 |
+| Total | All | | | $4,525.14 |
 
-ScraperCity subtotal: $8.21 + $5.25 + $13.75 = $27.21. Cash outside payroll: $27.21 + $170.00 + $336.00 + $77.85 = $611.06.
-
-Validation results: `valid` 912, `valid_catch_all` 131, `unknown` 22, `invalid` 70, `disposable` 5 (total 1,140). Catch-alls run in a separate Instantly campaign capped at 10% of daily volume. Invalid and unknown tier A contacts still get calls and the postcard.
-
-Mobile funnel for tier A: 96 already had `contact_mobile`, 76 found by Mobile Finder, 172 total; 26 on the National DNC Registry and 2 on the internal list removed; 144 callable mobiles. The other 136 tier A owners get business-line calls.
+Cash outside payroll: at most $702.85, of which ScraperCity data is $28.85; email sends and rep time on controller threads drop for every CFO who replies first.
 
 ## Tracking
 
+Record the channel of each first positive response (the letter carries its own URL and number) and report weekly per tier and per rep.
+
 | Metric | Per channel | Target or decision rule |
 |-|-|-|
-| Positive replies and meetings | Email, phone, mail (mail has its own URL `northbeam.co/dfw` and its own number) | Credit the meeting to the channel of the first positive response |
-| Meetings per 100 contacts | Tier A, B, C | Hypotheses: A 3, B 1.5, C 0.8. Below half of target after 300 contacts: change the offer before adding volume |
-| Cost per meeting | Per tier | Tier A target under $150. Over $300 after 300 contacts: drop the postcard first, then call 3 |
-| Connect rate | Mobile vs business line | If mobile connects are under 2x business-line connects after 200 dials each, stop buying mobiles |
-| Hard bounce rate | Email | Under 2% per campaign; pause at 2% |
-| Opt-outs | All channels | Suppressed on every channel the same day; log count weekly |
+| Meetings per 100 contacts | Tier A, tier B | Hypotheses: A 4, B 2 (about 17 meetings). Fewer than that after the first 100 contacts in a tier (Berman tests a segment on about 100): change the offer before adding volume |
+| Cost per meeting | Per tier, rep time included | Expected about $266. Over that after the first 100 contacts in a tier: drop the CFO letter first, then call 3 |
+| First positive response by channel | Email, phone, LinkedIn, letter | A channel with 0 after the first 100 contacts in a tier leaves the cadence |
+| Connection acceptance | LinkedIn, per rep | The first 100 requests set each rep's baseline; below it, send signal contacts only until it recovers |
+| Connect rate | Mobile vs direct dial vs main line | Mobiles under 2x the main-line connect rate after 200 dials each: stop buying mobiles |
+| Hard bounces, spam complaints and opt-outs | Email, all channels | Hard bounces under 2% per campaign (Berman); spam complaints under 0.3% (Google and Yahoo sender rules); opt-outs suppressed everywhere the same day, counted weekly |

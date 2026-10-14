@@ -76,11 +76,12 @@ Build the coverage table from per-sub-area count calls (A: all, C: with website 
 
 | Signal | Action | Ceiling formula |
 |-|-|-|
-| Coverage C / A is 5+ points under the metro average | `scrape_maps` for that sub-area, 2-3 terms, cap 40 per term | terms x 40 x $0.0099 |
+| Coverage C / A is under the gap line the user sets against the metro average | `scrape_maps` for that sub-area, 2-3 terms, cap 60 or less per term (Google's text search maximum) | terms x cap x $0.0099 |
 | A count far under the CBP establishment count for the county | `scrape_maps` across the county's cities | cities x terms x cap x $0.0099 |
 | Vertical with dense Yelp listings (restaurants, beauty, auto, home services) | `scrape_yelp` for the weakest 1-3 sub-areas | terms x locations x `searchLimit` x $0.0099 |
 | Home services with an Angi slug | `scrape_angi` with `zipCodes` for the gap ZIPs | `maxItems` x $0.0099 |
 | A Maps term returns exactly at its cap | Split that sub-area into ZIP codes and rerun the term | Same per ZIP |
+| The sub-area's outside-list or database count is already above the per-term cap | Run Maps by ZIP there from the start, using the ZIPs on the outside list's location addresses | ZIPs x terms x cap x $0.0099 |
 | Coverage is fine everywhere | No scrape | $0 |
 
 Before paying for a Maps run, read the `local_business_database` block a Maps start response can return: it reports how many businesses for the same search are already in the database and not yet in the account, with the call that returns them. Pull those first and cancel the scrape if they cover the gap.
@@ -97,7 +98,7 @@ Scrape output columns differ by tool and version. Read each CSV's header row and
 | Long location lists | `POST /api/v1/database/local-businesses` with a JSON body |
 | More than 100,000 new businesses | Split across days by state or metro; only new records count toward the daily allowance |
 
-Every record returned is saved to the account; fetching one the account already has is free. A monthly refresh with `excludeDelivered: true` returns only businesses added since the last pull.
+Every record returned is saved to the account; fetching one the account already has is free. A refresh with `excludeDelivered: true` returns only businesses added since the last pull.
 
 ## 6. Dedupe across sources
 
@@ -129,10 +130,10 @@ Survivorship when rows merge: valid email beats any other status; non-empty beat
 | 3 | Owner-named list | Recipe 1 plus `hasContact: true` | Website Finder with "Owner" on rows with a website and no contact |
 | 4 | High-rated only | add `minRating: 4.5`, `minReviews: 50` | None; scrapes return all ratings, filter after |
 | 5 | Newer or smaller businesses | `maxReviews: 20` | Maps with a cap of 60, since new listings sit low in results |
-| 6 | Exclude chains | `notCategory` for franchise categories, then drop domains seen in 5+ locations | None |
+| 6 | Exclude chains | `notCategory` for franchise categories, then the independence screen in `coverage-segments-and-handoff.md` section 1c (chain line set by the user) | None |
 | 7 | Radius campaign around one office | `box` from section 3 | Maps with a Google Maps link of the same area as `url` |
 | 8 | ZIP list from a client's service area | `location` as the ZIP list | `scrape_angi` with `zipCodes` for home services |
-| 9 | Monthly new-business refresh | Recipe 1 plus `excludeDelivered: true` | None |
+| 9 | New-business refresh | Recipe 1 plus `excludeDelivered: true` | None |
 | 10 | A saved Google Maps search | `url` set to the search link; read `search_translation` | Same link to `scrape_maps` as `url` if gaps remain |
 
 ## Sources

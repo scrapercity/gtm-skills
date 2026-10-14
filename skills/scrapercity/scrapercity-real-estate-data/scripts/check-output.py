@@ -12,7 +12,7 @@ REQUIRED = [
     "Objective",
     "Tool Plan",
     "Cost Estimate",
-    "Compliance Check",
+    "Contact Hygiene",
     "Outreach Routing",
     "Next Steps",
 ]
@@ -28,11 +28,49 @@ PRICES = {
     "find_emails": {0.05},
     "find_mobiles": {0.25},
 }
-LAWS = re.compile(
-    r"TCPA|47 U\.?S\.?C|47 CFR|Telemarketing Sales Rule|\bTSR\b|CAN-SPAM|FCRA|Regulation O|12 CFR 1015|"
-    r"Do Not Call|Civil Code|Act 52|SB 155|Senate Bill 155|License Act|501\.059|Wholesaler Prohibition",
-    re.IGNORECASE,
+# Owner rule: deliverables carry no legal content. These patterns mirror
+# scripts/validate-skills.py --check-legal; the bracketed letters keep this file
+# from matching its own terms.
+LEGAL_ACRONYMS = re.compile(
+    r"\b(?:CAN[- ]?SP[A]M|T[C]PA|T[S]R|C[A]SL|G[D]PR|C[C]PA|C[P]RA|P[E]CR|F[C]RA|G[L]BA|H[I]PAA|F[E]RPA|D[P]PA"
+    r"|F[T]C|F[C]C|C[F]PB|C[R]TC|I[C]O|D[N]C)\b|\bC\.?F\.?R\b|U\.S\.C|\bRegulation [A-Z]\b"
 )
+LEGAL_PHRASES = re.compile(
+    r"Do[- ]Not[- ]Call|Att[o]rneys? Gen[e]ral|legal advi[c]e|\bnot leg[a]l\b|permissible (?:purpose|use)"
+    r"|lawful bas[i]s|\bcompliance\b|\bconsent\b|\b(?:lawy[e]r|attorn[e]y|couns[e]l)s?\b",
+    re.I,
+)
+
+
+# Economy and honesty rules shared by the ScraperCity checkers: no unrun results presented
+# as real, no blanks the reader fills by hand, no loop left in a comment, no spend threshold
+# presented as a rule, and a source on the same line as any percentage benchmark.
+_ASSUMED = re.compile(r"\(assumed\)|^\s*-\s*\[x\]", re.I | re.M)
+_BLANK = re.compile(r"[\"'\[(?=,]\s*\.\.\.\s*[A-Za-z]|[A-Za-z]\s*\.\.\.\s*[\"'\])]|\.\.\.\s*your\b|/Users/you\b|/home/you\b", re.I)
+_COMMENT_LOOP = re.compile(r"^\s*#\s*(?:then\s+)?(?:loop|repeat|paginate|page through)\b", re.M | re.I)
+_SPEND_LINE = re.compile(r"\$\d+(?:\.\d+)? approval line|approval line of \$|(?:under|over) the \$\d+(?:\.\d+)? (?:line|approval)|over about \$\d+|since it is over \$\d+", re.I)
+_BENCHMARK = re.compile(r"(?:aim(?:s)? for|target of|minimum of|benchmark)[^.\n]*\d+%|\d+%\+?\s*(?:or more|is the minimum)", re.I)
+_SOURCE_HINT = re.compile(r"https?://|\b[\w-]+\.(?:com|io|org|ai|dev)\b|\bper [A-Z]", re.I)
+
+
+def economy_error(text):
+    for rx, msg in ((_ASSUMED, "presents an unrun result or a self-graded check"),
+                    (_BLANK, "is a blank the reader has to fill by hand; write the value or a named input"),
+                    (_COMMENT_LOOP, "describes a loop in a comment; write the loop out"),
+                    (_SPEND_LINE, "presents a spend threshold as a rule; every paid run waits for a go-ahead")):
+        m = rx.search(text)
+        if m:
+            return f"'{m.group(0).strip()}' {msg}"
+    for ln in text.splitlines():
+        if _BENCHMARK.search(ln) and not _SOURCE_HINT.search(ln):
+            return f"benchmark with no source on its line: '{ln.strip()[:80]}'"
+    return None
+
+def legal_hit(text):
+    m = LEGAL_ACRONYMS.search(text) or LEGAL_PHRASES.search(text)
+    return m.group(0) if m else None
+
+
 DISTRESS_TYPES = {"preforeclosure", "foreclosure", "auction", "bankowned"}
 PLACEHOLDER = re.compile(r"\[(fill|todo|tbd)\]|<[a-z][a-z _-]*>", re.IGNORECASE)
 MIN_CHARS = 1800
@@ -77,6 +115,9 @@ def main(argv):
         print("usage: check-output.py path/to/plan.md (file not found)")
         return 2
     text = path.read_text(encoding="utf-8")
+    _econ = economy_error(text)
+    if _econ:
+        return fail(_econ)
 
     hit = PLACEHOLDER.search(text)
     if hit:
@@ -125,23 +166,25 @@ def main(argv):
     if abs(summed - total_line) > 0.02:
         return fail(f"line items sum to ${summed:.2f} but Total says ${total_line:.2f}")
 
-    comp = table_rows(section(text, "Compliance Check"))
-    if len(comp) < 2:
-        return fail("Compliance Check needs a row per channel (at least 2)")
-    for row in comp:
-        law = row[2] if len(row) > 2 else ""
-        if not LAWS.search(law):
-            return fail(f"compliance row '{row[0]}' must name the law that governs it")
-    sec = section(text, "Compliance Check")
-    if not re.search(r"FCRA", sec):
-        return fail("Compliance Check must state the FCRA boundary")
-    if not re.search(r"state rule", sec, re.I):
-        return fail("Compliance Check must state the state rule")
+    hyg_block = section(text, "Contact Hygiene")
+    hyg = table_rows(hyg_block)
+    if len(hyg) < 2:
+        return fail("Contact Hygiene needs a row per channel (at least 2)")
+    for row in hyg:
+        if len(row) < 4 or not row[2] or not row[3]:
+            return fail(f"Contact Hygiene row '{row[0]}' needs a rule and its operating reason")
+    if not re.search(r"^Match test:\s*\S", hyg_block, re.M):
+        return fail("Contact Hygiene must state the match test for owner contacts")
+    if not re.search(r"^Suppression list:\s*\S", hyg_block, re.M):
+        return fail("Contact Hygiene must say where the suppression list lives and how it is applied")
+    legal = legal_hit(text)
+    if legal:
+        return fail(f"legal content in the plan ('{legal}'); state the operating rule and its reason instead")
 
     if len(table_rows(section(text, "Outreach Routing"))) < 2:
         return fail("Outreach Routing needs at least 2 record groups")
 
-    print(f"PASS - real estate plan: {len(tools)} tool steps, total ${total_line:.2f}, {len(comp)} compliance rows")
+    print(f"PASS - real estate plan: {len(tools)} tool steps, total ${total_line:.2f}, {len(hyg)} channel hygiene rows")
     return 0
 
 

@@ -91,7 +91,7 @@ Add $0.0072 per email for validation: 1,000 stores pulled and validated cost $3.
 
 ## 7. The Ecommerce Database (Growth and Scale)
 
-`references/scrapercity-platform.md` lists an Ecommerce Database at `GET /api/v1/database/ecommerce` on Growth and Scale, with the same paging pattern (`after` cursor, `excludeDelivered`) as the other databases. Its filter parameters are not in the catalog file this repo generates. Check scrapercity.com/api-docs before relying on it; until then, `scrape_store_leads` is the documented path.
+`references/scrapercity-platform.md` lists an Ecommerce Database at `GET /api/v1/database/ecommerce` on Growth and Scale, with the same paging pattern (`after` cursor, `excludeDelivered`) as the other databases. Its filter parameters are not in the published npm package (1.0.17, checked 2026-10-13), and the public scrapercity.com/api-docs page lists the database APIs by name only. On Growth or Scale, read the endpoint's parameters in the API reference inside the dashboard, run a 1-record test, and compare its filters with the Store Leads call you planned: rows pulled there count against the plan's daily allowance instead of costing $0.0039 each. Until that test passes, `scrape_store_leads` is the documented path.
 
 ## 8. Errors and empty results
 

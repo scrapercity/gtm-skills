@@ -14,13 +14,13 @@ Search inputs for 30 local verticals: the `keyword` set for `query_local_busines
 
 | # | Vertical | `keyword` | `notCategory` | Website Finder `jobTitle` | Yelp term | Notes |
 |-|-|-|-|-|-|-|
-| 1 | Dentists | dentist, dental clinic, cosmetic dentist, pediatric dentist | Dental laboratory, Dental supply store | Office Manager | dentist | Group practices share inboxes; collapse on email |
+| 1 | Dentists | dentist, dental clinic, cosmetic dentist, pediatric dentist | Dental laboratory, Dental supply store, Dental school | Office Manager | dentist | Group practices share inboxes; collapse on email. DSO-supported offices can keep the practice name: run the independence screen. Specialists stay in, tagged by NPI taxonomy, unless the user excludes them |
 | 2 | Orthodontists | orthodontist | Dental laboratory | Practice Manager | orthodontist | Many locations under one owner; one row per brand |
 | 3 | Chiropractors | chiropractor, chiropractic clinic | Massage therapist | Owner | chiropractor | Owner usually the doctor; "Dr." in salutation |
 | 4 | Physical therapy | physical therapy clinic, physical therapist | Hospital | Clinic Director | physical therapy | Hospital-owned clinics buy centrally; exclude |
 | 5 | Med spas | med spa, medical spa, botox, laser hair removal | Day spa, Nail salon | Owner | med spa | Owner often a nurse practitioner or physician |
 | 6 | Optometrists | optometrist, eye care center | Optician, Eyewear store | Office Manager | optometrist | Retail chain optical counters inflate counts |
-| 7 | Veterinarians | veterinarian, animal hospital, veterinary clinic | Pet store, Pet groomer | Practice Manager | veterinarian | Corporate-owned groups common; check domains seen 5+ times |
+| 7 | Veterinarians | veterinarian, animal hospital, veterinary clinic | Pet store, Pet groomer | Practice Manager | veterinarian | Corporate-owned groups common; run the independence screen |
 | 8 | Dermatology | dermatologist, dermatology clinic | Beauty salon | Practice Administrator | dermatologist | Large groups buy centrally |
 | 9 | Counseling and therapy practices | counselor, therapist, mental health clinic | Hospital | Clinical Director | therapist | Many solo practitioners on Gmail; keep `is_free` rows |
 
@@ -30,7 +30,7 @@ Search inputs for 30 local verticals: the `keyword` set for `query_local_busines
 |-|-|-|-|-|-|-|
 | 10 | Plumbers | plumber, plumbing service, drain cleaning | Plumbing supply store | Owner | plumbing | Owner-operators answer `info@` |
 | 11 | HVAC | hvac contractor, air conditioning contractor, heating contractor | HVAC supply store, Appliance store | Owner | hvac | Seasonal: email in shoulder months |
-| 12 | Roofers | roofing contractor, roofer | Roofing supply store | Owner | roofing | Storm-chasing firms change domains; re-validate monthly |
+| 12 | Roofers | roofing contractor, roofer | Roofing supply store | Owner | roofing | Storm-chasing firms change domains; re-validate before each send |
 | 13 | Electricians | electrician, electrical contractor | Electrical supply store, Lighting store | Owner | electrical | Commercial and residential mix; split by keyword |
 | 14 | Landscapers | landscaper, landscaping service, lawn care service | Garden center, Nursery | Owner | landscaping | Many Gmail addresses; keep them |
 | 15 | Pest control | pest control service, exterminator | Hardware store | General Manager | pest-control | National franchises; one row per location |
@@ -45,11 +45,11 @@ Search inputs for 30 local verticals: the `keyword` set for `query_local_busines
 
 | # | Vertical | `keyword` | `notCategory` | Website Finder `jobTitle` | Yelp term | Notes |
 |-|-|-|-|-|-|-|
-| 22 | Personal injury law firms | personal injury attorney, accident lawyer | Legal services, Notary public | Managing Partner | personal injury lawyer | Attorney advertising rules vary by state; keep copy factual |
+| 22 | Personal injury law firms | personal injury attorney, accident lawyer | Legal services, Notary public | Managing Partner | personal injury lawyer | One row per firm |
 | 23 | Accountants and CPA firms | accountant, cpa, tax preparation service | Bookkeeping service (if excluded) | Managing Partner | accountant | Avoid February to April 15 for cold email |
 | 24 | Insurance agencies | insurance agency, insurance agent | Insurance company | Agency Owner | insurance agent | Captive agents cannot buy many products; filter by brand names in titles |
 | 25 | Real estate brokerages | real estate agency, real estate broker | Property management company | Broker Owner | real estate agent | For individual agents use `scrape_zillow_agents` instead |
-| 26 | Financial advisors | financial planner, financial advisor, wealth management | Bank, Credit union | Principal | financial advisor | Broker-dealer compliance reviews outside email; keep it plain |
+| 26 | Financial advisors | financial planner, financial advisor, wealth management | Bank, Credit union | Principal | financial advisor | One row per brand |
 
 ## Hospitality, retail and auto
 
@@ -83,7 +83,7 @@ Ceiling per run: domains x $0.0499. A 26-domain run is at most $1.30.
 | Only well-rated businesses (reputation offers, premium services) | `minRating: 4.3` |
 | Businesses with weak reviews (reputation management offers) | `maxRating: 3.9`, `minReviews: 10` |
 | Only businesses with a named contact | `hasContact: true` |
-| Phone-first campaign | `hasPhone: true`, drop the email requirement, route mobiles through the compliance checks |
+| Phone-first campaign | `hasPhone: true`, drop the email requirement, run mobiles through mobile-appender's line-type and suppression checks |
 | Exclude one brand name | `title` cannot exclude; drop rows by `business_name_key` after the pull |
 
 ## Copy notes by vertical type
@@ -101,4 +101,3 @@ Ceiling per run: domains x $0.0499. A 26-domain run is at most $1.30.
 - ScraperCity CLI repository: https://github.com/scrapercity/scrapercity-cli
 - Google Business Profile Help, Guidelines for representing your business (category selection): https://support.google.com/business/answer/3038177
 - US Census Bureau, NAICS codes: https://www.census.gov/naics/
-- FTC, CAN-SPAM Act compliance guide: https://www.ftc.gov/business-guidance/resources/can-spam-act-compliance-guide-business

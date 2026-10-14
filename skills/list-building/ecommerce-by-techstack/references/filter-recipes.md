@@ -2,13 +2,13 @@
 
 Starting filters by what the user sells and by the app or technology that qualifies a store. Every recipe uses only `scrape_store_leads` parameters from the catalog. App, category and technology names below are the public product names; the data may spell them differently, so run the 25-row probe from `store-leads-parameter-guide.md` section 2 before any pull and copy the value the data uses.
 
-Bands are house starting points (October 2026), built from the 5% rule in `tiering-and-tech-intersection.md`. Change them to fit the offer's price.
+Bands below assume the worked example's 20x affordability ratio from `tiering-and-tech-intersection.md` section 1. Recompute them from the user's offer price and ratio before a pull.
 
 ## 1. Recipes by what the user sells
 
 | # | Seller | Core filters | Bands | Extra flags | Why these stores |
 |-|-|-|-|-|-|
-| 1 | Klaviyo or email marketing agency | `platform: shopify`, `apps: Klaviyo` | sales $50,000 to $499,999 | `emails: true`, `planExclude: ["Shopify Plus"]` for SMB retainers | Already pays for Klaviyo; the gap is flows and campaigns, which is the agency's work |
+| 1 | Klaviyo or email marketing agency | `platform: shopify`, `apps: Klaviyo` | sales $50,000 to $499,999 | `emails: true`, `planExclude: ["Shopify Plus"]` for SMB retainers | Already pays for Klaviyo; flows and campaigns are missing, and those are the agency's work |
 | 2 | Email agency, platform switch pitch | `platform: shopify`, `apps: Mailchimp` | sales $30,000 and up | `emails: true` | Store on a general email tool at a size where ecommerce flows pay back |
 | 3 | SMS platform or SMS agency | `platform: shopify`, `apps: Klaviyo` then exclude Attentive and Postscript domains via Tech Stack Search | sales $40,000 and up | `emails: true`, `instagram: true` | Email is running, SMS is not |
 | 4 | Subscription app or agency | `platform: shopify`, `apps: Recharge` | sales $20,000 and up | `emails: true` | Subscription revenue in place; pitch retention, churn or migration |
@@ -29,7 +29,7 @@ Bands are house starting points (October 2026), built from the 5% rule in `tieri
 | 19 | B2B wholesale portal | `platform: shopify`, `category: apparel` or `home` | sales $100,000 and up | `linkedin: true` | Brands with a company page often sell wholesale |
 | 20 | Magento to Shopify migration agency | `platform: magento` | sales $100,000 and up | `emails: true`, `phones: true` | Platform migration pitch; band filters keep only budgets that can pay for it |
 | 21 | WooCommerce to Shopify migration | `platform: woocommerce`, `technologies: Klaviyo` | visits 20,000 and up | `emails: true` | Serious marketing stack on WooCommerce |
-| 22 | WooCommerce plugin or host | `platform: woocommerce`, `countryCode: DE` or `GB` | visits 10,000 and up | `emails: true` | Country-specific campaigns; mind GDPR and PECR |
+| 22 | WooCommerce plugin or host | `platform: woocommerce`, `countryCode: DE` or `GB` | visits 10,000 and up | `emails: true` | Country-specific campaigns, one language per sequence |
 | 23 | BigCommerce partner | `platform: bigcommerce` | sales $50,000 and up | `emails: true`, `phones: true` | Smaller platform ecosystem, fewer agencies chasing it |
 | 24 | Squarespace or Webflow store designer | `platform: squarespace` or `webflow` | `maxEstimatedMonthlySales: 30000` | `instagram: true` | Small creative brands that hire designers |
 | 25 | Packaging supplier | `platform: shopify`, `category: food` or `beauty` | sales $20,000 to $250,000 | `phones: true` | Physical product volume, still buying from small suppliers |

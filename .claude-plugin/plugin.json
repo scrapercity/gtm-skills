@@ -10,7 +10,9 @@
   },
   "homepage": "https://scrapercity.com/skills",
   "repository": "https://github.com/scrapercity/gtm-skills",
+  "documentationUrl": "https://github.com/scrapercity/gtm-skills#readme",
+  "supportUrl": "https://github.com/scrapercity/gtm-skills/issues",
   "license": "MIT",
-  "keywords": ["gtm", "outbound", "cold-email", "lead-generation", "list-building", "prospecting", "scrapercity", "mcp", "agent-skills"],
+  "keywords": ["gtm", "outbound", "cold-email", "lead-generation", "list-building", "prospecting", "deliverability", "cold-calling", "scrapercity", "mcp", "agent-skills"],
   "skills": ["./skills/outbound/", "./skills/list-building/", "./skills/scrapercity/"]
 }

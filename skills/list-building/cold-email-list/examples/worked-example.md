@@ -1,6 +1,8 @@
 # Cold Email List Report: finance leaders at US construction firms, 50-500 employees
 
-Prepared 2026-10-13 for Ledgerpath, an accounts payable automation tool for contractors. Plan: Growth ($149/mo). Wallet before run: $166.75. Company and person names are fictional and use the reserved `.example` domain.
+_Illustrative example. Companies, people, counts and run results are invented to show the format. Prices are ScraperCity catalog prices._
+
+Prepared 2026-10-13 for Ledgerpath (ledgerpath.example), an accounts payable automation tool for contractors. Plan: Growth ($149/mo). Wallet before run: $166.75. Company and person names are fictional and use the reserved `.example` domain.
 
 ## Campaign Brief
 
@@ -12,23 +14,23 @@ Prepared 2026-10-13 for Ledgerpath, an accounts payable automation tool for cont
 | Launch date | 2026-10-20 |
 | Personalization variables in the copy | FirstName, CompanyName, City, CaseStudy (commercial or residential version) |
 | Recipient countries | United States only |
-| Suppression files supplied | HubSpot customers and open deals, Instantly unsubscribes and bounces, contacts emailed in the last 90 days |
+| Suppression files supplied | HubSpot customers and open deals, Instantly unsubscribes and bounces, contacts emailed inside Ledgerpath's 60-day re-contact window |
 
 ## Sourcing Plan
 
 | Path | Input | Tool | Why |
 |-|-|-|-|
-| ICP pull | Title, industry, size, country filters | query_lead_database with after cursors | Included in the plan; count first |
-| Priority domains | 140 domains from the CRM | query_lead_database with companyDomain in batches of 25 | The AE team named these accounts |
-| Empty priority domains | 44 domains with no finance leader in the database | scrape_website_finder, jobTitle Controller | One title per run, paid only on hits |
-| Names without email | 15 people from the priority-domain pass | find_emails | Free when not found; validated at lookup |
+| ICP pull | Title, industry, size, country filters | Lead Database with after cursors | Included in the plan; count first |
+| Priority domains | 140 domains from the CRM | Lead Database with companyDomain in batches of 25 | The AE team named these accounts |
+| Empty priority domains | 44 domains with no finance leader in the database | Website Finder, jobTitle Controller | One title per run, paid only on hits |
+| Names without email | 15 people from the priority-domain pass | Email Finder | Free when not found; validated at lookup |
 
 ## Count Check
 
 | Call | pagination.total | Decision |
 |-|-|-|
 | ICP filters without notTitle | 3,204 | 25-row read showed accounts payable clerks and assistants matching "Controller" partials |
-| ICP filters with notTitle | 2,861 | Target 1,200 send-ready; pull 1,600 (1,200 / 0.75) |
+| ICP filters with notTitle | 2,861 | Target 1,200 send-ready; pull 1,600 (1,200 / 0.75, the yield Ledgerpath measured on its last construction list) |
 | Priority domains, 6 batches with finance titles | 96 | One best person per domain for 96 of 140 domains; 44 domains go to Website Finder |
 
 User go-ahead: approved in chat on 2026-10-13 after seeing the counts and the $15.30 ceiling.
@@ -43,7 +45,7 @@ User go-ahead: approved in chat on 2026-10-13 after seeing the counts and the $1
 | Drop names Email Finder could not resolve | 1,710 | -5 | 15 sent, 10 found |
 | Normalization drops | 1,688 | -22 | 14 rows with no first name, 8 broken email syntax |
 | Dedupe | 1,647 | -41 | Priority-domain people already in the ICP pull, matched on email and name plus domain |
-| Suppression | 1,562 | -85 | 18 customers, 9 open deals, 52 emailed in the last 90 days, 6 unsubscribes |
+| Suppression | 1,562 | -85 | 18 customers, 9 open deals, 52 emailed inside the 60-day re-contact window, 6 unsubscribes |
 | Keep valid only | 1,278 | -284 | 187 catch-all to their own file, 39 unknown held, 54 invalid and 4 disposable removed |
 | Per-company cap and wave split | 1,247 | -31 | Fourth and later contacts per company removed; 214 second and third contacts sit in the wave 2 file inside this count |
 
@@ -51,12 +53,12 @@ User go-ahead: approved in chat on 2026-10-13 after seeing the counts and the $1
 
 | Status | Count | Share | Action |
 |-|-|-|-|
-| valid | 1,278 | 81.8% | 1,268 from validate_emails plus 10 Email Finder results validated at lookup; send file |
-| valid_catch_all | 187 | 12.0% | Separate Instantly campaign, at most 18 sends a day (10% of 180), starting after 7 days under 2% bounces |
+| valid | 1,278 | 81.8% | 1,268 from Email Validator plus 10 Email Finder results validated at lookup; send file |
+| valid_catch_all | 187 | 12.0% | Separate Instantly campaign at 18 sends a day (Ledgerpath's setting), started once the main campaign's first 200 sends stay under 2% bounces |
 | unknown | 39 | 2.5% | Re-validate once on 2026-10-16 |
 | invalid | 54 | 3.5% | Removed and added to the Instantly blocklist |
 | disposable | 4 | 0.3% | Removed and added to the blocklist |
-| Total validated | 1,562 | 100% | 1,552 addresses in one validate_emails run (`emailCount` 1,552) plus 10 Email Finder results |
+| Total validated | 1,562 | 100% | 1,552 addresses in one Email Validator run (`emailCount` 1,552) plus 10 Email Finder results |
 
 ## Send Capacity
 
@@ -70,7 +72,7 @@ User go-ahead: approved in chat on 2026-10-13 after seeing the counts and the $1
 | Total sends | 3,741 |
 | Sending days | 21 |
 
-Wave 1 holds 1,033 first contacts per company and starts 2026-10-20; wave 2 (214 rows) starts once each company's first contact finishes the sequence without a reply. Rows validated on 2026-10-13 stay inside the 30-day window through 2026-11-12. Rows still unsent that day (about 250, mostly wave 2) are re-validated before their first step, about $1.80.
+Wave 1 holds 1,033 first contacts per company and starts 2026-10-20; wave 2 (214 rows) starts once each company's first contact finishes the sequence without a reply. Rows validated on 2026-10-13 stay inside the four-week window through 2026-11-10. Rows still unsent that day (about 250, mostly wave 2) are re-validated before their first step, about $1.80.
 
 ## Sequencer Import
 
@@ -93,9 +95,9 @@ Upload settings: CSV saved as UTF-8 with the header row first; "Check for duplic
 | Item | Units | Unit price | Cost |
 |-|-|-|-|
 | Lead Database ICP pull and priority domains | 1,696 leads | Included in Growth plan | $0.00 |
-| scrape_website_finder | 19 contacts found | $0.0499 | $0.95 |
-| find_emails | 10 emails found (5 free misses) | $0.05 | $0.50 |
-| validate_emails | 1,552 emails | $0.0072 | $11.17 |
+| Website Finder | 19 contacts found | $0.0499 | $0.95 |
+| Email Finder | 10 emails found (5 free misses) | $0.05 | $0.50 |
+| Email Validator | 1,552 emails | $0.0072 | $11.17 |
 | Total paid usage | | | $12.62 |
 
 Cost per send-ready row: $12.62 / 1,247 = $0.010. Wallet after run: $154.13. The 1,696 leads used under 2% of the 100,000 daily allowance.
@@ -120,7 +122,8 @@ Cost per send-ready row: $12.62 / 1,247 = $0.010. Wallet after run: $154.13. The
 | Bounce auto-pause on | done | Instantly default auto-pause kept on |
 | Blocklist imported before leads | done | 1,434 rows on 2026-10-13 |
 | Cross-campaign duplicate check on at upload | done | Upload dialog |
-| Opt-out line and physical address in every step | done | Sequence copy reviewed with `cold-email-copywriting` |
-| Every send row validated within 30 days of its send date | done | Validated 2026-10-13; re-validation of unsent rows scheduled for 2026-11-12 |
-| Catch-all rows in their own capped campaign | done | 187 rows, 18 a day, starts after 7 clean days |
+| Unsubscribe in every step, removals blocklisted the same day | done | Instantly unsubscribe link on in the campaign settings |
+| Every send row validated within four weeks of its send date | done | Validated 2026-10-13; re-validation of unsent rows scheduled for 2026-11-10 |
+| Catch-all rows in their own campaign | done | 187 rows, 18 a day, starts once the main campaign's first 200 sends stay under 2% bounces |
 | No more than one contact per company in wave 1 | done | ContactOrder = 1 for all 1,033 wave 1 rows |
+| 20-row QA sample against the brief | done | 19 of 20 title fit, 20 of 20 company fit, 18 of 20 still at the company, 20 of 20 domains open the company site |

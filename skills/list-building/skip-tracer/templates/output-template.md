@@ -2,14 +2,14 @@
 
 Prepared [fill date] for [fill company]. Plan: [fill plan]. Wallet before run: [fill $ balance].
 
-## Purpose and Permissible Use
+## Purpose and Channels
 
 | Item | Answer |
 |-|-|
 | Purpose | [fill] |
 | User type | [fill] |
 | Channels | [fill] |
-| FCRA statement | [fill] |
+| Suppression list | [fill] |
 
 ## Input Profile
 
@@ -32,15 +32,17 @@ Prepared [fill date] for [fill company]. Plan: [fill plan]. Wallet before run: [
 
 User go-ahead: [fill]
 
-## Match Scoring
+## Match Bands
 
-| Band | Score range | Count | Use |
+| Band | Evidence | Count | Use |
 |-|-|-|-|
-| confirmed | 80 to 100 | [fill] | [fill] |
-| probable | 60 to 79 | [fill] | [fill] |
-| weak | 40 to 59 | [fill] | [fill] |
-| no_match | 0 to 39 | [fill] | [fill] |
+| confirmed | name+address, name+contact, owner_record | [fill] | [fill] |
+| probable | name+city, surname+address, address_only | [fill] | [fill] |
+| weak | name_only, surname+city, tie, entity | [fill] | [fill] |
+| no_match | none, deceased | [fill] | [fill] |
 | Total searched | | [fill] | [fill] |
+
+QA sample ([fill] confirmed rows against the owner of record): owner [fill] of [fill], address [fill] of [fill], phone format [fill] of [fill].
 
 ## Results Funnel
 
@@ -54,17 +56,11 @@ User go-ahead: [fill]
 |-|-|
 | [fill] | [fill] |
 
-## Compliance Check
-
-| Item | Answer | Law | Action |
-|-|-|-|-|
-| [fill] | [fill] | [fill] | [fill] |
-
 ## Sample Rows
 
-| input_id | matched_name | match_score | match_band | matched_by | phone_1 | phone_1_dnc | phone_1_status |
-|-|-|-|-|-|-|-|-|
-| [fill] | [fill] | [fill] | [fill] | [fill] | [fill] | [fill] | [fill] |
+| input_id | matched_name | match_evidence | match_band | matched_by | phone_1 | phone_1_status |
+|-|-|-|-|-|-|-|
+| [fill] | [fill] | [fill] | [fill] | [fill] | [fill] | [fill] |
 
 ## Next Steps
 

@@ -13,7 +13,7 @@ A sourced digest of what Alex Berman teaches in public about cold email: on alex
 | Sold Taplio (an AI LinkedIn tool) to Lempire, per his site | https://alexberman.com |
 | Founder of ScraperCity, the publisher of this repo. His site footer lists ScraperCity under his Products, and his tools page lists it under Lead Generation | https://alexberman.com, https://alexberman.com/tools |
 
-Stat rule for every skill: the 500k figure counts sales meetings booked. Describe sending volume separately, as millions of cold emails.
+Stat rule for every skill: the 500k figure counts sales meetings booked. Describe sending volume separately: his companies send millions of cold emails a month (ScraperCity's own description of its founder; his templates page says he has sent millions).
 
 ## 1. Targeting comes before copy
 
@@ -23,13 +23,13 @@ Stat rule for every skill: the 500k figure counts sales meetings booked. Describ
 - **Test segments with small batches.** In the Lean B2B interview he describes brainstorming about 15 B2B industries, sending about 100 cold emails per segment, then scoring each segment on reply enthusiasm, ease of closing, ability to pay and problem severity. He also warns that his first market had about 3,300 companies and ran dry in roughly two months, so check market size before you commit. Source: https://leanb2bbook.com/blog/alex-berman-b2b-market-segments/
 - **Read the replies, not only the rate.** Strong interest or a clear "no" means you are on target. Widespread lukewarm replies suggest the segment or offer is off. "We already have a vendor" is a good sign, because it proves the market buys. Source: same Lean B2B interview.
 
-How this repo applies it: `cold-email-strategy` builds the campaign cell (segment, offer, trigger) before any copy exists, and sizes the segment with a ScraperCity count before committing.
+How this repo applies it: `cold-email-strategy` builds the campaign cell (segment, offer, trigger) and sizes it with a ScraperCity count before it writes a word of copy, then writes the emails and reply texts against that cell.
 
 ## 2. The offer decides the reply
 
 - His article "Cold Email Doesn't Fail, Your Offer Does" says low reply rates usually trace to a weak offer, since cold email has no relationship or brand to lean on. Source: https://alexberman.com/cold-email-doesn-t-fail-your-offer-does
 - Build the offer from past client outcomes: what changed for the client (revenue, leads, conversions, deals closed), then pick the most dramatic and repeatable result.
-- State it as one sentence: a niche, a specific result, and how you deliver it. If you cannot fill in real numbers and a real niche, you have a service description.
+- State it as one sentence: a niche, a specific result, and how you deliver it. If you cannot fill in specific numbers and a named niche, you have a service description.
 - Build the list after the offer. A broad list built first produces generic messaging.
 - Diagnosis table from the same article: decent opens with few replies points at the offer; replies that are all "not interested" point at targeting; replies without closed deals point at the sales process.
 - Test with about 100 emails to one tight niche with one proven result in the first line.
@@ -46,15 +46,15 @@ How this repo applies it: the offer worksheet in `cold-email-strategy` requires 
 - **"You" over "we",** at most one link in the first email, and no pricing, proposals or PDFs in email. Source: https://alexberman.com/cold-email-templates
 - **Personalization depth by recipient.** The templates page describes three levels: segment (role, industry, size), account (news, funding, hiring, leadership change) and person (a post, podcast or talk), and suggests matching depth to the buyer.
 
-How this repo applies it: `cold-email-copywriting` enforces bodies under 90 words, one ask ending in a question mark, and plain text with no more than one link.
+How this repo applies it: `cold-email-copywriting` enforces bodies under 100 words (the top of his range, and Jason Bay's cap on the Gong blog), one ask ending in a question mark, and plain text with no more than one link.
 
 ## 4. Subject lines
 
 - In his 2017 Entrepreneur article he lists four subject line types: a referral or mutual connection, congratulations on a news item, a generic but customized line (name plus company), and a fully generic line such as "Hi from Alex". He says relevance drives opens, and that the first line must match a news-based subject or the reader feels misled. He recommends the generic-but-customized type for campaigns over 500 emails. Source: https://www.entrepreneur.com/article/292394
 - Quote from that article: "The thing that gets people to open is the relevance of the subject line."
-- In the Single Grain video he favors short neutral subject lines such as "Quick question" or "Question about" plus the company name, and warns that pitching in the subject line gets the email deleted unread.
+- In the Single Grain video he favors short neutral subject lines such as "Quick question" or "Question about" plus the company name, and warns that readers delete an email unread when the subject line pitches.
 - His templates page calls "Quick Question" its control, suggests keeping subjects under 50 characters, and advises against emojis, all caps and promotional words. Source: https://alexberman.com/cold-email-templates
-- BlitzMetrics reports that he treats the subject line as the most important element and that most scripts people send him for review leave it out. Source: https://blitzmetrics.com/alex-berman-the-cold-email-king/
+- BlitzMetrics reports that he treats the subject line as the most important element and that scripts people send him for review often leave it out. Source: https://blitzmetrics.com/alex-berman-the-cold-email-king/
 
 ## 5. Follow-up and account sequencing
 
@@ -74,16 +74,16 @@ From his follow-up guide (https://alexberman.com/cold-email-follow-up) and templ
 | Asks for more info | Send a 2 to 3 sentence summary, one relevant case study and a proposed call time. No PDF. |
 | Not interested | Acknowledge, remove them, optionally ask once whether it is timing or fit. |
 | Asks to follow up later | Log the date and reference the earlier exchange when you return. |
-| Asks about price | Do not send pricing by email; propose a short call. |
+| Asks about price | Do not send pricing by email; propose a short call and give the exact number there. |
 | Uses a competitor | Ask what made them choose that vendor and position your offer as complementary. |
-| Interested | Respond fast. The templates page suggests within 2 to 4 business hours; the follow-up guide says minutes when you can. |
+| Interested | Respond fast. The follow-up guide says to get back within 5 minutes; the templates page sets 2 to 4 business hours as the outer limit and warns that 48 hours sharply cuts the booking chance (both checked 2026-10-13). |
 
 In the Lean B2B interview he adds that a "not interested" reply is a chance to ask for honest feedback, and repeated feedback shows what to change.
 
 ## 7. Deliverability and list quality
 
 - Set up SPF, DKIM and DMARC, warm new domains at 10 to 20 emails a day over 2 to 4 weeks, and keep bounces under 2%. Source: https://alexberman.com/cold-email-templates
-- A beginner setup described on his site: 3 to 5 sending domains, 2 to 3 inboxes per domain, 2 to 4 weeks of warmup, under 50 emails per inbox per day. It warns that bounce rates of 15 to 20% seriously damage deliverability, so verify lists first. Source: https://alexberman.com/cold-email-tam-strategy-skip-followups-breakdown
+- A beginner setup described on his site: 3 to 5 sending domains, 2 to 3 inboxes per domain, 2 to 4 weeks of warmup, under 50 emails per inbox per day. It warns against sending from the primary domain or from one inbox without warmup, and says bounce rates of 15 to 20% seriously damage deliverability, so verify lists first. Source: https://alexberman.com/cold-email-tam-strategy-skip-followups-breakdown
 - Verify every email before sending and aim for 95%+ valid. His B2B lead generation page names ScraperCity's B2B database among list sources. Source: https://alexberman.com/b2b-lead-generation
 
 ## 8. Measurement
@@ -101,7 +101,7 @@ In the Lean B2B interview he adds that a "not interested" reply is a chance to a
 
 | Topic | Range across his pages | How to use it |
 |-|-|-|
-| Body length | under 70, under 75, under 100 words | This repo uses a hard 90 word cap and aims for 50 to 75. |
+| Body length | under 70, under 75, under 100 words | This repo caps bodies under 100 words and aims for his templates page's under 75. |
 | Follow-ups | 4 to 6 in 2 to 3 weeks vs one email per 30 to 60 day cycle | Pick by market size; test both. |
 | Benchmarks | Open, reply and meeting rates on his templates page come from mixed and self-reported sources | Treat as starting hypotheses with a date, never promises. |
 | Roundup posts | Some pages on his site summarize other people's posts | Attribute those claims to "a roundup on alexberman.com", not to Berman. |

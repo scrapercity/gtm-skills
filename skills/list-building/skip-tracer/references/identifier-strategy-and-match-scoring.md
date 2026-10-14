@@ -1,19 +1,19 @@
-# Identifier Strategy and Match Scoring
+# Identifier Strategy and Match Banding
 
 How to pick the search for each row, how many results to pay for, and how to decide whether a returned person is the right one.
 
 ## 1. Identifier ladder
 
-Search the strongest identifier a row has. Weaker identifiers are used to score, not to search.
+Search the strongest identifier a row has. Weaker identifiers are used to band the match, not to search.
 
 | Rank | Identifier | Why it is strong or weak | Search with |
 |-|-|-|-|
-| 1 | Full street address with ZIP, plus the expected name | The address narrows to a household; the name confirms the person | `street_citystatezip`, score with the name |
-| 2 | Phone number | Usually one current subscriber | `phone_number` |
-| 3 | Personal email | Usually one person | `email` |
+| 1 | Full street address with ZIP, plus the expected name | The address narrows to a household; the name confirms the person | `street_citystatezip`, band with the name |
+| 2 | Phone number | A number belongs to one subscriber at a time | `phone_number` |
+| 3 | Personal email | A personal inbox belongs to one person | `email` |
 | 4 | Full address with ZIP, no name | Returns people tied to the address: owners, tenants, relatives, former residents | `scrape_property_lookup` with owner contact when the owner is needed; else `street_citystatezip` capped at the probable band |
 | 5 | Name plus last known address | The person may have moved | `street_citystatezip` with the old address first; `name` search if they are gone |
-| 6 | Name plus city and state | Common names collide | `name` with `max_results: 3`, score on city and state |
+| 6 | Name plus city and state | Common names collide | `name` at the user's `max_results` setting, band on city and state |
 | 7 | Name only | Many candidates | Do not search; find a second identifier first |
 
 The catalog lists `name`, `email`, `phone_number` and `street_citystatezip` as separate arrays. It does not document pairing values across arrays into one search, so treat each entry as its own search.
@@ -24,69 +24,59 @@ People Finder bills $0.0199 per result, and a search with 0 matches is billed as
 
 | Search type | `max_results` | Reason |
 |-|-|-|
-| Address, phone, email | 1 | The first result is the best candidate; more results add cost and rarely change the answer |
-| Name with city and state | 3 | Enough to see a collision and score it |
-| Rescue name search after a weak address match | 3 | Same |
-| Common surname in a large metro (Smith, Garcia, Nguyen, Johnson) | 5 only for high-value rows | Otherwise mail only |
+| Address, phone, email | 1 | The identifier points to one household or subscriber, and every extra result is billed |
+| Name with city and state | The user's setting (the example uses 3) | The number of same-name candidates the user will pay to compare |
+| Rescue name search after a weak address match | Same setting | Same |
 
 Ceiling formula: `searches x max(max_results, 1) x $0.0199`.
 
-## 3. Scoring rubric
+## 3. Banding by evidence
 
-Score each returned candidate against what the input already knows. Keep the best-scoring candidate per input row.
+Compare each returned candidate with what the input already knows, using only fields present in the downloaded CSV header. Keep the candidate with the strongest evidence per input row and write the evidence to `match_evidence`.
 
-### Points
+### Evidence types
 
-| Evidence | Points | Notes |
+| Token | What agrees | Notes |
 |-|-|-|
-| Exact first and last name match to the expected person | 40 | Normalize case, accents, suffixes (Jr, Sr, III) |
-| Last name plus nickname or initial (Bob for Robert, J. for James) | 30 | Use the nickname table in `crm-enricher` or a standard list |
-| Last name only | 15 | Spouse or relative at the same address |
-| Hyphenated or maiden name matches one part | 25 | Marriage name changes |
-| Current address equals the input address | 25 | After USPS normalization, unit included |
-| Same city and state, different street | 10 | Moved locally |
-| Input phone or email appears in the result | 20 | Strong corroboration |
-| A phone or address in the result is marked current or recent | 10 | Only if the CSV has such a field |
-| Age or life-status fields consistent with the input, no deceased flag | 5 | Only if present |
+| `name` | Expected first and last name, or last name plus a nickname or initial (Bob for Robert, J. for James) | Normalize case, accents and suffixes (Jr, Sr, III) first |
+| `surname` | Last name only, or one part of a hyphenated or maiden name | Spouse, relative or a married name |
+| `address` | Result's current address equals the input address | After USPS normalization, unit included |
+| `city` | Same city and state, different street | Moved locally |
+| `contact` | An input phone or email other than the one searched appears in the result | Corroboration from a second identifier |
+| `owner_record` | Property Lookup returned a person as owner of record for the input address | The property record names the owner |
 
-### Rescaling when fields are missing
+### Evidence to band
 
-Score only with fields present in the downloaded CSV header and only with what the input knows:
-
-```text
-points_available = sum of the points for evidence types that can be checked for this row
-score = round(points_earned / points_available x 100)
-```
-
-Example: an A1 address row with an owner name, where the CSV has name and address fields but no recency or age: available = 40 + 25 + 20 = 85. A result with an exact name and the same address earns 65, so the score is 76 (probable). If the owner's phone from the county filing also appears, 85 / 85 = 100 (confirmed).
-
-### Caps
-
-| Situation | Cap |
+| Evidence | Band |
 |-|-|
-| No expected name for the row | 79 (probable at best); the call opens with an identity check |
-| Result has a deceased flag | 39 (no match for outreach); route to the estate |
-| Two candidates within 10 points of each other | 59 (weak); mail only until resolved |
+| `name+address`, `name+contact`, `name+address+contact`, `owner_record` | `confirmed` |
+| `name+city`, `surname+address`, `address_only` (no expected name for the row) | `probable` |
+| `name_only`, `surname+city`, `tie` (two candidates with the same evidence), `entity` (LLC, trust or bank owner) | `weak` |
+| `none`, `deceased` | `no_match` |
+
+A row with no expected name can reach `probable` at best from People Finder; the call opens with an identity check. Property Lookup with owner contact is the path to `confirmed` for those rows.
 
 ### Bands
 
-| Band | Score | Outreach allowed |
-|-|-|-|
-| `confirmed` | 80 to 100 | Manual calls after DNC scrub, mail, email if validated |
-| `probable` | 60 to 79 | Manual calls opening with "Am I speaking with the owner of 2217 Elmwood?", mail |
-| `weak` | 40 to 59 | Mail only |
-| `no_match` | 0 to 39 | Rescue search, Property Lookup, or drop |
+| Band | Outreach |
+|-|-|
+| `confirmed` | Calls, mail, email if validated |
+| `probable` | Calls opening with "Am I speaking with the owner of 2217 Elmwood?", mail |
+| `weak` | Mail only |
+| `no_match` | Rescue search, Property Lookup, or mail to "Current Owner" |
+
+The QA sample in `skip-trace-runbook.md` section 9 tests this table against the owner of record. When missed rows share an evidence type, that type moves down one band for the rest of the file.
 
 ## 4. Rescue rules
 
 | Row after the first pass | Rescue | Stop when |
 |-|-|-|
-| A1 weak or no match | `name` search with `max_results: 3`, score with the city and state | Best candidate reaches probable, or after one rescue |
-| N1 person moved (address search found other people) | `name` search, `max_results: 3` | Same |
+| A1 weak or no match | `name` search at the user's setting, banded with the city and state | Best candidate reaches probable, or after one rescue |
+| N1 person moved (address search found other people) | `name` search at the user's setting | Same |
 | A2 address, owner unknown | `scrape_property_lookup` with `includeOwnerContact: true` | Owner name returned |
 | P or E no match | No rescue; the identifier is stale | Drop or mail |
 
-Never run more than one rescue per row. A row that fails twice costs more than it is worth.
+The plan budgets one rescue per row. A second pass is another billed search; price it before adding it.
 
 ## 5. Owner types and special cases
 
@@ -96,11 +86,29 @@ Never run more than one rescue per row. A row that fails twice costs more than i
 | Trust | Owner name contains TRUST, TR, TRUSTEE | Search the named trustee as a person if listed; else mail |
 | Bank or lender (REO) | Lender name as owner, or `bankOwned` distress type | Drop from homeowner outreach; contact the listing agent |
 | Estate or deceased owner | Deceased flag, probate filing, "ESTATE OF" | Mail the estate; call only the personal representative named in probate |
-| Multi-unit property | Unit numbers on the address, several unrelated people returned | Property Lookup with owner contact; residents are likely tenants |
-| Absentee owner | Owner mailing address differs from the property | Search the mailing address, score with the owner name |
-| Co-owners | Two names on the record | Search both; keep both if both score probable or better |
+| Multi-unit property | Unit numbers on the address, several unrelated people returned | Property Lookup with owner contact; the residents returned may be tenants |
+| Absentee owner | Owner mailing address differs from the property | Search the mailing address, band with the owner name |
+| Co-owners | Two names on the record | Search both; keep both if both reach probable or better |
 
-## 6. Address normalization quick rules (USPS Publication 28)
+## 6. Ranking phones inside a row, and phones shared across rows
+
+A matched person often comes back with several numbers, and reps dial `phone_1` first. Order the numbers by the recency field the CSV header holds (marked current or most recently seen first). Line type order is set from your own results: after the first call block, compute connect rate by line type (mobile, landline, VoIP or unknown) and sort ties by the type that connected most. Ties after that break on the number that also appears in the input file. The output keeps `phone_1` to `phone_3`.
+
+A phone that appears on two or more unrelated matched owners in one batch is a shared line (a property manager, an office, a relative who co-signs). Mark it `shared_line` in `flags` and move it to the end of every row's order; never use it as the only callable phone for a row.
+
+## 7. Owners with several properties
+
+Group the matched rows by `matched_name` plus the best phone or mailing address. An owner who appears on two or more input properties is a portfolio owner:
+
+| Rule | Action |
+|-|-|
+| 2 or more properties under one matched owner | Flag `PORTFOLIO` on every row; one call covers all of them, opened with the full address list |
+| Same owner, different mailing addresses | Keep the mailing address seen most often; send one letter listing every property |
+| Portfolio owner weak on one property and confirmed on another | Use the confirmed match for all rows |
+
+Portfolio owners go to the top of the call queue: one conversation covers several properties.
+
+## 8. Address normalization quick rules (USPS Publication 28)
 
 | Raw | Standard |
 |-|-|
@@ -115,11 +123,11 @@ Never run more than one rescue per row. A row that fails twice costs more than i
 | State names | Two-letter codes |
 | ZIP | 5 digits as text, ZIP+4 optional |
 
-Format for `street_citystatezip`: `2217 Elmwood Ave, Columbus, OH 43211`. Keep unit numbers; a missing unit on a multi-unit building returns every resident.
+Format for `street_citystatezip`: `2217 Elmwood Ave, Columbus, OH 43211`. Keep unit numbers; without one, a search on a multi-unit building can return residents of every unit.
 
 ## Sources
 
 - ScraperCity tool catalog (People Finder inputs and billing): references/scrapercity-catalog.md
 - USPS Publication 28, Postal Addressing Standards: https://pe.usps.com/text/pub28/welcome.htm
 - USPS Publication 28, Appendix C1 street suffix abbreviations: https://pe.usps.com/text/pub28/28apc_002.htm
-- ScraperCity skills page (strongest identifier first): https://scrapercity.com/skills
+- Franklin County Auditor, Ohio (owner of record): https://auditor.franklincountyohio.gov/home

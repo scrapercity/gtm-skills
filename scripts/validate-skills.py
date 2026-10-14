@@ -7,6 +7,28 @@ Usage:
                                                      # one skill or one category
   python3 scripts/validate-skills.py --allow-missing-related
                                                      # tolerate related_skills not written yet
+  python3 scripts/validate-skills.py --strict        # add the spec and hygiene checks below
+  python3 scripts/validate-skills.py --check-legal   # fail on legal terms (owner rule 1)
+
+Default checks: frontmatter, section order, required files, lengths, backticked paths,
+public copy rules, and the checker contract (fails the template, passes the example).
+
+--strict adds checks that mirror the Agent Skills reference validator (skills-ref) and
+Claude's skill rules, plus package hygiene:
+  name: 1-64 chars, a-z 0-9 and single hyphens, no "claude" or "anthropic"
+  name and description: no XML tags; frontmatter: only spec keys, no flow-style [lists]
+  SKILL.md under 500 lines; no duplicate skill names across categories; each section once
+  at least 3 distinct frameworks; no filler phrases (SLOP below) in SKILL.md
+  every file in the skill named in Execution Artifacts (materialized shared copies excepted)
+  every Markdown link in the skill resolves inside the skill folder
+  no symlinks, empty files, editor or cache junk, or files outside the standard folders
+  the checker exits 2 with no argument and gives the same result on two runs
+  the worked example carries the "Illustrative example" label
+
+--check-legal fails any skill file or root reference that names a law, regulation or
+regulator, tells the reader to consult a lawyer, or adds a compliance gate. The term list
+is LEGAL_TERMS below; reply-classification words such as "lawyer" are allowed only in
+skills/outbound/reply-handling.
 
 Exit code 0 when every checked skill passes, 1 otherwise.
 Requires Python 3.9+ and PyYAML.
@@ -87,8 +109,64 @@ def restricted_hit(line: str) -> bool:
 
 # The tool id and the CLI command keep the old name; prose must say "Tech Stack Search".
 BUILTWITH_OK = re.compile(r"scrape_builtwith|scrapercity builtwith|`builtwith`|/api/v1/scrape/techstack", re.IGNORECASE)
-DASHES = re.compile("[–—]")
+DASHES = re.compile("[\u2013\u2014]")
 PATH_REF = re.compile(r"`((?:references|templates|scripts|examples)/[A-Za-z0-9_./-]+)`")
+
+# Owner rule 1 (Oct 13 2026): skills carry no legal content. Each entry is
+# (label, pattern, path prefixes where the pattern is allowed, a pattern that
+# excuses the line). Acronyms are case-sensitive so ordinary words never match.
+# Law firms are a normal prospecting vertical, so "attorney" in a targeting line
+# (a title filter, a category or NAICS row, "personal injury lawyers") passes.
+_I = re.IGNORECASE
+TARGETING_LINE = re.compile(
+    r"law firms?|legal services|offices of lawyers|naics|\"title\"|managing partner|practice area|"
+    r"(?:personal injury|estate planning|foreclosure|divorce|immigration|bankruptcy|real estate|criminal defense|"
+    r"family|dui|tax|patent|trademark|employment|business|corporate|principal)\s+(?:lawyers?|attorneys?)",
+    _I,
+)
+LEGAL_TERMS = [
+    ("CAN-SPAM", re.compile(r"\bCAN[- ]?SPAM\b", _I), (), None),
+    ("TCPA", re.compile(r"\bTCPA\b|Telephone Consumer Protection", _I), (), None),
+    ("CASL", re.compile(r"\bCASL\b|Anti-Spam Legislation"), (), None),
+    ("GDPR", re.compile(r"\bGDPR\b|General Data Protection Regulation|\bePrivacy\b|lawful basis|legitimate interests? assessment", _I), (), None),
+    ("CCPA", re.compile(r"\bCCPA\b|\bCPRA\b|California Consumer Privacy"), (), None),
+    ("PECR", re.compile(r"\bPECR\b|Privacy and Electronic Communications"), (), None),
+    ("FCRA", re.compile(r"\bFCRA\b|Fair Credit Reporting"), (), None),
+    ("TSR", re.compile(r"\bTSR\b|Telemarketing Sales Rule"), (), None),
+    ("CFR citation", re.compile(r"\b(?:47|16)\s*C\.?F\.?R\b", _I), (), None),
+    ("regulator", re.compile(r"\b(?:FTC|FCC|CRTC|ICO)\b|Federal Trade Commission|Federal Communications Commission|Information Commissioner|Attorneys? General"), (), None),
+    ("legal advice", re.compile(r"\blegal advice\b|\bnot legal\b", _I), (), None),
+    ("consult a lawyer", re.compile(r"\b(?:consult|ask|check with|speak (?:to|with)|talk (?:to|with))\s+(?:with\s+)?(?:a|an|your)\s+(?:\w+\s+)?(?:lawyer|attorney|counsel|solicitor|legal (?:team|adviser|advisor))", _I), (), None),
+    ("lawyer or attorney", re.compile(r"\b(?:lawyers?|attorneys?)\b", _I), ("skills/outbound/reply-handling/",), TARGETING_LINE),
+    ("Do Not Call Registry", re.compile(r"Do[- ]Not[- ]Call Registry|National Do[- ]Not[- ]Call|donotcall\.gov", _I), (), None),
+    ("compliance gate", re.compile(r"\bcompliance gates?\b", _I), (), None),
+]
+
+
+def legal_hits(line: str, rel_posix: str) -> list[str]:
+    hits = []
+    for label, pattern, allowed, excuse in LEGAL_TERMS:
+        if any(rel_posix.startswith(prefix) for prefix in allowed):
+            continue
+        if excuse is not None and excuse.search(line) and not re.search(r"Attorneys? General", line):
+            continue
+        m = pattern.search(line)
+        if m:
+            hits.append(f"{label} ('{m.group(0)}')")
+    return hits
+
+
+SPEC_KEYS = {"name", "description", "license", "compatibility", "metadata", "allowed-tools"}
+SPEC_NAME = re.compile(r"^[a-z0-9]+(?:-[a-z0-9]+)*$")
+XML_TAG = re.compile(r"<[A-Za-z/][^>]*>")
+FLOW_LIST = re.compile(r"^\s*[A-Za-z_][\w-]*:\s*\[")
+MD_LINK = re.compile(r"\]\(([^)\s]+)(?:\s+\"[^\"]*\")?\)")
+STANDARD_DIRS = {"references", "templates", "examples", "scripts", "assets"}
+JUNK_NAMES = {".DS_Store", "Thumbs.db", "desktop.ini"}
+JUNK_SUFFIXES = (".pyc", ".orig", ".rej", ".swp", ".swo", ".tmp", ".bak", "~")
+MAX_SKILL_LINES = 500
+SLOP = ["actually", "genuinely", "quietly", "cleanly", "crazy", "in today's fast-paced", "game-changing",
+        "game changer", "unlock your", "supercharge", "seamless", "best-in-class", "cutting-edge", "delve"]
 
 
 def all_skill_dirs() -> list[Path]:
@@ -103,9 +181,12 @@ def parse(skill_md: Path) -> tuple[dict, str]:
     return yaml.safe_load(m.group(1)) or {}, m.group(2)
 
 
-def scan_text(path: Path, errors: list[str]) -> None:
+def scan_text(path: Path, errors: list[str], legal: bool = False) -> None:
     rel = path.relative_to(ROOT)
     for i, line in enumerate(path.read_text(encoding="utf-8", errors="replace").splitlines(), 1):
+        if legal:
+            for hit in legal_hits(line, rel.as_posix()):
+                errors.append(f"{rel}:{i}: legal term {hit}; owner rule: no legal content")
         if DASHES.search(line):
             errors.append(f"{rel}:{i}: em or en dash (use a hyphen, comma, or rewrite)")
         if restricted_hit(line):
@@ -121,7 +202,113 @@ def run_checker(checker: Path, target: Path) -> tuple[int, str]:
     return proc.returncode, (proc.stdout + proc.stderr).strip()
 
 
-def validate(skill_dir: Path, names: set[str], allow_missing_related: bool) -> list[str]:
+def link_target_ok(target: str, md_file: Path, skill_dir: Path) -> bool:
+    """A relative link resolves from the file that holds it or from the skill root, inside the skill."""
+    root = skill_dir.resolve()
+    for base in (md_file.parent, skill_dir):
+        candidate = (base / target).resolve()
+        if candidate.exists() and (candidate == root or root in candidate.parents):
+            return True
+    return False
+
+
+def strict_checks(skill_dir: Path, fm: dict, errors: list[str]) -> None:
+    rel = skill_dir.relative_to(ROOT)
+    name = str(fm.get("name") or "")
+    desc = str(fm.get("description") or "")
+    if not (1 <= len(name) <= 64 and SPEC_NAME.match(name)):
+        errors.append(f"{rel}: name must be 1-64 chars of a-z, 0-9 and single hyphens (Agent Skills spec)")
+    if re.search(r"claude|anthropic", name):
+        errors.append(f"{rel}: name contains a reserved word (claude, anthropic)")
+    for key, value in (("name", name), ("description", desc)):
+        if XML_TAG.search(value):
+            errors.append(f"{rel}: {key} contains an XML tag")
+    unknown = sorted(set(fm) - SPEC_KEYS)
+    if unknown:
+        errors.append(f"{rel}: frontmatter keys outside the Agent Skills spec: {', '.join(unknown)} (move them under metadata)")
+    text = (skill_dir / "SKILL.md").read_text(encoding="utf-8")
+    fm_text = text.split("\n---\n", 1)[0]
+    flow = [line.strip().split(":")[0] for line in fm_text.splitlines() if FLOW_LIST.match(line)]
+    if flow:
+        errors.append(
+            f"{rel}: flow-style [lists] in frontmatter ({', '.join(flow)}); the skills-ref validator rejects them. "
+            "Run scripts/normalize-frontmatter.py"
+        )
+    meta = fm.get("metadata") or {}
+    frameworks = [str(f) for f in meta.get("frameworks") or []]
+    if len(set(frameworks)) < 3:
+        errors.append(f"{rel}: metadata.frameworks needs at least 3 distinct named sources (has {len(set(frameworks))})")
+    if len(set(frameworks)) != len(frameworks):
+        errors.append(f"{rel}: metadata.frameworks repeats an entry")
+    body = text.split("\n---\n", 1)[1] if "\n---\n" in text else text
+    headings = re.findall(r"^## (.+?)\s*$", body, re.MULTILINE)
+    for heading in sorted({h for h in headings if headings.count(h) > 1}):
+        errors.append(f"{rel}: section '## {heading}' appears {headings.count(heading)} times")
+    for phrase in SLOP:
+        if re.search(rf"\b{re.escape(phrase)}", text, re.IGNORECASE):
+            errors.append(f"{rel}: SKILL.md uses the filler phrase '{phrase}' (docs/SKILL_AUTHORING.md copy rules)")
+    shared = {str(s) for s in meta.get("shared_references") or []}
+    artifacts = body.split("## Execution Artifacts", 1)[1].split("\n## ", 1)[0] if "## Execution Artifacts" in body else ""
+    for path in sorted(skill_dir.rglob("*")):
+        prel = path.relative_to(skill_dir).as_posix()
+        if not path.is_file() or prel == "SKILL.md" or "__pycache__" in path.parts:
+            continue
+        if prel.startswith("references/") and path.name in shared:
+            continue
+        if prel not in artifacts:
+            orphan = prel.startswith("references/") and (SHARED / path.name).is_file()
+            errors.append(
+                f"{rel}: {prel} is a stale copy of a shared reference the skill no longer lists (run scripts/materialize-shared-references.py --prune)"
+                if orphan else f"{rel}: {prel} is not named in Execution Artifacts"
+            )
+    lines = len(text.splitlines())
+    if lines > MAX_SKILL_LINES:
+        errors.append(f"{rel}: SKILL.md has {lines} lines; the Agent Skills spec recommends under {MAX_SKILL_LINES}")
+
+    for path in sorted(skill_dir.rglob("*")):
+        prel = path.relative_to(skill_dir)
+        if path.is_symlink():
+            errors.append(f"{rel}/{prel}: symlink (installers copy folders; use a real file)")
+            continue
+        if path.is_dir():
+            if path.name == "__pycache__":
+                errors.append(f"{rel}/{prel}: cache folder")
+            continue
+        if path.name in JUNK_NAMES or path.name.endswith(JUNK_SUFFIXES):
+            errors.append(f"{rel}/{prel}: editor, OS or cache junk file")
+        elif path.stat().st_size == 0:
+            errors.append(f"{rel}/{prel}: empty file")
+        if len(prel.parts) == 1 and prel.name != "SKILL.md":
+            errors.append(f"{rel}/{prel}: file at the skill root; put it in references/, templates/, examples/, scripts/ or assets/")
+        elif len(prel.parts) > 1 and prel.parts[0] not in STANDARD_DIRS:
+            errors.append(f"{rel}/{prel}: folder '{prel.parts[0]}' is not one of {', '.join(sorted(STANDARD_DIRS))}")
+        if path.suffix == ".md":
+            body = path.read_text(encoding="utf-8", errors="replace")
+            body = re.sub(r"^(```|~~~).*?^\1", "", body, flags=re.MULTILINE | re.DOTALL)
+            body = re.sub(r"`[^`\n]*`", "", body)
+            for target in MD_LINK.findall(body):
+                if re.match(r"^(?:[a-z][a-z0-9+.-]*:|#)", target, re.IGNORECASE):
+                    continue
+                clean = target.split("#", 1)[0]
+                if clean and not link_target_ok(clean, path, skill_dir):
+                    errors.append(f"{rel}/{prel}: link ({target}) does not resolve inside the skill folder")
+
+    checker = skill_dir / "scripts" / "check-output.py"
+    example = skill_dir / "examples" / "worked-example.md"
+    if checker.is_file():
+        proc = subprocess.run([sys.executable, "-I", str(checker)], capture_output=True, text=True, timeout=60)
+        if proc.returncode != 2:
+            errors.append(f"{rel}: checker with no argument must exit 2 (usage error), exited {proc.returncode}")
+        if example.is_file():
+            first, second = run_checker(checker, example), run_checker(checker, example)
+            if first != second:
+                errors.append(f"{rel}: checker gave different results on two runs of the worked example")
+    if example.is_file() and "illustrative example" not in example.read_text(encoding="utf-8").lower():
+        errors.append(f"{rel}: examples/worked-example.md must carry the label 'Illustrative example'")
+
+
+def validate(skill_dir: Path, names: set[str], allow_missing_related: bool,
+             strict: bool = False, legal: bool = False) -> list[str]:
     errors: list[str] = []
     rel = skill_dir.relative_to(ROOT)
     category = skill_dir.parent.name
@@ -193,7 +380,10 @@ def validate(skill_dir: Path, names: set[str], allow_missing_related: bool) -> l
 
     for path in sorted(skill_dir.rglob("*")):
         if path.is_file() and path.suffix in {".md", ".py", ".json", ".yml", ".yaml", ".txt", ".csv"}:
-            scan_text(path, errors)
+            scan_text(path, errors, legal)
+
+    if strict:
+        strict_checks(skill_dir, fm, errors)
 
     checker = skill_dir / "scripts" / "check-output.py"
     template = skill_dir / "templates" / "output-template.md"
@@ -216,10 +406,20 @@ def validate(skill_dir: Path, names: set[str], allow_missing_related: bool) -> l
 
 
 def main(argv: list[str]) -> int:
+    known = {"--allow-missing-related", "--strict", "--check-legal", "-h", "--help"}
+    unknown = [a for a in argv if a.startswith("-") and a not in known]
+    if unknown or "-h" in argv or "--help" in argv:
+        print(__doc__)
+        return 2 if unknown else 0
     allow = "--allow-missing-related" in argv
+    strict = "--strict" in argv
+    legal = "--check-legal" in argv
     targets = [a for a in argv if not a.startswith("--")]
     dirs = all_skill_dirs()
     names = {d.name for d in dirs}
+    duplicates: dict[str, list[str]] = {}
+    for d in dirs:
+        duplicates.setdefault(d.name, []).append(str(d.relative_to(SKILLS)))
     if targets:
         dirs = [d for d in dirs if any(str(d.relative_to(SKILLS)).startswith(t.rstrip("/")) for t in targets)]
     if not dirs:
@@ -227,7 +427,9 @@ def main(argv: list[str]) -> int:
         return 1
     failed = 0
     for d in dirs:
-        errs = validate(d, names, allow)
+        errs = validate(d, names, allow, strict, legal)
+        if strict and len(duplicates[d.name]) > 1:
+            errs.append(f"{d.relative_to(ROOT)}: skill name also used by {', '.join(x for x in duplicates[d.name] if x != str(d.relative_to(SKILLS)))}")
         if errs:
             failed += 1
             print(f"FAIL {d.relative_to(SKILLS)}")
@@ -237,7 +439,7 @@ def main(argv: list[str]) -> int:
             print(f"PASS {d.relative_to(SKILLS)}")
     for path in sorted((SHARED).glob("*.md")):
         errs: list[str] = []
-        scan_text(path, errs)
+        scan_text(path, errs, legal)
         for e in errs:
             print(f"FAIL {e}")
             failed += 1

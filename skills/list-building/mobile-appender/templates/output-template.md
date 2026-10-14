@@ -9,17 +9,17 @@ Prepared [fill date] for [fill company]. Plan: [fill plan]. Wallet before run: [
 | LinkedIn URLs | [fill] | [fill] |
 | Work emails | [fill] | [fill] |
 | Dropped before append | [fill] | [fill] |
-| Sent to find_mobiles | [fill] | [fill] |
+| Sent to Mobile Finder | [fill] | [fill] |
 
-## Compliance Gate
+## Call Plan
 
-| Question | Answer | Law | Action |
-|-|-|-|-|
-| Dialing method | [fill] | [fill] | [fill] |
-| Texts | [fill] | [fill] | [fill] |
-| Recipients | [fill] | [fill] | [fill] |
-| Calling hours | [fill] | [fill] | [fill] |
-| Internal do-not-call list | [fill] | [fill] | [fill] |
+| Question | Answer | Action |
+|-|-|-|
+| Dialing method | [fill] | [fill] |
+| Suppression list | [fill] | [fill] |
+| Countries | [fill] | [fill] |
+| Line-type lookups | [fill] | [fill] |
+| Destination | [fill] | [fill] |
 
 ## Cost Estimate
 
@@ -45,7 +45,7 @@ User go-ahead: [fill]
 |-|-|-|-|
 | [fill] | [fill] | [fill] | [fill] |
 
-## Line Type and DNC
+## Line Type and Suppression
 
 | Check | Count | Result |
 |-|-|-|
@@ -65,9 +65,9 @@ User go-ahead: [fill]
 
 ## Sample Rows
 
-| Name | Company | Input used | Mobile | Line type | DNC status | dial_status | sms_allowed |
-|-|-|-|-|-|-|-|-|
-| [fill] | [fill] | [fill] | [fill] | [fill] | [fill] | [fill] | [fill] |
+| Name | Company | Input used | Mobile | Line type | Suppressed | dial_status |
+|-|-|-|-|-|-|-|
+| [fill] | [fill] | [fill] | [fill] | [fill] | [fill] | [fill] |
 
 ## Next Steps
 

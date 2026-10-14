@@ -14,7 +14,6 @@ Which sources shape this skill, what each contributes, and where to look for eac
 | Map box tiles for a big metro | `references/segmentation-and-tiling.md` |
 | Prices for `scrape_maps`, `scrape_yelp`, `scrape_angi`, `validate_emails`, `find_emails` | `references/scrapercity-catalog.md` (shared) |
 | Plan, allowance and paging rules | `references/scrapercity-platform.md` (shared) |
-| TCPA, DNC, CAN-SPAM before calling or emailing | `references/outbound-compliance-primer.md` (shared) |
 
 ## Sources and contributions
 
@@ -38,30 +37,30 @@ Google asks businesses to pick the most specific category that completes "this b
 
 ### BrightLocal Local Consumer Review Survey 2026
 
-A panel of 1,002 US adults. Numbers used here as segment thresholds, treated as hypotheses to test, dated 2026:
+A panel of 1,002 US adults. Numbers used here as segment lines, treated as hypotheses to test, dated 2026:
 
-- 68% require a business to have 4+ stars; 31% require 4.5+.
+- 68% will only use a business with 4+ stars; 31% only 4.5+.
 - 47% will not use a business with fewer than 20 reviews.
-- 74% care only about reviews from the last three months.
-- 97% read reviews.
+- 74% look for reviews written in the last three months.
+- 97% read reviews for local businesses.
 
 These set the 4.0 and 4.5 rating lines and the 20-review line in the segments.
 
 ### USGS distance per degree
 
-At 38 degrees north, one degree of latitude is about 69 miles and one degree of longitude is about 54.6 miles. Longitude shrinks toward the poles. The tiling table in `references/segmentation-and-tiling.md` uses these to size boxes.
+At 38 degrees north, one degree of latitude is about 69 miles and one degree of longitude is about 54.6 miles. Longitude shrinks toward the poles. The tiling table in `references/segmentation-and-tiling.md` uses these to convert a tile step to miles.
 
-### FTC CAN-SPAM guide and FCC TCPA rules
+### Google Email sender guidelines
 
-Every commercial email to these businesses needs accurate headers, a postal address and an opt-out honored within 10 business days, with no B2B exemption. `contact_mobile` numbers are wireless numbers: autodialed or prerecorded calls and texts to them need prior express consent under 47 U.S.C. 227, and telemarketing to residential and wireless subscribers follows the 8 a.m. to 9 p.m. window and the National Do Not Call Registry under 47 CFR 64.1200. Sole proprietors often use a personal mobile as the business line, so treat those numbers as consumer numbers.
+Bulk senders to Gmail need a one-click unsubscribe, removals processed within 48 hours and a spam rate kept under 0.1% (never 0.3% or higher). These set the email settings for any send from a local pull.
 
 ## How the sources combine
 
 1. The ScraperCity API decides what a search can express.
-2. Google's category rules decide how to word the keyword and category.
+2. Keyword and category wording follows Google's category rules.
 3. BrightLocal sets where to cut the rating and review segments.
-4. USGS sizes the map boxes.
-5. CAN-SPAM and TCPA decide what happens after the pull.
+4. The USGS figures convert map box steps to miles; the tile step itself comes from counting tiles and splitting any that return 503.
+5. Google's sender rules set the email settings.
 
 ## Sources
 
@@ -71,6 +70,5 @@ Every commercial email to these businesses needs accurate headers, a postal addr
 - https://support.google.com/business/answer/3038177
 - https://www.brightlocal.com/research/local-consumer-review-survey/
 - https://www.usgs.gov/faqs/how-much-distance-does-a-degree-minute-and-second-cover-your-maps
-- https://www.ftc.gov/business-guidance/resources/can-spam-act-compliance-guide-business
-- https://www.law.cornell.edu/uscode/text/47/227
-- https://www.ecfr.gov/current/title-47/chapter-I/subchapter-B/part-64/subpart-L/section-64.1200
+- https://support.google.com/a/answer/81126
+- https://support.google.com/a/answer/14229414

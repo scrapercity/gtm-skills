@@ -1,6 +1,6 @@
 # CRM and Sending Platform Recipes
 
-How to load ScraperCity records into HubSpot, Pipedrive and GoHighLevel, and into Instantly, Smartlead, Lemlist, EmailBison and ManyReach. Every destination call below was checked in that vendor's own API documentation on 2026-10-13. Run these calls from n8n, Make, Zapier, Pipedream or your own code; the ScraperCity side of each flow is in `references/automation-recipes.md`.
+How to load ScraperCity records into HubSpot, Salesforce, Attio, Pipedrive and GoHighLevel, and into Instantly, Smartlead, Lemlist, EmailBison and ManyReach. Every destination call below was checked in that vendor's own API documentation on 2026-10-13. Run these calls from n8n, Make, Zapier, Pipedream or your own code; the ScraperCity side of each flow is in `references/automation-recipes.md`.
 
 ## Before any load
 
@@ -14,6 +14,8 @@ How to load ScraperCity records into HubSpot, Pipedrive and GoHighLevel, and int
 | Destination | Endpoint used | Auth | Records per call | Rate limit | Source |
 |---|---|---|---:|---|---|
 | HubSpot | `POST /crm/v3/objects/contacts/batch/upsert` | Private app token, `Authorization: Bearer` | 100 | Private apps: 100 per 10 s on Free and Starter, 190 per 10 s on Professional and Enterprise; 250,000 to 1,000,000 a day by tier | HubSpot developer docs |
+| Salesforce | `PATCH /services/data/vXX.X/composite/sobjects/Lead/Email_Key__c` (or `Contact`) | OAuth access token from a connected app, `Authorization: Bearer` | 200 | Daily API requests: 100,000 plus a per-license amount (1,000 per Salesforce license on Enterprise), shared by every integration in the org | Salesforce developer docs |
+| Attio | `PUT https://api.attio.com/v2/objects/people/records?matching_attribute=email_addresses` | Access token, `Authorization: Bearer` | 1 | 25 writes a second, 100 reads a second; 429 carries `Retry-After` | Attio API docs |
 | Pipedrive | `POST /api/v2/persons` | `x-api-token` header | 1 | Burst per 2 s by plan (API token: Lite 20, Growth 40, Premium 100, Ultimate 120); daily token budget 30,000 x plan multiplier x seats | Pipedrive developer docs |
 | GoHighLevel | `POST https://services.leadconnectorhq.com/contacts/upsert` | Private Integration token, `Authorization: Bearer`, `Version` header | 1 | 100 per 10 s burst, 200,000 a day per app per location | HighLevel API docs |
 | Instantly | `POST https://api.instantly.ai/api/v2/leads/add` | API key, `Authorization: Bearer` | 1,000 | 100 a second and 6,000 a minute per workspace | Instantly API v2 docs |
@@ -55,6 +57,62 @@ How to load ScraperCity records into HubSpot, Pipedrive and GoHighLevel, and int
 These are HubSpot's default contact property internal names; confirm any custom ones under Settings, Properties, where each property shows its internal name (HubSpot knowledge base, default contact properties).
 
 **Guardrails.** 100 per batch. A 2,000-record daily load is 20 calls, far under 100 per 10 seconds. The daily API budget is shared by every app in the HubSpot account, so check what else is calling before scheduling a large backfill. Set a custom property such as `lead_source = ScraperCity` and the segment name so sales can filter and so a later cleanup is one view.
+
+## Salesforce
+
+**Mechanism.** sObject Collections upsert: `PATCH /services/data/vXX.X/composite/sobjects/{object}/{externalIdField}` with up to 200 records per request. It matches on an External ID field only, never on record ids, and every record carries an `attributes` map with its `type`. With `allOrNone: false`, each record succeeds or fails on its own (Salesforce REST API, Upsert Records Using sObject Collections).
+
+**One-time setup.** The standard `Email` field cannot be the match key, so add a custom Email field such as `Email_Key__c`, marked External ID and Unique, and fill it with the lowercase address on every load. Cold prospects usually load as Leads, which need `LastName` and `Company`; a Contact sits under an Account, so it suits people at accounts already in the org.
+
+**Where the token goes.** An OAuth access token from a connected app with API access, sent as `Authorization: Bearer <token>`. In n8n, the Salesforce OAuth2 credential holds it; in code, refresh the token rather than storing a long-lived one in a file.
+
+**Body.**
+
+```json
+{
+  "allOrNone": false,
+  "records": [
+    {
+      "attributes": { "type": "Lead" },
+      "Email_Key__c": "dana.ruiz@example.com",
+      "Email": "dana.ruiz@example.com",
+      "FirstName": "Dana",
+      "LastName": "Ruiz",
+      "Company": "Example Analytics",
+      "Title": "VP Sales",
+      "Website": "example.com",
+      "LeadSource": "ScraperCity"
+    }
+  ]
+}
+```
+
+`LeadSource` is a picklist: add `ScraperCity` as a value first, or write the source into a custom text field. Leave `OwnerId`, `Status` and every opportunity field out of the body so assignment rules and reps keep control of them.
+
+**Guardrails.** Read the per-record results: an active duplicate rule or a validation rule can reject a record while the rest of the batch loads. A 2,000-lead day is 10 requests. The daily allocation is shared by every integration in the org, so check Setup, System Overview ("API Requests, Last 24 Hours") or the `Sforce-Limit-Info` response header before scheduling a large backfill.
+
+## Attio
+
+**Mechanism.** Assert a person record: `PUT https://api.attio.com/v2/objects/people/records?matching_attribute=email_addresses`. It creates the person or updates the one whose email matches; the matching attribute must be unique (Attio API reference, Assert a person record).
+
+**Where the token goes.** An Attio access token with `record_permission:read-write` and `object_configuration:read`, sent as `Authorization: Bearer <token>`.
+
+**Body.**
+
+```json
+{
+  "data": {
+    "values": {
+      "email_addresses": ["dana.ruiz@example.com"],
+      "name": [{ "first_name": "Dana", "last_name": "Ruiz", "full_name": "Dana Ruiz" }]
+    }
+  }
+}
+```
+
+Add title, company and segment as attributes that exist on the People object in that workspace; read their slugs from the object settings before mapping.
+
+**Guardrails.** 25 write requests a second; a 429 carries `Retry-After` (usually the next second) and the request can be retried after it. Pace at 5 a second, so 2,000 people take about 7 minutes.
 
 ## Pipedrive
 
@@ -252,6 +310,10 @@ Any key that is not a standard field becomes a custom variable (`{{segment}}`). 
 - https://developers.hubspot.com/docs/developer-tooling/platform/usage-guidelines
 - https://developers.hubspot.com/docs/apps/legacy-apps/private-apps/overview
 - https://knowledge.hubspot.com/properties/hubspots-default-contact-properties
+- https://developer.salesforce.com/docs/atlas.en-us.api_rest.meta/api_rest/resources_composite_sobjects_collections_upsert.htm
+- https://developer.salesforce.com/docs/platform/salesforce-app-limits-cheatsheet/guide/salesforce-app-limits-platform-api.html
+- https://docs.attio.com/api-reference/people/assert-a-person-record
+- https://docs.attio.com/rest-api/guides/rate-limiting
 - https://pipedrive.readme.io/docs/core-api-concepts-authentication
 - https://pipedrive.readme.io/docs/core-api-concepts-rate-limiting
 - https://pipedrive.readme.io/docs/how-to-find-the-api-token

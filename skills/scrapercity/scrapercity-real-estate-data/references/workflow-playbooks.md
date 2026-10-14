@@ -1,6 +1,6 @@
 # Real Estate Workflow Playbooks
 
-One playbook per persona. Each gives the tool chain, the exact calls, a priced example from catalog prices, the channel routing and the compliance flags. Run `check_wallet` before each and get approval for spend over $5.
+One playbook per persona. Each gives the tool chain, the exact calls, a priced example from catalog prices and the channel routing. Run `check_wallet` before each, show the estimate, and get a go-ahead before the paid run.
 
 ## 1. Selling to real estate agents (vendors, brokerage recruiters, lenders seeking referral partners)
 
@@ -16,24 +16,24 @@ Goal: a list of active agents in a market, segmented by production.
 
 Priced example: 5 cities x 300 agents = 1,500 x $0.029 = $43.50. Validation on 1,350 emails = $9.72. Total $53.22.
 
-Routing: agents are licensed professionals contacted at their business; email is the main channel and follows CAN-SPAM. Many agents list a personal mobile as the business number, so treat it as a wireless number: manual calls only, inside 8 a.m. to 9 p.m. local time, DNC-scrubbed, and no autodialer or texts without consent.
+Routing: email is the main channel (validated, one-click unsubscribe), then calls to the listed number. Anyone who asks to stop goes on the suppression list the same day.
 
 ## 2. Wholesalers and residential investors (motivated sellers)
 
-Goal: distressed properties plus owner contact, routed to compliant channels.
+Goal: distressed properties plus owner contact, routed by match confidence.
 
 | Step | Call | Notes |
 |---|---|---|
-| 1 | Confirm the state's wholesaling rules | `references/compliance-guide.md` |
+| 1 | Set the buy box (ZIPs, property type, value range) and load the suppression list | `references/contact-routing-guide.md` |
 | 2 | `scrape_distress_list` `{"search":"33612","distressTypes":["preForeclosure"],"maxItems":200}` per target ZIP | Pre-foreclosure gives the most time to work a deal |
 | 3 | Filter rows: value estimate inside the buy box, property type single-family | Done on the CSV |
 | 4 | `find_people` `{"street_citystatezip":[...],"max_results":1}` on kept rows | $0.0199 per search, misses billed |
-| 5 | `scrape_property_lookup` without owner contact on the top 10% for price history | $0.15 each |
-| 6 | DNC scrub, flag mobiles, route | Mail first, manual calls second |
+| 5 | `scrape_property_lookup` without owner contact on the rows you will make offers on, for price history | $0.15 each |
+| 6 | Classify matches, apply the suppression list, route | Mail first, manual calls to confirmed matches second |
 
 Priced example: 6 ZIPs x 200 = 1,200 x $0.05 = $60.00. Keep 700 inside the buy box, `find_people` 700 x $0.0199 = $13.93. Lookups on 70 = $10.50. Total $84.43.
 
-Routing: direct mail to every owner (no DNC rule on mail). Manual live calls to numbers that pass the DNC scrub, inside 8 a.m. to 9 p.m. local time. Texts and autodialed calls wait until prior express written consent is on file. Scripts make purchase offers; any "save your home" or loan modification pitch falls under Regulation O.
+Routing: direct mail to every owner in the buy box. Manual live calls to confirmed and probable matches not on the suppression list, attempts capped from your outcome data. Scripts and letters make a purchase offer and say who is writing.
 
 ## 3. Listing agents prospecting pre-foreclosures and REO
 
@@ -48,7 +48,7 @@ Goal: homeowners who may need to sell, and bank-owned inventory.
 
 Priced example: 300 + 200 = 500 x $0.05 = $25.00. Owner lookups on 120 = $30.00. Total $55.00.
 
-Routing: mail first; manual calls only after DNC scrub. Some states regulate solicitations to owners in foreclosure (California Civil Code 1695 governs equity purchases from them). An agent who also buys directly must follow those rules.
+Routing: mail first with a value range from the lookup; manual calls to confirmed matches only.
 
 ## 4. Lenders and loan officers
 
@@ -61,7 +61,7 @@ Goal: referral partners (agents), investor borrowers, and commercial or SBA deal
 | Commercial borrowers and brokers | `scrape_crexi` on multifamily or retail searches in the lending footprint | 600 listings = $17.40 |
 | SBA acquisition loans | `scrape_bizbuysell` on state searches; reach the listing brokers | 800 listings = $7.92 |
 
-Routing: agents and CRE or business brokers are B2B contacts; email and calls to their business lines follow CAN-SPAM, and most B2B calls are exempt from the TSR's DNC provisions. A lender reaching homeowners about refinancing or relief is in consumer territory: TCPA, DNC and, for relief offers, Regulation O.
+Routing: agents and CRE or business brokers are business contacts reached by email and at their business lines. Homeowner outreach by a lender follows the owner rules in `references/contact-routing-guide.md`: mail first, confirmed matches only for calls, offers the lender makes.
 
 ## 5. Commercial real estate brokers
 
@@ -73,11 +73,11 @@ Goal: listings by type and market, and the competing brokers who hold them.
 | 2 | `scrape_crexi` `{"startUrls":["<copied URL>"]}` | Replace the angle-bracket text with the copied address |
 | 3 | Broker directory run for the same market | `https://www.crexi.com/resources/find-a-broker/...` URL |
 | 4 | Group listings by broker firm; count listings per broker | Top holders are co-brokerage or recruiting targets |
-| 5 | Track asking price and days listed across weekly runs | Price cuts signal motivated sellers |
+| 5 | Track asking price and days listed across weekly runs | Lists every price cut for the broker |
 
 Priced example: 3 markets x 350 listings = 1,050 x $0.029 = $30.45. Broker directory 300 brokers = $8.70. Total $39.15.
 
-Routing: brokers are B2B; email and phone to business lines. Owners of the properties are a separate list: run `scrape_property_lookup` on the address (commercial owners are often LLCs) and treat individual owners with consumer rules.
+Routing: brokers by email and phone to business lines. Owners of the properties are a separate list: run `scrape_property_lookup` on the address (commercial owners are often LLCs) and mail the owner entity first.
 
 ## 6. Business brokers and acquirers
 
@@ -93,7 +93,7 @@ Goal: businesses for sale in a niche, with financials and the listing broker.
 
 Priced example: 4 states x 200 = 800 x $0.0099 = $7.92. Local Business Database pull of 2,000 HVAC companies: included in Growth.
 
-Routing: brokers are B2B. Owners of businesses not for sale are B2B contacts at their business; CAN-SPAM for email, and manual calls to business lines.
+Routing: brokers by email and phone. Owners of businesses not for sale are reached at their business: validated email with one-click unsubscribe, and manual calls to the business line.
 
 ## 7. Property managers and investors tracking a portfolio
 
@@ -124,8 +124,5 @@ Priced example: 80 properties x $0.15 = $12.00.
 - https://scrapercity.com/zillow-agents-scraper
 - https://scrapercity.com/crexi-scraper
 - https://scrapercity.com/bizbuysell-scraper
-- https://www.ecfr.gov/current/title-47/chapter-I/subchapter-B/part-64/subpart-L/section-64.1200
-- https://www.ftc.gov/business-guidance/resources/qa-telemarketers-sellers-about-dnc-provisions-tsr
-- https://www.ftc.gov/business-guidance/resources/can-spam-act-compliance-guide-business
-- https://www.ecfr.gov/current/title-12/chapter-X/part-1015
-- https://california.public.law/codes/civil_code_section_1695.4
+- https://support.google.com/a/answer/81126
+- https://pe.usps.com/text/pub28/welcome.htm

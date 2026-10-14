@@ -14,15 +14,34 @@ metadata:
   version: "1.0.0"
   author: ScraperCity
   category: scrapercity
-  tags: [lead-database, b2b-data, filters, prospecting, api, mcp]
-  related_skills: [using-scrapercity-skills, scrapercity-mcp, scrapercity-cli, scrapercity-api, icp-list-builder, tam-builder, decision-maker-finder, email-list-cleaner, cold-email-list, scrapercity-local-business-database]
+  tags:
+    - lead-database
+    - b2b-data
+    - filters
+    - prospecting
+    - api
+    - mcp
+  related_skills:
+    - using-scrapercity-skills
+    - scrapercity-mcp
+    - scrapercity-cli
+    - scrapercity-api
+    - icp-list-builder
+    - tam-builder
+    - decision-maker-finder
+    - email-list-cleaner
+    - cold-email-list
+    - scrapercity-local-business-database
   frameworks:
     - "ScraperCity - Lead Database API reference (scrapercity npm package 1.0.17)"
     - "Apollo.io - People API search parameters (seniority values, title matching)"
-    - "FTC - CAN-SPAM Act compliance guide for business"
-    - "ICO - PECR guidance on electronic mail marketing to corporate subscribers"
+    - "US Bureau of Labor Statistics - Employee Tenure (January 2026)"
     - "Alex Berman - narrow lists and one offer per segment"
-  shared_references: [scrapercity-catalog.md, scrapercity-platform.md, list-quality-standard.md, scrapercity-agent-patterns.md]
+  shared_references:
+    - scrapercity-catalog.md
+    - scrapercity-platform.md
+    - list-quality-standard.md
+    - scrapercity-agent-patterns.md
 ---
 
 # ScraperCity Lead Database
@@ -35,7 +54,7 @@ The Lead Database is included with the Growth plan ($149/mo) and up. Every lead 
 
 The mistakes it prevents:
 
-- Pulling 20,000 rows on a filter that was wrong, because nobody looked at `pagination.total` and a 1-row sample first.
+- Pulling 20,000 rows on a filter that was wrong, because `pagination.total` and a 1-row sample were never checked first.
 - Using `country` (where the person lives) when the user meant `companyCountry` (where the company is headquartered).
 - Paging with `page=2, 3, 4` while `excludeDelivered=true`, which skips records.
 - Paying for an Apollo Scraper run and waiting days for leads the database already returns in seconds.
@@ -50,17 +69,19 @@ Use it when the user says:
 - "Set up a daily feed of new leads that match our ICP."
 - "The database returned 503" or "409 filters_not_applied_yet" or "400 on my URL."
 - "Should I use the Apollo Scraper or the Lead Database?"
+- "Is this person still at that company?" (one `socialUrl` lookup)
 
 Use a different skill for nearby jobs:
 
 | Job | Skill |
 |---|---|
 | Defining the ICP before any filter exists | `icp-list-builder` |
-| Sizing a whole market (accounts and people) | `tam-builder` |
+| Sizing a market (accounts and people) | `tam-builder` |
 | Finding the 1-3 right people at named accounts | `decision-maker-finder` |
 | Local businesses (dentists, plumbers, restaurants) | `scrapercity-local-business-database` |
 | Validating the emails after the pull | `email-list-cleaner` |
 | Building the final send-ready file for a sequencer | `cold-email-list` |
+| Re-checking a whole list of champions every month for job changes | `scrapercity-integrations` (job-change recipe) |
 | MCP install and tool behavior in general | `scrapercity-mcp` |
 
 ## Prerequisites
@@ -78,8 +99,7 @@ Use a different skill for nearby jobs:
 | `references/scrapercity-catalog.md` | Prices for the paid tools around the database (`scrape_apollo` $0.0039 per lead, `validate_emails` $0.0072 per email, `find_emails` $0.05 per email found, `find_mobiles` $0.25 per number found). |
 | `references/scrapercity-platform.md` | Plans, the 100 records per request cap, `excludeDelivered`, `after`, and the 503 rule shared by all databases. |
 | Apollo.io People API docs | The seniority vocabulary people-search URLs carry, and that title search there includes similar titles. Useful when translating a URL. |
-| FTC CAN-SPAM guide | B2B email has no exemption. Every message needs accurate headers, a postal address and an opt-out honored within 10 business days. |
-| ICO PECR guidance | In the UK, corporate subscribers can be emailed without prior consent; sole traders and some partnerships need consent. Filter UK pulls accordingly. |
+| US Bureau of Labor Statistics, Employee Tenure | Median tenure of 4.1 years (January 2026): spread evenly, about 1.4% of a list changes employer each month, so every pull is dated and named people are re-checked by `socialUrl` before an important send. |
 | Alex Berman | Narrow lists with one offer each beat one broad list with a generic pitch. Split pulls by segment, never one mega-query. |
 
 Details and routing: `references/framework-notes.md`.
@@ -102,12 +122,14 @@ Call `check_wallet`. If the plan is Starter, stop and explain that the Lead Data
 Map every ICP sentence to one filter. The full semantics are in `references/filter-semantics.md`. The rules that cause the most errors:
 
 - **Person vs company location.** `country`, `state`, `city` are where the person is. `companyCountry`, `companyState`, `companyCity` are the company HQ. "US companies" means `companyCountry`. "People based in Texas" means `state`.
-- **Titles are partial match, comma separated.** `title: "VP Sales, Head of Sales"` returns either. `"CEO"` also matches longer titles that contain it. Use `notTitle` to remove the noise (`"Assistant, Intern, Executive Assistant"`).
+- **Titles are partial match, comma separated.** `title: "VP Sales, Head of Sales"` returns either. `"CEO"` also matches longer titles that contain it. Use `notTitle` to remove unwanted titles (`"Assistant, Intern, Executive Assistant"`).
 - **Keywords are whole-word, any match.** `keywords: ["saas", "fintech"]` returns companies tagged with either word. Use `notKeywords` to drop adjacent categories.
 - **Arrays are OR inside a filter, filters are AND across.** `seniority: ["vp","director"]` plus `industry: ["computer software"]` means (VP or Director) and software.
 - **Countries take full names.** "United States", "Germany". US, USA, UK and UAE also work.
 
 If the user gave a people-search URL, pass it as `url` and read `search_translation` (step 4).
+
+An ICP attribute with no filter (funding stage, technology, hiring, recent news) gets two routes, each written out as a call in the plan: the user's company list for that attribute, passed as `companyDomain` in comma-separated batches of about 200 domains, and a `limit: 1` call with `url` set to a people-search URL that carries the attribute, whose `search_translation` shows whether it was applied. Tell the user how to build the URL. Never stand in a proxy (size band, keywords) for the attribute without labeling the list as the proxy. Add a column naming where the attribute came from (`stage_source`, `tech_source`).
 
 ### 3. Run a count check before pulling
 
@@ -116,8 +138,8 @@ Call with `limit: 1`. Read `pagination.total` and look at `data[0]`. Report the 
 | Total | Action |
 |---|---|
 | 0 | Loosen: drop `hasPhone`, widen the size band, remove one exclusion, check country spelling. |
-| 1-49 | Too narrow for a campaign segment. Widen titles or geography, or switch to `decision-maker-finder` at named accounts. |
-| 50-100,000 | Pull. Show the user the count and the day count (total / 100,000). |
+| Under the number the user asked for | Widen titles or geography, or switch to `decision-maker-finder` at named accounts. Say how far short the count is. |
+| From the user's number to 100,000 | Pull. Show the user the count and the day count (total / 100,000). |
 | Over 100,000 | Split into segments (by state, size band or seniority) so each segment fits a day and a message. |
 
 A 503 here means the search ran too long: add a location or size band, or cut the title list, then retry.
@@ -142,9 +164,11 @@ Each day: `excludeDelivered: true`, `after: "0"`, `limit: 100`, loop `next_after
 
 ### 7. QA the first page
 
-Before the full pull, open 20 rows and check: title matches intent, company size inside the band, company HQ where expected, email present when `hasEmail` was set, no excluded titles leaking. If more than 2 of 20 are off-target, fix the filter and re-run the count. The checklist is in `references/troubleshooting.md`.
+Before the full pull, agree a sample size and pass mark with the user, open that many rows and check: title matches intent, company size inside the band, company HQ where expected, email present when `hasEmail` was set, no excluded titles leaking. Below the pass mark, fix the filter and re-run the count. The checklist is in `references/troubleshooting.md`.
 
-### 8. Hand off
+### 8. Cut to the requested number and hand off
+
+When the pull holds more rows than the user asked for, cut it the way `references/scrapercity-agent-patterns.md` section 6 sets out: dedupe on lowercased email, rank by the user's title order, cap per company domain (the user's cap, or one per role named), validate the top N, and top up from the ranked remainder for exactly the shortfall. Write each step as a script the user can run. Leave `excludeDelivered` off for a one-off list (re-fetching owned leads is free) and on for repeat pulls.
 
 Send emails to `validate_emails` before any campaign, and route the file to `cold-email-list`. Never load an unvalidated pull into a sequencer.
 
@@ -218,21 +242,24 @@ ICP: VP or Head of Sales, US-headquartered SaaS, 50-200 employees, email require
 | `find_mobiles` on the 300 top-tier accounts (assume 40% found) | 120 found | $0.25 | $30.00 |
 | **Total paid** | | | **$64.65** |
 
-The same 4,812 leads through `scrape_apollo` would cost 4,812 x $0.0039 = $18.77 plus the wait. On Growth the database costs nothing extra and finishes in minutes. The pull uses 4.8% of one day's 100,000 allowance. Show this table and get a go-ahead before the validation spend, since it is over $5.
+The same 4,812 leads through `scrape_apollo` would cost 4,812 x $0.0039 = $18.77 plus the wait. On Growth the database costs nothing extra and finishes in minutes. The pull uses 4.8% of one day's 100,000 allowance. Show this table and get a go-ahead before the validation spend.
 
 ## Output Format
 
 A lead pull plan in Markdown, built from `templates/output-template.md`:
 
 1. **Request Summary**: ICP in one paragraph, job type, plan confirmed.
-2. **Filter Spec**: table of parameter, value, reason. Only real parameter names.
+2. **Filter Spec**: table of parameter, value, reason. Only parameter names the endpoint accepts.
 3. **Count Check**: total from the `limit: 1` call, sample row notes, `search_translation` lists if a URL was used.
 4. **Pull Plan**: paging method, `excludeDelivered`, calls needed, days needed, daily new-lead count.
 5. **Cost and Allowance**: table with $ figures and allowance share.
-6. **Sample QA**: 20-row check results.
+6. **Sample QA**: the sample check results against the pass mark set before the sample.
 7. **Next Steps**: validation, segmenting, hand-off.
 
 Run `python3 scripts/check-output.py plan.md` before sending.
+
+- Each fact once; every call and script written out in full (no `"..."` values, no loop described in a comment); no counts or results marked assumed. If nothing has run, say so once at the top.
+- What the reader receives is the deliverable only: no internal file paths, reference section numbers or runbook IDs; another skill is named only in a handoff line that tells the user what to run next; no tables of checks that were not run (one "Not checked:" line instead); and no repeated identical rows where one template plus a list will do.
 
 ## Quality Check
 
@@ -242,8 +269,8 @@ Run `python3 scripts/check-output.py plan.md` before sending.
 - `excludeDelivered: true` is paired with `after` or `page=1`, never with `page` above 1.
 - Daily new leads planned are at or below 100,000.
 - Every `approximated` and `not_supported` item from `search_translation` is listed with what it means for the count.
-- The cost table uses catalog prices and the paid total is shown before spend over $5.
-- 20-row QA done, and fewer than 3 of 20 rows off-target.
+- The cost table uses catalog prices and the paid total is shown and approved before any paid step.
+- Sample QA done against a pass mark set before the sample, and the sample meets it.
 
 ## Common Pitfalls
 

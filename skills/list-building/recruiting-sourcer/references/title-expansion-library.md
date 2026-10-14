@@ -1,6 +1,6 @@
 # Title Expansion Library
 
-Ready `title` and `notTitle` strings for common role families. The Lead Database `title` filter takes comma-separated terms and matches each one partially, so a short term catches many phrasings; `notTitle` removes titles containing any listed term. Treat every set as a draft: count with `limit: 1`, read 20 rows, and adjust.
+Ready `title` and `notTitle` strings for common role families. The Lead Database `title` filter takes comma-separated terms and matches each one partially, so a short term catches many phrasings; `notTitle` removes titles containing any listed term. Treat every set as a draft: count with `limit: 1`, read a sample of rows, and adjust.
 
 ## 1. How to build a family
 
@@ -47,6 +47,15 @@ Glen Cathey's point about narrow exact phrases applies directly: one exact title
 | Customer success manager | Customer Success Manager, CSM, Client Success, Account Manager | Director, VP, Support Specialist, Recruiter, Intern |
 | Demand generation | Demand Generation, Growth Marketing, Performance Marketing, Marketing Manager | Director, VP, Coordinator, Intern, Recruiter |
 | Marketing leader | VP Marketing, Head of Marketing, CMO, Chief Marketing Officer, Marketing Director | Assistant, Coordinator, Recruiter, Intern |
+| GTM engineer (builds enrichment, routing and outbound automation) | GTM Engineer, Go-To-Market Engineer, Growth Engineer, Revenue Engineer, Marketing Automation Engineer, Outbound Engineer | Sales Engineer, Solutions Engineer, Software Engineer, Recruiter, Intern |
+| Revenue operations (owns CRM policy, forecast, routing rules) | Revenue Operations, RevOps, Sales Operations, Sales Ops, GTM Operations, Marketing Operations, CRM Manager | Engineer, Recruiter, Assistant, Coordinator, Intern |
+| Sales or solutions engineer (technical win on deals) | Sales Engineer, Solutions Engineer, Solutions Consultant, Pre-Sales, Presales | Software Engineer, Recruiter, Intern, Field Service |
+
+The three titles above overlap in the market: a "Growth Engineer" can be a product engineer and a "Solutions Engineer" can be post-sales. Read a sample of rows from each family and move drag-ins to `notTitle` before pulling.
+
+### Fields the data cannot filter for GTM roles
+
+Quota attainment, deal size, sales motion (inbound, outbound, product-led) and ramp history are not in any database. Write them in the role brief under "Screened by a human" and ask them on the first call: the last four quarters' quota and attainment, average deal size, cycle length, and how much pipeline the rep sourced.
 
 ## 5. Finance, people and operations
 

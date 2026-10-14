@@ -7,9 +7,30 @@ Paste the `title` line into `title` and the `notTitle` line into `notTitle`. Kee
 ## How to test a title family
 
 1. Count with the `title` only.
-2. Count again with `notTitle` added. The drop is the noise you removed.
-3. Pull 25 rows and read the titles. If 3 or more are wrong, add the offending word to `notTitle` and repeat.
+2. Count again with `notTitle` added. The drop is the false positives you removed.
+3. Pull a page of rows and read the titles. Add the word behind each wrong title to `notTitle` and repeat.
 4. Seniority can do part of the job. `"seniority": ["vp", "c_suite"]` with `"department": ["sales"]` often replaces a long title list. The tool documents `vp`, `director`, `c_suite` for seniority and `sales`, `engineering` for department; test any other value with a count call first.
+
+## Buying-group families
+
+Gartner's B2B Buying Report (2022 survey) puts buying groups at five to 11 people from about five functions. Build one query per family below, so each family's title list and `notTitle` stay separate, and dedupe people across families afterwards (a "COO and VP Operations" matches two families).
+
+| Family | Role in the deal | `title` pattern | `notTitle` guards |
+|-|-|-|-|
+| Economic buyer | Signs or approves the spend | CEO, Chief Executive Officer, President, Owner, Co-Owner, Founder, Co-Founder, Managing Partner, COO, Chief Operating Officer, CFO, Chief Financial Officer | vice, assistant, executive assistant, coordinator, product owner, process owner, former, retired, board, investor, advisor, division, regional, sales |
+| Day-to-day owner | Owns the process or site the product changes | The operating leader of that function: VP Operations, Director of Operations, Plant Manager, VP Warehouse Operations, VP Distribution, VP Fulfillment, General Manager | assistant, intern, former, sales, coordinator, supervisor, analyst, specialist |
+| Technical evaluator | Specs and runs the project | Director of Engineering, Industrial Engineering, Automation, Continuous Improvement, Operational Excellence, Solutions Design, Maintenance, Reliability | assistant, intern, former, technician, mechanic, sales engineer, software, coordinator, analyst |
+| IT and systems | Signs off on integration with their systems | CIO, Chief Information Officer, CTO, VP IT, Director of IT, Director of Systems, Director of Applications | help desk, support, technician, desktop, analyst, intern, former |
+
+Why the guards:
+
+- "President" matches inside "Vice President", so "vice" goes in the economic-buyer `notTitle`; Vice Presidents are covered by the other families.
+- "COO" matches inside "Coordinator".
+- "Owner" matches "Product Owner" and "Process Owner".
+- Owner, Founder and Managing Partner stay in the economic-buyer family at every size: family-owned and founder-led companies use them for the person who signs, and a CEO-only list misses those companies.
+- "CTO" at a company that also sells software returns its product engineers; read the first 100 rows of the IT family and drop CTO if they appear.
+
+The tool documents `vp`, `director` and `c_suite` as seniority values. Owner and founder titles go in `title`; test any other seniority value with a `limit: 1` count first.
 
 ## Universal exclusions
 
@@ -19,7 +40,7 @@ Add these to every family unless the user is selling to them:
 assistant, intern, former, retired, emeritus, student, volunteer, advisor, advisory, board member, investor, freelance, consultant to, executive assistant, ea to, office of the
 ```
 
-Watch "consultant": it removes real buyers at consulting firms. Leave it out when the target is a services firm.
+Watch "consultant": it removes buyers at consulting firms. Leave it out when the target is a services firm.
 
 ## Sales and revenue
 
@@ -196,5 +217,5 @@ Mix English and local forms in one `title` string; many people in these markets 
 
 - ScraperCity MCP tool schema for `query_lead_database` (`title`, `notTitle`, `seniority`, `department` descriptions): https://www.npmjs.com/package/scrapercity
 - ScraperCity CLI source (POST fallback for long queries): https://github.com/scrapercity/scrapercity-cli
-- Gartner, The B2B buying journey (buying group size): https://www.gartner.com/en/sales/insights/b2b-buying-journey
+- Gartner, B2B Buying Report (buying group size): https://emt.gartnerweb.com/ngw/globalassets/en/sales-service/documents/trends/gartner-b2b-buying-report.pdf
 - US Bureau of Labor Statistics, Standard Occupational Classification (management occupation groups): https://www.bls.gov/soc/

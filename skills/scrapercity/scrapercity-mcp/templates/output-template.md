@@ -1,47 +1,61 @@
 # ScraperCity MCP Setup and Run Report: [fill]
 
+<!-- Plan mode (nothing has run yet): keep the next line, and delete the Verification and Run Log sections. Run report: delete the next line. -->
+Plan only: [fill]
+
+## Answer
+
+<!-- At most 8 lines: where the rows come from and any filter the tools cannot apply, the total cost, what waits for a go-ahead, time to file. Each fact here is not repeated below. -->
+- [fill]
+- [fill]
+- [fill]
+
 ## Client Setup
 
 | Item | Value |
 |---|---|
 | Client | [fill] |
-| OS | [fill] |
 | Scope | [fill] |
-| Config file | [fill] |
-| Command | [fill] |
 | Args | [fill] |
 | Key handling | [fill] |
 | Version | [fill] |
 
-```json
+<!-- Numbered steps, one code block each, with the expected output in a comment. Every command complete as pasted. If you recommend a pin, the config shown uses it. -->
+1. [fill]
+
+```bash
 [fill]
 ```
 
 ## Verification
 
+<!-- Run report only. -->
+
 | Check | Result |
 |---|---|
 | Tools listed | [fill] |
 | check_wallet call | [fill] |
-| Duplicate or old ScraperCity entries | [fill] |
-| Current tool set (scrape_distress_list present, after and excludeDelivered on query_lead_database) | [fill] |
 
-## Wallet Check
+## Agent Rules
 
-| Item | Value |
-|---|---|
-| Plan | [fill] |
-| Balance | [fill] |
-| Renews | [fill] |
-| Database access | [fill] |
+<!-- The permission config once, as written into the client: free reads allowed, every paid tool asks. Agent tests only if they ran, with real results. -->
+
+```json
+[fill]
+```
 
 ## Run Plan
 
-Every tool must exist in `references/scrapercity-catalog.md`. Units are the billable ceiling. A `scrape_apollo` row names its webhook.
+<!-- Every call written out in full: JSON for MCP calls, complete scripts for file steps (no "..." values, no loop described in a comment, $HOME paths). The MCP path first; a shell loop only as the fallback, with the measured reason. People pulls: rank by the requested titles and cap per company before cutting to the target. -->
+
+**Call 1: [fill]**
+
+```json
+[fill]
+```
 
 | Step | Tool | Key parameters | Units | Unit price | Cost |
 |---|---|---|---:|---:|---:|
-| [fill] | [fill] | [fill] | [fill] | [fill] | [fill] |
 | [fill] | [fill] | [fill] | [fill] | [fill] | [fill] |
 | Total | | | | | [fill] |
 
@@ -49,11 +63,11 @@ Approval: [fill]
 
 ## Run Log
 
+<!-- Run report only: real runIds and results. -->
+
 | runId | Tool | Status | Rows | File |
 |---|---|---|---:|---|
 | [fill] | [fill] | [fill] | [fill] | [fill] |
-
-Actual spend: [fill]
 
 ## Issues and Fixes
 
@@ -65,4 +79,3 @@ Actual spend: [fill]
 
 1. [fill]
 2. [fill]
-3. [fill]

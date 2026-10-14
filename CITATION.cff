@@ -1,0 +1,21 @@
+cff-version: 1.2.0
+message: "If you use these skills in research or a publication, cite them with the metadata below."
+type: software
+title: "ScraperCity GTM Skills"
+abstract: "Agent skills for go-to-market work: list building, cold email infrastructure and deliverability, copy, calling, reply handling and outbound unit economics, built on ScraperCity data. Each skill ships references, an output template, a worked example and a checker script."
+authors:
+  - name: "ScraperCity"
+    email: "support@scrapercity.com"
+    website: "https://scrapercity.com"
+version: "1.0.0"
+date-released: "2026-10-13"
+license: MIT
+repository-code: "https://github.com/scrapercity/gtm-skills"
+url: "https://scrapercity.com/skills"
+keywords:
+  - agent-skills
+  - go-to-market
+  - outbound
+  - cold-email
+  - lead-generation
+  - list-building

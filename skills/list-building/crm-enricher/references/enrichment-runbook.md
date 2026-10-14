@@ -11,6 +11,8 @@ For each row compute, in this order:
 3. `identifier_class`: the first that applies of `social`, `name_domain`, `name_company`, `email_only`, `account_only`, `no_identifier`.
 4. `needs`: the list of in-scope fields that are blank or invalid.
 5. `suppressed`: true when an unsubscribe, opt-out, DND or "do not contact" field is set. Suppressed rows skip every step.
+6. `junk`: true for test and placeholder records: first or last name `test`, `asdf`, `xxx`, `n/a`, `unknown`, or "John Doe"; an email at `example.com`, `test.com` or `mailinator.com`; the same value in first name, last name and company. Junk rows skip every step and are flagged `JUNK_RECORD`.
+7. `internal`: true when the email or company domain is the user's own company or a subsidiary. Flag `INTERNAL_RECORD` and skip; employees in a prospect CRM inflate every fill rate.
 
 Report the counts of each class and of each need before spending anything.
 
@@ -25,7 +27,7 @@ Report the counts of each class and of each need before spending anything.
 | Account-only buyer | `query_lead_database` `companyDomain` + `title` | 1 domain per call, `limit: 10` | Then `scrape_website_finder` for domains with no hit |
 | Email validation | `validate_emails` | Up to a few thousand per run | Dedupe first; never pay twice for one address |
 | Email Finder | `find_emails` `contacts[]` | 500 contacts per run is easy to track | Domain preferred over company_name |
-| Mobile Finder | `find_mobiles` `inputs[]` | 500 per run | One input per person |
+| Mobile Finder | `find_mobiles` `inputs[]` | 500 per run | One input per person per run: LinkedIn URLs first; a second run sends the work email only for the URL misses |
 | Website Finder | `scrape_website_finder` `domains[]`, `jobTitle` | 100 domains per run, one title | Run again per title if you need two roles |
 
 Each Lead Database row returned is saved to the account and new rows count against 100,000 a day. A 2,000-row export rarely reaches 20,000 rows of lookups, but a run that pages 5 pages at 300 large domains can: 300 x 5 x 100 = 150,000. Cap pages per domain and spread big runs across days.
@@ -34,8 +36,10 @@ Each Lead Database row returned is saved to the account and new rows count again
 
 | Lookups planned | Use |
 |-|-|
-| Under about 200 database calls | MCP tool calls inside the agent session |
-| 200 or more | A script against the REST API, run by the user or the agent's shell |
+| Few enough that the user can watch each call in the session | MCP tool calls inside the agent session |
+| A loop over hundreds of domains or rows | A script against the REST API, run by the user or the agent's shell, paced under the 100 requests a minute per key that scrapercity.com/api-docs lists |
+
+For a recurring job, pick the operating mode (dashboard, scheduled script, or API-first service) with the build-vs-buy table in `SKILL.md`, ScraperCity Implementation. Triggers, the full reference script, error states and monitoring are in `api-pipeline-and-sync.md`.
 
 REST loop shape (pseudocode):
 
@@ -52,7 +56,7 @@ for domain in domains_needing_people:
     sleep 0.7 s between calls   (stays under 100 requests a minute)
 ```
 
-On 429 wait 30 seconds and retry once. On 503 retry once with `limit=25`. Write every response to disk keyed by domain so a crash does not repeat calls.
+On 429 wait 30 seconds and retry. On 503 retry with `limit=25`. Write every response to disk keyed by domain so a crash does not repeat calls. A call that still fails is `LOOKUP_ERROR` in the retry file, never `NOT_FOUND`.
 
 ## 4. Pilot hit-rate method
 
@@ -68,17 +72,19 @@ Email Finder and Mobile Finder charge only on a hit, so the ceiling (every looku
 1. Lead Database before any paid finder.
 2. Validate existing emails before `find_emails`, so invalid ones join the finder batch in one run.
 3. Remove rows whose email the Lead Database filled (and validation confirmed) from the finder batch.
-4. For mobiles, send the LinkedIn URL when you have it, otherwise the email. Never both.
+4. For mobiles, send the LinkedIn URL when you have it, otherwise the email. Never both in the same run. A second run may send the work email for people whose URL found nothing; a miss is free, so that pass cannot bill one person twice.
 5. Dedupe each paid batch on its input key.
 
 ## 6. Reason codes
 
+The report's Unfilled Flags table lists only the codes a person has to act on (at most 8 rows). `NOT_FOUND`, `SUPPRESSED`, `LOOKUP_ERROR`, `OUT_OF_CATALOG` and the codes whose next action is "None" stay in the files and the Fill Results counts.
+
 | Code | Meaning | Next action for the user |
 |-|-|-|
 | `NO_IDENTIFIER` | No email, social URL, or name plus company | Research by hand or drop |
-| `NO_DOMAIN` | Name present, company unknown or freemail only | Add the company, or run `find_people` only if the use is lawful and not outreach-gated |
+| `NO_DOMAIN` | Name present, company unknown or freemail only | Add the company, or ask the rep |
 | `FREEMAIL_DOMAIN` | Only a personal email; employer unknown | Ask the rep, or try the Lead Database by `socialUrl` |
-| `NOT_FOUND` | Lookups ran and returned nothing | Retry in 90 days |
+| `NOT_FOUND` | Lookups ran and returned nothing | Retry on the next scheduled refresh; for named target accounts, put the row on the rep research list now |
 | `AMBIGUOUS_MATCH` | Two or more candidates; nothing written | Rep picks from the review file |
 | `AMBIGUOUS_COMPANY` | Company name matches several companies | Add domain or state |
 | `LOW_CONFIDENCE` | Last-name-only or company mismatch | Review file |
@@ -86,10 +92,17 @@ Email Finder and Mobile Finder charge only on a hit, so the ceiling (every looku
 | `EMAIL_INVALID` | Existing email invalid and no replacement found | Do not email; phone or LinkedIn instead |
 | `EMAIL_REPLACED` | Invalid email replaced; old in `prior_email` | None |
 | `EMAIL_CONFLICT`, `TITLE_CONFLICT` | Different value found; staged | Rep accepts or rejects |
-| `JOB_CHANGE` | Person now at another company | New contact at new company; replacement at old account |
+| `JOB_CHANGE` | Person now at another company | New contact at the new company, enrolled in the main campaign as a "new role" segment once its email validates; replacement at the old account |
+| `DOMAIN_NO_MAIL` | Every validated address at the domain has no mail exchanger | Lead Database by company name for a current domain; account owner checks whether the company closed or was acquired |
 | `OUT_OF_SCOPE` | Field not requested for this segment (often mobiles) | None |
 | `SUPPRESSED` | Opt-out, unsubscribe or DND set | Never enrich for outreach |
 | `DUPLICATE_IN_CRM` | Another CRM record shares the email or name plus domain | Merge in the CRM |
+| `JUNK_RECORD` | Test or placeholder record | Delete in the CRM |
+| `INTERNAL_RECORD` | The user's own employee | Exclude from prospect views |
+| `LOOKUP_ERROR` | The call failed (429, 503, network, FAILED run); not the same as an empty result | Retried on the next run from the retry file |
+| `RETRY_EXHAUSTED` | `LOOKUP_ERROR` on 3 consecutive runs | A person checks the input |
+| `SIZE_BAND_CHANGE` | Lookup puts the company in a different size band | Account owner accepts or rejects the staged value |
+| `OUT_OF_CATALOG` | Field requested that no catalog tool returns (funding, intent, hiring, SIC or NAICS) | Leave blank |
 
 ## 7. Run log
 

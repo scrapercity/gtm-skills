@@ -9,24 +9,51 @@ import sys
 from pathlib import Path
 
 REQUIRED = [
-    "Purpose and Permissible Use",
+    "Purpose and Channels",
     "Input Profile",
     "Identifier Plan",
     "Cost Estimate",
-    "Match Scoring",
+    "Match Bands",
     "Results Funnel",
     "Contact Results",
-    "Compliance Check",
     "Sample Rows",
     "Next Steps",
 ]
 MIN_CHARS = 3000
-MIN_TABLE_ROWS = 35
-BANDS = [("confirmed", 80, 100), ("probable", 60, 79), ("weak", 40, 59), ("no_match", 0, 39)]
-STATUSES = {"callable_manual", "hold_dnc", "hold_internal_dnc", "do_not_call_deceased", "mail_only"}
+MIN_TABLE_ROWS = 30
+BANDS = ["confirmed", "probable", "weak", "no_match"]
+# Evidence tokens and the band each combination earns (SKILL.md workflow step 5).
+EVIDENCE_BAND = {
+    "name+address": "confirmed", "name+contact": "confirmed", "name+address+contact": "confirmed",
+    "owner_record": "confirmed",
+    "name+city": "probable", "surname+address": "probable", "address_only": "probable",
+    "name_only": "weak", "surname+city": "weak", "tie": "weak", "entity": "weak",
+    "none": "no_match", "deceased": "no_match",
+}
+STATUSES = {"callable", "suppressed", "estate_mail", "mail_only"}
 E164 = re.compile(r"^\+[1-9]\d{7,14}$")
-LAW = re.compile(r"FCRA|TCPA|TSR|47 (U\.S\.C|CFR)|Regulation [FO]|12 CFR|15 U\.S\.C|CAN-SPAM|SB \d+|Act|Code", re.I)
 PRICES = {"find_people": 0.0199, "distress": 0.05}
+# Owner rule: deliverables carry no legal content. These patterns mirror
+# scripts/validate-skills.py --check-legal; the bracketed letters keep this file
+# from matching its own terms.
+LEGAL_ACRONYMS = re.compile(
+    r"\b(?:CAN[- ]?SP[A]M|T[C]PA|T[S]R|C[A]SL|G[D]PR|C[C]PA|C[P]RA|P[E]CR|F[C]RA|G[L]BA|H[I]PAA|F[E]RPA|D[P]PA"
+    r"|F[T]C|F[C]C|C[F]PB|C[R]TC|I[C]O|D[N]C)\b|\bC\.?F\.?R\b|U\.S\.C|\bRegulation [A-Z]\b"
+)
+LEGAL_PHRASES = re.compile(
+    r"Do[- ]Not[- ]Call|Att[o]rneys? Gen[e]ral|legal advi[c]e|\bnot leg[a]l\b|permissible (?:purpose|use)"
+    r"|lawful bas[i]s|\bcompliance\b|\bconsent\b|\b(?:lawy[e]r|attorn[e]y|couns[e]l)s?\b",
+    re.I,
+)
+
+
+def legal_hit(text):
+    m = LEGAL_ACRONYMS.search(text) or LEGAL_PHRASES.search(text)
+    return m.group(0) if m else None
+
+
+# Deliverables name products, never tool ids or internal paths (SKILL.md Output Format).
+BANNED = re.compile(r"references/|SKILL\.md|query_lead_database|query_local_business_database|validate_emails|find_emails|find_mobiles|find_people|scrape_[a-z_]+|check_wallet|check_run_status|download_results", re.I)
 
 
 def num(text):
@@ -74,19 +101,23 @@ def main(argv):
     angle = re.search(r"<[A-Za-z][^>\n]{0,60}>", text)
     if angle:
         return fail("angle-bracket placeholder left in: " + angle.group(0))
+    legal = legal_hit(text)
+    if legal:
+        return fail("deliverable carries legal content: " + legal)
+    banned = BANNED.search(text)
+    if banned:
+        return fail("deliverable carries an internal path or a tool id: " + banned.group(0))
     if len(text) < MIN_CHARS:
         return fail(f"report too short ({len(text)} chars, need {MIN_CHARS})")
     total_rows = sum(len(table_rows(section(text, h))) for h in REQUIRED)
     if total_rows < MIN_TABLE_ROWS:
         return fail(f"only {total_rows} table rows across sections, need {MIN_TABLE_ROWS}")
 
-    # FCRA boundary stated.
-    purpose = section(text, "Purpose and Permissible Use").lower()
-    if "fcra" not in purpose:
-        return fail("Purpose and Permissible Use must cite the FCRA")
-    for word in ("tenant", "employment", "credit"):
+    # Purpose, channels and the suppression list stated.
+    purpose = section(text, "Purpose and Channels").lower()
+    for word in ("purpose", "channels", "suppression"):
         if word not in purpose:
-            return fail(f"Purpose and Permissible Use must rule out {word} decisions")
+            return fail(f"Purpose and Channels must state the {word}")
 
     # Cost lines priced at catalog rates.
     for r in table_rows(section(text, "Cost Estimate")):
@@ -95,9 +126,9 @@ def main(argv):
         line, units, cost = r[0].lower(), num(r[1]), num(r[3].replace("$", ""))
         if units is None or cost is None:
             continue
-        if "find_people" in line:
+        if "people finder" in line or "find_people" in line:
             price = PRICES["find_people"]
-        elif "property_lookup" in line:
+        elif "property lookup" in line or "property_lookup" in line:
             price = 0.25 if "owner" in line else 0.15
         elif "distress" in line:
             price = PRICES["distress"]
@@ -109,13 +140,22 @@ def main(argv):
         return fail("Cost Estimate needs a Total row with a $ figure")
 
     # Bands present and summing to total searched.
-    counts = {r[0].strip().lower(): num(r[2]) for r in table_rows(section(text, "Match Scoring")) if len(r) > 2}
-    for name, _, _ in BANDS:
+    counts = {r[0].strip().lower(): num(r[2]) for r in table_rows(section(text, "Match Bands")) if len(r) > 2}
+    for name in BANDS:
         if counts.get(name) is None:
-            return fail(f"Match Scoring missing band '{name}'")
+            return fail(f"Match Bands missing band '{name}'")
     total = next((v for k, v in counts.items() if k.startswith("total")), None)
-    if total is None or abs(sum(counts[b[0]] for b in BANDS) - total) > 0.5:
-        return fail("Match Scoring bands do not sum to Total searched")
+    if total is None or abs(sum(counts[b] for b in BANDS) - total) > 0.5:
+        return fail("Match Bands do not sum to Total searched")
+
+    # QA sample: confirmed rows checked against the owner of record, reported as counts.
+    qa = re.search(r"QA sample[^\n]*", text, re.I)
+    checks = re.findall(r"(\d+) of (\d+)", qa.group(0)) if qa else []
+    if len(checks) < 2:
+        return fail("add a QA sample line: confirmed rows checked against the owner of record, as 'n of m'")
+    for n, m in checks:
+        if int(m) == 0 or int(n) > int(m):
+            return fail(f"QA sample check '{n} of {m}' is not a valid count")
 
     # Funnel adds up and never grows.
     funnel = table_rows(section(text, "Results Funnel"))
@@ -130,34 +170,27 @@ def main(argv):
             return fail(f"Results Funnel does not add up at '{r[0]}'")
         prev = rows
 
-    # Every compliance row names a law.
-    comp = table_rows(section(text, "Compliance Check"))
-    if len(comp) < 4:
-        return fail("Compliance Check needs at least 4 rows")
-    for r in comp:
-        if len(r) < 4 or not LAW.search(r[2]):
-            return fail(f"Compliance Check row '{r[0]}' does not name a law")
-
-    # Sample rows: score fits band, phones E.164, only strong DNC-clear rows callable.
+    # Sample rows: band matches evidence, phones E.164, only confirmed or probable rows callable.
     sample = table_rows(section(text, "Sample Rows"))
     if len(sample) < 3:
         return fail("Sample Rows needs at least 3 rows")
     for r in sample:
-        if len(r) < 8:
-            return fail("Sample Rows need 8 columns")
-        score, band = num(r[2]), r[3].strip().lower()
-        rng = next((b for b in BANDS if b[0] == band), None)
-        if score is None or rng is None or not (rng[1] <= score <= rng[2]):
-            return fail(f"sample {r[0]}: score {r[2]} does not fit band '{r[3]}'")
+        if len(r) < 7:
+            return fail("Sample Rows need 7 columns")
+        evidence, band = r[2].strip().lower(), r[3].strip().lower()
+        if evidence not in EVIDENCE_BAND:
+            return fail(f"sample {r[0]}: evidence '{r[2]}' not in the vocabulary")
+        if EVIDENCE_BAND[evidence] != band:
+            return fail(f"sample {r[0]}: evidence '{evidence}' earns {EVIDENCE_BAND[evidence]}, not '{r[3]}'")
         if r[5] and not E164.match(r[5].strip()):
             return fail(f"sample {r[0]}: phone '{r[5]}' is not E.164")
-        status = r[7].strip()
+        status = r[6].strip()
         if status not in STATUSES:
             return fail(f"sample {r[0]}: status '{status}' not in the vocabulary")
-        if status == "callable_manual" and (band not in ("confirmed", "probable") or r[6].strip().lower() != "clear"):
-            return fail(f"sample {r[0]} is callable but is {band} or not DNC clear")
+        if status == "callable" and band not in ("confirmed", "probable"):
+            return fail(f"sample {r[0]} is callable but is {band}")
 
-    print(f"PASS - {path.name}: FCRA boundary stated, cost lines at catalog prices, {total:.0f} rows banded, {len(comp)} compliance rows name a law")
+    print(f"PASS - {path.name}: cost lines at catalog prices, {total:.0f} rows banded, {len(sample)} sample rows banded by evidence")
     return 0
 
 

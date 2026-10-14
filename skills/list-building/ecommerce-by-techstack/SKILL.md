@@ -16,17 +16,34 @@ metadata:
   version: "1.0.0"
   author: ScraperCity
   category: list-building
-  tags: [ecommerce, shopify, woocommerce, technographics, store-leads, tech-stack, klaviyo, dtc]
-  related_skills: [icp-list-builder, cold-email-list, email-list-cleaner, decision-maker-finder, tam-builder, cold-email-copywriting, scrapercity-api]
+  tags:
+    - ecommerce
+    - shopify
+    - woocommerce
+    - technographics
+    - store-leads
+    - tech-stack
+    - klaviyo
+    - dtc
+  related_skills:
+    - icp-list-builder
+    - cold-email-list
+    - email-list-cleaner
+    - decision-maker-finder
+    - tam-builder
+    - cold-email-copywriting
+    - scrapercity-api
   frameworks:
     - "Shopify - plan tiers and Shopify Plus pricing"
-    - "Shopify App Store - app listings used as filters (Klaviyo, Recharge, Gorgias)"
+    - "Shopify App Store - app listings used as filters, and low-star reviews as a displacement list"
     - "Alex Berman - narrow lists tied to one offer and one proof point"
-    - "FTC - CAN-SPAM Act compliance guide"
     - "Google, Yahoo and Microsoft - bulk sender requirements (2024-2025)"
-    - "ICO - PECR rules for corporate subscribers and sole traders"
-    - "CRTC - CASL implied consent for conspicuously published addresses"
-  shared_references: [scrapercity-catalog.md, scrapercity-platform.md, list-quality-standard.md, scrapercity-agent-patterns.md, deliverability-primer.md, outbound-compliance-primer.md]
+  shared_references:
+    - scrapercity-catalog.md
+    - scrapercity-platform.md
+    - list-quality-standard.md
+    - scrapercity-agent-patterns.md
+    - deliverability-primer.md
 ---
 
 # Ecommerce by Tech Stack
@@ -79,9 +96,8 @@ Use a different skill when:
 | ScraperCity catalog (`references/scrapercity-catalog.md`) | Every `scrape_store_leads` parameter, the server-side band filters and their aliases, `offset` paging, `apps` being Shopify only, prices for Store Leads and Tech Stack Search. |
 | scrapercity.com (per scrapercity.com) | 14M+ stores across 10 platforms: Shopify, WooCommerce, Magento, BigCommerce, Squarespace, Ecwid, OpenCart, Webflow, PrestaShop, Demandware. |
 | Shopify plan pricing | Shopify Plus starts at $2,300 a month on a 3-year term or $2,500 on a 1-year term. A Plus store has budget; `planExclude: ["Shopify Plus"]` removes it when the offer is built for smaller stores. |
-| Shopify App Store listings | Klaviyo (email and SMS), Recharge (subscriptions), Gorgias (helpdesk) are listed apps. An installed app tells you what the store already pays for and what problem it already has. |
+| Shopify App Store listings and reviews | Klaviyo (email and SMS), Recharge (subscriptions), Gorgias (helpdesk) are listed apps. An installed app tells you what the store already pays for. Each review shows the store name, country, time using the app and date, and the page filters by star rating, so 1 and 2 star reviewers of the app you replace become a named displacement list. |
 | Alex Berman (alexberman.com) | Build the list after the offer, and test about 100 emails to one tight niche with one proven result. "Shopify apparel on Klaviyo at $50k to $250k a month" is a niche; "ecommerce" is a market. |
-| FTC CAN-SPAM, ICO PECR, CRTC CASL | US: no B2B exemption, opt-out within 10 business days. UK: corporate subscribers may receive B2B email without prior consent, sole traders need consent. Canada: implied consent can apply to a conspicuously published address when the message relates to the recipient's role. |
 | Google, Yahoo, Microsoft sender rules | Store inboxes are often role addresses on Google Workspace or Microsoft 365. Validate before sending and keep complaints under 0.3%. |
 
 Details and the routing table: `references/framework-notes.md`.
@@ -90,7 +106,7 @@ Details and the routing table: `references/framework-notes.md`.
 
 ### 1. Turn the offer into a tier floor
 
-Ask what the offer costs per month. House starting point (test it): the store's estimated monthly sales should be at least 20 times the offer's monthly price, so the offer is 5% of sales or less. A $2,500 a month retainer implies a $50,000 a month sales floor for the core tier. Write the tiers as non-overlapping bands of `minEstimatedMonthlySales` and `maxEstimatedMonthlySales` (or visits, or employees). Band presets are in `references/tiering-and-tech-intersection.md`.
+Ask what the offer costs per month and the affordability ratio the user wants: the store's estimated monthly sales as a multiple of the offer's monthly price. No published benchmark sets this ratio, so it is the user's input; set it from the sales of current clients. At the worked example's 20x, a $2,500 a month retainer implies a $50,000 a month sales floor for the core tier. Write the tiers as non-overlapping bands of `minEstimatedMonthlySales` and `maxEstimatedMonthlySales` (or visits, or employees). Band presets are in `references/tiering-and-tech-intersection.md`.
 
 ### 2. Pick a recipe and build the filters
 
@@ -102,7 +118,7 @@ The catalog documents `platform` and `category` as case-insensitive strings and 
 
 ### 4. Size each tier and confirm the cost
 
-There is no count endpoint for Store Leads. Plan each tier's `totalLeads` from the target, adding 35% headroom for validation and dedupe losses. Cost ceiling = sum of `totalLeads` x $0.0039, plus $4.99 per Tech Stack Search technology, plus validation at $0.0072 per email. Run `check_wallet`; over $5, show the table and wait for a go-ahead.
+There is no count endpoint for Store Leads. Plan each tier's `totalLeads` from the target, plus headroom for validation and dedupe losses: use the loss share from the user's last comparable pull, or validate the 25 probe emails ($0.18) and use that share, then replace it with the first tier's actual loss. Cost ceiling = sum of `totalLeads` x $0.0039, plus $4.99 per Tech Stack Search technology, plus validation at $0.0072 per email. Run `check_wallet`, show the table and wait for a go-ahead.
 
 ### 5. Pull each tier with offset paging
 
@@ -117,20 +133,23 @@ Store Leads takes one `apps` and one `technologies` string per call, and has no 
 | Stores with app A and technology B | Store Leads `apps: A` rows whose domain is in the B domain list |
 | Stores with app A but not B (for example Klaviyo without Attentive) | Store Leads `apps: A` rows whose domain is not in the B list |
 | Flag a signal without filtering (subscription brands) | Add `uses_<tech> = true` for domains in the list |
+| Stores unhappy with the app you replace | Match 1 and 2 star App Store reviewers from the review window the user sets to the competitor-app pull on store name key plus country; flag `unhappy_with_<app>` and send them first |
 
-Procedure and domain normalization: `references/tiering-and-tech-intersection.md`.
+Procedure and domain normalization: `references/tiering-and-tech-intersection.md` sections 5 and 6.
 
 ### 7. Normalize, dedupe, suppress, validate
 
-Normalize domains and emails per `references/list-quality-standard.md`. Drop platform-host domains (`*.myshopify.com` when a custom domain exists). Dedupe on domain, then on email (one brand can run several storefronts with one inbox). Apply suppression. Validate every email with `validate_emails`. Store emails are often role addresses (`hello@`, `support@`); for store lists those are acceptable, as on local business lists, but keep `is_role` so copy can say "your team".
+Normalize domains and emails per `references/list-quality-standard.md`. Drop platform-host domains (`*.myshopify.com` when a custom domain exists). Dedupe on domain, then on email (one brand can run several storefronts with one inbox). Apply suppression. Validate every email with `validate_emails`. Store emails are often role addresses (`hello@`, `team@`); keep them, with `is_role` set, and never pitch a `support@` address, which reaches the helpdesk queue.
 
-### 8. Optional: add a named contact
+Then open 20 random rows and record one line: store live (the domain opens a working storefront), category fit, qualifying app visible on the site, sales band plausible for what the site shows, each as "N of 20". Two or more misses on one check means a filter value is wrong: re-probe and re-pull rather than deleting rows.
 
-For Tier 1, find the founder or head of ecommerce: `scrape_website_finder` with the domains and `jobTitle: "Founder"` ($0.0499 per contact found), or `query_lead_database` with `companyDomain` on Growth and Scale. Validate those emails too.
+### 8. Add named contacts where the founder no longer reads the inbox
 
-### 9. Deliver
+Small stores (E3, T3 and T4) are founder-run: the role inbox is enough. From T2 up, add up to 2 named people per store with the title ladder in `references/tiering-and-tech-intersection.md` section 7: on Growth, the Lead Database by `companyDomain` costs nothing extra; on Starter, Website Finder with `jobTitle: "Founder"` ($0.0499 per contact found) on T1 and T2. Validate every named email. Send the named contact first; the role inbox waits in a hold file.
 
-One CSV with a `tier` column, a hold file for catch-all and unknown, and the report from `templates/output-template.md`. Run `scripts/check-output.py`.
+### 9. Deliver, hand off, refresh
+
+One CSV with a `tier` column, a hold file for catch-all and unknown, and the report from `templates/output-template.md`. Sequencer handoff: one campaign per tier, custom variables `store_name`, `category`, the qualifying app, any `uses_<tech>` or `unhappy_with_<app>` flag and the contact's first name (a role inbox reads "Hi {{store_name}} team"). Re-validate any row whose `email_validated_at` is older than 30 days before it sends; next month, continue each tier from its saved `nextOffset` and refresh the technology flags. Run `scripts/check-output.py`.
 
 ## ScraperCity Implementation
 
@@ -196,7 +215,7 @@ Shopify apparel stores in the US using Klaviyo with an email, three sales tiers,
 | Validation after dedupe and suppression | 1,461 emails | $0.0072 | $10.52 |
 | Total | | | $21.51 |
 
-Show the ceiling first (requested 1,625 leads x $0.0039 = $6.34, plus $4.99, plus up to 1,625 x $0.0072 = $11.70 validation, $23.03). Over $5, so wait for a go-ahead.
+Show the ceiling first (requested 1,625 leads x $0.0039 = $6.34, plus $4.99, plus up to 1,625 x $0.0072 = $11.70 validation, $23.03) and wait for a go-ahead.
 
 ### Errors
 
@@ -209,9 +228,12 @@ Show the ceiling first (requested 1,625 leads x $0.0039 = $6.34, plus $4.99, plu
 
 ## Output Format
 
-1. `stores-[segment]-[date].csv`: `domain`, `store_name`, `platform`, `category`, `apps`, `technologies`, `country`, `state`, `city`, `est_monthly_visits`, `est_monthly_sales`, `employees`, social flags, `email`, `is_role`, `email_status`, `email_validated_at`, `tier`, `uses_<tech>` flags, `source = store_leads`, `source_detail`, `pulled_at`. Valid emails only.
-2. `stores-[segment]-[date]-hold.csv`: catch-all and unknown.
-3. Report from `templates/output-template.md`: target, filters, value probe, tier bands, Tech Stack Search, funnel, validation, cost, sample rows, next steps.
+1. `stores-[segment]-[date].csv`: `domain`, `store_name`, `platform`, `category`, `apps`, `technologies`, `country`, `state`, `city`, `est_monthly_visits`, `est_monthly_sales`, `employees`, social flags, `email`, `is_role`, `email_status`, `email_validated_at`, `tier`, `uses_<tech>` and `unhappy_with_<app>` flags, `review_note`, `source = store_leads`, `source_detail`, `pulled_at`. Valid emails only.
+2. `stores-[segment]-[date]-contacts.csv`: one row per named person (`domain` as the join key, `first_name`, `last_name`, `title`, `email`, `email_status`, `contact_source`), so a store with two contacts stays one store row.
+3. `stores-[segment]-[date]-hold.csv`: catch-all and unknown, plus role inboxes held behind a named contact.
+4. Report from `templates/output-template.md`: target, filters, value probe, tier bands, Tech Stack Search and review flags, funnel, validation, named contacts, cost, sample rows with the QA line, next steps with the sequencer handoff.
+
+What the reader receives is the deliverable only: product names (Store Leads, Tech Stack Search, Email Validator, Website Finder, Lead Database), never tool ids, internal file paths or reference section numbers; filter parameter names appear only in the Filters Used table, where the user needs them to rerun the pull; another skill is named only in a handoff line; no tables of checks that were not run (one "Not checked:" line instead); no repeated identical rows; no legal commentary.
 
 ## Quality Check
 
@@ -223,6 +245,9 @@ Show the ceiling first (requested 1,625 leads x $0.0039 = $6.34, plus $4.99, plu
 - [ ] Tech Stack Search lists were joined on normalized domains and each technology cost $4.99.
 - [ ] Main CSV is 100% `email_status = valid`; 0 duplicate domains; suppression applied.
 - [ ] Funnel adds up and the tier counts sum to the send-ready total.
+- [ ] The QA line reads "N of 20" for store live, category fit, app visible and band plausible, with no check under 18 of 20.
+- [ ] Tiers from T2 up show named-contact coverage (stores with a named valid email) and the method used; T3 and lower may run on role inboxes.
+- [ ] The report names products, not tool ids or file paths, and carries no legal commentary.
 - [ ] `scripts/check-output.py report.md` prints PASS.
 
 ## Common Pitfalls
@@ -236,8 +261,10 @@ Show the ceiling first (requested 1,625 leads x $0.0039 = $6.34, plus $4.99, plu
 | Two apps in one `apps` string | Behavior with several values is not documented | One app per call; intersect with Tech Stack Search |
 | Using Tech Stack Search alone as the list | Returns every website using the tech, stores or not, with no email | Join to Store Leads on domain |
 | No `planExclude` for an SMB offer | Plus stores have procurement and agencies on retainer | `planExclude: ["Shopify Plus"]` |
-| Sending to `support@` with a sales pitch | Lands with a support team that tags it spam | Prefer `hello@`, `info@` or a founder; tailor copy to "your team" |
+| Sending to `support@` with a sales pitch | Goes to a support team that tags it spam | Prefer `hello@`, `info@` or a founder; tailor copy to "your team" |
 | One sequence for all tiers | A $20k a month store and a $500k store need different proof | Sequence per tier |
+| Quoting the sales estimate in the first line | Estimates are modeled; a wrong number tells the founder the email is automated | Use the estimate to tier; cite the installed app or a visible gap on the site |
+| Role inbox only at a $500k a month store | Larger stores route `hello@` to support staff, who do not buy | Named contact from the Lead Database or Website Finder for T1 and T2 |
 
 ## Execution Artifacts
 
@@ -246,10 +273,9 @@ Show the ceiling first (requested 1,625 leads x $0.0039 = $6.34, plus $4.99, plu
 | `references/framework-notes.md` | You need the source behind a rule or which file to open. |
 | `references/store-leads-parameter-guide.md` | Writing any `scrape_store_leads` call: every parameter, alias, paging, value probing. |
 | `references/filter-recipes.md` | Choosing filters by seller type, vertical or app. |
-| `references/tiering-and-tech-intersection.md` | Setting tier bands from the offer, joining Tech Stack Search lists, exclusions. |
+| `references/tiering-and-tech-intersection.md` | Setting tier bands from the offer, joining Tech Stack Search lists, exclusions, the App Store review flag, named contacts by tier. |
 | `references/list-quality-standard.md` | Normalization, dedupe, validation buckets (shared). |
 | `references/deliverability-primer.md` | Sending to role inboxes on Google Workspace and Microsoft 365 (shared). |
-| `references/outbound-compliance-primer.md` | CAN-SPAM, CASL, PECR, GDPR before sending (shared). |
 | `references/scrapercity-catalog.md` | Prices and schemas (shared). |
 | `references/scrapercity-platform.md` | Plans and the Ecommerce Database (shared). |
 | `references/scrapercity-agent-patterns.md` | Wallet, polling, retries (shared). |

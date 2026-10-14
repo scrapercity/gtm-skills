@@ -12,7 +12,7 @@
 
 ## Filter Spec
 
-Every parameter must be a real `query_lead_database` parameter. Every geography row says person or company.
+Every parameter must exist in `query_lead_database`. Every geography row says person or company.
 
 | Parameter | Value | Reason |
 |---|---|---|
@@ -63,7 +63,8 @@ Allowance share: [fill]
 | HQ or person location as specified | [fill] |
 | Email present | [fill] |
 | Excluded titles absent | [fill] |
-| On-target rows | [fill] / 20 |
+| Pass mark (set before the sample) | [fill] / [fill] |
+| On-target rows | [fill] / [fill] |
 
 ## Next Steps
 

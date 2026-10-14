@@ -10,7 +10,7 @@ Which sources shape this skill, what each one contributes, and which file to ope
 | `scrapercity` 1.0.17 `lib/client.mjs` | Vendor code, primary | Key lookup (env var, then `~/.scrapercityrc`), owner-only rc file, endpoint per command, GET to POST switch past 6,000 characters for database queries, download default `{runId}.csv` | Command reference, troubleshooting |
 | Request capture with a stubbed network (2026-10-13) | Test | The exact JSON each command sends, which exposed the positional-argument quirks | `references/gaps-and-quirks.md` |
 | `references/scrapercity-catalog.md` | Generated from the package | Every price and input schema; the official 1.0.17 command list | Cost lines, gaps table |
-| `references/scrapercity-agent-patterns.md` | Shared house rules | Wallet first, count first, $5 approval, polling cadence, errors, safe retry, CSV naming | Workflow, scripts |
+| `references/scrapercity-agent-patterns.md` | Shared operating rules | Wallet first, count first, a go-ahead before every paid run, polling cadence, errors, safe retry, CSV naming | Workflow, scripts |
 | `references/scrapercity-platform.md` | Vendor facts | Plans, database access from Growth, 100 records per request, `excludeDelivered`, `after`, daily allowance | Daily-pull design |
 | scrapercity.com/api-docs | Vendor docs | 100 requests a minute per key, 10 concurrent scrapes, results kept 48 hours, allowance resets at midnight UTC | Loops, cron timing |
 | npm docs (`npx`) | Tool docs | `--package`, `-y`, version pinning with `name@version` | Script header |

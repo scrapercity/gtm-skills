@@ -52,7 +52,7 @@ A per-row scraper call turns 2,000 rows into 2,000 runs: past the 10 concurrent 
 |---|---|
 | ScraperCity's own Clay guide shows 10 requests per 1,000 ms | That is 600 a minute against a documented 100 a minute per key. Use 1 per 1,000 ms; drop further on 429 |
 | One run per row on a scraper | Never put `/api/v1/scrape/*` in a per-row column. Batch it |
-| Whole-table reruns | Use conditional runs so filled rows do not call again. Database re-fetches are free, but they still spend requests |
+| Full-table reruns | Use conditional runs so filled rows do not call again. Database re-fetches are free, but they still spend requests |
 | Lead Database on Starter | Database calls need Growth. Check the plan with `GET /api/v1/wallet` before building |
 
 ## n8n
@@ -68,6 +68,149 @@ A per-row scraper call turns 2,000 rows into 2,000 runs: past the 10 concurrent 
 3. Options, Pagination: mode Update a Parameter in Each Request, Type Query, Name `after`, Value `{{ $pageCount === 0 ? "0" : $response.body.pagination.next_after }}`. `$pageCount` starts at zero and `$response` carries the previous body (n8n pagination cookbook). Stop when `next_after` is null and cap the page count at your daily volume / 100.
 4. Split Out on `data`.
 5. Destination nodes.
+
+**Importable version of the daily feed.** Save as `scrapercity-daily-feed.json`, then in n8n: Workflows, Import from File. Node parameter names were taken from the `n8n-nodes-base` 2.15.1 node definitions (HTTP Request 4.4, Schedule Trigger 1.3, Split Out 1); the file carries no credential, so open "Pull new businesses" after import and pick the ScraperCity Header Auth credential. The cron runs in the workflow's time zone (Workflow settings). `maxRequests: 3` caps the run at 300 businesses; raise it to the daily target / 100. Add the destination nodes after "One item per business".
+
+```json
+{
+  "name": "ScraperCity daily new businesses",
+  "nodes": [
+    {
+      "id": "b1f0c2a4-0001-4c1e-9a10-000000000001",
+      "name": "Weekdays 07:00",
+      "type": "n8n-nodes-base.scheduleTrigger",
+      "typeVersion": 1.3,
+      "position": [
+        0,
+        0
+      ],
+      "parameters": {
+        "rule": {
+          "interval": [
+            {
+              "field": "cronExpression",
+              "expression": "0 7 * * 1-5"
+            }
+          ]
+        }
+      }
+    },
+    {
+      "id": "b1f0c2a4-0002-4c1e-9a10-000000000002",
+      "name": "Pull new businesses",
+      "type": "n8n-nodes-base.httpRequest",
+      "typeVersion": 4.4,
+      "position": [
+        240,
+        0
+      ],
+      "parameters": {
+        "method": "GET",
+        "url": "https://app.scrapercity.com/api/v1/database/local-businesses",
+        "authentication": "genericCredentialType",
+        "genericAuthType": "httpHeaderAuth",
+        "sendQuery": true,
+        "specifyQuery": "keypair",
+        "queryParameters": {
+          "parameters": [
+            {
+              "name": "keyword",
+              "value": "HVAC contractor"
+            },
+            {
+              "name": "state",
+              "value": "TX"
+            },
+            {
+              "name": "country",
+              "value": "US"
+            },
+            {
+              "name": "minRating",
+              "value": "4"
+            },
+            {
+              "name": "hasEmail",
+              "value": "true"
+            },
+            {
+              "name": "excludeDelivered",
+              "value": "true"
+            },
+            {
+              "name": "limit",
+              "value": "100"
+            }
+          ]
+        },
+        "options": {
+          "queryParameterArrays": "repeat",
+          "pagination": {
+            "pagination": {
+              "paginationMode": "updateAParameterInEachRequest",
+              "parameters": {
+                "parameters": [
+                  {
+                    "type": "qs",
+                    "name": "after",
+                    "value": "={{ $pageCount === 0 ? \"0\" : $response.body.pagination.next_after }}"
+                  }
+                ]
+              },
+              "paginationCompleteWhen": "other",
+              "completeExpression": "={{ !$response.body.pagination.next_after }}",
+              "limitPagesFetched": true,
+              "maxRequests": 3,
+              "requestInterval": 1000
+            }
+          }
+        }
+      }
+    },
+    {
+      "id": "b1f0c2a4-0003-4c1e-9a10-000000000003",
+      "name": "One item per business",
+      "type": "n8n-nodes-base.splitOut",
+      "typeVersion": 1,
+      "position": [
+        480,
+        0
+      ],
+      "parameters": {
+        "fieldToSplitOut": "data",
+        "include": "noOtherFields"
+      }
+    }
+  ],
+  "connections": {
+    "Weekdays 07:00": {
+      "main": [
+        [
+          {
+            "node": "Pull new businesses",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Pull new businesses": {
+      "main": [
+        [
+          {
+            "node": "One item per business",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    }
+  },
+  "settings": {
+    "executionOrder": "v1"
+  }
+}
+```
 
 **Recipe: scraper run finished.**
 
@@ -87,6 +230,7 @@ A per-row scraper call turns 2,000 rows into 2,000 runs: past the 10 concurrent 
 | Duplicate paid starts | Never enable Retry On Fail on a POST to `/api/v1/scrape/*` |
 | Pagination re-sending the same request | Identical calls within 30 s return 429; the cursor changes each call, a fixed `page=1` does not |
 | Testing burns the daily allowance | Test with `limit=5` and a Manual Trigger before publishing |
+| Two values for one filter (two `location` rows) | Options, Array Format in Query Parameters: `Repeat` (`queryParameterArrays: repeat`). The node's default, `Brackets`, sends `location[]=`, which is not the repeated-key form the ScraperCity GET expects. On node versions before 4.3 the second row replaces the first, so one of the values is silently dropped |
 
 ## Zapier
 
@@ -237,6 +381,33 @@ Add a time-driven trigger (Triggers, Add Trigger, Time-driven, Day timer) to run
 | Monthly calls | Free 1,000 API calls a month, Team 100,000; Business and Enterprise Scale have no fixed monthly cap. 2,000 records a day at 10 per call is 6,000 calls a month, over the Free cap |
 | Upsert keys | `fieldsToMergeOn` takes 1 to 3 fields, not formulas or lookups; more than one match fails the request |
 
+## Inbound form enrichment (real time)
+
+A form fill is the one place a per-row call belongs, because a person is waiting on the routing. Use the synchronous Lead Database only; leave scrapers out of the real-time path.
+
+1. The form tool (or the CRM's form) posts to an n8n Webhook node, Respond Immediately.
+2. Code node: lowercase the email, take the domain after `@`. If the domain is a free-mail provider, skip to step 5 with `company_unknown`.
+3. HTTP Request: GET `/api/v1/database/leads?companyDomain={{domain}}&limit=1` with the Header Auth credential. Read the company fields from `data[0]` (`company_size`, `employees_count`, `company_industry`, `company_annual_revenue`, `company_country`). A `pagination.total` of 0 means the database has no record for that domain; route it as size unknown.
+4. Switch on size band and country: for example 200+ employees to an account executive, 11 to 199 to an SDR queue, 1 to 10 to a nurture list.
+5. CRM node: create or update the contact with the company fields, the route and `enrichment_source = ScraperCity Lead Database`.
+6. A nightly job sends that day's form emails to one `validate_emails` run ($0.0072 each) and writes `email_status` back. Validation is asynchronous, so it never sits in the real-time path.
+
+Cost: $0 wallet per form fill on Growth and Scale. One request per fill stays far inside 100 a minute unless a campaign drives more than one submission a second; above that, queue fills and drain at one a second.
+
+## Monthly re-validation of CRM emails
+
+Work emails go stale as people change jobs (the job-change recipe estimates about 1.4% of a list a month). Re-checking only the contacts that are about to be emailed keeps bounces down without paying to validate contacts nobody will email this month.
+
+1. Schedule Trigger, first business day of the month.
+2. CRM search: contacts in an active sequence, on an open opportunity or on a target account list, whose `email_validated_at` is empty or older than the re-check window you set (`REVALIDATE_DAYS`, chosen from your measured bounce rate by list age).
+3. Code node: lowercase, dedupe, split into batches of 1,000.
+4. One `POST /api/v1/scrape/email-validator` per batch; store each `runId`.
+5. The run-finished flow above: confirm `SUCCEEDED`, download, parse.
+6. Write back `email_status` and `email_validated_at` on every contact (HubSpot batch upsert of 100). Never blank the `email` field.
+7. Invalid results: remove the contact from active sequences, add the address to the shared bounce suppression list, and for contacts on open opportunities create a task for the owner and queue the person for the `socialUrl` lookup in the job-change recipe, since an invalid work address often means the person left.
+
+Cost: 2,000 contacts due in a month is 2,000 x $0.0072 = $14.40, two validator runs, about 25 ScraperCity requests.
+
 ## Sources
 
 - https://scrapercity.com/api-docs
@@ -250,6 +421,7 @@ Add a time-driven trigger (Triggers, Add Trigger, Time-driven, Day timer) to run
 - https://docs.n8n.io/integrations/builtin/core-nodes/n8n-nodes-base.httprequest/common-issues/
 - https://docs.n8n.io/integrations/builtin/core-nodes/n8n-nodes-base.webhook/
 - https://docs.n8n.io/integrations/builtin/core-nodes/n8n-nodes-base.extractfromfile/
+- https://www.npmjs.com/package/n8n-nodes-base
 - https://help.zapier.com/hc/en-us/articles/8496326446989-Send-webhooks-in-Zaps
 - https://help.zapier.com/hc/en-us/articles/8496288690317-Trigger-Zaps-from-webhooks
 - https://help.zapier.com/hc/en-us/articles/29972220283789

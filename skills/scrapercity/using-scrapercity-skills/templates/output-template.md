@@ -12,6 +12,7 @@
 | Budget ceiling | [fill] |
 | Wallet balance | [fill] |
 | Countries | [fill] |
+| Ready by | [fill] |
 
 ## Skill Chain
 
@@ -35,7 +36,7 @@ Why a database or scraper was chosen for each data step: [fill]
 |-|-|-|
 | Wallet | [fill] | [fill] |
 | Count | [fill] | [fill] |
-| Compliance | [fill] | [fill] |
+| Suppression | [fill] | [fill] |
 | Quality | [fill] | [fill] |
 | Deliverability | [fill] | [fill] |
 

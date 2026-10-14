@@ -1,0 +1,45 @@
+name: Improvement
+description: Make an existing skill, reference, checker or the tooling better.
+labels: [improvement]
+body:
+  - type: markdown
+    attributes:
+      value: |
+        Two owner rules apply to every skill. **No legal content:** no laws, regulators, registries, consent or registration requirements, disclaimers or advice to get legal review. **No moralizing:** every rule is a setting tied to replies, meetings, revenue or cost. Proposals that add either are closed.
+  - type: input
+    id: target
+    attributes:
+      label: Skill or file
+      placeholder: skills/outbound/cold-email-copywriting
+    validations:
+      required: true
+  - type: textarea
+    id: gap
+    attributes:
+      label: What is missing or weak today
+      description: Quote the section or describe the deliverable that came out wrong.
+    validations:
+      required: true
+  - type: textarea
+    id: change
+    attributes:
+      label: The change you propose
+    validations:
+      required: true
+  - type: textarea
+    id: result
+    attributes:
+      label: What it changes in results
+      description: More replies, meetings or revenue, or lower cost, and how you would measure it.
+  - type: textarea
+    id: sources
+    attributes:
+      label: Primary sources
+      description: Links that back any new fact, price or setting (mailbox provider, RFC, vendor docs, the operator's own work). Leave blank for tooling changes.
+  - type: checkboxes
+    id: checks
+    attributes:
+      label: Before you submit
+      options:
+        - label: I searched open issues for the same request.
+          required: true

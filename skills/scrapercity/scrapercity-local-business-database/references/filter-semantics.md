@@ -54,7 +54,7 @@ Exact behavior of every `query_local_business_database` parameter, from the `scr
 |---|---|
 | A list of cities | `location: ["Austin TX", "Round Rock TX"]` |
 | A list of ZIP codes | `location: ["78701", "78702", "78703"]` or `postalCode` for one |
-| A whole state | `location: ["Texas"]` or `state: "TX"` |
+| One state | `location: ["Texas"]` or `state: "TX"` |
 | Several states | `state: "TX, OK, LA"` |
 | A country | `location: ["Germany"]` or `country: ["DE"]` |
 | A shape no city line follows | `box` |

@@ -61,6 +61,20 @@ Columns depend on the tool. Run a small capped test (for example `maxCrawledPlac
 | `city`, `state`, `country` | `city`, `state`, `country` | custom fields | custom fields | `custom_variables` | `location` (joined) | custom variables | custom variables | `city`, `state`, `country` | City, State, Country |
 | segment constant | custom property | `label_ids` | `tags` | `custom_variables.segment` | `custom_fields.segment` | `segment` (custom variable) | custom variable | custom slot | Segment |
 
+Salesforce Lead, from either database:
+
+| ScraperCity | Salesforce Lead field |
+|---|---|
+| `email` (or the chosen business email) | `Email`, and lowercase into the `Email_Key__c` match key |
+| `first_name` / `contact_first_name` | `FirstName` |
+| `last_name` / `contact_last_name` | `LastName` (required; skip rows without one) |
+| `company_name` / business `title` | `Company` (required) |
+| `title` / `contact_job_title` | `Title` |
+| `company_domain` / `website` as domain | `Website` |
+| phone key from your sample, as E.164 | `Phone` (`MobilePhone` for `mobile_number` or `contact_mobile`) |
+| `city`, `state`, `country` | `City`, `State`, `Country` (if the org uses state and country picklists, send a value the picklist holds, such as `TX` or `Texas`, whichever it lists) |
+| `linkedin_url`, `category_name`, rating, segment | Custom fields |
+
 ## Local businesses (Local Business Database) to each destination
 
 | ScraperCity | HubSpot | Pipedrive | GoHighLevel | Instantly | Smartlead | Lemlist | EmailBison | ManyReach | Airtable |
@@ -84,7 +98,7 @@ Columns depend on the tool. Run a small capped test (for example `maxCrawledPlac
 | First name present wherever the copy uses it | 100% of rows in that campaign |
 | Phones in E.164 | 100% of loaded phones |
 | Each record carries a segment and source tag | 100% |
-| 20 records spot-checked in the destination UI | Fields land in the intended columns |
+| 20 records spot-checked in the destination UI | Fields appear in the intended columns |
 
 ## Sources
 
@@ -92,6 +106,7 @@ Columns depend on the tool. Run a small capped test (for example `maxCrawledPlac
 - https://scrapercity.com/integrations
 - https://scrapercity.com/integrations/n8n
 - https://knowledge.hubspot.com/properties/hubspots-default-contact-properties
+- https://developer.salesforce.com/docs/atlas.en-us.api_rest.meta/api_rest/resources_composite_sobjects_collections_upsert.htm
 - https://developers.pipedrive.com/docs/api/v1/Persons#addPerson
 - https://marketplace.gohighlevel.com/docs/ghl/contacts/upsert-contact
 - https://developer.instantly.ai/api-reference/lead/add-leads-in-bulk-to-a-campaign-or-list

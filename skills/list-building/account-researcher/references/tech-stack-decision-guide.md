@@ -12,10 +12,10 @@ A technology earns a place in the brief only if knowing it changes one of these:
 | The pitch differs by which competitor they run (displacement vs greenfield) | Tech Stack Search for each competitor that has a separate pitch | $4.99 each |
 | Integration is a selling point but not a requirement | Free signals only; mark "likely" | $0 |
 | Curiosity, or "good to know" | Do not check | $0 |
-| The same technology decides the pitch for 5+ accounts this month | One Tech Stack Search, reused for every account | $4.99 total |
+| The same technology decides the pitch for more than one account | One Tech Stack Search, reused for every account | $4.99 total |
 | Mail platform and security gateway (for deliverability notes) | `validate_emails` columns `sc_mx_provider`, `sc_mx_security_gateway` | $0.0072 per email |
 
-Show the user the technologies and the $4.99 each before running, and call `check_wallet` first when the total passes $5.
+Show the user the technologies and the $4.99 each before running, and call `check_wallet` first.
 
 ## 2. Technologies that commonly change the pitch
 
@@ -41,7 +41,7 @@ Name the technology the way the user's market names it (for example "HubSpot", "
 | Careers page postings | "Salesforce administrator", "experience with NetSuite", "migrating to HubSpot" | Strong for back-office tools; also shows migrations in progress |
 | Login or portal links | `company.my.salesforce.com`, `company.zendesk.com`, `help.company.com` hosted by a support platform | Strong |
 | `sc_mx_provider` from `validate_emails` | Google Workspace or Microsoft 365 | Strong for the mail platform |
-| `sc_mx_security_gateway` from `validate_emails` | A gateway such as Mimecast, Proofpoint or Barracuda | Strong; plan plain-text, low-link email |
+| `sc_mx_security_gateway` from `validate_emails` | A gateway such as Mimecast, Proofpoint or Barracuda | Strong for the gateway |
 | Lead Database `keywords` | Tags that sometimes name platforms | Weak; confirm elsewhere |
 | Case studies and partner directories | The vendor lists the account as a customer | Strong, but may be old; check the date |
 | Employee profiles | Titles like "HubSpot Admin" | Medium |
@@ -56,7 +56,7 @@ MCP:
 {"technology": "Salesforce", "fileName": "techstack-salesforce-20261013"}
 ```
 
-CLI: `npx scrapercity builtwith "Salesforce"`. REST: `POST /api/v1/scrape/techstack` with the same body. The start response returns a `runId` and `estimatedCost`. Check `check_run_status` after 30 seconds, then every 30 seconds; runs usually finish in minutes. Download with `download_results` and an absolute `outputPath`, within 48 hours.
+CLI: `npx scrapercity builtwith "Salesforce"`. REST: `POST /api/v1/scrape/techstack` with the same body. The start response returns a `runId` and `estimatedCost`. Check `check_run_status`; a typical run finishes in minutes (`references/scrapercity-platform.md`). Download with `download_results` and an absolute `outputPath` within 48 hours, the storage window in scrapercity.com/api-docs.
 
 Reading the CSV:
 

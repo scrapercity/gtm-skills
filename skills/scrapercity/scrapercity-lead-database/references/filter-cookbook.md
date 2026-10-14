@@ -20,7 +20,7 @@ Conventions used below:
 {"title":"Chief Revenue Officer, CRO, VP Revenue, Vice President of Revenue","industry":["computer software"],"companyCountry":["United States"],"minEmployees":201,"maxEmployees":1000,"hasEmail":true}
 ```
 
-**3. Sales Directors, UK companies over 10 staff (PECR corporate subscribers)**
+**3. Sales Directors, UK companies over 10 staff (drops one-person firms that have no sales team)**
 ```json
 {"title":"Sales Director, Director of Sales, Head of Sales","notTitle":"Assistant","companyCountry":["United Kingdom"],"minEmployees":10,"hasEmail":true}
 ```
@@ -229,10 +229,11 @@ Conventions used below:
 {"companyName":"Acme Corporation","title":"Sales, Marketing","notTitle":"Intern, Assistant","hasEmail":true}
 ```
 
-**42. Find a person from a social profile URL**
+**42. Find a person from a social profile URL (also the job-change re-check)**
 ```json
-{"socialUrl":"https://www.linkedin.com/in/example-profile"}
+{"socialUrl":"https://www.linkedin.com/in/example-profile","limit":1}
 ```
+Compare the company on the record with the one in the CRM. A different company is a job-change candidate to confirm on the public profile; an empty result says nothing about whether they left. Re-fetching a lead the account already has is free. The monthly routine for a whole watch list is the job-change recipe in the `scrapercity-integrations` skill.
 
 **43. People-search URL with an override**
 ```json
@@ -255,7 +256,7 @@ Loop on `pagination.next_after` until null or the day's target.
 | Drop non-profits and government | `"notIndustry":["government administration","nonprofit organization management"]` after confirming spelling, or `"notKeywords":["nonprofit","government"]` |
 | Drop "Product Owner" from owner pulls | `"notTitle":"Product Owner"` |
 | Drop partnership managers from partner pulls | `"notTitle":"Partner Manager, Partnerships, Channel Partner"` |
-| Cut sole traders (PECR) | `"minEmployees":10` |
+| Cut one-person firms and sole traders | `"minEmployees":10` |
 
 ## J. Splitting a big market into daily segments
 
@@ -273,4 +274,3 @@ When a recipe returns more than 100,000, split it so each segment fits one day a
 - https://www.npmjs.com/package/scrapercity
 - https://github.com/scrapercity/scrapercity-cli
 - https://docs.apollo.io/reference/people-api-search
-- https://ico.org.uk/for-organisations/direct-marketing-and-privacy-and-electronic-communications/guide-to-pecr/electronic-and-telephone-marketing/electronic-mail-marketing/

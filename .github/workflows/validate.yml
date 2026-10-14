@@ -6,26 +6,127 @@ on:
   pull_request:
   schedule:
     - cron: "17 14 * * 1"
+  workflow_dispatch:
+
+permissions:
+  contents: read
+
+concurrency:
+  group: validate-${{ github.ref }}
+  cancel-in-progress: true
 
 jobs:
   validate:
     runs-on: ubuntu-latest
+    timeout-minutes: 20
     steps:
-      - uses: actions/checkout@v4
-      - uses: actions/setup-python@v5
+      # Actions are pinned to full commit SHAs; the comment names the release. Dependabot bumps both.
+      - uses: actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1 # v7.0.1
+        with:
+          persist-credentials: false
+      - uses: actions/setup-python@5fda3b95a4ea91299a34e894583c3862153e4b97 # v7.0.0
         with:
           python-version: "3.12"
-      - uses: actions/setup-node@v4
+      - uses: actions/setup-node@949feb2413d6458794dcd2491c4babbbce0c15c1 # v7.1.0
         with:
           node-version: "22"
-      - run: pip install pyyaml
-      - name: Skill structure, sources, copy rules and checkers
-        run: python3 scripts/validate-skills.py
+      - run: pip install pyyaml skills-ref==0.1.1
+
+      - name: Every Python file compiles
+        env:
+          PYTHONPYCACHEPREFIX: ${{ runner.temp }}/pycache  # keep .pyc files out of the skill folders
+        run: git ls-files -z '*.py' | xargs -0 python3 -m py_compile
+      - name: Every Node module parses
+        run: git ls-files -z '*.mjs' | xargs -0 -n1 node --check
+
+      - name: Skill structure, sources, copy rules, owner rules (no legal content) and checkers
+        run: python3 scripts/validate-skills.py --strict --check-legal
+      - name: Agent Skills reference validator (skills-ref)
+        run: for d in skills/*/*/; do agentskills validate "$d"; done
+      - name: Repo checks (versions, manifests, installer docs, workflow pins, owner rules, copy rules, secrets, junk)
+        run: python3 scripts/check-repo.py
       - name: Shared reference copies are current
         run: python3 scripts/materialize-shared-references.py --check
-      - name: README catalog is current
+      - name: README, AGENTS.md and manifest counts are current
         run: python3 scripts/generate-readme.py --check
+      - name: Pitfalls index and taxonomy are current
+        run: python3 scripts/generate-indexes.py --check
       - name: skills.lock is current
         run: python3 scripts/generate-lock.py --check
       - name: Catalog matches the published scrapercity npm package
         run: node scripts/sync-catalog.mjs --check
+      - name: Shell scripts pass shellcheck
+        run: shellcheck install.sh scripts/check-all.sh scripts/regenerate.sh .githooks/pre-commit
+      - name: Plugin and marketplace manifests pass claude plugin validate --strict
+        run: npx -y @anthropic-ai/claude-code@2.1.285 plugin validate . --strict
+
+      - name: gh skill publish --dry-run (when the runner's GitHub CLI has gh skill)
+        continue-on-error: true
+        env:
+          GH_TOKEN: ${{ github.token }}
+        run: |
+          if gh skill --help >/dev/null 2>&1; then gh skill publish --dry-run; else echo "SKIP - gh $(gh --version | head -1) has no skill command"; fi
+
+      - name: Installer, every target, scope, bundle and mode
+        run: |
+          set -e
+          export HOME="$RUNNER_TEMP/home"
+          P="$RUNNER_TEMP/project"
+          mkdir -p "$HOME" "$P"
+          for t in claude codex copilot cursor gemini opencode windsurf goose cline hermes agents all; do
+            for s in user project; do
+              ./install.sh --target "$t" --scope "$s" --project-dir "$P" --dry-run > /dev/null
+            done
+          done
+          for b in local-outbound b2b-outbound account-based email-from-zero calling property-owners list-core platform; do
+            ./install.sh --bundle "$b" --target all --dry-run > /dev/null
+          done
+          ./install.sh --target all --scope project --project-dir "$P" --yes | tee "$RUNNER_TEMP/install.log"
+          test "$(grep -c '^Verified:' "$RUNNER_TEMP/install.log")" -eq 9
+          python3 scripts/generate-lock.py --verify "$P/.claude/skills"
+          ./install.sh --target all --scope project --project-dir "$P" --update --yes | grep 'Done: 0 installed, 0 replaced' > /dev/null
+          ./install.sh --target claude --scope project --project-dir "$P" --skill cold-calling --uninstall --yes
+          test ! -e "$P/.claude/skills/cold-calling"
+          ./install.sh --zip "$RUNNER_TEMP/zips" --bundle calling
+          python3 -m zipfile -l "$RUNNER_TEMP/zips/cold-calling.zip" | grep 'cold-calling/SKILL.md' > /dev/null
+          ./install.sh --search deliverability | grep email-deliverability > /dev/null
+          echo "PASS - installer: every target and scope, every bundle, install, verify, update, uninstall, zip, search"
+
+      - name: Rebuild generated files for the failed run
+        if: failure()
+        run: |
+          scripts/regenerate.sh
+          git diff > "$RUNNER_TEMP/regenerated-files.patch"
+          echo "If a generated file was stale, apply regenerated-files.patch from this run's artifacts with git apply, or run scripts/regenerate.sh." >> "$GITHUB_STEP_SUMMARY"
+      - uses: actions/upload-artifact@cf430e030ddbb5b0abf93d22962f4752f3646cd9 # v7.0.2
+        if: failure()
+        with:
+          name: regenerated-files
+          path: ${{ runner.temp }}/regenerated-files.patch
+          retention-days: 7
+
+  installer-macos:
+    # macOS ships bash 3.2 at /bin/bash; the installer promises to run on it.
+    runs-on: macos-latest
+    timeout-minutes: 15
+    steps:
+      - uses: actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1 # v7.0.1
+        with:
+          persist-credentials: false
+      - name: Installer under /bin/bash 3.2
+        run: |
+          set -e
+          /bin/bash --version | head -1
+          export HOME="$RUNNER_TEMP/home"
+          P="$RUNNER_TEMP/project"
+          mkdir -p "$HOME" "$P"
+          for t in claude codex copilot cursor gemini opencode windsurf goose cline hermes agents; do
+            /bin/bash ./install.sh --target "$t" --scope user --dry-run > /dev/null
+          done
+          /bin/bash ./install.sh --target all --scope project --project-dir "$P" --yes | tee "$RUNNER_TEMP/install.log"
+          test "$(grep -c '^Verified:' "$RUNNER_TEMP/install.log")" -eq 9
+          /bin/bash ./install.sh --target all --scope project --project-dir "$P" --update --yes | grep 'Done: 0 installed, 0 replaced' > /dev/null
+          /bin/bash ./install.sh --target cursor --scope project --project-dir "$P" --bundle calling --uninstall --yes
+          /bin/bash ./install.sh --zip "$RUNNER_TEMP/zips" --skill cold-calling
+          /bin/bash ./install.sh --list > /dev/null
+          echo "PASS - installer on macOS /bin/bash"

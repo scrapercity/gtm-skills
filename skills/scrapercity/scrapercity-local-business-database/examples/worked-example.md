@@ -14,7 +14,7 @@ _Illustrative example. Companies, people, counts and run results are invented to
 
 ## Search Spec
 
-Every parameter must be a real `query_local_business_database` parameter.
+Every parameter must exist in `query_local_business_database`.
 
 | Parameter | Value | Reason |
 |---|---|---|
@@ -40,11 +40,11 @@ Every parameter must be a real `query_local_business_database` parameter.
 
 | Segment | Rating band | Review band | Count | Opening angle |
 |---|---|---|---:|---|
-| A. Leaders | minRating 4.5 | minReviews 20 | 388 | Busy chairs; reactivation fills hygiene gaps without new marketing spend |
-| B. Solid | minRating 4.0, maxRating 4.4 | minReviews 20 | 241 | Lapsed patients who return tend to leave fresh reviews, which helps pass the 4.5 line |
-| C. Thin | minRating 4.0 | minReviews 5, maxReviews 19 | 197 | Under the 20-review line that 47% of consumers use (BrightLocal 2026) |
-| D. At risk | maxRating 3.9 | minReviews 5 | 154 | Held back from the first send; reputation offer is a separate campaign |
-| E. Unrated | none | maxReviews 4 | 166 | Held back; likely new practices, test later |
+| A. Leaders | minRating 4.5 | minReviews 20 | 388 | Reactivation of lapsed patients at the practices with the most reviews |
+| B. Solid | minRating 4.0, maxRating 4.4 | minReviews 20 | 241 | Reactivation, plus the 4.5-star line that 31% of consumers apply (BrightLocal 2026) |
+| C. Thin | minRating 4.0 | maxReviews 19 | 197 | Under the 20-review line that 47% of consumers use (BrightLocal 2026) |
+| D. At risk | maxRating 3.9 | minReviews 1 | 154 | Held back from the first send; reputation offer is a separate campaign |
+| E. No reviews | none | maxReviews 0 | 166 | Held back; a separate test later |
 
 388 + 241 + 197 + 154 + 166 = 1,146. The bands do not overlap, and a dedupe on business id confirmed it. 412 of the 1,146 have a named contact (`contact_first_name` present).
 
@@ -66,10 +66,10 @@ Every parameter must be a real `query_local_business_database` parameter.
 |---|---:|---:|---:|
 | Local Business Database pull, segments A, B, C | 826 | included in Growth | $0.00 |
 | validate_emails (826 businesses, 1,001 emails) | 1,001 | $0.0072 | $7.21 |
-| find_emails for the dentist named on the website of 200 practices without a contact (55% found assumed) | 110 found | $0.05 | $5.50 |
-| Total paid | | | $12.71 |
+| find_emails for the dentist named on the website of 200 practices without a contact, ceiling if every lookup finds one | 200 | $0.05 | $10.00 |
+| Total paid, ceiling | | | $17.21 |
 
-For comparison, `scrape_maps` for the same 1,146 practices would cost 1,146 x $0.0099 = $11.35 with no rating filter and no named contacts. The user approved $12.71 before validation, since it is over $5.
+Email Finder bills only emails found, so its line lands at found emails x $0.05. For comparison, `scrape_maps` for the same 1,146 practices would cost 1,146 x $0.0099 = $11.35 without a rating filter or named contacts. The user approved the $17.21 ceiling before validation.
 
 ## Sample QA
 
@@ -79,7 +79,7 @@ For comparison, `scrape_maps` for the same 1,146 practices would cost 1,146 x $0
 | Address inside the places | 20 of 20 in the six cities |
 | Rating and reviews inside segment | 20 of 20 for segment A (4.5 to 5.0, 24 to 1,210 reviews) |
 | Email or phone present as required | 20 of 20 have at least one email |
-| On-target rows | 19 / 20 (one row is a dental support office that manages several practices, kept for a separate DSO list) |
+| On-target rows | 19 / 20 (one row is a dental support office that manages several practices, kept for a separate DSO list; no shared miss pattern, so the search stands) |
 
 ## Next Steps
 

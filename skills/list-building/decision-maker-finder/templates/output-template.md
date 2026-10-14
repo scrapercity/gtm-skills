@@ -1,6 +1,6 @@
 # Decision Maker Report: [fill account list name]
 
-Prepared [fill date] for [fill company or user]. Product being sold: [fill one line]. Plan: [fill plan]. Wallet before run: [fill $ balance].
+Prepared [fill date] for [fill company or user]. Product being sold: [fill one line]. ACV: [fill]. Plan: [fill plan]. Wallet before run: [fill $ balance].
 
 ## Account List
 
@@ -16,25 +16,25 @@ Company size mix: [fill employee bands and account counts]
 
 ## Role Plan
 
-Product category from `references/buying-role-map.md`: [fill]
+Product category: [fill]
 
 | Slot | Buying role | Lead Database title | seniority | Website Finder jobTitle | Fallback jobTitle |
 |-|-|-|-|-|-|
 | 1 | [fill] | [fill] | [fill] | [fill] | [fill] |
 | 2 | [fill] | [fill] | [fill] | [fill] | [fill] |
 
-Contacts per account agreed with the user: [fill]
+Contacts per account agreed with the user: [fill]. Roles that joined the user's past deals of this size, mapped in the committee file: [fill or none]
 
 ## Waterfall Results
 
 | Step | Tool | Input | Found | Not found | Notes |
 |-|-|-|-|-|-|
-| 1 Lead Database by companyDomain | query_lead_database | [fill] | [fill] | [fill] | [fill] |
-| 2 Website Finder, primary titles | scrape_website_finder | [fill] | [fill] | [fill] | [fill] |
-| 3 Website Finder, fallback title | scrape_website_finder | [fill] | [fill] | [fill] | [fill] |
-| 4 Email Finder for names without email | find_emails | [fill] | [fill] | [fill] | [fill] |
-| 5 Validation | validate_emails | [fill] | [fill] | [fill] | [fill] |
-| 6 Mobile Finder | find_mobiles | [fill] | [fill] | [fill] | [fill] |
+| 1 Lead Database by companyDomain | Lead Database | [fill] | [fill] | [fill] | [fill] |
+| 2 Website Finder, primary titles | Website Finder | [fill] | [fill] | [fill] | [fill] |
+| 3 Website Finder, fallback title | Website Finder | [fill] | [fill] | [fill] | [fill] |
+| 4 Email Finder for names without email | Email Finder | [fill] | [fill] | [fill] | [fill] |
+| 5 Validation | Email Validator | [fill] | [fill] | [fill] | [fill] |
+| 6 Mobile Finder | Mobile Finder | [fill] | [fill] | [fill] | [fill] |
 
 ## Coverage by Role
 
@@ -47,10 +47,10 @@ Accounts with at least one valid contact: [fill]. Accounts with every slot fille
 
 ## Validation Results
 
-| Status | Lead Database and Website Finder (validate_emails) | Email Finder (validated at lookup) | Total |
+| Status | Lead Database and Website Finder (Email Validator) | Email Finder (validated at lookup) | Total |
 |-|-|-|-|
 | valid | [fill] | [fill] | [fill] |
-| valid_catch_all | [fill] | [fill] | [fill] |
+| catch_all | [fill] | [fill] | [fill] |
 | unknown | [fill] | [fill] | [fill] |
 | invalid | [fill] | [fill] | [fill] |
 | disposable | [fill] | [fill] | [fill] |
@@ -65,7 +65,7 @@ Accounts with at least one valid contact: [fill]. Accounts with every slot fille
 | Inputs sent | [fill] |
 | Numbers found | [fill] |
 | Format | [fill] |
-| Compliance check | [fill] |
+| Do-not-contact check | [fill] |
 
 ## Cost Estimate
 
@@ -88,5 +88,7 @@ Approval: [fill who approved which estimate and when]
 |-|-|-|
 | [fill] | [fill] | [fill] |
 
-1. [fill]
-2. [fill]
+| # | Step | Owner | Date | Done when |
+|-|-|-|-|-|
+| 1 | [fill] | [fill] | [fill] | [fill] |
+| 2 | [fill] | [fill] | [fill] | [fill] |

@@ -1,6 +1,6 @@
-# Client Setup: ScraperCity MCP in Seven Clients
+# Client Setup: ScraperCity MCP in Every Supported Client
 
-Every client starts the same local process: `npx -y --package scrapercity scrapercity-mcp`, with `SCRAPERCITY_API_KEY` in the process environment. scrapercity.com/mcp puts it this way: the config JSON is the same across clients and only the file path changes. The differences below come from each client's own documentation, checked 2026-10-13.
+Every client starts the same local process: `npx -y --package scrapercity scrapercity-mcp`, with `SCRAPERCITY_API_KEY` in the process environment. scrapercity.com/mcp puts it this way: the config JSON is the same across clients and only the file path changes. The differences below come from each client's own documentation, checked 2026-10-13. The server is local only: scrapercity.com/mcp lists no hosted MCP URL, so web-only chat apps reach ScraperCity another way (ChatGPT section below). Claude on the web, the Claude mobile apps and Cowork add connectors by remote MCP server URL only, and servers in `claude_desktop_config.json` are not available there (Claude Help Center, custom connectors), so on a Claude account run ScraperCity from Claude Desktop or Claude Code.
 
 Replace `YOUR_SCRAPERCITY_API_KEY` with the key from app.scrapercity.com/dashboard/api-docs. Never commit a file that holds the key itself.
 
@@ -16,6 +16,14 @@ Replace `YOUR_SCRAPERCITY_API_KEY` with the key from app.scrapercity.com/dashboa
 | Gemini CLI | `~/.gemini/settings.json` (user) or `.gemini/settings.json` (project) | `mcpServers` | `"$SCRAPERCITY_API_KEY"` in `env` | New session; `/mcp` to check |
 | GitHub Copilot in VS Code | `.vscode/mcp.json` (workspace) or user `mcp.json` via "MCP: Open User Configuration" | `servers` | `inputs` with `promptString` and `password: true` | "MCP: List Servers", restart; "MCP: Reset Cached Tools" |
 | GitHub Copilot CLI | `~/.copilot/mcp-config.json` | Added with `/mcp add` | Entered in the `/mcp add` form | New session |
+| OpenAI Codex (CLI, IDE extension, desktop app) | `~/.codex/config.toml`, or `.codex/config.toml` in a trusted project | `[mcp_servers.scrapercity]` TOML table | `env_vars = ["SCRAPERCITY_API_KEY"]` forwards it from the shell | New session; `/mcp` in the composer |
+| OpenCode | `~/.config/opencode/opencode.json`, or `opencode.json` at the project root | `mcp`, with `"type": "local"` | `"{env:SCRAPERCITY_API_KEY}"` | Restart OpenCode |
+| Goose | `~/.config/goose/config.yaml`, or `goose configure`, Add Extension, Command-Line Extension | `extensions` | `envs` map | New session |
+| Zed | `settings.json` (`zed: open settings file`), or Settings, AI, MCP Servers, Add Local Server | `context_servers` | Put the key in `env` | Green dot next to the server in Settings, AI, MCP Servers |
+| Hermes Agent | `~/.hermes/config.yaml` | `mcp_servers` | Put the key in `env`; Hermes passes only the listed variables to stdio servers | `/reload-mcp`; `hermes mcp test scrapercity` |
+| Perplexity (Mac app) | Settings, Connectors, Add Connector, Simple tab | Connector form | Reads `SCRAPERCITY_API_KEY` from the shell profile | Save; wait for Running |
+| ChatGPT | Custom GPT with an Action, not MCP | OpenAPI schema | Action authentication, API key, Bearer | Save the GPT |
+| Claude web, Claude mobile, Cowork | Not supported: remote connectors by URL only | | | Use Claude Desktop or Claude Code |
 
 ## Claude Code
 
@@ -53,7 +61,7 @@ Check and manage:
 | `claude mcp remove scrapercity` | Deletes the entry (add `--scope` if it lives in more than one) |
 | `/mcp` (inside a session) | Status and a Reconnect action |
 
-Limits worth knowing: Claude Code warns when one MCP result passes 10,000 tokens and caps output at 25,000 by default (`MAX_MCP_OUTPUT_TOKENS` raises it). A 100-row database page can come close, so count with `limit: 1` and inspect with small limits.
+Output limits (Claude Code MCP docs, checked 2026-10-13): Claude Code warns when one MCP result passes 10,000 tokens, and the default maximum is 25,000 (`MAX_MCP_OUTPUT_TOKENS` changes it). A successful text result over that maximum, or over 50,000 characters, is saved to a file in the session's `tool-results` folder and the conversation gets the file path instead. So a 100-row database page either lands in the chat (warned past 10,000 tokens) or arrives as a file Claude can read; count with `limit: 1`, inspect with `limit: 10`, and see where page 1 of a pull lands before paging on.
 
 ## Claude Desktop
 
@@ -184,10 +192,136 @@ VS Code prompts for the input the first time the server starts, so the file can 
 
 Start an interactive session, run `/mcp add`, fill in the fields (name `scrapercity`, command `npx`, arguments `-y --package scrapercity scrapercity-mcp`, environment `SCRAPERCITY_API_KEY`), Tab between fields, Ctrl+S to save. The entry is stored in `~/.copilot/mcp-config.json` (the folder moves with `COPILOT_HOME`).
 
+## OpenAI Codex
+
+Codex reads MCP servers from `~/.codex/config.toml`; the CLI, the IDE extension and the ChatGPT desktop app share that file, and a trusted project can add `.codex/config.toml` (OpenAI Codex MCP docs). One command writes the entry:
+
+```bash
+codex mcp add scrapercity --env SCRAPERCITY_API_KEY=YOUR_SCRAPERCITY_API_KEY -- npx -y --package scrapercity scrapercity-mcp
+codex mcp list
+```
+
+Or edit the file. `env_vars` forwards the key from the shell, so the file never holds it:
+
+```toml
+[mcp_servers.scrapercity]
+command = "npx"
+args = ["-y", "--package", "scrapercity", "scrapercity-mcp"]
+env_vars = ["SCRAPERCITY_API_KEY"]
+startup_timeout_sec = 30
+disabled_tools = ["search_criminal_records"]
+```
+
+`startup_timeout_sec` defaults to 10 seconds; the first `npx` start downloads the package, so 30 gives it room. `tool_timeout_sec` defaults to 60, which covers every ScraperCity call because scrapers return a `runId` at once and a database search that runs long comes back as a 503. `enabled_tools` and `disabled_tools` trim the tool list for a narrow agent; the example hides a tool that agent never needs. Type `/mcp` in the composer to see the server.
+
+## OpenCode
+
+Global `~/.config/opencode/opencode.json`, or `opencode.json` at the project root (project overrides global):
+
+```json
+{
+  "$schema": "https://opencode.ai/config.json",
+  "mcp": {
+    "scrapercity": {
+      "type": "local",
+      "command": ["npx", "-y", "--package", "scrapercity", "scrapercity-mcp"],
+      "enabled": true,
+      "timeout": 30000,
+      "environment": { "SCRAPERCITY_API_KEY": "{env:SCRAPERCITY_API_KEY}" }
+    }
+  }
+}
+```
+
+`command` is one array, not `command` plus `args`. `timeout` is how long OpenCode waits to fetch the tool list and defaults to 5,000 ms, which a first `npx` download can exceed, so set 30,000. An unset `{env:...}` variable becomes an empty string, which shows up as `Error: No API key`.
+
+## Goose
+
+Run `goose configure`, choose Add Extension, then Command-Line Extension, and answer the prompts (name `scrapercity`, command `npx -y --package scrapercity scrapercity-mcp`, environment variable `SCRAPERCITY_API_KEY`). The result in `~/.config/goose/config.yaml`:
+
+```yaml
+extensions:
+  scrapercity:
+    name: scrapercity
+    type: stdio
+    cmd: npx
+    args: [-y, --package, scrapercity, scrapercity-mcp]
+    envs: { "SCRAPERCITY_API_KEY": "YOUR_SCRAPERCITY_API_KEY" }
+    enabled: true
+    timeout: 300
+```
+
+## Zed
+
+Open the settings file with the command palette (`zed: open settings file`), or use Settings, AI, MCP Servers, Add Local Server, which writes the same entry:
+
+```json
+{
+  "context_servers": {
+    "scrapercity": {
+      "command": "npx",
+      "args": ["-y", "--package", "scrapercity", "scrapercity-mcp"],
+      "env": { "SCRAPERCITY_API_KEY": "YOUR_SCRAPERCITY_API_KEY" }
+    }
+  },
+  "agent": {
+    "tool_permissions": {
+      "tools": {
+        "mcp:scrapercity:check_wallet": { "default": "allow" },
+        "mcp:scrapercity:list_runs": { "default": "allow" },
+        "mcp:scrapercity:check_run_status": { "default": "allow" }
+      }
+    }
+  }
+}
+```
+
+A green dot next to `scrapercity` in Settings, AI, MCP Servers means the server is running. The agent's default tool permission is `confirm` (Zed 0.224.0 and later), so every tool not listed above, paid tools included, asks before it runs. MCP tools accept only the tool-level `default` value, keyed `mcp:<server>:<tool>`.
+
+## Hermes Agent
+
+Hermes reads MCP servers from `~/.hermes/config.yaml` under `mcp_servers`. It passes a stdio server only the variables listed in its `env` plus a small baseline, not your shell profile, so the key has to be in the entry:
+
+```yaml
+mcp_servers:
+  scrapercity:
+    command: "npx"
+    args: ["-y", "--package", "scrapercity", "scrapercity-mcp"]
+    env:
+      SCRAPERCITY_API_KEY: "YOUR_SCRAPERCITY_API_KEY"
+    connect_timeout: 30
+    tools:
+      exclude: [search_criminal_records]
+```
+
+`connect_timeout` bounds the first handshake, which includes the first `npx` download, so give it room. `tools.include` or `tools.exclude` (glob patterns allowed; `include` wins when both are set) trims the tool list for a narrow agent. After editing, run `/reload-mcp` in the session, then `hermes mcp test scrapercity` to see what the server answered; a server that failed to register is named in `agent.log`.
+
+## Perplexity (Mac app)
+
+Local connectors need the Perplexity Mac app on a Pro plan (scrapercity.com/integrations/perplexity).
+
+1. Settings, Connectors. Install the PerplexityXPC helper when asked; the Mac sandbox needs it to start local servers.
+2. Put the key in the shell profile: `echo 'export SCRAPERCITY_API_KEY="YOUR_SCRAPERCITY_API_KEY"' >> ~/.zshrc`, then open a new terminal. The connector form has no environment field.
+3. Add Connector, Simple tab: Server Name `ScraperCity`, Command `npx -y --package scrapercity scrapercity-mcp`. Save and wait for Running.
+4. On the home screen, turn the connector on under Sources and ask it to check the wallet. Approve the call.
+
+ScraperCity's Perplexity guide says the Lead Database needs the $649 plan; the pricing page and `references/scrapercity-platform.md` say Growth ($149/mo) and up. Go by the platform reference.
+
+## ChatGPT (custom GPT, no MCP)
+
+ChatGPT web cannot start a local server, so ScraperCity's ChatGPT guide builds a custom GPT whose Action calls the REST API (scrapercity.com/integrations/chatgpt):
+
+1. chatgpt.com/create, Configure tab. Creating a GPT needs a paid ChatGPT plan.
+2. Actions, Create new action, paste the OpenAPI schema from the guide. It points at `https://app.scrapercity.com/api/v1` and defines `searchLeads` (`/database/leads`) and `searchLocalBusinesses` (`/database/local-businesses`).
+3. Authentication: API Key, auth type Bearer, paste a key made only for this GPT.
+4. Test, then save as Only me. "Anyone with the link" or the GPT Store lets other people spend this wallet.
+
+Limits: database search only (Growth plan and up), one call per message, default page size 50, no scrapers, no CSV export. For scrapers or bulk files, use Claude Desktop, Codex or the CLI.
+
 ## Verify, in every client
 
 1. The tool list shows 25 tools. Spot-check `check_wallet`, `query_lead_database`, `scrape_distress_list`, `find_mobiles`.
-2. Ask the agent to call `check_wallet`. Expect `plan.name` and `wallet.total_balance_dollars`.
+2. Ask the agent to call `check_wallet`. Expect `plan.name` and `wallet.total_balance_dollars`. (ChatGPT custom GPT: run the Action's test with `limit: 1` instead.)
 3. If the reply starts `Error: No API key`, the env block never reached the process. Recheck the key name, the file, and that the client was fully restarted.
 
 ## Pinning a version
@@ -209,3 +343,13 @@ Start an interactive session, run `/mcp add`, fill in the fields (name `scraperc
 - https://code.visualstudio.com/docs/copilot/customization/mcp-servers
 - https://code.visualstudio.com/docs/copilot/reference/mcp-configuration
 - https://docs.github.com/en/copilot/how-tos/use-copilot-agents/use-copilot-cli
+- https://developers.openai.com/codex/mcp
+- https://opencode.ai/docs/mcp-servers/
+- https://opencode.ai/docs/config/
+- https://block.github.io/goose/docs/getting-started/using-extensions/
+- https://zed.dev/docs/ai/mcp
+- https://zed.dev/docs/ai/tool-permissions
+- https://hermes-agent.nousresearch.com/docs/user-guide/features/mcp
+- https://support.claude.com/en/articles/11175166
+- https://scrapercity.com/integrations/perplexity
+- https://scrapercity.com/integrations/chatgpt

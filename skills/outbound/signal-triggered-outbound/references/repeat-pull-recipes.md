@@ -23,7 +23,7 @@ signals/
 | `key` | Diff key: domain, E.164 phone, listing URL or normalized address |
 | `first_seen` | Pull date the key first appeared (the date anchor) |
 | `last_seen` | Most recent pull that returned it |
-| `absent_runs` | Consecutive pulls it was missing (removal needs 2) |
+| `absent_runs` | Consecutive pulls it was missing (the script below reports a removal on the second miss; change the constant to suit your checks) |
 | metric columns | `reviews_count`, `total_score`, estimated visits, distress type: whatever the signal compares |
 
 ## 2. Diff script (Python standard library)
@@ -208,7 +208,117 @@ Use webhooks for Apollo runs (hours to days) and for any large scraper run you d
 | Pre-foreclosure and auction | `scrape_distress_list` | 300 properties | Weekly | $15.00 | $60.00 |
 | Agents in a market | `scrape_zillow_agents` | 200 agents | Monthly | $5.80 | $5.80 |
 
-Every recipe over $5 a run gets one approval for the schedule, with the monthly total shown, and a `check_wallet` call inside the job that stops the run when the balance is under 2x the run cost.
+Every recipe over $5 a run gets one approval for the schedule, with the monthly total shown, and a `check_wallet` call inside the job that stops the run when the balance is under a floor the job sets (at least the run cost).
+
+## 8. Social engagement types
+
+For S19 rows imported from a social listening tool. No published benchmark ranks these engagement types, so log the type on every S19 row, set base points and touch windows per type in the program, and compare meeting rate by type.
+
+| Engagement type | Example | Channel | First-line rule |
+|-|-|-|-|
+| Person posts asking for tool or vendor recommendations in your category | "Anyone using something better than X for SDR lists?" | Comment with a useful answer first, then email | Name their post; answer the question before any pitch |
+| Comment on a competitor's post or launch | A question under a competitor's pricing change | Email | Name the topic; leave the competitor post out |
+| Comment on a post about the problem you solve | "We hit this every quarter" under a post on list decay | Email, then call for tier A | Name the problem in their words; leave the comment out |
+| Reaction (like) on a post about the problem | A like on a post about bounce rates | Email in the tier B campaign | Fit-based line |
+| Reaction or comment on your own company's post | A like on your founder's post | Email or a connection request | Fit-based line; the person already knows who you are |
+| New follow of your company page | Follow event from the page's admin view | Tier B campaign | Fit-based line |
+
+Rules that hold for every row: score only people at accounts that pass fit and the exclusion list, one S19 touch per person inside the cool-down, and drop the row if the post was deleted before the first touch.
+
+## 9. Alert payload
+
+Every tier A row, and every hot first-party row, posts one alert to the owner. Build it once in the workflow (n8n Code node or the diff script) and send the same JSON to Slack, the CRM task and the run log, so the three always match.
+
+```json
+{
+  "account": "[fill company name]",
+  "domain": "[fill registrable domain]",
+  "signal_id": "[fill S-number]",
+  "signal_label": "[fill label]",
+  "signal_date": "[fill YYYY-MM-DD or ISO timestamp for S14]",
+  "source": "[fill tool id, or other:<feed> for S14 to S28]",
+  "score": "[fill 0 to 100]",
+  "tier": "[fill A or A-hot]",
+  "owner": "[fill CRM owner]",
+  "sla_due": "[fill ISO timestamp]",
+  "contact": "[fill name, title, validated email, mobile if on file]",
+  "first_line": "[fill under 30 words]",
+  "checks": "[fill exclusion list, opt-outs, cool-down: all pass]",
+  "crm_url": "[fill link to the record]"
+}
+```
+
+| Field | Rule |
+|-|-|
+| `account`, `domain` | Domain is the dedupe key; the alert is dropped if the domain is on the exclusion list |
+| `signal_id`, `signal_label`, `signal_date` | Date for weekly pulls, timestamp for S14 and S19 |
+| `source` | The ScraperCity tool id, or `other:<vendor>` for outside signals, so a visit is never reported as ScraperCity data |
+| `score`, `tier` | From `references/scoring-and-freshness.md`, rounded to one decimal |
+| `owner`, `sla_due` | Owner from CRM territory rules; `sla_due` from the program's touch window for the tier |
+| `first_line` | The angle from `references/signal-catalog.md` |
+| `checks` | Written by the workflow, so a person cannot skip a check |
+
+Filled example, as posted to Slack:
+
+```text
+[A] kestrelcoffee.example  |  Kestrel Coffee
+Signal: S5 Klaviyo adopted (2026-10-12) + S8 traffic band crossed  |  source: scrape_builtwith, scrape_store_leads
+Score 86.4  |  Owner: Dana R.  |  Due: 2026-10-21 17:00 CT
+Contact: Priya Nair, Founder, priya@kestrelcoffee.example (valid), mobile on file
+First line: "Saw Kestrel started running Klaviyo in the last couple of weeks; the first 90 days are when flows get built or stall."
+Checks: not excluded, no opt-out, no sequence in 90 days  |  HubSpot task created
+```
+
+For an S14 alert the second line reads `Signal: S14 pricing page, 2026-10-19T14:07 CT | source: other:rb2b`, and `Due` follows the program's S14 touch window.
+
+## 10. Free outside feeds on the same schedule
+
+Three outside signals come from public endpoints with no key, so they run in the same cron or n8n workflow as the ScraperCity pulls and feed the same diff script (section 2).
+
+### EDGAR: Form D, earnings and officer changes (S22, S23, S20)
+
+```bash
+#!/usr/bin/env bash
+# pull-edgar.sh: last 7 days of Form D filings in one state, and 8-Ks for watched public companies
+set -euo pipefail
+UA="Acme Growth ops@acme.example"            # SEC asks for a company name and a contact email
+END=$(date +%F); START=$(date -d '7 days ago' +%F)   # GNU date; on macOS use: date -v-7d +%F
+DAY=$(date +%Y%m%d); Q="dateRange=custom&startdt=$START&enddt=$END"
+{ echo "adsh,file_date,name,detail"
+  curl -sS -A "$UA" "https://efts.sec.gov/LATEST/search-index?forms=D&$Q&locationCodes=TX" \
+  | jq -r '.hits.hits[]._source | [.adsh, .file_date, .display_names[0], (.biz_locations[0] // "")] | @csv'
+} > "$HOME/signals/s22-formd/raw/formd-tx-$DAY.csv"
+{ echo "adsh,file_date,name,detail"
+  while read -r cik; do                       # one 10-digit CIK per line
+    curl -sS -A "$UA" "https://efts.sec.gov/LATEST/search-index?forms=8-K&ciks=$cik&$Q" \
+    | jq -r '.hits.hits[]._source | [.adsh, .file_date, .display_names[0], (.items | join(" "))] | @csv'
+    sleep 0.2                                 # stays under 10 requests a second
+  done < "$HOME/signals/watched-ciks.txt"
+} > "$HOME/signals/s23-8k/raw/8k-watched-$DAY.csv"
+```
+
+Diff each file on `adsh` (the accession number). Route 8-K rows by `detail`: `2.02` is S23, `5.02` is S20. The SEC webmaster FAQ sets 10 requests a second as the maximum. Page past the first 100 hits with `&from=100` when a state's Form D list is longer.
+
+### Job boards (S18)
+
+| ATS | Call | Date field | Diff key |
+|-|-|-|-|
+| Greenhouse | `GET https://boards-api.greenhouse.io/v1/boards/{board_token}/jobs` | `updated_at` in the list; `first_published` on `GET .../jobs/{job_id}` | `id` |
+| Ashby | `GET https://api.ashbyhq.com/posting-api/job-board/{JOB_BOARD_NAME}` | `publishedAt` | `id` |
+| Lever | `GET https://api.lever.co/v0/postings/{site}` | None documented; use first-seen pull date | `id` |
+
+Keep a `boards.csv` of watched domains with their ATS and token (read it off the careers page link). A weekly loop fetches each board, keeps titles that match your role list, writes one row per posting, and runs the diff with `id` as the key. A posting that disappears from the board is closed once the URL no longer loads: run the S20 re-pull for that domain the following month.
+
+### Page monitors (S24, S25)
+
+Run changedetection.io (self-hosted with Docker) on competitor pricing, changelog and status pages, and on watched accounts' newsroom pages. Point its webhook notification at an n8n Webhook node; the workflow adds `signal_id` (S24 or S25), the page URL and the change date, then for S24 starts one Tech Stack Search run for the competitor's technology and diffs the result against the last install-base pull.
+
+| Feed | Cost |
+|-|-|
+| EDGAR, job board APIs, changedetection.io self-hosted | $0 plus server time |
+| Install base per competitor change, `scrape_builtwith` | $4.99 per run |
+| Buyers at matched domains, `query_lead_database` | Included in Growth |
+| Validation of found emails, `validate_emails` | $0.0072 each |
 
 ## Sources
 
@@ -219,3 +329,9 @@ Every recipe over $5 a run gets one approval for the schedule, with the monthly 
 - https://docs.n8n.io/integrations/builtin/core-nodes/n8n-nodes-base.scheduletrigger/
 - https://docs.n8n.io/integrations/builtin/core-nodes/n8n-nodes-base.httprequest/
 - https://docs.n8n.io/integrations/builtin/core-nodes/n8n-nodes-base.webhook/
+- https://www.sec.gov/search-filings/edgar-application-programming-interfaces
+- https://www.sec.gov/about/webmaster-frequently-asked-questions
+- https://developers.greenhouse.io/job-board.html
+- https://developers.ashbyhq.com/docs/public-job-posting-api
+- https://github.com/lever/postings-api
+- https://github.com/dgtlmoon/changedetection.io

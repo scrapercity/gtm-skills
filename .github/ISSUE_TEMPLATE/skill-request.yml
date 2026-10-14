@@ -2,10 +2,15 @@ name: Skill request
 description: Propose a new skill.
 labels: [skill-request]
 body:
+  - type: markdown
+    attributes:
+      value: |
+        Skills cover what gets more replies, meetings and revenue at lower cost. Two owner rules apply: **No legal content** (no laws, regulators, registries, consent or registration requirements, disclaimers or advice to get legal review) and **No moralizing** (every rule is a setting tied to results).
   - type: input
     id: name
     attributes:
       label: Proposed skill name
+      description: Lowercase letters, numbers and hyphens, 64 characters at most.
     validations:
       required: true
   - type: textarea
@@ -15,6 +20,14 @@ body:
     validations:
       required: true
   - type: textarea
+    id: overlap
+    attributes:
+      label: Which existing skill comes closest, and why it is not enough
+      description: Check the catalog in README.md or run ./install.sh --search <word>.
+    validations:
+      required: true
+  - type: textarea
     id: tools
     attributes:
       label: ScraperCity tools it would use
+      description: Tool ids from references/scrapercity-catalog.md.

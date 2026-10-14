@@ -1,461 +1,2211 @@
 {
   "entries": {
     "list-building/account-researcher": {
-      "SKILL.md": "726bc7ff049c610c5a3ce8fc0da556ed65b35634930dd9d71766dc417d17c45d",
-      "examples/worked-example.md": "724fafa07d7308a4af50e6049534b5a8c076004638ca17fad7a1635771f87dbf",
-      "references/alex-berman-cold-email.md": "ed7c72f20cd6e758177959996e699771b559014f58a221460b724ce9e37471cc",
-      "references/framework-notes.md": "44e50281d43847a07e0eea850a94c88ec76b813aa29cae8e7a5686be4b6ccdf7",
-      "references/list-quality-standard.md": "306798a009aef9bb3dd461369c70ecfa393848901160867dcc0610506dbf00c5",
-      "references/research-playbook.md": "48dda8965db67c885776b95d7bd9e34c31783227df629071d68d9cf4fa42d71a",
-      "references/scrapercity-agent-patterns.md": "b5687a83929248d10fded9c2d1349a8469d04dba92a0a64bd4bc016f6cae6430",
-      "references/scrapercity-catalog.md": "f4848372f0ab6c2966f25e600498d082b15eaa84626b063533fdd2d2d5723468",
-      "references/scrapercity-platform.md": "1f5b70ff434f7fc73740f9aae216084c8378c96a5a43fe94393f9745dba33280",
-      "references/tech-stack-decision-guide.md": "70c0d31cded061d2607b5839dcaad4db37e51a83e780de81e073ed840edfdb80",
-      "scripts/check-output.py": "f44527ed5ee7aadd6ec49943ae047291d2220c0ab7b5ae72a8c8734e75e761e2",
-      "templates/output-template.md": "d012c3da81647b6da2f730a5a3f3422c3d2ec11e64321fa113df590d183f8692"
+      "SKILL.md": {
+        "kind": "skill entrypoint",
+        "sha256": "5c0d764eaf942fd846a8ba8241fe695680825d929a2dcecd78124bc45481e67e",
+        "size_bytes": 19965
+      },
+      "examples/worked-example.md": {
+        "kind": "example",
+        "sha256": "cc7c79eb40352f25b0322e33a7dffd5aa8fbfc69ab3bd8b46b71a0bebca1b822",
+        "size_bytes": 8732
+      },
+      "references/alex-berman-cold-email.md": {
+        "kind": "reference",
+        "sha256": "bcf561db6f6849e854be1ebecfc8ac830d6d6c3ce5ad5f0827d66f312101c6c3",
+        "shared": true,
+        "size_bytes": 14373
+      },
+      "references/framework-notes.md": {
+        "kind": "reference",
+        "sha256": "53660a50aa1db5385a7988901b2d664de7c68f2bcf626a7261401b6fadfcca40",
+        "size_bytes": 6201
+      },
+      "references/list-quality-standard.md": {
+        "kind": "reference",
+        "sha256": "fd6bcf61adddb3e3e4f83efb853503650b42509bed527c8849322c9af1a0acc5",
+        "shared": true,
+        "size_bytes": 29256
+      },
+      "references/research-playbook.md": {
+        "kind": "reference",
+        "sha256": "4fb0dc3ecafa84938e1ee6333dde551846c8c70fd29ced4c59bd439462a78b08",
+        "size_bytes": 12106
+      },
+      "references/scrapercity-agent-patterns.md": {
+        "kind": "reference",
+        "sha256": "1df41ebafe623125eb22fad130ba2791e74ad9b45819f2904ffe1f28e4d96b99",
+        "shared": true,
+        "size_bytes": 15558
+      },
+      "references/scrapercity-catalog.md": {
+        "kind": "reference",
+        "sha256": "f4848372f0ab6c2966f25e600498d082b15eaa84626b063533fdd2d2d5723468",
+        "shared": true,
+        "size_bytes": 17686
+      },
+      "references/scrapercity-platform.md": {
+        "kind": "reference",
+        "sha256": "159c51347ca44d3236cab7ec3febb88532ded5e2586db0355f5d1943d9035bc7",
+        "shared": true,
+        "size_bytes": 5487
+      },
+      "references/tech-stack-decision-guide.md": {
+        "kind": "reference",
+        "sha256": "abf33da5d7e4df2224e59f0d6563e092c4620e1ab454a3661d9bbb96d9be61ed",
+        "size_bytes": 7387
+      },
+      "scripts/check-output.py": {
+        "kind": "script",
+        "sha256": "0a1a045a7eb20c9671c851c78d5c01e3adf3fd58fab0bd716720a01483bdb3c6",
+        "size_bytes": 12474
+      },
+      "templates/output-template.md": {
+        "kind": "template",
+        "sha256": "d5afb10c7a87c7afef6d1809977a60b367ed324419956f691151c0dc2f7da62b",
+        "size_bytes": 1878
+      }
     },
     "list-building/cold-email-list": {
-      "SKILL.md": "dc10c75d4da07b675601883aa417f5c7efb49288bbedb62da5dece74ab4529a3",
-      "examples/worked-example.md": "ff07b843bbe1b83e1e7453926f3d5ed4953751eb7dd9396a0d4a38b49f40b5b7",
-      "references/alex-berman-cold-email.md": "ed7c72f20cd6e758177959996e699771b559014f58a221460b724ce9e37471cc",
-      "references/deliverability-primer.md": "ac667b2080818101dc897276dba0e1c9a85e2be6a99b4df9ef5d2d63fb2403a4",
-      "references/framework-notes.md": "537f98311ac66a560074cdf6889660a30cd494304aafd56b7e6710807c17cc1e",
-      "references/list-quality-standard.md": "306798a009aef9bb3dd461369c70ecfa393848901160867dcc0610506dbf00c5",
-      "references/outbound-compliance-primer.md": "9d97c0dbc7574ffb8c837295ebfa6e920aa2405b984fe3e6004e15ebee87dbef",
-      "references/pipeline-runbook.md": "02c1787c28565747ac327f203205bad4bb0ef16957cc1c413c0803fb88a751ac",
-      "references/scrapercity-agent-patterns.md": "b5687a83929248d10fded9c2d1349a8469d04dba92a0a64bd4bc016f6cae6430",
-      "references/scrapercity-catalog.md": "f4848372f0ab6c2966f25e600498d082b15eaa84626b063533fdd2d2d5723468",
-      "references/scrapercity-platform.md": "1f5b70ff434f7fc73740f9aae216084c8378c96a5a43fe94393f9745dba33280",
-      "references/sequencer-import-specs.md": "d7f8b326581681695956a229706b4ad013f8ac774d1621c1e12533078f115abc",
-      "scripts/check-output.py": "4a51f83768150e23fc0c48e2fff4984b71493bb33c7f5f6b9d1f570a126efe0c",
-      "templates/output-template.md": "83a20b514b64bc76b7db0d351ff44fdf727dbf25297daf843de202b874a8eb64"
+      "SKILL.md": {
+        "kind": "skill entrypoint",
+        "sha256": "dd8292afbf01255d165f069a564e4aa24d861b0b5521eff5cf2f4aa1af9cf04b",
+        "size_bytes": 21309
+      },
+      "examples/worked-example.md": {
+        "kind": "example",
+        "sha256": "0d43c4c517f5f6085bd7846a07807ec6eb3592e50665d248d5ae6eeda32952d9",
+        "size_bytes": 8154
+      },
+      "references/alex-berman-cold-email.md": {
+        "kind": "reference",
+        "sha256": "bcf561db6f6849e854be1ebecfc8ac830d6d6c3ce5ad5f0827d66f312101c6c3",
+        "shared": true,
+        "size_bytes": 14373
+      },
+      "references/deliverability-primer.md": {
+        "kind": "reference",
+        "sha256": "63eeed37bce504a9ae301374fe81bff2523313e806bfc42b0db304651e59b459",
+        "shared": true,
+        "size_bytes": 25715
+      },
+      "references/framework-notes.md": {
+        "kind": "reference",
+        "sha256": "3e92402dde96cf3b5211bf70174dce447d0755432dfe48a5849434685ae90f58",
+        "size_bytes": 7263
+      },
+      "references/list-quality-standard.md": {
+        "kind": "reference",
+        "sha256": "fd6bcf61adddb3e3e4f83efb853503650b42509bed527c8849322c9af1a0acc5",
+        "shared": true,
+        "size_bytes": 29256
+      },
+      "references/pipeline-runbook.md": {
+        "kind": "reference",
+        "sha256": "490335576cf46286a265b98e4fd8f09ce733f354b45f6c0848ba75b628ed9298",
+        "size_bytes": 11733
+      },
+      "references/scrapercity-agent-patterns.md": {
+        "kind": "reference",
+        "sha256": "1df41ebafe623125eb22fad130ba2791e74ad9b45819f2904ffe1f28e4d96b99",
+        "shared": true,
+        "size_bytes": 15558
+      },
+      "references/scrapercity-catalog.md": {
+        "kind": "reference",
+        "sha256": "f4848372f0ab6c2966f25e600498d082b15eaa84626b063533fdd2d2d5723468",
+        "shared": true,
+        "size_bytes": 17686
+      },
+      "references/scrapercity-platform.md": {
+        "kind": "reference",
+        "sha256": "159c51347ca44d3236cab7ec3febb88532ded5e2586db0355f5d1943d9035bc7",
+        "shared": true,
+        "size_bytes": 5487
+      },
+      "references/sequencer-import-specs.md": {
+        "kind": "reference",
+        "sha256": "b8e88b1b158f5b97b0d16251125b77caea7ac999aca4eea8c3f2572806bdc035",
+        "size_bytes": 8656
+      },
+      "scripts/check-output.py": {
+        "kind": "script",
+        "sha256": "c40b4f0b36ef389978c04bbd4b680030a0850a4ead2b2aae704eb8b3ab7a678a",
+        "size_bytes": 10323
+      },
+      "templates/output-template.md": {
+        "kind": "template",
+        "sha256": "83a20b514b64bc76b7db0d351ff44fdf727dbf25297daf843de202b874a8eb64",
+        "size_bytes": 1845
+      }
     },
     "list-building/crm-enricher": {
-      "SKILL.md": "7b5e85379e12158a2bd8c4aec2103baeb22e57881879521813e67efcca942413",
-      "examples/worked-example.md": "5165e344c0af803b29ab27bff365da01fa14667bf2740c04945609cb99aa2861",
-      "references/crm-import-mapping.md": "8e33cb1ce873379336c99923138d5689f41f98e0daec0b6ff23e49a6412f037b",
-      "references/enrichment-runbook.md": "0c1cd7ceb77942e6c4ca5c9b38b72a924ce4e38330449965ae22b423f626c26a",
-      "references/field-precedence-and-overwrite-rules.md": "531698009ee0e1af2410606bd8709f10dcebbc750ae38eca16ca9a89c9ad8415",
-      "references/framework-notes.md": "d531188a5c07a573c9f3dfeb2851541a0d0680d8cac0b1ce5536583cc714a688",
-      "references/list-quality-standard.md": "306798a009aef9bb3dd461369c70ecfa393848901160867dcc0610506dbf00c5",
-      "references/outbound-compliance-primer.md": "9d97c0dbc7574ffb8c837295ebfa6e920aa2405b984fe3e6004e15ebee87dbef",
-      "references/scrapercity-agent-patterns.md": "b5687a83929248d10fded9c2d1349a8469d04dba92a0a64bd4bc016f6cae6430",
-      "references/scrapercity-catalog.md": "f4848372f0ab6c2966f25e600498d082b15eaa84626b063533fdd2d2d5723468",
-      "references/scrapercity-platform.md": "1f5b70ff434f7fc73740f9aae216084c8378c96a5a43fe94393f9745dba33280",
-      "scripts/check-output.py": "28080ff11c2da373ab56f319d88c8cefe6d886290b8aa8dced81970ffb2817e7",
-      "templates/output-template.md": "80e5be347cc67fdca3c34fbe56416b4ccbb3b62707062913f02869a047ed34d0"
+      "SKILL.md": {
+        "kind": "skill entrypoint",
+        "sha256": "3132371d99f177cf7c1c55a2b91e3fd0ba8deb83ec3fd273483287756f102056",
+        "size_bytes": 35505
+      },
+      "examples/worked-example.md": {
+        "kind": "example",
+        "sha256": "965b5683ac1a4275058b86cc70b0c8712b239d8e343815aee35e99397c284222",
+        "size_bytes": 16448
+      },
+      "references/api-pipeline-and-sync.md": {
+        "kind": "reference",
+        "sha256": "61a69c21f15f32972abd5834b31ba1dd2d019e194508761ca8ef65c7a3641174",
+        "size_bytes": 17795
+      },
+      "references/crm-import-mapping.md": {
+        "kind": "reference",
+        "sha256": "5e96f1805e29d3d7e24b555b58294be1f47f53670f0adc4dc7768fd304774a21",
+        "size_bytes": 10746
+      },
+      "references/enrichment-runbook.md": {
+        "kind": "reference",
+        "sha256": "4c9c2bc7fb1bf7ac7120ff4588e330ee649fc80111aa561ef5eea0273ae575f7",
+        "size_bytes": 9346
+      },
+      "references/field-precedence-and-overwrite-rules.md": {
+        "kind": "reference",
+        "sha256": "98557fbfc3bea479a97ca855dff1f4ab99f90cc0b2b896921c03b1099ad96124",
+        "size_bytes": 11067
+      },
+      "references/framework-notes.md": {
+        "kind": "reference",
+        "sha256": "065726b903e7b191a7da9c5f6da62cb8865eb30ee946bd097a0c9c92b32cdb62",
+        "size_bytes": 8485
+      },
+      "references/list-quality-standard.md": {
+        "kind": "reference",
+        "sha256": "fd6bcf61adddb3e3e4f83efb853503650b42509bed527c8849322c9af1a0acc5",
+        "shared": true,
+        "size_bytes": 29256
+      },
+      "references/scrapercity-agent-patterns.md": {
+        "kind": "reference",
+        "sha256": "1df41ebafe623125eb22fad130ba2791e74ad9b45819f2904ffe1f28e4d96b99",
+        "shared": true,
+        "size_bytes": 15558
+      },
+      "references/scrapercity-catalog.md": {
+        "kind": "reference",
+        "sha256": "f4848372f0ab6c2966f25e600498d082b15eaa84626b063533fdd2d2d5723468",
+        "shared": true,
+        "size_bytes": 17686
+      },
+      "references/scrapercity-platform.md": {
+        "kind": "reference",
+        "sha256": "159c51347ca44d3236cab7ec3febb88532ded5e2586db0355f5d1943d9035bc7",
+        "shared": true,
+        "size_bytes": 5487
+      },
+      "references/waterfall-and-cost-control.md": {
+        "kind": "reference",
+        "sha256": "5000de20086f9cf40a66af527220d8321377d7ed31b949d80e0b27f0fd808e62",
+        "size_bytes": 11301
+      },
+      "scripts/check-output.py": {
+        "kind": "script",
+        "sha256": "32966421b674bc6c35ace9049a3726874c95a82631f90ca22cabb66b3fdf264b",
+        "size_bytes": 11888
+      },
+      "templates/output-template.md": {
+        "kind": "template",
+        "sha256": "b7057046446f10bbc9334d972a6319dda5454e61570390716f98364a9bd3a554",
+        "size_bytes": 2523
+      }
     },
     "list-building/decision-maker-finder": {
-      "SKILL.md": "eeddb57d995d97b7f1f1cf8a3a9e939eea24ec53b3dddfb363890a6756a1f2e1",
-      "examples/worked-example.md": "aff310643be12fcd800079729c64bde89f70bb671af44bc3ee055b07d0f70b59",
-      "references/buying-role-map.md": "859c3f1a41df54d25b0089f31495a9cc527b8d46828558e7aaa57adebb050879",
-      "references/framework-notes.md": "79ec541add57317fd7c9fd67e204938c1ba2e8d4322dafd84076d415a4c760c2",
-      "references/list-quality-standard.md": "306798a009aef9bb3dd461369c70ecfa393848901160867dcc0610506dbf00c5",
-      "references/mobile-and-contact-compliance.md": "0c72df479e7a3f5566eb42d5677af1a76f9c31abd225b6d440f1b81551f59213",
-      "references/outbound-compliance-primer.md": "9d97c0dbc7574ffb8c837295ebfa6e920aa2405b984fe3e6004e15ebee87dbef",
-      "references/scrapercity-catalog.md": "f4848372f0ab6c2966f25e600498d082b15eaa84626b063533fdd2d2d5723468",
-      "references/scrapercity-platform.md": "1f5b70ff434f7fc73740f9aae216084c8378c96a5a43fe94393f9745dba33280",
-      "references/waterfall-runbook.md": "dcb90e615214153001e13affa87abfe4d46713652e0ca9d45155ddced792657a",
-      "scripts/check-output.py": "3a219568a26ef6d946a567d33df2396ee21cd630c87faf424726bd5c754874b0",
-      "templates/output-template.md": "72bc6a39280fcfaaa1c11ffeba9727e4aaf04c16315125121f3eac10cb31e8d6"
+      "SKILL.md": {
+        "kind": "skill entrypoint",
+        "sha256": "47c5827988000762332207d47d1d22070f3c88ece63a27eb8cfeaf601dc9b618",
+        "size_bytes": 19734
+      },
+      "examples/worked-example.md": {
+        "kind": "example",
+        "sha256": "57745f2fee8e263a8f04829c1b8a27c0a3f36e56a6d0fbb7c0170eb657ac93de",
+        "size_bytes": 7824
+      },
+      "references/buying-role-map.md": {
+        "kind": "reference",
+        "sha256": "8094b58961462ba2c5e4e9b8671b6fa3d387c1d2bd6ea482e1b81007b6a1809f",
+        "size_bytes": 11395
+      },
+      "references/framework-notes.md": {
+        "kind": "reference",
+        "sha256": "f790065321ee1812782dedc6c2833c519f51008abad17dc6454d8eacbfddb626",
+        "size_bytes": 4797
+      },
+      "references/list-quality-standard.md": {
+        "kind": "reference",
+        "sha256": "fd6bcf61adddb3e3e4f83efb853503650b42509bed527c8849322c9af1a0acc5",
+        "shared": true,
+        "size_bytes": 29256
+      },
+      "references/mobile-and-phone-handling.md": {
+        "kind": "reference",
+        "sha256": "04e190acc85ce29b31f92c158a2d41f76e240304d4a311f8f7c9de07034270bd",
+        "size_bytes": 5451
+      },
+      "references/scrapercity-catalog.md": {
+        "kind": "reference",
+        "sha256": "f4848372f0ab6c2966f25e600498d082b15eaa84626b063533fdd2d2d5723468",
+        "shared": true,
+        "size_bytes": 17686
+      },
+      "references/scrapercity-platform.md": {
+        "kind": "reference",
+        "sha256": "159c51347ca44d3236cab7ec3febb88532ded5e2586db0355f5d1943d9035bc7",
+        "shared": true,
+        "size_bytes": 5487
+      },
+      "references/waterfall-runbook.md": {
+        "kind": "reference",
+        "sha256": "9b3d17e99fb8e90bc3ddde61102b517a4b9f1afbb81dd7a0213ce49e62b86637",
+        "size_bytes": 16964
+      },
+      "scripts/check-output.py": {
+        "kind": "script",
+        "sha256": "81edb30945e5320b93699ccd27ba4cc97550fca38537337dc3be0071724f220d",
+        "size_bytes": 13253
+      },
+      "templates/output-template.md": {
+        "kind": "template",
+        "sha256": "aaa525d14461ccc43cb781ddabe7996d8cb655462073bff9304ae924899f5c80",
+        "size_bytes": 3213
+      }
     },
     "list-building/ecommerce-by-techstack": {
-      "SKILL.md": "912979ffa420cfde6b5ff0ee09cbaaeb1fba19edda62b6bfa3c31bf95b95ac0f",
-      "examples/worked-example.md": "e29f9569f936968eb654ef58547e13149b626336c6530aa94f5ce43a5ffd5ff4",
-      "references/deliverability-primer.md": "ac667b2080818101dc897276dba0e1c9a85e2be6a99b4df9ef5d2d63fb2403a4",
-      "references/filter-recipes.md": "f466670c0aa933b325179712a81bfaac71184f34e0c320dc34a30e8039984bb4",
-      "references/framework-notes.md": "1ee6486db3b71fff41e545ed17f5aa185fe8d31ca1e620bbe8ffab70ffff7abd",
-      "references/list-quality-standard.md": "306798a009aef9bb3dd461369c70ecfa393848901160867dcc0610506dbf00c5",
-      "references/outbound-compliance-primer.md": "9d97c0dbc7574ffb8c837295ebfa6e920aa2405b984fe3e6004e15ebee87dbef",
-      "references/scrapercity-agent-patterns.md": "b5687a83929248d10fded9c2d1349a8469d04dba92a0a64bd4bc016f6cae6430",
-      "references/scrapercity-catalog.md": "f4848372f0ab6c2966f25e600498d082b15eaa84626b063533fdd2d2d5723468",
-      "references/scrapercity-platform.md": "1f5b70ff434f7fc73740f9aae216084c8378c96a5a43fe94393f9745dba33280",
-      "references/store-leads-parameter-guide.md": "09edacc116a3e962681112f85124ce806871657a06a28fb8e15b518065c1dc9f",
-      "references/tiering-and-tech-intersection.md": "e382eb6082d27b8ce5e15e1f7ce9490b4f8bc2967d82a85f5043af757f63d4f1",
-      "scripts/check-output.py": "b555f931bbcb5fa7a15e233bcd8da9a02850cab65544446424efe768a11272e7",
-      "templates/output-template.md": "c641335b1fe4087e8bcef1f7f9a7d605b329fa5b15258895fe17690640ec22ab"
+      "SKILL.md": {
+        "kind": "skill entrypoint",
+        "sha256": "fa9c953a342c98c5eb23937b01c8905c33d1de519317aa2588e92dd6bf843458",
+        "size_bytes": 20373
+      },
+      "examples/worked-example.md": {
+        "kind": "example",
+        "sha256": "6e285ccfa3237c31ea40d241fcde43da69f51af42295710dd24a96279efeeefa",
+        "size_bytes": 7100
+      },
+      "references/deliverability-primer.md": {
+        "kind": "reference",
+        "sha256": "63eeed37bce504a9ae301374fe81bff2523313e806bfc42b0db304651e59b459",
+        "shared": true,
+        "size_bytes": 25715
+      },
+      "references/filter-recipes.md": {
+        "kind": "reference",
+        "sha256": "4bdab19a67a925142b985b351aceca9c45171f02242a291b80104abb2a002fe4",
+        "size_bytes": 9303
+      },
+      "references/framework-notes.md": {
+        "kind": "reference",
+        "sha256": "5d31dfb0ad586d85ceef3aed396ac20b9678cd6ad85177a916ab6ac1b1d5a35c",
+        "size_bytes": 5142
+      },
+      "references/list-quality-standard.md": {
+        "kind": "reference",
+        "sha256": "fd6bcf61adddb3e3e4f83efb853503650b42509bed527c8849322c9af1a0acc5",
+        "shared": true,
+        "size_bytes": 29256
+      },
+      "references/scrapercity-agent-patterns.md": {
+        "kind": "reference",
+        "sha256": "1df41ebafe623125eb22fad130ba2791e74ad9b45819f2904ffe1f28e4d96b99",
+        "shared": true,
+        "size_bytes": 15558
+      },
+      "references/scrapercity-catalog.md": {
+        "kind": "reference",
+        "sha256": "f4848372f0ab6c2966f25e600498d082b15eaa84626b063533fdd2d2d5723468",
+        "shared": true,
+        "size_bytes": 17686
+      },
+      "references/scrapercity-platform.md": {
+        "kind": "reference",
+        "sha256": "159c51347ca44d3236cab7ec3febb88532ded5e2586db0355f5d1943d9035bc7",
+        "shared": true,
+        "size_bytes": 5487
+      },
+      "references/store-leads-parameter-guide.md": {
+        "kind": "reference",
+        "sha256": "903e87368d431314c35a685b52be03d7ef2f56cd9caebcf2cf7fbcf17e645100",
+        "size_bytes": 7878
+      },
+      "references/tiering-and-tech-intersection.md": {
+        "kind": "reference",
+        "sha256": "a249b1f56c0d949172fea2c868e429b2a3342a48ab78a70fbd2c83d6689961b6",
+        "size_bytes": 8879
+      },
+      "scripts/check-output.py": {
+        "kind": "script",
+        "sha256": "e221c0472f59d6a68038a39d6b63a74248b3aba60ca142b7f4ea9113e043a89c",
+        "size_bytes": 9707
+      },
+      "templates/output-template.md": {
+        "kind": "template",
+        "sha256": "75df7d492c65dbdcca2d9d7d968e352503078b589cde0a6a914f4e6b21d5a0a6",
+        "size_bytes": 2079
+      }
     },
     "list-building/email-list-cleaner": {
-      "SKILL.md": "2d4a158dee458e3c92be359330f35f512a70f60a6f82b61a66bd0a79770bab65",
-      "examples/worked-example.md": "fc42a18000a41b031bf8acc60c9a99abb58781d9b553dcbc98bc2b5ca46f8e28",
-      "references/batching-and-revalidation-runbook.md": "d6d9ee821926516cef6f1264d7d7891ed1fe6e26e115ea4736ecb6fe1fe0d88c",
-      "references/deliverability-primer.md": "ac667b2080818101dc897276dba0e1c9a85e2be6a99b4df9ef5d2d63fb2403a4",
-      "references/framework-notes.md": "08ab7e0e74085cc874aca8361256f409b952154462483c671f422e5e3ede533d",
-      "references/list-quality-standard.md": "306798a009aef9bb3dd461369c70ecfa393848901160867dcc0610506dbf00c5",
-      "references/outbound-compliance-primer.md": "9d97c0dbc7574ffb8c837295ebfa6e920aa2405b984fe3e6004e15ebee87dbef",
-      "references/scrapercity-catalog.md": "f4848372f0ab6c2966f25e600498d082b15eaa84626b063533fdd2d2d5723468",
-      "references/scrapercity-platform.md": "1f5b70ff434f7fc73740f9aae216084c8378c96a5a43fe94393f9745dba33280",
-      "references/status-handling-matrix.md": "1ec0809b1a6231dac5dd26637802ed1edf08886094323c90d5466215ad2b1b0b",
-      "references/syntax-repair-and-role-rules.md": "48537398a8ce3101b1bf177ba26ddb14dedcbeadeee6ee3db5f0d5ca1463d803",
-      "scripts/check-output.py": "326f01eefcf3d7f9e841b21b484047bc386902a32f2eac1e63b64480149e62e9",
-      "templates/output-template.md": "1b4281247cef4518d0bd1d2cc2bcf4bd3467ee6d9fca267dfb560e8c94cb62f1"
+      "SKILL.md": {
+        "kind": "skill entrypoint",
+        "sha256": "b26bd145c23a9341e605cde8fbf02737724ed2d17f855c970eb50bf34f6182f6",
+        "size_bytes": 19011
+      },
+      "examples/worked-example.md": {
+        "kind": "example",
+        "sha256": "89fc816cead91ea5aae864eeeb1c31637ac93c792bb096d111d10775d24adf4a",
+        "size_bytes": 6676
+      },
+      "references/batching-and-revalidation-runbook.md": {
+        "kind": "reference",
+        "sha256": "5de58fe9f7ead1ab6d2498cd823a1853172a6c080b6f6a8573b5d02ed98d5701",
+        "size_bytes": 11957
+      },
+      "references/deliverability-primer.md": {
+        "kind": "reference",
+        "sha256": "63eeed37bce504a9ae301374fe81bff2523313e806bfc42b0db304651e59b459",
+        "shared": true,
+        "size_bytes": 25715
+      },
+      "references/framework-notes.md": {
+        "kind": "reference",
+        "sha256": "cf1aea68f650b41d10eef6545ca3a30b28dc1d807f4f6a19c6d8bbb85a829102",
+        "size_bytes": 6086
+      },
+      "references/list-quality-standard.md": {
+        "kind": "reference",
+        "sha256": "fd6bcf61adddb3e3e4f83efb853503650b42509bed527c8849322c9af1a0acc5",
+        "shared": true,
+        "size_bytes": 29256
+      },
+      "references/scrapercity-catalog.md": {
+        "kind": "reference",
+        "sha256": "f4848372f0ab6c2966f25e600498d082b15eaa84626b063533fdd2d2d5723468",
+        "shared": true,
+        "size_bytes": 17686
+      },
+      "references/scrapercity-platform.md": {
+        "kind": "reference",
+        "sha256": "159c51347ca44d3236cab7ec3febb88532ded5e2586db0355f5d1943d9035bc7",
+        "shared": true,
+        "size_bytes": 5487
+      },
+      "references/status-handling-matrix.md": {
+        "kind": "reference",
+        "sha256": "440f958301eca2fe1dcfa82bca0be7ad146524ca65d104086d08833c8a89f9c8",
+        "size_bytes": 8933
+      },
+      "references/syntax-repair-and-role-rules.md": {
+        "kind": "reference",
+        "sha256": "35115cc0a9e56c874c2dd9b17af866361283d2146a4cd0326bbd78727982eccc",
+        "size_bytes": 10611
+      },
+      "scripts/check-output.py": {
+        "kind": "script",
+        "sha256": "98c5ffe9abd0cde4475611339eceff3eaaa0cab5596c996f89c1f092f15c9e1f",
+        "size_bytes": 9161
+      },
+      "templates/output-template.md": {
+        "kind": "template",
+        "sha256": "8e9970341b1d9aa64ded6464eb824ad75ba962a2c39f3e68138bb451bd6e7819",
+        "size_bytes": 2043
+      }
     },
     "list-building/icp-list-builder": {
-      "SKILL.md": "ace8d73eb44b77a14f5de6b7d6e3a4d96dde321ac0c8adeacf63a712339a2037",
-      "examples/worked-example.md": "5d00e7815829a20a8792824206e7042ff177fd3e423a9047bff604366849958b",
-      "references/count-and-paging-runbook.md": "8fa8451725acd2bce11416fdd809269ade92c9b66d86811a68df873ee3277fb3",
-      "references/framework-notes.md": "5998abfcd2d8d0aaf76c96e9145ace20d30aa022c86cc92a7e6a5565c4d3c219",
-      "references/icp-filter-recipes.md": "67397d2f771090fa5cbf9fd9ba5665a3d3b09c7797d65526352d46748bc7b252",
-      "references/list-quality-standard.md": "306798a009aef9bb3dd461369c70ecfa393848901160867dcc0610506dbf00c5",
-      "references/outbound-compliance-primer.md": "9d97c0dbc7574ffb8c837295ebfa6e920aa2405b984fe3e6004e15ebee87dbef",
-      "references/scrapercity-catalog.md": "f4848372f0ab6c2966f25e600498d082b15eaa84626b063533fdd2d2d5723468",
-      "references/scrapercity-platform.md": "1f5b70ff434f7fc73740f9aae216084c8378c96a5a43fe94393f9745dba33280",
-      "references/title-synonyms-and-exclusions.md": "f154066ccf8d0d744bf1eac49eee05a35f736119a8cc1a7f0aa6fbe3388f9dae",
-      "scripts/check-output.py": "cfa1139733e9da27d204fe24c87edbd8d98da99b698d9e14eebec0a05dd9382d",
-      "templates/output-template.md": "80388936a637f4c92b990944926ac73221e8b0f5bbd2e2890ce3217ecb8d8a63"
+      "SKILL.md": {
+        "kind": "skill entrypoint",
+        "sha256": "af18221c3ade8e0e293d9c7482f7f9cd7bdbe99cc94efedbad2e73f7829bfec9",
+        "size_bytes": 25940
+      },
+      "examples/plan-example.md": {
+        "kind": "example",
+        "sha256": "3cd5fe0f0654305890e1e94ab43cfc15ab398874336a531a96646ab51c5ff121",
+        "size_bytes": 10473
+      },
+      "examples/worked-example.md": {
+        "kind": "example",
+        "sha256": "3dbc5251460bb61fe6ee20eb93a0e33ae1789082bea5e634f4c6001c4e661487",
+        "size_bytes": 7352
+      },
+      "references/count-and-paging-runbook.md": {
+        "kind": "reference",
+        "sha256": "6622299e9a89fc9bbd61d9e4093a8502a42b74658b35d462b130eeac6ca27457",
+        "size_bytes": 10939
+      },
+      "references/framework-notes.md": {
+        "kind": "reference",
+        "sha256": "faa6cf4cc8de88cb1a072a16931a7425efdd370c2714ee726954feffcafd8101",
+        "size_bytes": 9862
+      },
+      "references/icp-evidence-worksheet.md": {
+        "kind": "reference",
+        "sha256": "4c65b4549d4f82bfb4eff8847850005b7ece7a8e89e62c65c415957da34959b8",
+        "size_bytes": 9672
+      },
+      "references/icp-filter-recipes.md": {
+        "kind": "reference",
+        "sha256": "90df85c8a0d3230c6747a9f5b241b3bca4bce8c8140a7170040b695d64162a95",
+        "size_bytes": 19668
+      },
+      "references/list-quality-standard.md": {
+        "kind": "reference",
+        "sha256": "fd6bcf61adddb3e3e4f83efb853503650b42509bed527c8849322c9af1a0acc5",
+        "shared": true,
+        "size_bytes": 29256
+      },
+      "references/sales-navigator-filter-map.md": {
+        "kind": "reference",
+        "sha256": "77836c4240eafd70e4e9dc86e83e866aa3a06a129e10005d422b94f7c93e90b2",
+        "size_bytes": 11237
+      },
+      "references/scrapercity-catalog.md": {
+        "kind": "reference",
+        "sha256": "f4848372f0ab6c2966f25e600498d082b15eaa84626b063533fdd2d2d5723468",
+        "shared": true,
+        "size_bytes": 17686
+      },
+      "references/scrapercity-platform.md": {
+        "kind": "reference",
+        "sha256": "159c51347ca44d3236cab7ec3febb88532ded5e2586db0355f5d1943d9035bc7",
+        "shared": true,
+        "size_bytes": 5487
+      },
+      "references/title-synonyms-and-exclusions.md": {
+        "kind": "reference",
+        "sha256": "9c4cc8310af38d5ea720e76de8cca4eb694f6ce55de1cd22e1ad6bac51044550",
+        "size_bytes": 13098
+      },
+      "scripts/check-output.py": {
+        "kind": "script",
+        "sha256": "a268dd71e2fe9662c1f5212739a41ef846aba608a03d0eacb28b1a9c20bb4422",
+        "size_bytes": 15355
+      },
+      "templates/output-template.md": {
+        "kind": "template",
+        "sha256": "301d41124b02af700c234132c7dbf882f0a42f868348eac31184cf59eb652530",
+        "size_bytes": 3178
+      }
     },
     "list-building/local-business-list": {
-      "SKILL.md": "3993f8571f5190de5db3469b4bbd15a61c207e92a875e514d507c73cad852eb9",
-      "examples/worked-example.md": "24385c2a1ef2f0f1e87fee8758ca48292e991b0cc4747388da0ccb9d0e4a1605",
-      "references/deliverability-primer.md": "ac667b2080818101dc897276dba0e1c9a85e2be6a99b4df9ef5d2d63fb2403a4",
-      "references/framework-notes.md": "37ebbd63a2d34b306f4548c4bc37648aa74d9101cb8c56146b123b4f761f9f3b",
-      "references/list-quality-standard.md": "306798a009aef9bb3dd461369c70ecfa393848901160867dcc0610506dbf00c5",
-      "references/local-category-recipes.md": "70e80ff71220076b59914dd73fb02c5a8495b5977bb047c53441b496953299ae",
-      "references/metro-split-and-geo-recipes.md": "a8b069249d0afa75b6fd7ccc497bbc6b57a4eda719dade15006eceaed639dbe7",
-      "references/outbound-compliance-primer.md": "9d97c0dbc7574ffb8c837295ebfa6e920aa2405b984fe3e6004e15ebee87dbef",
-      "references/scrapercity-agent-patterns.md": "b5687a83929248d10fded9c2d1349a8469d04dba92a0a64bd4bc016f6cae6430",
-      "references/scrapercity-catalog.md": "f4848372f0ab6c2966f25e600498d082b15eaa84626b063533fdd2d2d5723468",
-      "references/scrapercity-platform.md": "1f5b70ff434f7fc73740f9aae216084c8378c96a5a43fe94393f9745dba33280",
-      "scripts/check-output.py": "1238bcb1ed1e8174a002acf4e0863b426858d45e9264b6c93088b01f65aeb0dc",
-      "templates/output-template.md": "a5853662d45787e695d8dc0867997ef2ae7a0b146b9dca39cb33b5362d5463ad"
+      "SKILL.md": {
+        "kind": "skill entrypoint",
+        "sha256": "377b146b2054ab1215f5049f104678fe7f1e385fa6ea9e535b9e41cebcfd168d",
+        "size_bytes": 29123
+      },
+      "examples/plan-example.md": {
+        "kind": "example",
+        "sha256": "a68acd1c10ece2bfdc8168d454caea948db9a4fd50f12903b62d8902064ff127",
+        "size_bytes": 9572
+      },
+      "examples/worked-example.md": {
+        "kind": "example",
+        "sha256": "e93c255c81c5667da919d10f41fea8d19ebe5fd93c49d469195c65ac336a22ca",
+        "size_bytes": 7716
+      },
+      "references/coverage-segments-and-handoff.md": {
+        "kind": "reference",
+        "sha256": "56d950cd9af37e280e70128e0932bbeded0eeaa63e298c24041b8a9a94fbacb8",
+        "size_bytes": 15941
+      },
+      "references/deliverability-primer.md": {
+        "kind": "reference",
+        "sha256": "63eeed37bce504a9ae301374fe81bff2523313e806bfc42b0db304651e59b459",
+        "shared": true,
+        "size_bytes": 25715
+      },
+      "references/framework-notes.md": {
+        "kind": "reference",
+        "sha256": "607971078a61f2a1dcf147fa91872605080cb54d99d7bbc6ed87f79dfbc76eca",
+        "size_bytes": 6901
+      },
+      "references/list-quality-standard.md": {
+        "kind": "reference",
+        "sha256": "fd6bcf61adddb3e3e4f83efb853503650b42509bed527c8849322c9af1a0acc5",
+        "shared": true,
+        "size_bytes": 29256
+      },
+      "references/local-category-recipes.md": {
+        "kind": "reference",
+        "sha256": "3ae9b1965032851d74adaaab4de53c07a0ceb24aa0218d662745c7356f0e949b",
+        "size_bytes": 9115
+      },
+      "references/metro-split-and-geo-recipes.md": {
+        "kind": "reference",
+        "sha256": "f74f1b751e3e07e0ad673ef7be505330237f07a35dadbc6ffd71b8fbbacb424a",
+        "size_bytes": 11672
+      },
+      "references/scrapercity-agent-patterns.md": {
+        "kind": "reference",
+        "sha256": "1df41ebafe623125eb22fad130ba2791e74ad9b45819f2904ffe1f28e4d96b99",
+        "shared": true,
+        "size_bytes": 15558
+      },
+      "references/scrapercity-catalog.md": {
+        "kind": "reference",
+        "sha256": "f4848372f0ab6c2966f25e600498d082b15eaa84626b063533fdd2d2d5723468",
+        "shared": true,
+        "size_bytes": 17686
+      },
+      "references/scrapercity-platform.md": {
+        "kind": "reference",
+        "sha256": "159c51347ca44d3236cab7ec3febb88532ded5e2586db0355f5d1943d9035bc7",
+        "shared": true,
+        "size_bytes": 5487
+      },
+      "scripts/check-output.py": {
+        "kind": "script",
+        "sha256": "84f12114f6886502e19c9ad671d5f93d858b95334eed6af6dc72e0c3a8e92372",
+        "size_bytes": 14612
+      },
+      "templates/output-template.md": {
+        "kind": "template",
+        "sha256": "42e765d0ca976fd22f52e92630a4f3f26a4917a58e907ba1b9895e609f262c2b",
+        "size_bytes": 2860
+      },
+      "templates/plan-template.md": {
+        "kind": "template",
+        "sha256": "03e22f89f76594add1316f7782eac187cc1ec0b34778cec30b868e2ff4fa34b9",
+        "size_bytes": 1994
+      }
     },
     "list-building/mobile-appender": {
-      "SKILL.md": "9e1b17d56cafa5f0af27078faf6efbda3d5c0ce0dde67a96103d5e1deef1611f",
-      "examples/worked-example.md": "7ee62000709c43dcaf2999ce4a0694a0d239d231cba95d31f527be21fc4a9173",
-      "references/cost-and-hit-rate-model.md": "23ee34d49bb5a2602bc890f94e2836d599a1d97ec09b88770b7c357f7eefbf4a",
-      "references/framework-notes.md": "083496b6c62cd328daa76ba559fc4068a2f691c0bc830a4ef38678ddd7958d19",
-      "references/list-quality-standard.md": "306798a009aef9bb3dd461369c70ecfa393848901160867dcc0610506dbf00c5",
-      "references/outbound-compliance-primer.md": "9d97c0dbc7574ffb8c837295ebfa6e920aa2405b984fe3e6004e15ebee87dbef",
-      "references/phone-normalization-and-line-type.md": "672a55b324660ff273f63de14b915393c915b083ba0b9f238eebc01701856a7d",
-      "references/scrapercity-agent-patterns.md": "b5687a83929248d10fded9c2d1349a8469d04dba92a0a64bd4bc016f6cae6430",
-      "references/scrapercity-catalog.md": "f4848372f0ab6c2966f25e600498d082b15eaa84626b063533fdd2d2d5723468",
-      "references/scrapercity-platform.md": "1f5b70ff434f7fc73740f9aae216084c8378c96a5a43fe94393f9745dba33280",
-      "references/tcpa-dnc-gate.md": "3b517846fc24d53ac0c102753dbdc04462942f4615fa468d90523212d37a6adb",
-      "scripts/check-output.py": "05409c87f68cb52603939031b6368231c44464d5f331a50372e6a35536075ad8",
-      "templates/output-template.md": "0bee6e812061a154e06f715cd765ef3c055d9396bdbda4a770c2d54bdebd51c7"
+      "SKILL.md": {
+        "kind": "skill entrypoint",
+        "sha256": "ade21f429db15fb4265e647e0278e42481ad6d483aa26da73e2c9a9acba2fffa",
+        "size_bytes": 15648
+      },
+      "examples/worked-example.md": {
+        "kind": "example",
+        "sha256": "be389394e440cef25162aa09f9cc1101b4c6123af6b3eb414a87284178785710",
+        "size_bytes": 5817
+      },
+      "references/cost-and-hit-rate-model.md": {
+        "kind": "reference",
+        "sha256": "4df2f264270f4a56003346b60391b519225969b6c87216c3e44f9d18c05b7b46",
+        "size_bytes": 5220
+      },
+      "references/dial-status-and-suppression.md": {
+        "kind": "reference",
+        "sha256": "24fb9c1d5a72a00d58e2b39a9542ce312d590c4baf1864e5f21de2b1ae6c8015",
+        "size_bytes": 4447
+      },
+      "references/framework-notes.md": {
+        "kind": "reference",
+        "sha256": "2c94c002fdc6dc16e92be5637f19a2d103b718bbce0eb9e4ba76eaba19295d2a",
+        "size_bytes": 3645
+      },
+      "references/list-quality-standard.md": {
+        "kind": "reference",
+        "sha256": "fd6bcf61adddb3e3e4f83efb853503650b42509bed527c8849322c9af1a0acc5",
+        "shared": true,
+        "size_bytes": 29256
+      },
+      "references/phone-normalization-and-line-type.md": {
+        "kind": "reference",
+        "sha256": "1a08886a11b851afdd178fb6a323dbdfbf8c97fc2925dbe82b2ca0ae67688c21",
+        "size_bytes": 6765
+      },
+      "references/scrapercity-agent-patterns.md": {
+        "kind": "reference",
+        "sha256": "1df41ebafe623125eb22fad130ba2791e74ad9b45819f2904ffe1f28e4d96b99",
+        "shared": true,
+        "size_bytes": 15558
+      },
+      "references/scrapercity-catalog.md": {
+        "kind": "reference",
+        "sha256": "f4848372f0ab6c2966f25e600498d082b15eaa84626b063533fdd2d2d5723468",
+        "shared": true,
+        "size_bytes": 17686
+      },
+      "references/scrapercity-platform.md": {
+        "kind": "reference",
+        "sha256": "159c51347ca44d3236cab7ec3febb88532ded5e2586db0355f5d1943d9035bc7",
+        "shared": true,
+        "size_bytes": 5487
+      },
+      "scripts/check-output.py": {
+        "kind": "script",
+        "sha256": "d8b459d1a92acf7f4b237c2b5da85802fe80891d5b898db8365a03f466435371",
+        "size_bytes": 8755
+      },
+      "templates/output-template.md": {
+        "kind": "template",
+        "sha256": "49f53d4481199ff1326801513e250cc31f0ba0567d1b8a34faba95222dc2c117",
+        "size_bytes": 1679
+      }
     },
     "list-building/recruiting-sourcer": {
-      "SKILL.md": "c9bfd00ce0740c15b2dfcb2dd4ad7e6f8fad32c7f011c6da8e1fea8be4cf7321",
-      "examples/worked-example.md": "048efcd1e4465722b39f5304e72cd0d251d2f76f33c977e2a803e1e251bd5d30",
-      "references/candidate-outreach-compliance.md": "2d5f1eaca2f04a4925a542e6bd79cc6e99a706ab4764156fd8666377bb317a9f",
-      "references/framework-notes.md": "6e8741c8a81448213bd44e14c65e4806ad909d87cfe1f1c5c563b867d8e03d37",
-      "references/list-quality-standard.md": "306798a009aef9bb3dd461369c70ecfa393848901160867dcc0610506dbf00c5",
-      "references/outbound-compliance-primer.md": "9d97c0dbc7574ffb8c837295ebfa6e920aa2405b984fe3e6004e15ebee87dbef",
-      "references/scrapercity-agent-patterns.md": "b5687a83929248d10fded9c2d1349a8469d04dba92a0a64bd4bc016f6cae6430",
-      "references/scrapercity-catalog.md": "f4848372f0ab6c2966f25e600498d082b15eaa84626b063533fdd2d2d5723468",
-      "references/scrapercity-platform.md": "1f5b70ff434f7fc73740f9aae216084c8378c96a5a43fe94393f9745dba33280",
-      "references/sourcing-runbook.md": "524de7c6c36db140a683e087aeae8499713729a6bfa2fc75c464b5e7050eb516",
-      "references/title-expansion-library.md": "ca1bfa90dfab921764f805b05416fa9fd54584e3a55a624d578a52e862453413",
-      "scripts/check-output.py": "bca9f370595b2a0d743034a37d82f8b93221821c4754b0d607bfaae178cee5e0",
-      "templates/output-template.md": "f1522f69ebd1b8d35aa73c04b65678a59456c08de9eaf62cb8d32e404a412481"
+      "SKILL.md": {
+        "kind": "skill entrypoint",
+        "sha256": "3bb84c08c9e5e5fc2a6a971fde2d8cd33db0808fa531a68eab0aad1affb61fbd",
+        "size_bytes": 21593
+      },
+      "examples/worked-example.md": {
+        "kind": "example",
+        "sha256": "165c5e0267189d3a449ab66a99670210f7e40529cb6acd795a0008eea44a33f8",
+        "size_bytes": 8157
+      },
+      "references/candidate-messages-and-handoff.md": {
+        "kind": "reference",
+        "sha256": "3980fb8a37f4175c6b720fbb0a53b1fef7f1e16483e05e06e2e17ad47195815c",
+        "size_bytes": 8079
+      },
+      "references/framework-notes.md": {
+        "kind": "reference",
+        "sha256": "f3e2deed291e52824f33f241ba96de8c82c9ffc0ea6ce9adb088a4238aefabe1",
+        "size_bytes": 5830
+      },
+      "references/list-quality-standard.md": {
+        "kind": "reference",
+        "sha256": "fd6bcf61adddb3e3e4f83efb853503650b42509bed527c8849322c9af1a0acc5",
+        "shared": true,
+        "size_bytes": 29256
+      },
+      "references/scrapercity-agent-patterns.md": {
+        "kind": "reference",
+        "sha256": "1df41ebafe623125eb22fad130ba2791e74ad9b45819f2904ffe1f28e4d96b99",
+        "shared": true,
+        "size_bytes": 15558
+      },
+      "references/scrapercity-catalog.md": {
+        "kind": "reference",
+        "sha256": "f4848372f0ab6c2966f25e600498d082b15eaa84626b063533fdd2d2d5723468",
+        "shared": true,
+        "size_bytes": 17686
+      },
+      "references/scrapercity-platform.md": {
+        "kind": "reference",
+        "sha256": "159c51347ca44d3236cab7ec3febb88532ded5e2586db0355f5d1943d9035bc7",
+        "shared": true,
+        "size_bytes": 5487
+      },
+      "references/sourcing-runbook.md": {
+        "kind": "reference",
+        "sha256": "5b9d04921e2389262b9515e11e04b5d692aea5477db334de01453ab6baa3e3fa",
+        "size_bytes": 7421
+      },
+      "references/title-expansion-library.md": {
+        "kind": "reference",
+        "sha256": "98585f9c7822e7b2e41f137a4503c8287684ebdd9dd40fae9f8993d147062b7b",
+        "size_bytes": 9310
+      },
+      "scripts/check-output.py": {
+        "kind": "script",
+        "sha256": "e64eb1a27574de4c339f8ec0087d5851d127a6b814dbd92f151f2fce28df923f",
+        "size_bytes": 10293
+      },
+      "templates/output-template.md": {
+        "kind": "template",
+        "sha256": "962e3eb5bbdc16896537dd2833ed9073be5c863e457dc07465a8679034a4ae92",
+        "size_bytes": 1951
+      }
     },
     "list-building/skip-tracer": {
-      "SKILL.md": "a0b0eb1095f43fb7929b7a727b7401fc05de4a97abc5bd03be1834d81621ba19",
-      "examples/worked-example.md": "7a3594e7a95dbda30824545608667accf4ba528ee89533ae2f126239ec93c46c",
-      "references/fcra-and-contact-compliance.md": "72761e3ff248fbfea61b9893a32c5341bc52683b109e825cce806891df4429ed",
-      "references/framework-notes.md": "740eb1c510362327a5789ac7f320d8599bd4421208a4ca32c30bd5adb9e54ddf",
-      "references/identifier-strategy-and-match-scoring.md": "58f31849e0a8d80ac69f222c8120621687902610439ef474bc28a0b7015a402e",
-      "references/list-quality-standard.md": "306798a009aef9bb3dd461369c70ecfa393848901160867dcc0610506dbf00c5",
-      "references/outbound-compliance-primer.md": "9d97c0dbc7574ffb8c837295ebfa6e920aa2405b984fe3e6004e15ebee87dbef",
-      "references/scrapercity-agent-patterns.md": "b5687a83929248d10fded9c2d1349a8469d04dba92a0a64bd4bc016f6cae6430",
-      "references/scrapercity-catalog.md": "f4848372f0ab6c2966f25e600498d082b15eaa84626b063533fdd2d2d5723468",
-      "references/scrapercity-platform.md": "1f5b70ff434f7fc73740f9aae216084c8378c96a5a43fe94393f9745dba33280",
-      "references/skip-trace-runbook.md": "61e82b9bfdb992bbcc1b698160b897b3621ce185179f7e794966400e991d8719",
-      "scripts/check-output.py": "c08ac4837a787361f03102fda91a97921702e6b008f37e3007765df281bc3e47",
-      "templates/output-template.md": "62a6d65ab9cb0a8776525afefc156134d122b1c0599105fe7bca6b828bdacb8a"
+      "SKILL.md": {
+        "kind": "skill entrypoint",
+        "sha256": "d96371c1ac386278a8e24819a4c320ecae9563dec62697b4a48dee2147d8c08a",
+        "size_bytes": 20197
+      },
+      "examples/worked-example.md": {
+        "kind": "example",
+        "sha256": "797df523c323849d6bbd7d011286dbbe89cae0b5ad1580358f14b1052c011e0c",
+        "size_bytes": 6519
+      },
+      "references/framework-notes.md": {
+        "kind": "reference",
+        "sha256": "2afc7cb62739a2f228588d9136d68cf211d04e164489e31aeb8069e90475ee1a",
+        "size_bytes": 3976
+      },
+      "references/identifier-strategy-and-match-scoring.md": {
+        "kind": "reference",
+        "sha256": "2896ec00a5de9fae3f5cc904a41a0ccd3feb0a868239df4207f389603b7b7bcb",
+        "size_bytes": 8438
+      },
+      "references/list-quality-standard.md": {
+        "kind": "reference",
+        "sha256": "fd6bcf61adddb3e3e4f83efb853503650b42509bed527c8849322c9af1a0acc5",
+        "shared": true,
+        "size_bytes": 29256
+      },
+      "references/scrapercity-agent-patterns.md": {
+        "kind": "reference",
+        "sha256": "1df41ebafe623125eb22fad130ba2791e74ad9b45819f2904ffe1f28e4d96b99",
+        "shared": true,
+        "size_bytes": 15558
+      },
+      "references/scrapercity-catalog.md": {
+        "kind": "reference",
+        "sha256": "f4848372f0ab6c2966f25e600498d082b15eaa84626b063533fdd2d2d5723468",
+        "shared": true,
+        "size_bytes": 17686
+      },
+      "references/scrapercity-platform.md": {
+        "kind": "reference",
+        "sha256": "159c51347ca44d3236cab7ec3febb88532ded5e2586db0355f5d1943d9035bc7",
+        "shared": true,
+        "size_bytes": 5487
+      },
+      "references/skip-trace-runbook.md": {
+        "kind": "reference",
+        "sha256": "83d331950203210467786b50103f3bb570d014d60c9383709b00d6d8e029afe1",
+        "size_bytes": 10432
+      },
+      "scripts/check-output.py": {
+        "kind": "script",
+        "sha256": "c7581f0efcfa301d548003170cfd49972a414d16cee56b8bdbe013ba58840594",
+        "size_bytes": 8390
+      },
+      "templates/output-template.md": {
+        "kind": "template",
+        "sha256": "463a630a2f9ba003d201a1678853229854374dd74c49ed2882d269afa65be1ac",
+        "size_bytes": 1557
+      }
     },
     "list-building/tam-builder": {
-      "SKILL.md": "90c5eb35da1188693ff92540deec51c485c41efe5a8f64bcd65ac7881b09137b",
-      "examples/worked-example.md": "d16e5ab7dec9332a55820bea79d3819c5ce40ac129c619b60c3c36fb428b592b",
-      "references/coverage-and-dedupe-playbook.md": "9290ec97b127d034eb917ec1d8def42fe0d379c878f39f373cd8c4cbba6a0c8c",
-      "references/framework-notes.md": "0a050f9431a4ad62ae55b850067a70520217ce623b2e7b3e368f1bc12da774b1",
-      "references/list-quality-standard.md": "306798a009aef9bb3dd461369c70ecfa393848901160867dcc0610506dbf00c5",
-      "references/market-definition-recipes.md": "18ea35350cc99f496c38c6dd6874b16e9bcdc0be7d5f6c44803e43e23069a452",
-      "references/scrapercity-catalog.md": "f4848372f0ab6c2966f25e600498d082b15eaa84626b063533fdd2d2d5723468",
-      "references/scrapercity-platform.md": "1f5b70ff434f7fc73740f9aae216084c8378c96a5a43fe94393f9745dba33280",
-      "scripts/check-output.py": "53c367c44bc1c414bd9808c967619e12ab86306343ac3de01cc85524877a4b58",
-      "templates/output-template.md": "c8b22dee848314556b15b3022a0870e0172eea53681d84b98fca9704bffeeef8"
+      "SKILL.md": {
+        "kind": "skill entrypoint",
+        "sha256": "4b63ca2b2a666a82ea8963e22310bdeeb626f297e00ba4fba4d572b43954105d",
+        "size_bytes": 23840
+      },
+      "examples/worked-example.md": {
+        "kind": "example",
+        "sha256": "ec7db0a072e9e1098580467c4612b593831594d4b32964fbb1950399409e9ee4",
+        "size_bytes": 9700
+      },
+      "references/account-scoring-and-tiers.md": {
+        "kind": "reference",
+        "sha256": "29d870ea1364ca43ef312fdd7b6ba6b733248dc4e0955689ffb869732ef1706e",
+        "size_bytes": 10704
+      },
+      "references/coverage-and-dedupe-playbook.md": {
+        "kind": "reference",
+        "sha256": "ccb1f9b67983990f514d9e107b9e786cd3e1e88149b0a20e591125704bfc90e2",
+        "size_bytes": 19642
+      },
+      "references/framework-notes.md": {
+        "kind": "reference",
+        "sha256": "4e6534a1eec7c36c052d6f3a6a006bc27cb50bc1f9be35cb850bf7d071e3c6f1",
+        "size_bytes": 9123
+      },
+      "references/list-quality-standard.md": {
+        "kind": "reference",
+        "sha256": "fd6bcf61adddb3e3e4f83efb853503650b42509bed527c8849322c9af1a0acc5",
+        "shared": true,
+        "size_bytes": 29256
+      },
+      "references/market-definition-recipes.md": {
+        "kind": "reference",
+        "sha256": "dd994d5ff99de9fb6db375b6e68521ffc1aeb8d6c94c4adcb6e91c964cd65dad",
+        "size_bytes": 17366
+      },
+      "references/scrapercity-catalog.md": {
+        "kind": "reference",
+        "sha256": "f4848372f0ab6c2966f25e600498d082b15eaa84626b063533fdd2d2d5723468",
+        "shared": true,
+        "size_bytes": 17686
+      },
+      "references/scrapercity-platform.md": {
+        "kind": "reference",
+        "sha256": "159c51347ca44d3236cab7ec3febb88532ded5e2586db0355f5d1943d9035bc7",
+        "shared": true,
+        "size_bytes": 5487
+      },
+      "scripts/check-output.py": {
+        "kind": "script",
+        "sha256": "4f83f2a7ba679674eca3c1f67a0d9d4433a2eb85e7a52f1abaec5e3124bcbc38",
+        "size_bytes": 14882
+      },
+      "templates/output-template.md": {
+        "kind": "template",
+        "sha256": "68b26fc4b1b1ebd0a6d5c50cc914933c4fcd9bb7dcdbf4e8951e8149a634bd17",
+        "size_bytes": 3478
+      }
     },
     "outbound/cold-calling": {
-      "SKILL.md": "415fba08928e82f2595fc2e58826366e6821af30912626528f44176039da35d9",
-      "examples/worked-example.md": "00445bf5b023aef5d149df905dfc3a3e36f70f351b36e94b48ba52574248b6a4",
-      "references/alex-berman-cold-email.md": "ed7c72f20cd6e758177959996e699771b559014f58a221460b724ce9e37471cc",
-      "references/call-blocks-and-metrics.md": "56cd3eab35f38514f2e443f135c59392a17dda92de19976fab6237ea09020109",
-      "references/call-scripts-and-objections.md": "4ce1eaa5a1ced29707db0ebae585a4a892bc01fb8b71057f19163790221da9bd",
-      "references/dialing-compliance-gate.md": "5d39c019ef12ff5a5c58fda0dbb7e09eeb068e515f44f85fbcff81892595dea7",
-      "references/framework-notes.md": "984bd96edb13f3f3fd22d7dcb336bb91c7233e71fbc25f584205f0068b751962",
-      "references/list-quality-standard.md": "306798a009aef9bb3dd461369c70ecfa393848901160867dcc0610506dbf00c5",
-      "references/outbound-compliance-primer.md": "9d97c0dbc7574ffb8c837295ebfa6e920aa2405b984fe3e6004e15ebee87dbef",
-      "references/scrapercity-agent-patterns.md": "b5687a83929248d10fded9c2d1349a8469d04dba92a0a64bd4bc016f6cae6430",
-      "references/scrapercity-catalog.md": "f4848372f0ab6c2966f25e600498d082b15eaa84626b063533fdd2d2d5723468",
-      "references/scrapercity-platform.md": "1f5b70ff434f7fc73740f9aae216084c8378c96a5a43fe94393f9745dba33280",
-      "scripts/check-output.py": "888dc9872ca2ffcce2a58ef1b168c196dd8a6e2b0d96a3a9eddb6db09d100e21",
-      "templates/output-template.md": "7de60dc58bee6455cd8b8bd7b715063718a7d2fb4a0ff77ec0259b133dbb685e"
+      "SKILL.md": {
+        "kind": "skill entrypoint",
+        "sha256": "527f86ebaae3db862023384015d81c8ed09db6c03c07e3604a971e0f4b738ff6",
+        "size_bytes": 37185
+      },
+      "examples/worked-example.md": {
+        "kind": "example",
+        "sha256": "b42c4fce57f3852a1cde96bec52264551b9d6bd2c3591d183883fd2a01c1644b",
+        "size_bytes": 17463
+      },
+      "references/alex-berman-cold-email.md": {
+        "kind": "reference",
+        "sha256": "bcf561db6f6849e854be1ebecfc8ac830d6d6c3ce5ad5f0827d66f312101c6c3",
+        "shared": true,
+        "size_bytes": 14373
+      },
+      "references/call-blocks-and-metrics.md": {
+        "kind": "reference",
+        "sha256": "a20e8b41e305fac123025ddd04f2f96e31821eb9f036dc65822bc6eb4e953135",
+        "size_bytes": 24797
+      },
+      "references/call-scripts-and-objections.md": {
+        "kind": "reference",
+        "sha256": "4b914f7291cceb94157a411c76a25aa7706dcfa627eecea09d27ace3b27d0ea4",
+        "size_bytes": 20988
+      },
+      "references/dialer-and-caller-id.md": {
+        "kind": "reference",
+        "sha256": "89ad326ea31541a0985aaab2a0ba0bbaa287f92094ca331511fee347c986f004",
+        "size_bytes": 7343
+      },
+      "references/framework-notes.md": {
+        "kind": "reference",
+        "sha256": "6e9098834a1493b9d72bdd15ab7e7a5b857d0a322b95fa8fc6bd3ac251028293",
+        "size_bytes": 11625
+      },
+      "references/list-quality-standard.md": {
+        "kind": "reference",
+        "sha256": "fd6bcf61adddb3e3e4f83efb853503650b42509bed527c8849322c9af1a0acc5",
+        "shared": true,
+        "size_bytes": 29256
+      },
+      "references/public-records-triggers.md": {
+        "kind": "reference",
+        "sha256": "459902e68a409eb77e0fa2c7d8091fbd907caf9ffae3b47bcf0287663e196c02",
+        "size_bytes": 9576
+      },
+      "references/scrapercity-agent-patterns.md": {
+        "kind": "reference",
+        "sha256": "1df41ebafe623125eb22fad130ba2791e74ad9b45819f2904ffe1f28e4d96b99",
+        "shared": true,
+        "size_bytes": 15558
+      },
+      "references/scrapercity-catalog.md": {
+        "kind": "reference",
+        "sha256": "f4848372f0ab6c2966f25e600498d082b15eaa84626b063533fdd2d2d5723468",
+        "shared": true,
+        "size_bytes": 17686
+      },
+      "references/scrapercity-platform.md": {
+        "kind": "reference",
+        "sha256": "159c51347ca44d3236cab7ec3febb88532ded5e2586db0355f5d1943d9035bc7",
+        "shared": true,
+        "size_bytes": 5487
+      },
+      "scripts/check-output.py": {
+        "kind": "script",
+        "sha256": "28cc90e7cebdb58fd21b3019db1367d582f2a5597264ab1ae3553458c9df7d8a",
+        "size_bytes": 20389
+      },
+      "templates/output-template.md": {
+        "kind": "template",
+        "sha256": "d3af516f6e89aa9224645d2f23cf221d4edf4b149715295ec4ee619174f1ac11",
+        "size_bytes": 2976
+      }
     },
     "outbound/cold-email-copywriting": {
-      "SKILL.md": "d432af17997c2834f6380cbf62d77cbbeb7a4ad3e1dd6f6ccc76bee679507f95",
-      "examples/worked-example.md": "aeb4a9691cfff178aa0f3513b804d69b77d5abba2be18a6689561805611e1800",
-      "references/alex-berman-cold-email.md": "ed7c72f20cd6e758177959996e699771b559014f58a221460b724ce9e37471cc",
-      "references/cold-email-frameworks.md": "0825395a6e3217ec9d27d016d21a2d7d7d0ec55af32ac2676b6d18a4189e7f13",
-      "references/deliverability-primer.md": "ac667b2080818101dc897276dba0e1c9a85e2be6a99b4df9ef5d2d63fb2403a4",
-      "references/framework-notes.md": "4722d420f8a7905f926f5b1a8f0b373365e76573c92bb2d4283dd754b419f57b",
-      "references/line-library.md": "89a6aef427784a2553dbc93a672460be79805ac9b2616250e1e457bf2c0626db",
-      "references/outbound-compliance-primer.md": "9d97c0dbc7574ffb8c837295ebfa6e920aa2405b984fe3e6004e15ebee87dbef",
-      "references/personalization-and-merge-fields.md": "60c1fe94014714e63d6508f881f8dd4519508fa416635fdeb6920f79d7eb7f6d",
-      "references/scrapercity-catalog.md": "f4848372f0ab6c2966f25e600498d082b15eaa84626b063533fdd2d2d5723468",
-      "references/scrapercity-platform.md": "1f5b70ff434f7fc73740f9aae216084c8378c96a5a43fe94393f9745dba33280",
-      "references/subject-line-library.md": "eb3505e2595ad0cdbb1dd6e89d9782b85fba07470e38d214bff05ac7fa68f0c9",
-      "scripts/check-output.py": "e7a8b07f50f4a3e28015005c56f6e2819a4db1b5b48e996282af672c794cf2c2",
-      "templates/output-template.md": "cfe50ba8b58b5e80a8366568ae4deba3d189d2f7ace70044f83166d3a6820921"
+      "SKILL.md": {
+        "kind": "skill entrypoint",
+        "sha256": "7a29a96ac1e2afc3c53b622f1a66bba9b0ac0361975123ec0ea2b4c559687e01",
+        "size_bytes": 33933
+      },
+      "examples/worked-example-worksheet.md": {
+        "kind": "example",
+        "sha256": "4c33968c929b4ca71054f97dfb4da695f6b52ae80aa0db65e8bb378bc48c0189",
+        "size_bytes": 2649
+      },
+      "examples/worked-example.md": {
+        "kind": "example",
+        "sha256": "b9ab234d9e330293dff1f850ce6efb603ce3253ee132ad7c99f06391861e3cfc",
+        "size_bytes": 7767
+      },
+      "references/alex-berman-cold-email.md": {
+        "kind": "reference",
+        "sha256": "bcf561db6f6849e854be1ebecfc8ac830d6d6c3ce5ad5f0827d66f312101c6c3",
+        "shared": true,
+        "size_bytes": 14373
+      },
+      "references/cold-email-frameworks.md": {
+        "kind": "reference",
+        "sha256": "b19f47a0efd38e9cc5d9861a61777ba6d12c57a0c027b8091223a69098cf6c4b",
+        "shared": true,
+        "size_bytes": 33682
+      },
+      "references/deliverability-primer.md": {
+        "kind": "reference",
+        "sha256": "63eeed37bce504a9ae301374fe81bff2523313e806bfc42b0db304651e59b459",
+        "shared": true,
+        "size_bytes": 25715
+      },
+      "references/framework-notes.md": {
+        "kind": "reference",
+        "sha256": "e48f98975d5586359c401a0e94a19c1c5468574564e7792af7bf8b0f63db4beb",
+        "size_bytes": 8162
+      },
+      "references/line-library.md": {
+        "kind": "reference",
+        "sha256": "6a16f5d4e9dbe35f944d937976bdefdf01b5c0b743d89da74b7e71b3dbda0b9a",
+        "size_bytes": 26332
+      },
+      "references/personalization-and-merge-fields.md": {
+        "kind": "reference",
+        "sha256": "ec191d3c49eb5f8f53cd323afffcba2a2ad1f522c7e0bd5b6400200fdd376ff4",
+        "size_bytes": 14520
+      },
+      "references/scrapercity-catalog.md": {
+        "kind": "reference",
+        "sha256": "f4848372f0ab6c2966f25e600498d082b15eaa84626b063533fdd2d2d5723468",
+        "shared": true,
+        "size_bytes": 17686
+      },
+      "references/scrapercity-platform.md": {
+        "kind": "reference",
+        "sha256": "159c51347ca44d3236cab7ec3febb88532ded5e2586db0355f5d1943d9035bc7",
+        "shared": true,
+        "size_bytes": 5487
+      },
+      "references/subject-line-library.md": {
+        "kind": "reference",
+        "sha256": "8a5e43809af8656fa00ffbf78f2067210d56bc2459e81a6abcf3f2d6e0cc82ed",
+        "size_bytes": 8143
+      },
+      "scripts/check-output.py": {
+        "kind": "script",
+        "sha256": "ab3ad08c1782a7755152569e6ec220b74e526aed6efeafa050958e3fc8deb75a",
+        "size_bytes": 25564
+      },
+      "templates/output-template-worksheet.md": {
+        "kind": "template",
+        "sha256": "569c8821ef7a4f6a44db84412e0b60a478c1c50fa2c2cdcbe2b64e0f2e3fee97",
+        "size_bytes": 1054
+      },
+      "templates/output-template.md": {
+        "kind": "template",
+        "sha256": "b2afcd18d45546d61850f247a625c568f7d4a2c343cde25ce6bd241137961f97",
+        "size_bytes": 2420
+      }
     },
     "outbound/cold-email-strategy": {
-      "SKILL.md": "b326c5b01e5d2a3d1b724f97e3a4dbc57a42ff081bebee3a4c6c3655b381454b",
-      "examples/worked-example.md": "ce1d3718943198792a7d7a6840ac1946f8721c433e77899bfcd0bf0828bc67d1",
-      "references/alex-berman-cold-email.md": "ed7c72f20cd6e758177959996e699771b559014f58a221460b724ce9e37471cc",
-      "references/campaign-architecture-playbook.md": "f178476359a5153da0df21ec12d69d38e5b1e5d124f44833ac6bbead3470536a",
-      "references/cold-email-frameworks.md": "0825395a6e3217ec9d27d016d21a2d7d7d0ec55af32ac2676b6d18a4189e7f13",
-      "references/deliverability-primer.md": "ac667b2080818101dc897276dba0e1c9a85e2be6a99b4df9ef5d2d63fb2403a4",
-      "references/framework-notes.md": "d448cdc8a00b61d54fa51b97ad97b2aeb8fbadce4823537c965862acee0c058a",
-      "references/list-quality-standard.md": "306798a009aef9bb3dd461369c70ecfa393848901160867dcc0610506dbf00c5",
-      "references/offer-and-cell-design.md": "26afc642814d6d8879e7b6442852583d5e8660d902355a29978cee503b0df6db",
-      "references/outbound-compliance-primer.md": "9d97c0dbc7574ffb8c837295ebfa6e920aa2405b984fe3e6004e15ebee87dbef",
-      "references/scrapercity-catalog.md": "f4848372f0ab6c2966f25e600498d082b15eaa84626b063533fdd2d2d5723468",
-      "references/scrapercity-platform.md": "1f5b70ff434f7fc73740f9aae216084c8378c96a5a43fe94393f9745dba33280",
-      "scripts/check-output.py": "f64da53d8bbb29f38756e09959b8dea6b098324213433087b6650b7ff3d0e0ed",
-      "templates/output-template.md": "760f59fe153400506803ba11eb7cc4e8edf666cc050dda9c6abf8cf850b9d3a0"
+      "SKILL.md": {
+        "kind": "skill entrypoint",
+        "sha256": "c7b376cdc4544e26cc71c7ff483cf692b98a25ad786196c6a25422b5ec9b23c2",
+        "size_bytes": 43012
+      },
+      "examples/worked-example.md": {
+        "kind": "example",
+        "sha256": "6a3fc9ec393536adcd09d4948361024545933f88d6b57c158ff0f7da67f006ae",
+        "size_bytes": 21478
+      },
+      "references/alex-berman-cold-email.md": {
+        "kind": "reference",
+        "sha256": "bcf561db6f6849e854be1ebecfc8ac830d6d6c3ce5ad5f0827d66f312101c6c3",
+        "shared": true,
+        "size_bytes": 14373
+      },
+      "references/campaign-architecture-playbook.md": {
+        "kind": "reference",
+        "sha256": "d7e5190357669795870b1dbf46c90667a2e9ff83fea6c47432ba848383861441",
+        "size_bytes": 31509
+      },
+      "references/cold-email-frameworks.md": {
+        "kind": "reference",
+        "sha256": "b19f47a0efd38e9cc5d9861a61777ba6d12c57a0c027b8091223a69098cf6c4b",
+        "shared": true,
+        "size_bytes": 33682
+      },
+      "references/deliverability-primer.md": {
+        "kind": "reference",
+        "sha256": "63eeed37bce504a9ae301374fe81bff2523313e806bfc42b0db304651e59b459",
+        "shared": true,
+        "size_bytes": 25715
+      },
+      "references/framework-notes.md": {
+        "kind": "reference",
+        "sha256": "ab9c7b61a0439916f87a1029c5518b7e24561429930e565a6e497d89a83b55ff",
+        "size_bytes": 10791
+      },
+      "references/list-quality-standard.md": {
+        "kind": "reference",
+        "sha256": "fd6bcf61adddb3e3e4f83efb853503650b42509bed527c8849322c9af1a0acc5",
+        "shared": true,
+        "size_bytes": 29256
+      },
+      "references/offer-and-cell-design.md": {
+        "kind": "reference",
+        "sha256": "d742bfe022c0da84abc33dc3b5f72bcc78e57806c5a7eb5c528ce035c7a06901",
+        "size_bytes": 14787
+      },
+      "references/scrapercity-catalog.md": {
+        "kind": "reference",
+        "sha256": "f4848372f0ab6c2966f25e600498d082b15eaa84626b063533fdd2d2d5723468",
+        "shared": true,
+        "size_bytes": 17686
+      },
+      "references/scrapercity-platform.md": {
+        "kind": "reference",
+        "sha256": "159c51347ca44d3236cab7ec3febb88532ded5e2586db0355f5d1943d9035bc7",
+        "shared": true,
+        "size_bytes": 5487
+      },
+      "scripts/check-output.py": {
+        "kind": "script",
+        "sha256": "f7661b0f0d7aee03589aea5cf63044869fbbe407716fc223fe13eb653713677b",
+        "size_bytes": 24147
+      },
+      "templates/output-template.md": {
+        "kind": "template",
+        "sha256": "69fd48f9000f73e2f7d88b53989df565444550e1e572272c164c087e9e4c9f66",
+        "size_bytes": 7350
+      }
     },
     "outbound/domain-infrastructure": {
-      "SKILL.md": "f82280ebc7c257f60e74d0d6b0c3924c6f3d56dca43e9fa128c1001ae1e04347",
-      "examples/worked-example.md": "88fa48bbea99e3c3773ea73611ca8a061b35294df80b0c52beeb2e3eacd0d38e",
-      "references/capacity-and-costs.md": "b78a0d2072027a822905c445fb6fe0d7c2840583f9c29048e7de95091f73b96b",
-      "references/deliverability-primer.md": "ac667b2080818101dc897276dba0e1c9a85e2be6a99b4df9ef5d2d63fb2403a4",
-      "references/dns-records-checklist.md": "939390a6163a747c5fa7f4d72c7086cd473f34ed674d9d3a6736a205161d96a7",
-      "references/framework-notes.md": "b323cd2e8829101c65c48818b8f9cad02ffe501cdbfb3f83dd6ee69f887e15af",
-      "references/list-quality-standard.md": "306798a009aef9bb3dd461369c70ecfa393848901160867dcc0610506dbf00c5",
-      "references/mailbox-provider-matrix.md": "1fd52f1581674f3c0824f2efb8c8fcada4263ca37c486a392457e51cfd7cd1e2",
-      "references/scrapercity-catalog.md": "f4848372f0ab6c2966f25e600498d082b15eaa84626b063533fdd2d2d5723468",
-      "references/scrapercity-platform.md": "1f5b70ff434f7fc73740f9aae216084c8378c96a5a43fe94393f9745dba33280",
-      "scripts/check-output.py": "ad95d555b38af05c50272888a80b4789f8668e5562f2f918f2b4014b1381e77f",
-      "templates/output-template.md": "a4c01b614cd2d00b6fb925fb5cfc31a4202ab28fd6fcc856446ff272f14fa1ed"
+      "SKILL.md": {
+        "kind": "skill entrypoint",
+        "sha256": "b9760c6a516eefad2a970969b5bd46e926363e4d8b79a602c05bb6b4b1c08fbe",
+        "size_bytes": 33036
+      },
+      "examples/worked-example.md": {
+        "kind": "example",
+        "sha256": "409b867fef0235c4a047ad7540cde628d3cea12bf63ff5e79d133ce214bf5bd6",
+        "size_bytes": 25250
+      },
+      "references/capacity-and-costs.md": {
+        "kind": "reference",
+        "sha256": "b69102bdb6843b26cae65a3f882a1220e314f1457622f820469567c6a00eec2d",
+        "size_bytes": 12604
+      },
+      "references/deliverability-primer.md": {
+        "kind": "reference",
+        "sha256": "63eeed37bce504a9ae301374fe81bff2523313e806bfc42b0db304651e59b459",
+        "shared": true,
+        "size_bytes": 25715
+      },
+      "references/dns-records-checklist.md": {
+        "kind": "reference",
+        "sha256": "fcf1914df45581a4a1c35de415ea316992bdb072cd48ade45eefef3f177979b2",
+        "size_bytes": 22617
+      },
+      "references/framework-notes.md": {
+        "kind": "reference",
+        "sha256": "7eff6fc0d6cb415f3711b920c0d5330a9909732dcffa047bd64e274f155c182a",
+        "size_bytes": 14700
+      },
+      "references/launch-and-monitoring.md": {
+        "kind": "reference",
+        "sha256": "6a599d901289f3efaf8132ab0c188b85fa427ffb0ed7f98900c88a197c6dfc2c",
+        "size_bytes": 12478
+      },
+      "references/list-quality-standard.md": {
+        "kind": "reference",
+        "sha256": "fd6bcf61adddb3e3e4f83efb853503650b42509bed527c8849322c9af1a0acc5",
+        "shared": true,
+        "size_bytes": 29256
+      },
+      "references/mailbox-provider-matrix.md": {
+        "kind": "reference",
+        "sha256": "cad9d4b3447162a34ffc410b11b9aba35a0a0a682202f9b9ab2aa015133af240",
+        "size_bytes": 25143
+      },
+      "references/scrapercity-catalog.md": {
+        "kind": "reference",
+        "sha256": "f4848372f0ab6c2966f25e600498d082b15eaa84626b063533fdd2d2d5723468",
+        "shared": true,
+        "size_bytes": 17686
+      },
+      "references/scrapercity-platform.md": {
+        "kind": "reference",
+        "sha256": "159c51347ca44d3236cab7ec3febb88532ded5e2586db0355f5d1943d9035bc7",
+        "shared": true,
+        "size_bytes": 5487
+      },
+      "scripts/check-output.py": {
+        "kind": "script",
+        "sha256": "8195add99df40416a3647a26eb882597d623a3c372a86210288df87075c0f367",
+        "size_bytes": 25696
+      },
+      "templates/output-template.md": {
+        "kind": "template",
+        "sha256": "29c2dcefe51851bb076649597552a9c2943e7bdbefa8e79cef45aa9bcb4a617d",
+        "size_bytes": 5423
+      }
     },
     "outbound/email-deliverability": {
-      "SKILL.md": "e74e357a22a799f396e36ca3f4cb428bff6feb94087343de353e1c8f1b8ac427",
-      "examples/worked-example.md": "ddad637fab188cb545b935fcf8523976b2cd25168809bbeb04043d93532b2b1d",
-      "references/deliverability-primer.md": "ac667b2080818101dc897276dba0e1c9a85e2be6a99b4df9ef5d2d63fb2403a4",
-      "references/framework-notes.md": "6c1fae0dba36f0690ba729d88f46a05d4f1de839be4b40be42fe72d47008b6e1",
-      "references/incident-runbooks.md": "e65da905d7274c926163aae377b82f69096db393bf08e5409db21c783328b9a2",
-      "references/list-quality-standard.md": "306798a009aef9bb3dd461369c70ecfa393848901160867dcc0610506dbf00c5",
-      "references/monitoring-and-testing.md": "504d541905334ce3fcbc46c2ad0194a2863edaa9c668f0b97a4d85b967ff835b",
-      "references/outbound-compliance-primer.md": "9d97c0dbc7574ffb8c837295ebfa6e920aa2405b984fe3e6004e15ebee87dbef",
-      "references/scrapercity-catalog.md": "f4848372f0ab6c2966f25e600498d082b15eaa84626b063533fdd2d2d5723468",
-      "references/scrapercity-platform.md": "1f5b70ff434f7fc73740f9aae216084c8378c96a5a43fe94393f9745dba33280",
-      "scripts/check-output.py": "41e7a0b8c7c5cf30a0d320ed135838fa6ba19cf359621c4ce3f7b8676d682555",
-      "templates/output-template.md": "e26691c9aa554c70a19b8495056dddf51bec810739af0307e246b3187126219b"
+      "SKILL.md": {
+        "kind": "skill entrypoint",
+        "sha256": "e0e150a26d2db1002114e5039667523ac6ec862037c73a9c7d7c6ebab4090e66",
+        "size_bytes": 36125
+      },
+      "examples/incident-example.md": {
+        "kind": "example",
+        "sha256": "66c88eb67f8cea92dcb2aba3698002b7134bffd8fe7218499fa051c1de70dc7e",
+        "size_bytes": 9205
+      },
+      "examples/worked-example.md": {
+        "kind": "example",
+        "sha256": "3b57af87cc7082482726e7385b40f8db648fea55988fcce9ffe9f2e9b8e09f76",
+        "size_bytes": 13839
+      },
+      "references/deliverability-primer.md": {
+        "kind": "reference",
+        "sha256": "63eeed37bce504a9ae301374fe81bff2523313e806bfc42b0db304651e59b459",
+        "shared": true,
+        "size_bytes": 25715
+      },
+      "references/framework-notes.md": {
+        "kind": "reference",
+        "sha256": "29b445e36ffeadb637bc31d1ff76055f3806c73b0f569341be9b3248bf52885f",
+        "size_bytes": 12703
+      },
+      "references/incident-runbooks.md": {
+        "kind": "reference",
+        "sha256": "81937525be0d04b012adc57e00431cc6695ea6e8d49b903c244422594373d630",
+        "size_bytes": 19668
+      },
+      "references/list-quality-standard.md": {
+        "kind": "reference",
+        "sha256": "fd6bcf61adddb3e3e4f83efb853503650b42509bed527c8849322c9af1a0acc5",
+        "shared": true,
+        "size_bytes": 29256
+      },
+      "references/monitoring-and-testing.md": {
+        "kind": "reference",
+        "sha256": "32ed8a603937f511e596874bebe0d5818891ace18c573d4ed62ab2ec8b1c61e8",
+        "size_bytes": 23318
+      },
+      "references/recovery-plans.md": {
+        "kind": "reference",
+        "sha256": "074feb585c9b50e3c3f561e12c11c46b338cf77569b27d746175a1ec9e266b58",
+        "size_bytes": 20404
+      },
+      "references/scrapercity-catalog.md": {
+        "kind": "reference",
+        "sha256": "f4848372f0ab6c2966f25e600498d082b15eaa84626b063533fdd2d2d5723468",
+        "shared": true,
+        "size_bytes": 17686
+      },
+      "references/scrapercity-platform.md": {
+        "kind": "reference",
+        "sha256": "159c51347ca44d3236cab7ec3febb88532ded5e2586db0355f5d1943d9035bc7",
+        "shared": true,
+        "size_bytes": 5487
+      },
+      "scripts/check-output.py": {
+        "kind": "script",
+        "sha256": "380110a13361bcd9c4eabba99b1533cde392d7a3bdceecb9d19ce14e54d221f7",
+        "size_bytes": 25157
+      },
+      "templates/incident-plan-template.md": {
+        "kind": "template",
+        "sha256": "0bb1b39a5d1b54097673ec86fc3456c5120ef4f22556fe8498ef2d0ec9fcb04c",
+        "size_bytes": 2853
+      },
+      "templates/output-template.md": {
+        "kind": "template",
+        "sha256": "0fe266bca04767200e76f6b6771c68c627797b19ed0800ee937966ecccd0791d",
+        "size_bytes": 2836
+      }
     },
     "outbound/inbox-setup": {
-      "SKILL.md": "f6c7883f4a3a7be03523381801ca3bbf5e5f9ca117c6576d3b4a96062f8ae3e5",
-      "examples/worked-example.md": "2dd214bc780bc2c05eaee7c838e782a0156389c7f2e3f6322b6f6eb1d10797a6",
-      "references/deliverability-primer.md": "ac667b2080818101dc897276dba0e1c9a85e2be6a99b4df9ef5d2d63fb2403a4",
-      "references/framework-notes.md": "da8ed35a24be7e61d0285173c5d5c6d836b2883bedf941592215a3848c591b8f",
-      "references/mailbox-setup-runbook.md": "cf99e9b785940e379095bf0b1640fadc876a0524dabafb6cf793d2d4d32976ff",
-      "references/outbound-compliance-primer.md": "9d97c0dbc7574ffb8c837295ebfa6e920aa2405b984fe3e6004e15ebee87dbef",
-      "references/rotation-and-retirement.md": "1dab78501d2767db6248c0ece71e36a451966aad322b1b5a1e29e3be463c6748",
-      "references/scrapercity-catalog.md": "f4848372f0ab6c2966f25e600498d082b15eaa84626b063533fdd2d2d5723468",
-      "references/scrapercity-platform.md": "1f5b70ff434f7fc73740f9aae216084c8378c96a5a43fe94393f9745dba33280",
-      "references/warmup-and-ramp.md": "c5dc234e531369d57bd3a4a5c345ddb8ba68ca671f3e613f52a137a65a42a17c",
-      "scripts/check-output.py": "0d741472e135d2512201f4ee4ad9e256aa4dd48b23162bca4844dcb8ef310047",
-      "templates/output-template.md": "4d9d8a1a4082f860e8fd7ce4f56212b964f8be3eb36fc85a8998f9ddf4badbdf"
+      "SKILL.md": {
+        "kind": "skill entrypoint",
+        "sha256": "8193ba9b064f29d76256c1e865583a12dd51412632be00dd2154dcdc07930575",
+        "size_bytes": 22094
+      },
+      "examples/worked-example.md": {
+        "kind": "example",
+        "sha256": "e8341ebf940995e16054b1d6aac91c8ce1577b07be5a0fc1b58287bee9fdee3c",
+        "size_bytes": 12476
+      },
+      "references/deliverability-primer.md": {
+        "kind": "reference",
+        "sha256": "63eeed37bce504a9ae301374fe81bff2523313e806bfc42b0db304651e59b459",
+        "shared": true,
+        "size_bytes": 25715
+      },
+      "references/framework-notes.md": {
+        "kind": "reference",
+        "sha256": "3cfabda419467c677740ebb3b493c154aff3180bd135f8485aa87fe1bd021854",
+        "size_bytes": 9735
+      },
+      "references/mailbox-setup-runbook.md": {
+        "kind": "reference",
+        "sha256": "8d97342a9ebfb05c3d7dc9aa11103435e1cd5197ffa98f24acddad60953f94dd",
+        "size_bytes": 12053
+      },
+      "references/rotation-and-retirement.md": {
+        "kind": "reference",
+        "sha256": "4d1a7c7892fbe2860640685c820bda93d27c981a325eef10d778035a7bee8c1e",
+        "size_bytes": 7115
+      },
+      "references/scrapercity-catalog.md": {
+        "kind": "reference",
+        "sha256": "f4848372f0ab6c2966f25e600498d082b15eaa84626b063533fdd2d2d5723468",
+        "shared": true,
+        "size_bytes": 17686
+      },
+      "references/scrapercity-platform.md": {
+        "kind": "reference",
+        "sha256": "159c51347ca44d3236cab7ec3febb88532ded5e2586db0355f5d1943d9035bc7",
+        "shared": true,
+        "size_bytes": 5487
+      },
+      "references/warmup-and-ramp.md": {
+        "kind": "reference",
+        "sha256": "c90bfe4f34cf57ae9725675ebe14d75a90f832e72e5718ca311815430adcff2a",
+        "size_bytes": 15817
+      },
+      "scripts/check-output.py": {
+        "kind": "script",
+        "sha256": "1203bdc2cd3438818a657b0bf3b363cd1db4a1707a12ca0c83a2f06a2d9ef497",
+        "size_bytes": 17266
+      },
+      "templates/output-template.md": {
+        "kind": "template",
+        "sha256": "429674858e446240148760d83d3640c49e55e4076dc6943464f9711495dc6db4",
+        "size_bytes": 3421
+      }
     },
     "outbound/multi-channel-outreach": {
-      "SKILL.md": "843d9056f493849e54d2c4d75ab38f36796a74e6ffa8bef1ebd65591d49d2811",
-      "examples/worked-example.md": "7c7cf1b1b34aa3c0dfcb5a312ea1c6761f3a6c6cb4c3c3a08e59e13a218b5ea6",
-      "references/alex-berman-cold-email.md": "ed7c72f20cd6e758177959996e699771b559014f58a221460b724ce9e37471cc",
-      "references/channel-compliance-gates.md": "c8d9d6f078d2d6caad6db1f35d575fdcb674157f52afed95464e0fca82ebefc5",
-      "references/channel-cost-model.md": "4557f5ab2b975035e4f824bc9aff59cebf5440e46f33af4bc507db0346be4700",
-      "references/channel-scripts-and-cadences.md": "1426e765841d633c77a4217eec6c9f32144db6741e0dc3c8f3614d75ebb814a9",
-      "references/cold-email-frameworks.md": "0825395a6e3217ec9d27d016d21a2d7d7d0ec55af32ac2676b6d18a4189e7f13",
-      "references/framework-notes.md": "0d357a73650ba7db5c79f8a05d5347cd0a9e9c7b683b643d0698d3ac600e4c1c",
-      "references/outbound-compliance-primer.md": "9d97c0dbc7574ffb8c837295ebfa6e920aa2405b984fe3e6004e15ebee87dbef",
-      "references/scrapercity-catalog.md": "f4848372f0ab6c2966f25e600498d082b15eaa84626b063533fdd2d2d5723468",
-      "references/scrapercity-platform.md": "1f5b70ff434f7fc73740f9aae216084c8378c96a5a43fe94393f9745dba33280",
-      "scripts/check-output.py": "acc3823832743c55198ba7a224fe40be37a7b3379a9008450a553a8774ce54aa",
-      "templates/output-template.md": "076cede2a026b24a2079704c061d692535b8193151c481c2e6a986f1b3a14b5f"
+      "SKILL.md": {
+        "kind": "skill entrypoint",
+        "sha256": "dc86b591b4fd6d475332857023b759012f876ef9657479e2921c5d5acd8c9812",
+        "size_bytes": 37172
+      },
+      "examples/worked-example.md": {
+        "kind": "example",
+        "sha256": "a21526f951f88c4ca7f76584d07eb8c84c7a68393513904ee0e33a567f9f2b1b",
+        "size_bytes": 24257
+      },
+      "references/alex-berman-cold-email.md": {
+        "kind": "reference",
+        "sha256": "bcf561db6f6849e854be1ebecfc8ac830d6d6c3ce5ad5f0827d66f312101c6c3",
+        "shared": true,
+        "size_bytes": 14373
+      },
+      "references/channel-cost-model.md": {
+        "kind": "reference",
+        "sha256": "e3d07bcddb97fb3d514c732db863785f787976500658d8ef155f916bf9422893",
+        "size_bytes": 9255
+      },
+      "references/channel-operating-rules.md": {
+        "kind": "reference",
+        "sha256": "53074962cd1e8618826c880af156f658fb9b19442aa53fdd81dc91cc7e16cd21",
+        "size_bytes": 14984
+      },
+      "references/channel-scripts-and-cadences.md": {
+        "kind": "reference",
+        "sha256": "3a2260cd3c11d722ce905cfd1199f2756ccef5001f4509aad76c29577e115b5e",
+        "size_bytes": 30519
+      },
+      "references/cold-email-frameworks.md": {
+        "kind": "reference",
+        "sha256": "b19f47a0efd38e9cc5d9861a61777ba6d12c57a0c027b8091223a69098cf6c4b",
+        "shared": true,
+        "size_bytes": 33682
+      },
+      "references/framework-notes.md": {
+        "kind": "reference",
+        "sha256": "276aa0dae703156b3663cebb159cddee3d02c76d3a2a5b56802f9be3865e8aa2",
+        "size_bytes": 12845
+      },
+      "references/scrapercity-catalog.md": {
+        "kind": "reference",
+        "sha256": "f4848372f0ab6c2966f25e600498d082b15eaa84626b063533fdd2d2d5723468",
+        "shared": true,
+        "size_bytes": 17686
+      },
+      "references/scrapercity-platform.md": {
+        "kind": "reference",
+        "sha256": "159c51347ca44d3236cab7ec3febb88532ded5e2586db0355f5d1943d9035bc7",
+        "shared": true,
+        "size_bytes": 5487
+      },
+      "scripts/check-output.py": {
+        "kind": "script",
+        "sha256": "2f4eff1ab550bc1db73a5061f6b8b660444bf9bc76452f4512bbc2fd58018626",
+        "size_bytes": 21426
+      },
+      "templates/output-template.md": {
+        "kind": "template",
+        "sha256": "e9452749f7093fae4992a9385cc4f7ba9048b4586f6f666d775b03ff46e4ab08",
+        "size_bytes": 3774
+      }
     },
     "outbound/outbound-unit-economics": {
-      "SKILL.md": "b158ea1564d406072c3d6113b6d93649bafe2d369bdba7e06f4c846865df3817",
-      "examples/worked-example.md": "dd94d6ef1f90fb3d227d6ae3bb3933857036b738e13a374da27da9fc6253a8f3",
-      "references/alex-berman-cold-email.md": "ed7c72f20cd6e758177959996e699771b559014f58a221460b724ce9e37471cc",
-      "references/benchmarks.md": "d1018d3d02e1966ee4244f96ea25d798b491c860d3a9c8e7fcc49eced439c250",
-      "references/break-even-and-sensitivity.md": "a5a124e5dc7dadb0713d190dae02d4b1aaeb75400b0155c37b0918ece1b7a252",
-      "references/cold-email-frameworks.md": "0825395a6e3217ec9d27d016d21a2d7d7d0ec55af32ac2676b6d18a4189e7f13",
-      "references/deliverability-primer.md": "ac667b2080818101dc897276dba0e1c9a85e2be6a99b4df9ef5d2d63fb2403a4",
-      "references/framework-notes.md": "95caea89557693d27eca4ce050104feb724492431a20e95f5badb9e0bfc49b29",
-      "references/scrapercity-agent-patterns.md": "b5687a83929248d10fded9c2d1349a8469d04dba92a0a64bd4bc016f6cae6430",
-      "references/scrapercity-catalog.md": "f4848372f0ab6c2966f25e600498d082b15eaa84626b063533fdd2d2d5723468",
-      "references/scrapercity-platform.md": "1f5b70ff434f7fc73740f9aae216084c8378c96a5a43fe94393f9745dba33280",
-      "references/unit-economics-model.md": "f40f3bec5ce542c4a91911a67aea61cfb4d69039215dd1fad945bdd37f53ec3f",
-      "scripts/check-output.py": "c3d99abf8c1d3d81315768c531a3bca9e4bc1e636a03b7bb4cc2138a126e31b5",
-      "templates/output-template.md": "6a8f9596b14427b649d72523c355636912e312292dbcda2589df03d161f5fc5a"
+      "SKILL.md": {
+        "kind": "skill entrypoint",
+        "sha256": "cb5a3b79e5284647dfc132893c0d1f69ede5419b09311d8f19d9f6839755e94b",
+        "size_bytes": 27010
+      },
+      "examples/worked-example.md": {
+        "kind": "example",
+        "sha256": "331a1999facde5ce12c43c2174b22264319b7e689a06c13510fac895bc026775",
+        "size_bytes": 13599
+      },
+      "references/alex-berman-cold-email.md": {
+        "kind": "reference",
+        "sha256": "bcf561db6f6849e854be1ebecfc8ac830d6d6c3ce5ad5f0827d66f312101c6c3",
+        "shared": true,
+        "size_bytes": 14373
+      },
+      "references/benchmarks.md": {
+        "kind": "reference",
+        "sha256": "f8c7c3678d51afdcfe96f49d4ecb1c5177b52d22c56c09ddb59aa4584a47035e",
+        "size_bytes": 7552
+      },
+      "references/break-even-and-sensitivity.md": {
+        "kind": "reference",
+        "sha256": "b7e770d3317cfbca90142038d2afb006b57dd660580923166029e8414c3291a7",
+        "size_bytes": 14386
+      },
+      "references/cold-email-frameworks.md": {
+        "kind": "reference",
+        "sha256": "b19f47a0efd38e9cc5d9861a61777ba6d12c57a0c027b8091223a69098cf6c4b",
+        "shared": true,
+        "size_bytes": 33682
+      },
+      "references/cost-stack.md": {
+        "kind": "reference",
+        "sha256": "2ba343f6da45a7aee434a4a783f7c9963a6fd8f51bc22684695ddf5bd32ca7a7",
+        "size_bytes": 11025
+      },
+      "references/deliverability-primer.md": {
+        "kind": "reference",
+        "sha256": "63eeed37bce504a9ae301374fe81bff2523313e806bfc42b0db304651e59b459",
+        "shared": true,
+        "size_bytes": 25715
+      },
+      "references/framework-notes.md": {
+        "kind": "reference",
+        "sha256": "385d86cc417cf3d92c4ee41129db6a32dc43777d15e735d3ab4f20eb33cae64c",
+        "size_bytes": 8606
+      },
+      "references/scrapercity-agent-patterns.md": {
+        "kind": "reference",
+        "sha256": "1df41ebafe623125eb22fad130ba2791e74ad9b45819f2904ffe1f28e4d96b99",
+        "shared": true,
+        "size_bytes": 15558
+      },
+      "references/scrapercity-catalog.md": {
+        "kind": "reference",
+        "sha256": "f4848372f0ab6c2966f25e600498d082b15eaa84626b063533fdd2d2d5723468",
+        "shared": true,
+        "size_bytes": 17686
+      },
+      "references/scrapercity-platform.md": {
+        "kind": "reference",
+        "sha256": "159c51347ca44d3236cab7ec3febb88532ded5e2586db0355f5d1943d9035bc7",
+        "shared": true,
+        "size_bytes": 5487
+      },
+      "references/unit-economics-model.md": {
+        "kind": "reference",
+        "sha256": "982d0e870d1a27e305e3ca5af8f2b5c7cd90b1dc7ec6b04147594169c0ae7252",
+        "size_bytes": 15188
+      },
+      "scripts/check-output.py": {
+        "kind": "script",
+        "sha256": "4c3a5dffd98d7b620550a9999511d2672a3763f0ef915f1b0bc4800dd92df60c",
+        "size_bytes": 25510
+      },
+      "scripts/unit-economics-model.py": {
+        "kind": "script",
+        "sha256": "59cf9b18f543d3f528d63addbeeea3496dc467bbb82edbc6e8c1ffe7610ef966",
+        "size_bytes": 15081
+      },
+      "templates/output-template.md": {
+        "kind": "template",
+        "sha256": "9eb9e64f901b582b9b421ab02c9d31e2b0fe07da29dfbf11be3083a3c6b605fc",
+        "size_bytes": 3259
+      }
     },
     "outbound/reply-handling": {
-      "SKILL.md": "b5ec55bfa2c29dd73d2824fd808213871f63d3ded27b5e10b64c23f977e0a4ff",
-      "examples/worked-example.md": "57084c594ddd8d46942abe4d9c24f2db6f5687158279830a9f32f40624ab3821",
-      "references/alex-berman-cold-email.md": "ed7c72f20cd6e758177959996e699771b559014f58a221460b724ce9e37471cc",
-      "references/cold-email-frameworks.md": "0825395a6e3217ec9d27d016d21a2d7d7d0ec55af32ac2676b6d18a4189e7f13",
-      "references/deliverability-primer.md": "ac667b2080818101dc897276dba0e1c9a85e2be6a99b4df9ef5d2d63fb2403a4",
-      "references/framework-notes.md": "90f5da0e408a3d7e642773329e1394fb6c708eac2d586eb33ccaa00a99e54a05",
-      "references/outbound-compliance-primer.md": "9d97c0dbc7574ffb8c837295ebfa6e920aa2405b984fe3e6004e15ebee87dbef",
-      "references/reply-taxonomy-and-routing.md": "abd6e136b2afd7b5e226ff91d21bcd0cd40cae4ba5a7059d14904b77180ffbf9",
-      "references/response-library.md": "68aadebca9cf8e34af3956ef96c09d48ee50b2c7fff8ea1c4a59eb1149ab5422",
-      "references/scrapercity-catalog.md": "f4848372f0ab6c2966f25e600498d082b15eaa84626b063533fdd2d2d5723468",
-      "references/scrapercity-platform.md": "1f5b70ff434f7fc73740f9aae216084c8378c96a5a43fe94393f9745dba33280",
-      "references/suppression-and-compliance.md": "48fa9b88bee087b767a9862d69d661744b210d7b547bb30213f88ac62e6a403a",
-      "scripts/check-output.py": "ac40b1b3a9aa913623ccb5f34629a480b737c5f6e5c8f04eedb31ecfe17be01e",
-      "templates/output-template.md": "07cafac4e0f0c7f4061cd4a53cf48ec329776dff1588c8433bd359cc763c3683"
+      "SKILL.md": {
+        "kind": "skill entrypoint",
+        "sha256": "cc415ed37e9995384a7f40d0a3efca68efb0d4906cbfd5e5e90f25da1a2f72b8",
+        "size_bytes": 34470
+      },
+      "examples/triage-example.md": {
+        "kind": "example",
+        "sha256": "72115b183e0404063090d19eecc4fb0887e7c933e812ddf3452a0646dc606ee3",
+        "size_bytes": 6232
+      },
+      "examples/worked-example.md": {
+        "kind": "example",
+        "sha256": "40250b019813620a860fc8ecb1b7dd52211f577264338702e9c4af70b15dcb35",
+        "size_bytes": 18383
+      },
+      "references/alex-berman-cold-email.md": {
+        "kind": "reference",
+        "sha256": "bcf561db6f6849e854be1ebecfc8ac830d6d6c3ce5ad5f0827d66f312101c6c3",
+        "shared": true,
+        "size_bytes": 14373
+      },
+      "references/cold-email-frameworks.md": {
+        "kind": "reference",
+        "sha256": "b19f47a0efd38e9cc5d9861a61777ba6d12c57a0c027b8091223a69098cf6c4b",
+        "shared": true,
+        "size_bytes": 33682
+      },
+      "references/deliverability-primer.md": {
+        "kind": "reference",
+        "sha256": "63eeed37bce504a9ae301374fe81bff2523313e806bfc42b0db304651e59b459",
+        "shared": true,
+        "size_bytes": 25715
+      },
+      "references/framework-notes.md": {
+        "kind": "reference",
+        "sha256": "fcf4170f06e68f3c098ee31e683712385578781c8959e26c37b70890ada4a28b",
+        "size_bytes": 7899
+      },
+      "references/reply-taxonomy-and-routing.md": {
+        "kind": "reference",
+        "sha256": "fa5db4b44336506a8fc03e54d36a694e2dc6eba316a3fbeff740eb149399ebcb",
+        "size_bytes": 17226
+      },
+      "references/response-library.md": {
+        "kind": "reference",
+        "sha256": "dfd0c8487d50401d6dff79fa95efa5e22e26899c6edb1bd21c472a4dd4b1a7ae",
+        "size_bytes": 19296
+      },
+      "references/scrapercity-catalog.md": {
+        "kind": "reference",
+        "sha256": "f4848372f0ab6c2966f25e600498d082b15eaa84626b063533fdd2d2d5723468",
+        "shared": true,
+        "size_bytes": 17686
+      },
+      "references/scrapercity-platform.md": {
+        "kind": "reference",
+        "sha256": "159c51347ca44d3236cab7ec3febb88532ded5e2586db0355f5d1943d9035bc7",
+        "shared": true,
+        "size_bytes": 5487
+      },
+      "references/suppression-and-compliance.md": {
+        "kind": "reference",
+        "sha256": "6a6f34ca15bc2e8e1411891bb88cb6b21489c41a220d07b28ee63b5b1c491cfa",
+        "size_bytes": 4941
+      },
+      "scripts/check-output.py": {
+        "kind": "script",
+        "sha256": "da7ac484a86415a73be902b5ba62cc33abcef54ff69e580af63b5f00e2670412",
+        "size_bytes": 21016
+      },
+      "templates/output-template.md": {
+        "kind": "template",
+        "sha256": "7567362052240fd85a2478279cc2c13cef0d5c8ad0cc6c577ac2009f20ab8ad3",
+        "size_bytes": 1531
+      },
+      "templates/triage-template.md": {
+        "kind": "template",
+        "sha256": "17ac955f44be7b8ca52ebdbf9227751aaeb17f33fe005154f077145d2e79dc78",
+        "size_bytes": 595
+      }
     },
     "outbound/sending-platforms": {
-      "SKILL.md": "ddacd3bbab2554ddfb9129d35e81946a4f9998f20229f2c01bde4d74c666fd44",
-      "examples/worked-example.md": "1c8280573969c82390d8121ac12d99a4c9b1df58bb17c207ac3546d3fb5a6d8e",
-      "references/csv-mapping-and-import.md": "4bf9bec8bb6d55cfbe93a78c358f49cd8c1ae45eaac983c6ba733dc695a26325",
-      "references/deliverability-primer.md": "ac667b2080818101dc897276dba0e1c9a85e2be6a99b4df9ef5d2d63fb2403a4",
-      "references/framework-notes.md": "c111fba5b25f260ba3452d3501287ff578612717f3c3b09a8c5319bdb332df9c",
-      "references/list-quality-standard.md": "306798a009aef9bb3dd461369c70ecfa393848901160867dcc0610506dbf00c5",
-      "references/platform-comparison.md": "fcb5c6af1a9610310db34ee93b670a85c92d533736ade9f3b9da7c18a81d1b17",
-      "references/scrapercity-agent-patterns.md": "b5687a83929248d10fded9c2d1349a8469d04dba92a0a64bd4bc016f6cae6430",
-      "references/scrapercity-catalog.md": "f4848372f0ab6c2966f25e600498d082b15eaa84626b063533fdd2d2d5723468",
-      "references/scrapercity-platform.md": "1f5b70ff434f7fc73740f9aae216084c8378c96a5a43fe94393f9745dba33280",
-      "references/webhooks-and-crm-sync.md": "667faf5a8ec503684120148946ecbe9999ce40119978202e1497cf271f51494f",
-      "scripts/check-output.py": "e4ad9f2f1be112f9dcdf3f3d3e1dc26c2bff9230103f57e4955ea565087a24f6",
-      "templates/output-template.md": "d72c37c3f8ec38feb01a2be8aff57e27022c516a460c46f19b5bfb63d21e379e"
+      "SKILL.md": {
+        "kind": "skill entrypoint",
+        "sha256": "954c7f66d4242264d156b31857af2622e499961800d7fa6a27fcba5495ac8157",
+        "size_bytes": 40002
+      },
+      "examples/agency-example.md": {
+        "kind": "example",
+        "sha256": "e381e4242e6a6feb88d2329ac904182a972f1a747f1fa80f5c854257943d4d7d",
+        "size_bytes": 18348
+      },
+      "examples/worked-example.md": {
+        "kind": "example",
+        "sha256": "447cc2bea50ddf9b93d3dd5c2180784d53df98ce74839ef74555b3f0af93319e",
+        "size_bytes": 18714
+      },
+      "references/csv-mapping-and-import.md": {
+        "kind": "reference",
+        "sha256": "a1b2699a398a5926fca6eafc9db6944257e683e4cda3e9a649ece7edc0cecda1",
+        "size_bytes": 15646
+      },
+      "references/deliverability-primer.md": {
+        "kind": "reference",
+        "sha256": "63eeed37bce504a9ae301374fe81bff2523313e806bfc42b0db304651e59b459",
+        "shared": true,
+        "size_bytes": 25715
+      },
+      "references/framework-notes.md": {
+        "kind": "reference",
+        "sha256": "5803b116a6d9fcc7b8f3e6f89855c4b3d86ef374c4a70a65c5d3b5d85aae9baf",
+        "size_bytes": 16227
+      },
+      "references/list-quality-standard.md": {
+        "kind": "reference",
+        "sha256": "fd6bcf61adddb3e3e4f83efb853503650b42509bed527c8849322c9af1a0acc5",
+        "shared": true,
+        "size_bytes": 29256
+      },
+      "references/migration-runbook.md": {
+        "kind": "reference",
+        "sha256": "728a2bb2904101af93991637e7ccbce840361eab168895d7376f6f6dccece4fc",
+        "size_bytes": 10201
+      },
+      "references/platform-comparison.md": {
+        "kind": "reference",
+        "sha256": "7c31baae25120006bf195f7250d35e6177bd683252641942c86e3eb37c204b69",
+        "size_bytes": 27078
+      },
+      "references/platform-runbooks.md": {
+        "kind": "reference",
+        "sha256": "5536d42007b51e7e047979f2ded7118a832002433abccde571289be3f70f6602",
+        "size_bytes": 28119
+      },
+      "references/scrapercity-agent-patterns.md": {
+        "kind": "reference",
+        "sha256": "1df41ebafe623125eb22fad130ba2791e74ad9b45819f2904ffe1f28e4d96b99",
+        "shared": true,
+        "size_bytes": 15558
+      },
+      "references/scrapercity-catalog.md": {
+        "kind": "reference",
+        "sha256": "f4848372f0ab6c2966f25e600498d082b15eaa84626b063533fdd2d2d5723468",
+        "shared": true,
+        "size_bytes": 17686
+      },
+      "references/scrapercity-platform.md": {
+        "kind": "reference",
+        "sha256": "159c51347ca44d3236cab7ec3febb88532ded5e2586db0355f5d1943d9035bc7",
+        "shared": true,
+        "size_bytes": 5487
+      },
+      "references/webhooks-and-crm-sync.md": {
+        "kind": "reference",
+        "sha256": "6a34c4534b94962a196fa84ea4f92aef7b65bd028e8f203555387e926e16870d",
+        "size_bytes": 23133
+      },
+      "scripts/check-output.py": {
+        "kind": "script",
+        "sha256": "b7e1183b95a30bb25f8c982c7cd34dbd216fbd34b72841e864fc52cddabdafa9",
+        "size_bytes": 24323
+      },
+      "templates/output-template.md": {
+        "kind": "template",
+        "sha256": "29e948bdcbed8329ca928ed845ca4595ba14a25d143aa44554133992be507078",
+        "size_bytes": 5079
+      }
     },
     "outbound/signal-triggered-outbound": {
-      "SKILL.md": "84969a44fb7e4ca662c643f0d9949b4d3a97f98aef1c58f6fd6c65adac4b3661",
-      "examples/worked-example.md": "d6a8417f7ae752a23a0e46f9590c35fd0fd209939e84d40cab672d33d88f3306",
-      "references/cold-email-frameworks.md": "0825395a6e3217ec9d27d016d21a2d7d7d0ec55af32ac2676b6d18a4189e7f13",
-      "references/framework-notes.md": "dcf372b8b3594539059ef3725f88034db3257b3031e82c29fde69e99068bfed0",
-      "references/list-quality-standard.md": "306798a009aef9bb3dd461369c70ecfa393848901160867dcc0610506dbf00c5",
-      "references/outbound-compliance-primer.md": "9d97c0dbc7574ffb8c837295ebfa6e920aa2405b984fe3e6004e15ebee87dbef",
-      "references/repeat-pull-recipes.md": "db675d7a41a03a1f2094cd896a3f4665ac16cf768b7e40842d1b562c06f2196c",
-      "references/scoring-and-freshness.md": "0857fb69da3e19163dd03533c577badef1de8327587159c6ba1159bc689352bf",
-      "references/scrapercity-agent-patterns.md": "b5687a83929248d10fded9c2d1349a8469d04dba92a0a64bd4bc016f6cae6430",
-      "references/scrapercity-catalog.md": "f4848372f0ab6c2966f25e600498d082b15eaa84626b063533fdd2d2d5723468",
-      "references/scrapercity-platform.md": "1f5b70ff434f7fc73740f9aae216084c8378c96a5a43fe94393f9745dba33280",
-      "references/signal-catalog.md": "0b09ab52f9fa6ab36ca5236108ec32904def8d10c5979c7d0620886b8573f515",
-      "scripts/check-output.py": "bf883a1c12d892bfc830fc2355a7313a9d06305ce86926d9d6bfa990a7697b08",
-      "templates/output-template.md": "3ad78519e8fc40b78a751b11d7a87962989d9113ed5e822b67cc39b0df6afb25"
+      "SKILL.md": {
+        "kind": "skill entrypoint",
+        "sha256": "4fe004c6786dcdda83319406dae1e9880bf6ac098744c56db804743230d1d499",
+        "size_bytes": 34452
+      },
+      "examples/worked-example.md": {
+        "kind": "example",
+        "sha256": "cf4063bfd396f4e871802971a2599bcc75e6180713053b6722db94545fed52c4",
+        "size_bytes": 8860
+      },
+      "references/cold-email-frameworks.md": {
+        "kind": "reference",
+        "sha256": "b19f47a0efd38e9cc5d9861a61777ba6d12c57a0c027b8091223a69098cf6c4b",
+        "shared": true,
+        "size_bytes": 33682
+      },
+      "references/framework-notes.md": {
+        "kind": "reference",
+        "sha256": "fa9e740786cafae00101c2e5385c5aee1a6a9c4c04aeb4ada19222c3f3aec93c",
+        "size_bytes": 10706
+      },
+      "references/list-quality-standard.md": {
+        "kind": "reference",
+        "sha256": "fd6bcf61adddb3e3e4f83efb853503650b42509bed527c8849322c9af1a0acc5",
+        "shared": true,
+        "size_bytes": 29256
+      },
+      "references/repeat-pull-recipes.md": {
+        "kind": "reference",
+        "sha256": "38531da69892ae442c5ccf96faa7d9213d8eb18af12b808e2d94f397ecf5dd9e",
+        "size_bytes": 19242
+      },
+      "references/scoring-and-freshness.md": {
+        "kind": "reference",
+        "sha256": "feb95f0367b2fc80a3a49c60a25406de9ddc6e3893e7c429d2307e5a39f86ff7",
+        "size_bytes": 10834
+      },
+      "references/scrapercity-agent-patterns.md": {
+        "kind": "reference",
+        "sha256": "1df41ebafe623125eb22fad130ba2791e74ad9b45819f2904ffe1f28e4d96b99",
+        "shared": true,
+        "size_bytes": 15558
+      },
+      "references/scrapercity-catalog.md": {
+        "kind": "reference",
+        "sha256": "f4848372f0ab6c2966f25e600498d082b15eaa84626b063533fdd2d2d5723468",
+        "shared": true,
+        "size_bytes": 17686
+      },
+      "references/scrapercity-platform.md": {
+        "kind": "reference",
+        "sha256": "159c51347ca44d3236cab7ec3febb88532ded5e2586db0355f5d1943d9035bc7",
+        "shared": true,
+        "size_bytes": 5487
+      },
+      "references/signal-catalog.md": {
+        "kind": "reference",
+        "sha256": "d177f0503e6bdd7ad70cb395290c32fdee169eed8cb409c318965503e17aedd0",
+        "size_bytes": 39002
+      },
+      "references/signal-plays.md": {
+        "kind": "reference",
+        "sha256": "c9ffcedc2f4d9a43c7fff52b07eefb954d7652da1c921419c480a999bdea71ec",
+        "size_bytes": 17767
+      },
+      "scripts/check-output.py": {
+        "kind": "script",
+        "sha256": "253970de5228fc11dba9fc771d99d8b3e54c5604cd10e782686c13b166aa60d0",
+        "size_bytes": 20723
+      },
+      "templates/output-template.md": {
+        "kind": "template",
+        "sha256": "30a93e3cb02a4cf8d093c69c9b0b71c47bb93f34771d4f472c5709608772196c",
+        "size_bytes": 1960
+      }
     },
     "scrapercity/scrapercity-api": {
-      "SKILL.md": "ae63284978def0092c18787a7a327d6430a4a315bb82ac503de0f0d59865edc3",
-      "examples/worked-example.md": "4afab01877bb6466a4e21ae9f1e1e483761bfabfdbbe21ca2b501610e634d7d4",
-      "references/code-samples.md": "bbee9b826e832a51637dbff487b5dd1bdd608aa519771a3b8068c986f9152a11",
-      "references/endpoint-reference.md": "8c2e2083c665e58aca79764640ee1770ded4af43a0f25b333c364a19915ced40",
-      "references/errors-and-retries.md": "a201ffbf619632e13347ba4d8e1592de1d2325ca478768ba1b072b6168872574",
-      "references/framework-notes.md": "16cf5f0ce2a508b742828d43f6e45de73a42a821478e8a707478a7e7c86555b9",
-      "references/scrapercity-agent-patterns.md": "b5687a83929248d10fded9c2d1349a8469d04dba92a0a64bd4bc016f6cae6430",
-      "references/scrapercity-catalog.md": "f4848372f0ab6c2966f25e600498d082b15eaa84626b063533fdd2d2d5723468",
-      "references/scrapercity-platform.md": "1f5b70ff434f7fc73740f9aae216084c8378c96a5a43fe94393f9745dba33280",
-      "scripts/check-output.py": "1f63c93c0ecb4c4235726f1f67136894b140332c1ff64c69c7dec443c921f51d",
-      "templates/output-template.md": "515fe56fec98fbc4cbbd855dd812192238f9a1f281f8fde67ff29d4ae9f20773"
+      "SKILL.md": {
+        "kind": "skill entrypoint",
+        "sha256": "ccf20ffe7b7e249205422ffdc717b678a218655a7fc9fee1f845ec28a9cd0c68",
+        "size_bytes": 21520
+      },
+      "examples/worked-example.md": {
+        "kind": "example",
+        "sha256": "e6f3f2cf42ecebd176e462d568e16a950c21914aefbfb4e07d1b811298f78e70",
+        "size_bytes": 7230
+      },
+      "references/bulk-enrichment-pipeline.md": {
+        "kind": "reference",
+        "sha256": "808f5569b0eb1a3b66c40507467115e54b1a83201ced1dd3a1ca8afa56b0ac17",
+        "size_bytes": 11484
+      },
+      "references/code-samples.md": {
+        "kind": "reference",
+        "sha256": "c7e77804dbddaa3f11eb2e1eaec4e8801874298b35851e7e8a65b09632064eb0",
+        "size_bytes": 25930
+      },
+      "references/endpoint-reference.md": {
+        "kind": "reference",
+        "sha256": "380f9461efa17de8cf85c2e1acc312b72f123d7b32c1fbe4a2004c3ebeb37b5a",
+        "size_bytes": 14041
+      },
+      "references/errors-and-retries.md": {
+        "kind": "reference",
+        "sha256": "d87f8a6de92b84b12db041bf07285b845b66e1f69fa1920a78f7c06179447ce4",
+        "size_bytes": 8762
+      },
+      "references/framework-notes.md": {
+        "kind": "reference",
+        "sha256": "236469cbfc4241537d294fde21e6f9c8646503a42fe9913c26d7c40fbb6cff43",
+        "size_bytes": 5267
+      },
+      "references/scrapercity-agent-patterns.md": {
+        "kind": "reference",
+        "sha256": "1df41ebafe623125eb22fad130ba2791e74ad9b45819f2904ffe1f28e4d96b99",
+        "shared": true,
+        "size_bytes": 15558
+      },
+      "references/scrapercity-catalog.md": {
+        "kind": "reference",
+        "sha256": "f4848372f0ab6c2966f25e600498d082b15eaa84626b063533fdd2d2d5723468",
+        "shared": true,
+        "size_bytes": 17686
+      },
+      "references/scrapercity-platform.md": {
+        "kind": "reference",
+        "sha256": "159c51347ca44d3236cab7ec3febb88532ded5e2586db0355f5d1943d9035bc7",
+        "shared": true,
+        "size_bytes": 5487
+      },
+      "scripts/check-output.py": {
+        "kind": "script",
+        "sha256": "c51300c7ddffa0709ecd11ecfba9f55ce59ba9b567efdeb57c16a73adceb79f9",
+        "size_bytes": 9870
+      },
+      "templates/output-template.md": {
+        "kind": "template",
+        "sha256": "515fe56fec98fbc4cbbd855dd812192238f9a1f281f8fde67ff29d4ae9f20773",
+        "size_bytes": 1686
+      }
     },
     "scrapercity/scrapercity-cli": {
-      "SKILL.md": "d5b9b76c4296d4fbf943e25e71aee0abec473a674c68f939878e4dfcaba1990e",
-      "examples/worked-example.md": "21dc1511228eec1e28559823a488d2968ee4ccfa753bafcfd458d97a46dd327f",
-      "references/command-reference.md": "b5e45a11f16f0e47efe7896bd4a6f1cd400d5b5aa976a00325051b954b67f6f3",
-      "references/framework-notes.md": "638025253c592a42f4b950632df7d1677527ca1d9fa29bac5eee3983f65a3fab",
-      "references/gaps-and-quirks.md": "6bdadfcf9a65cd35d303e8173ec0938b6c75214167116e414ad3afa77872281e",
-      "references/scrapercity-agent-patterns.md": "b5687a83929248d10fded9c2d1349a8469d04dba92a0a64bd4bc016f6cae6430",
-      "references/scrapercity-catalog.md": "f4848372f0ab6c2966f25e600498d082b15eaa84626b063533fdd2d2d5723468",
-      "references/scrapercity-platform.md": "1f5b70ff434f7fc73740f9aae216084c8378c96a5a43fe94393f9745dba33280",
-      "references/scripting-patterns.md": "b30e852b1acbb653d9e97ab5070da05043854a60be3487d9724507f484cee284",
-      "scripts/check-output.py": "c660803a6dc51ac3be868a222dd08429286910d326352fd601d7b1360c20a30d",
-      "templates/output-template.md": "c971510ad59cacff2ac0a8fd0e774a9083a39fb0f528869341f5b3db39170ef7"
+      "SKILL.md": {
+        "kind": "skill entrypoint",
+        "sha256": "2e86de31c464368645608be04a1cdae36105cea66f3ee4fd247dcf5e33c4fb38",
+        "size_bytes": 16849
+      },
+      "examples/worked-example.md": {
+        "kind": "example",
+        "sha256": "bb5e21b94b64b3ed3782e1167b024c24d83610053777c448270adbb139265441",
+        "size_bytes": 10167
+      },
+      "references/command-reference.md": {
+        "kind": "reference",
+        "sha256": "b5e45a11f16f0e47efe7896bd4a6f1cd400d5b5aa976a00325051b954b67f6f3",
+        "size_bytes": 10180
+      },
+      "references/framework-notes.md": {
+        "kind": "reference",
+        "sha256": "12deba7458b52b8e14f80eae0bf704d4d404a2b912665ae6db5f847e1c96df13",
+        "size_bytes": 5329
+      },
+      "references/gaps-and-quirks.md": {
+        "kind": "reference",
+        "sha256": "39d2ae5b8d51a0072c33a2b9ccb823752e4da8bc689a46afc20033a24a3efdb4",
+        "size_bytes": 7028
+      },
+      "references/scrapercity-agent-patterns.md": {
+        "kind": "reference",
+        "sha256": "1df41ebafe623125eb22fad130ba2791e74ad9b45819f2904ffe1f28e4d96b99",
+        "shared": true,
+        "size_bytes": 15558
+      },
+      "references/scrapercity-catalog.md": {
+        "kind": "reference",
+        "sha256": "f4848372f0ab6c2966f25e600498d082b15eaa84626b063533fdd2d2d5723468",
+        "shared": true,
+        "size_bytes": 17686
+      },
+      "references/scrapercity-platform.md": {
+        "kind": "reference",
+        "sha256": "159c51347ca44d3236cab7ec3febb88532ded5e2586db0355f5d1943d9035bc7",
+        "shared": true,
+        "size_bytes": 5487
+      },
+      "references/scripting-patterns.md": {
+        "kind": "reference",
+        "sha256": "f712d9515d1ee1c110376ee4c28c17953bce739fee0928c89e1b9fb2e36e16a4",
+        "size_bytes": 13922
+      },
+      "scripts/check-output.py": {
+        "kind": "script",
+        "sha256": "b67d6a27302d4ba00cf00012acb2e4e6e8c0f222adf15bfe2693e4f529a93baa",
+        "size_bytes": 13923
+      },
+      "templates/output-template.md": {
+        "kind": "template",
+        "sha256": "c971510ad59cacff2ac0a8fd0e774a9083a39fb0f528869341f5b3db39170ef7",
+        "size_bytes": 1107
+      }
     },
     "scrapercity/scrapercity-integrations": {
-      "SKILL.md": "ac60cc5ad4349fbecaab9f06f9a61209f49168a888c6b20637da12bfef621381",
-      "examples/worked-example.md": "23ea107708195915f1df84401e216d7769a8805e0a3057dcb28fef64c02c2c1e",
-      "references/automation-recipes.md": "01b1e348ef6b55163e79369dc61dc47561a916f4905f79a06b57a5d47a108048",
-      "references/crm-and-sender-recipes.md": "d2324ae968e493d83dbb4b9c22505a971df3fbf57dcaadc789a58fb3be37ef34",
-      "references/field-mapping.md": "078098df9d655d00aaacb7a158c47c5886d960d364fb10f367acc9d282c93621",
-      "references/framework-notes.md": "feb36b1d149213d6304dc02e04a97e7357826ea93cf6155398e75e9a07e1906f",
-      "references/scrapercity-agent-patterns.md": "b5687a83929248d10fded9c2d1349a8469d04dba92a0a64bd4bc016f6cae6430",
-      "references/scrapercity-catalog.md": "f4848372f0ab6c2966f25e600498d082b15eaa84626b063533fdd2d2d5723468",
-      "references/scrapercity-platform.md": "1f5b70ff434f7fc73740f9aae216084c8378c96a5a43fe94393f9745dba33280",
-      "scripts/check-output.py": "f5269f4bfcee9dd48d98320b284bf010a0e3848773c2e2c0f1cfa6c979b300dc",
-      "templates/output-template.md": "b8296b303d227e1a7f6a17f624b26143b0de61bc36db86c0379c339562664fbc"
+      "SKILL.md": {
+        "kind": "skill entrypoint",
+        "sha256": "2174468752762726f98e2d31ffe8c31e85c9c52a5ac96d19398203b07da3ae78",
+        "size_bytes": 22519
+      },
+      "examples/worked-example.md": {
+        "kind": "example",
+        "sha256": "b44229d331982afcd0673f6c42a6b35272d506bed341668e98e2c3986c0cfcdc",
+        "size_bytes": 8479
+      },
+      "references/automation-recipes.md": {
+        "kind": "reference",
+        "sha256": "c7d1cdf3051fa37d630cf8cb0aa15be72631fc509603192f8c3ab9c3d9b8d843",
+        "size_bytes": 25362
+      },
+      "references/crm-and-sender-recipes.md": {
+        "kind": "reference",
+        "sha256": "c887555562bbc8ba74785cb3b8dfeba033f8ba4532489b88178fdf252411b360",
+        "size_bytes": 19973
+      },
+      "references/field-mapping.md": {
+        "kind": "reference",
+        "sha256": "c773bf9015a36ee91d55d40b3eafe3ce142417732d80b477ebcc13a9bfaf607d",
+        "size_bytes": 9624
+      },
+      "references/framework-notes.md": {
+        "kind": "reference",
+        "sha256": "b501561620ca1876f4ccd21949cd03bab163127bcf5de2b7681c8cd81c0e7ce6",
+        "size_bytes": 8152
+      },
+      "references/job-change-tracking.md": {
+        "kind": "reference",
+        "sha256": "e7268b3665e30503839be1f96d652e8aa91ba8bcdecd919f588d483a7d1e9ede",
+        "size_bytes": 9475
+      },
+      "references/scrapercity-agent-patterns.md": {
+        "kind": "reference",
+        "sha256": "1df41ebafe623125eb22fad130ba2791e74ad9b45819f2904ffe1f28e4d96b99",
+        "shared": true,
+        "size_bytes": 15558
+      },
+      "references/scrapercity-catalog.md": {
+        "kind": "reference",
+        "sha256": "f4848372f0ab6c2966f25e600498d082b15eaa84626b063533fdd2d2d5723468",
+        "shared": true,
+        "size_bytes": 17686
+      },
+      "references/scrapercity-platform.md": {
+        "kind": "reference",
+        "sha256": "159c51347ca44d3236cab7ec3febb88532ded5e2586db0355f5d1943d9035bc7",
+        "shared": true,
+        "size_bytes": 5487
+      },
+      "references/waterfall-recipes.md": {
+        "kind": "reference",
+        "sha256": "1e660b865d1d5de61a5bdfb39cb1b22a4cd392f1a00ce3586cdbcfd26ad67bdb",
+        "size_bytes": 9666
+      },
+      "scripts/check-output.py": {
+        "kind": "script",
+        "sha256": "dff08151a58f854e589b57f591f95c1e41db0d263c2229339a17a576ab550e1e",
+        "size_bytes": 9476
+      },
+      "templates/output-template.md": {
+        "kind": "template",
+        "sha256": "b8296b303d227e1a7f6a17f624b26143b0de61bc36db86c0379c339562664fbc",
+        "size_bytes": 1820
+      }
     },
     "scrapercity/scrapercity-lead-database": {
-      "SKILL.md": "56578126938bf7f110a7d62e1f4c84c95bb5cadcffabf08218f688f09ca5e80f",
-      "examples/worked-example.md": "1fa752f3056f10106336e65d40379ba2826420f7b077c4bf50efcc7e902cfc48",
-      "references/filter-cookbook.md": "f1bda553850c004ab0b1b625e0df534d3070e26a3c1ec97c5d49ca19c2d46997",
-      "references/filter-semantics.md": "9032d4318ac462ecc9070eddbb5eca6b594bccbc6a49dd6c224b59152affa94b",
-      "references/framework-notes.md": "9beef49670f0cce97ecf9197fbf35be18edd000abee014619ba2ad71b9e0179e",
-      "references/list-quality-standard.md": "306798a009aef9bb3dd461369c70ecfa393848901160867dcc0610506dbf00c5",
-      "references/scrapercity-agent-patterns.md": "b5687a83929248d10fded9c2d1349a8469d04dba92a0a64bd4bc016f6cae6430",
-      "references/scrapercity-catalog.md": "f4848372f0ab6c2966f25e600498d082b15eaa84626b063533fdd2d2d5723468",
-      "references/scrapercity-platform.md": "1f5b70ff434f7fc73740f9aae216084c8378c96a5a43fe94393f9745dba33280",
-      "references/troubleshooting.md": "7a2e05b4e11206de98ae1e7ca2799601de5cad7cfcbfa031607d294dc4c11997",
-      "scripts/check-output.py": "70faeb5d2c6d61c69acdcacafd1bd4499e8f678934e247f70cf9133bfefbf382",
-      "templates/output-template.md": "7065d74665ff54cefe5f06a3278e9400765fc6c07f3645e68fc4230275585d7a"
+      "SKILL.md": {
+        "kind": "skill entrypoint",
+        "sha256": "47ebc75604ae50a4c3b671915cde0bf3f533e2d5eee5d332a448b0cd5c6e5a00",
+        "size_bytes": 20403
+      },
+      "examples/worked-example.md": {
+        "kind": "example",
+        "sha256": "80dc809d088aeb668f3e64e5718f6ec931ad8b172a8ae86f48e1a30c2a2c9661",
+        "size_bytes": 4845
+      },
+      "references/filter-cookbook.md": {
+        "kind": "reference",
+        "sha256": "d4fc08828bdf0591c75f282c613398b9ab29faeca6743a5f0095e0f4131b493d",
+        "size_bytes": 12161
+      },
+      "references/filter-semantics.md": {
+        "kind": "reference",
+        "sha256": "8d8d0ea6ee0292d3c7b5b36b2040af2c3c1544b6b9710872ccc4584142b597e1",
+        "size_bytes": 9423
+      },
+      "references/framework-notes.md": {
+        "kind": "reference",
+        "sha256": "5798605ecca74158eb648db0558053b624a03180e76280143b486be1276d9c00",
+        "size_bytes": 4993
+      },
+      "references/list-quality-standard.md": {
+        "kind": "reference",
+        "sha256": "fd6bcf61adddb3e3e4f83efb853503650b42509bed527c8849322c9af1a0acc5",
+        "shared": true,
+        "size_bytes": 29256
+      },
+      "references/scrapercity-agent-patterns.md": {
+        "kind": "reference",
+        "sha256": "1df41ebafe623125eb22fad130ba2791e74ad9b45819f2904ffe1f28e4d96b99",
+        "shared": true,
+        "size_bytes": 15558
+      },
+      "references/scrapercity-catalog.md": {
+        "kind": "reference",
+        "sha256": "f4848372f0ab6c2966f25e600498d082b15eaa84626b063533fdd2d2d5723468",
+        "shared": true,
+        "size_bytes": 17686
+      },
+      "references/scrapercity-platform.md": {
+        "kind": "reference",
+        "sha256": "159c51347ca44d3236cab7ec3febb88532ded5e2586db0355f5d1943d9035bc7",
+        "shared": true,
+        "size_bytes": 5487
+      },
+      "references/troubleshooting.md": {
+        "kind": "reference",
+        "sha256": "c6d4f73c6aa9d9612060b6754d84b7ca8cba827cf13637984c254967ebc51f94",
+        "size_bytes": 6459
+      },
+      "scripts/check-output.py": {
+        "kind": "script",
+        "sha256": "8841a84cbc97c60d15ea303b25f9815d92d8d32e3a9e39ebdfdc467113ab582e",
+        "size_bytes": 7630
+      },
+      "templates/output-template.md": {
+        "kind": "template",
+        "sha256": "8bb195d53756dac882d56f4959feb2b17355a8372dea1b9410c4fca8d3d98705",
+        "size_bytes": 1610
+      }
     },
     "scrapercity/scrapercity-local-business-database": {
-      "SKILL.md": "f630ea6b9af1f720245f920920ec5923eb8e4cea768b2372978e3e34496dbe72",
-      "examples/worked-example.md": "29cd6c4d5421005d6c44983d7c4b7f9a70d42e1280301cc1292af760b8841531",
-      "references/category-recipes.md": "c4f2420f296a034dffbf100a895c1ca28f41580a894e768d27a6e39308315623",
-      "references/filter-semantics.md": "b5893f0e0c6f3869a412f8ebbe1c9b8c43a9744078e3f20a5ceec8dd82b2aef2",
-      "references/framework-notes.md": "2ae138d7e4ac040e58b358d91973a4210fe7eb50503b9ef1018bd8b1ed6e016b",
-      "references/list-quality-standard.md": "306798a009aef9bb3dd461369c70ecfa393848901160867dcc0610506dbf00c5",
-      "references/outbound-compliance-primer.md": "9d97c0dbc7574ffb8c837295ebfa6e920aa2405b984fe3e6004e15ebee87dbef",
-      "references/scrapercity-agent-patterns.md": "b5687a83929248d10fded9c2d1349a8469d04dba92a0a64bd4bc016f6cae6430",
-      "references/scrapercity-catalog.md": "f4848372f0ab6c2966f25e600498d082b15eaa84626b063533fdd2d2d5723468",
-      "references/scrapercity-platform.md": "1f5b70ff434f7fc73740f9aae216084c8378c96a5a43fe94393f9745dba33280",
-      "references/segmentation-and-tiling.md": "d99dcdcccb55176f9e117aa7836d45555d2e841c746958209d690252cb43571b",
-      "scripts/check-output.py": "8525555da28e1c68ec417c253035ccf09f11103e108bc07943849c14d19b6ee7",
-      "templates/output-template.md": "60cd294e761f4234acd710228bce83bb4d7a6d9392e2300474cc3f9f16d98ea3"
+      "SKILL.md": {
+        "kind": "skill entrypoint",
+        "sha256": "030df4f2dd6d00c22f0b0ea4f64eae00be6d1fb2fa073902df1b5ec03d61a27d",
+        "size_bytes": 18134
+      },
+      "examples/worked-example.md": {
+        "kind": "example",
+        "sha256": "65dd5dc0cba1dc17d9484e6487d7ba16565c0e1ee9e7494b09d5fd3f18336a2e",
+        "size_bytes": 5059
+      },
+      "references/category-recipes.md": {
+        "kind": "reference",
+        "sha256": "beab783f6251502c7817e06f7d61f75029d6b665fda34c3663bd7a2c3d44b6e5",
+        "size_bytes": 10146
+      },
+      "references/filter-semantics.md": {
+        "kind": "reference",
+        "sha256": "39217f128fa996bd7c165cfcbd4094d88adec5cdf044a909705bbf4b10f12897",
+        "size_bytes": 7064
+      },
+      "references/framework-notes.md": {
+        "kind": "reference",
+        "sha256": "bd600fadc87ad7c3fefec640f6a4d98004c4af7f59df9f3be369a3a31f481d5d",
+        "size_bytes": 5367
+      },
+      "references/list-quality-standard.md": {
+        "kind": "reference",
+        "sha256": "fd6bcf61adddb3e3e4f83efb853503650b42509bed527c8849322c9af1a0acc5",
+        "shared": true,
+        "size_bytes": 29256
+      },
+      "references/scrapercity-agent-patterns.md": {
+        "kind": "reference",
+        "sha256": "1df41ebafe623125eb22fad130ba2791e74ad9b45819f2904ffe1f28e4d96b99",
+        "shared": true,
+        "size_bytes": 15558
+      },
+      "references/scrapercity-catalog.md": {
+        "kind": "reference",
+        "sha256": "f4848372f0ab6c2966f25e600498d082b15eaa84626b063533fdd2d2d5723468",
+        "shared": true,
+        "size_bytes": 17686
+      },
+      "references/scrapercity-platform.md": {
+        "kind": "reference",
+        "sha256": "159c51347ca44d3236cab7ec3febb88532ded5e2586db0355f5d1943d9035bc7",
+        "shared": true,
+        "size_bytes": 5487
+      },
+      "references/segmentation-and-tiling.md": {
+        "kind": "reference",
+        "sha256": "ea4d0b6c76ac73e3fcb443fca7f144212448b1add8cf201887402eef9acea5ab",
+        "size_bytes": 6485
+      },
+      "scripts/check-output.py": {
+        "kind": "script",
+        "sha256": "bddb3ceb42dbee3ff1dbf53f4ad16ee301aafb3f17fce6b1e5291038d833e551",
+        "size_bytes": 8078
+      },
+      "templates/output-template.md": {
+        "kind": "template",
+        "sha256": "d36a14e2628078a489ae3466c77928756f9cbab9ccdd7df5a3986384590db05f",
+        "size_bytes": 1558
+      }
     },
     "scrapercity/scrapercity-mcp": {
-      "SKILL.md": "99ee9551f7591c73880b1da5c0e4d7e2a8510646cf21449065838f250ace2275",
-      "examples/worked-example.md": "fbf593ed5147c4402cfe304728bf8002be21f9d298bda8bb16ece7cc44b80700",
-      "references/client-setup.md": "737f04857c76d05d3aed16dae7727c4b174a7957536d142b428b0adc112b2814",
-      "references/framework-notes.md": "51fa40a16fe1075bfeeabdfc884012a3f55762c98074f2607743b1f67f0ec32d",
-      "references/scrapercity-agent-patterns.md": "b5687a83929248d10fded9c2d1349a8469d04dba92a0a64bd4bc016f6cae6430",
-      "references/scrapercity-catalog.md": "f4848372f0ab6c2966f25e600498d082b15eaa84626b063533fdd2d2d5723468",
-      "references/scrapercity-platform.md": "1f5b70ff434f7fc73740f9aae216084c8378c96a5a43fe94393f9745dba33280",
-      "references/tool-reference.md": "c63511198bd8fd18346dbcfca1183a21b06d9da27e2ce3301ca95138a153d22f",
-      "references/troubleshooting.md": "12ef0b10215843c45dfa0bbf95bbdf976b135b17081b759bcf44aa79d110ba73",
-      "scripts/check-output.py": "2b483959179a75e345ad8155f916729f8be04a0dd132cf08dd724f3458f35bd2",
-      "templates/output-template.md": "204b7bec930d50f58612989d76c9349895e9ec68d6cb18bd45d5b31a16a26681"
+      "SKILL.md": {
+        "kind": "skill entrypoint",
+        "sha256": "fb540f2360d696befd2e080f53b9a4aec1ba90b784afa766be9c65629207eca4",
+        "size_bytes": 29196
+      },
+      "examples/plan-only-example.md": {
+        "kind": "example",
+        "sha256": "2a56a167f9fb9d812bca6e7993b75c1d0cee8aabca351fc777719b996f2f9a77",
+        "size_bytes": 12226
+      },
+      "examples/worked-example.md": {
+        "kind": "example",
+        "sha256": "dc69b4004d09fce432e2e91652dd245e45aac51dee4ed8ae1b97e97ff754a198",
+        "size_bytes": 6482
+      },
+      "references/client-setup.md": {
+        "kind": "reference",
+        "sha256": "8e3dd98f43152decc9be00efd936927880ce80b340246e3338bfc9bc79ad33b2",
+        "size_bytes": 19901
+      },
+      "references/framework-notes.md": {
+        "kind": "reference",
+        "sha256": "08b4b546f826baf0cbeabc4ee8fd0ad44b0feebbacac9f8ae8df1a6a2092d17b",
+        "size_bytes": 9292
+      },
+      "references/scrapercity-agent-patterns.md": {
+        "kind": "reference",
+        "sha256": "1df41ebafe623125eb22fad130ba2791e74ad9b45819f2904ffe1f28e4d96b99",
+        "shared": true,
+        "size_bytes": 15558
+      },
+      "references/scrapercity-catalog.md": {
+        "kind": "reference",
+        "sha256": "f4848372f0ab6c2966f25e600498d082b15eaa84626b063533fdd2d2d5723468",
+        "shared": true,
+        "size_bytes": 17686
+      },
+      "references/scrapercity-platform.md": {
+        "kind": "reference",
+        "sha256": "159c51347ca44d3236cab7ec3febb88532ded5e2586db0355f5d1943d9035bc7",
+        "shared": true,
+        "size_bytes": 5487
+      },
+      "references/tool-reference.md": {
+        "kind": "reference",
+        "sha256": "aa9eb4b56393691e508024bafb062be0587113c4c3bbdc460865390407507f7f",
+        "size_bytes": 17652
+      },
+      "references/troubleshooting.md": {
+        "kind": "reference",
+        "sha256": "3537aa8c366c2a9f1aad8a218ea5dec804df377e1a9924f34044603df6fb74ae",
+        "size_bytes": 8613
+      },
+      "scripts/check-output.py": {
+        "kind": "script",
+        "sha256": "d3f6851617734a5bfde4bd50ebbfa291a1be97202f694d22b485a05ab4cdce1b",
+        "size_bytes": 17684
+      },
+      "templates/output-template.md": {
+        "kind": "template",
+        "sha256": "70a39c13caf6c98f9b3b843d5e727229401f3a44d0dfabc7967e4e9d4ecd5274",
+        "size_bytes": 1988
+      }
     },
     "scrapercity/scrapercity-real-estate-data": {
-      "SKILL.md": "38e2d5942849be2c5501be05a87d9a05376f195cbf91b52b26b4c33b991062b7",
-      "examples/worked-example.md": "035ed1a201743464e5818602e0100cec67333fabff325edf6c772a51d163cd2f",
-      "references/compliance-guide.md": "f258f0e3ead19defadc1e48e691ac198de5aa61a13bd923f521740013132aee6",
-      "references/framework-notes.md": "f91986a6647a02efe38f3d4fe2ea93ee0d2df0937deb11d814a2d4cfd94f76e0",
-      "references/outbound-compliance-primer.md": "9d97c0dbc7574ffb8c837295ebfa6e920aa2405b984fe3e6004e15ebee87dbef",
-      "references/scrapercity-agent-patterns.md": "b5687a83929248d10fded9c2d1349a8469d04dba92a0a64bd4bc016f6cae6430",
-      "references/scrapercity-catalog.md": "f4848372f0ab6c2966f25e600498d082b15eaa84626b063533fdd2d2d5723468",
-      "references/scrapercity-platform.md": "1f5b70ff434f7fc73740f9aae216084c8378c96a5a43fe94393f9745dba33280",
-      "references/tool-reference.md": "c0855db2eb5550b4b7685f042c04d66316db87553b7f08536ee054ae087f3b49",
-      "references/workflow-playbooks.md": "d97151153c5ef044e06dd84c71e87b439e145763fb833f48efe844c3b8932188",
-      "scripts/check-output.py": "38823365d357e2c7ddec434d21285934766034bcfb24b7f28f4c79772e41bbe2",
-      "templates/output-template.md": "a311f400cb86d8f1bc89d0c57b202046a9678354a1a97a68992fa00b673b322f"
+      "SKILL.md": {
+        "kind": "skill entrypoint",
+        "sha256": "020e560ee92f1accdabaabe5a2664a24c7a1f0f948e4e9a4aee7c9635ad468ed",
+        "size_bytes": 16759
+      },
+      "examples/worked-example.md": {
+        "kind": "example",
+        "sha256": "e334f6910ece4e0ef7852cb5eaa4741a739d1ca853d6f59a2f04989965f5a6cb",
+        "size_bytes": 4606
+      },
+      "references/contact-routing-guide.md": {
+        "kind": "reference",
+        "sha256": "f94f9def46c69511a7197b46a8da7eab5f3d4d658d74b0515bcf367caed1ceec",
+        "size_bytes": 6782
+      },
+      "references/framework-notes.md": {
+        "kind": "reference",
+        "sha256": "ddd6bae0d67469ebd9f79695c782422c74fc9846f1959ebcfe137297e0766181",
+        "size_bytes": 4189
+      },
+      "references/scrapercity-agent-patterns.md": {
+        "kind": "reference",
+        "sha256": "1df41ebafe623125eb22fad130ba2791e74ad9b45819f2904ffe1f28e4d96b99",
+        "shared": true,
+        "size_bytes": 15558
+      },
+      "references/scrapercity-catalog.md": {
+        "kind": "reference",
+        "sha256": "f4848372f0ab6c2966f25e600498d082b15eaa84626b063533fdd2d2d5723468",
+        "shared": true,
+        "size_bytes": 17686
+      },
+      "references/scrapercity-platform.md": {
+        "kind": "reference",
+        "sha256": "159c51347ca44d3236cab7ec3febb88532ded5e2586db0355f5d1943d9035bc7",
+        "shared": true,
+        "size_bytes": 5487
+      },
+      "references/tool-reference.md": {
+        "kind": "reference",
+        "sha256": "c0855db2eb5550b4b7685f042c04d66316db87553b7f08536ee054ae087f3b49",
+        "size_bytes": 8143
+      },
+      "references/workflow-playbooks.md": {
+        "kind": "reference",
+        "sha256": "d94e9ddbdfd4abf573a52fd5b4229f863bec18ae778ae98df6f6ab6100bd847b",
+        "size_bytes": 7937
+      },
+      "scripts/check-output.py": {
+        "kind": "script",
+        "sha256": "093dda044e04364c753aa2cca2b3a8c6cff2035bc8c71f98ef32afb98090cde0",
+        "size_bytes": 8035
+      },
+      "templates/output-template.md": {
+        "kind": "template",
+        "sha256": "a650c4c3e7835b0a2af26d029cac40e5b8082ea659d750c9a1073256e7fe17ae",
+        "size_bytes": 982
+      }
     },
     "scrapercity/using-scrapercity-skills": {
-      "SKILL.md": "04e60229502346c6f9c05f2995807d6fc64478efa4fa78979365d55aec280029",
-      "examples/worked-example.md": "0dee0391d38833fba76421bf7d4a0387bcb02943c1c6ab8b4cb5039bdf5af032",
-      "references/alex-berman-cold-email.md": "ed7c72f20cd6e758177959996e699771b559014f58a221460b724ce9e37471cc",
-      "references/chains.md": "2b4267100f926aa97cc35195033c428b052bd43ddf0abd831570d039895fa87f",
-      "references/framework-notes.md": "b2954ec2fdfa6ecc992408130e3250345f791c3e4bce6afb00cf430b172c8886",
-      "references/list-quality-standard.md": "306798a009aef9bb3dd461369c70ecfa393848901160867dcc0610506dbf00c5",
-      "references/outbound-compliance-primer.md": "9d97c0dbc7574ffb8c837295ebfa6e920aa2405b984fe3e6004e15ebee87dbef",
-      "references/routing-matrix.md": "6d3bd6c00b10ac87604436ebded31a884fe92fcc521b07bb60efd09ebc0fa072",
-      "references/scrapercity-agent-patterns.md": "b5687a83929248d10fded9c2d1349a8469d04dba92a0a64bd4bc016f6cae6430",
-      "references/scrapercity-catalog.md": "f4848372f0ab6c2966f25e600498d082b15eaa84626b063533fdd2d2d5723468",
-      "references/scrapercity-platform.md": "1f5b70ff434f7fc73740f9aae216084c8378c96a5a43fe94393f9745dba33280",
-      "scripts/check-output.py": "a42a860ba6005338ddd3bcb397e3c79105a17a5932c298b159cdf50e8d7a0d3a",
-      "templates/output-template.md": "06193e321c3197d45437b952f280746e85ab007153f38db88d0c13e548cd1320"
+      "SKILL.md": {
+        "kind": "skill entrypoint",
+        "sha256": "4747565314b2e6d36fef7770fa6992c0fad46b66269f27b61b9d9d2d9b96df0c",
+        "size_bytes": 18332
+      },
+      "examples/worked-example.md": {
+        "kind": "example",
+        "sha256": "845da9568b116f0cc00c1c99fb8246a2ac0f00684c41e17363dd7d6df5f84356",
+        "size_bytes": 4865
+      },
+      "references/alex-berman-cold-email.md": {
+        "kind": "reference",
+        "sha256": "bcf561db6f6849e854be1ebecfc8ac830d6d6c3ce5ad5f0827d66f312101c6c3",
+        "shared": true,
+        "size_bytes": 14373
+      },
+      "references/chains.md": {
+        "kind": "reference",
+        "sha256": "f92a49a122458cf13eead5caa2287ccc14ddad99935ab43e52b18c162a1f1efa",
+        "size_bytes": 8944
+      },
+      "references/experts.md": {
+        "kind": "reference",
+        "sha256": "65799b824641e4f41d44cce76a70dd8c607b3a22d79c490b4fcb54e6279a867f",
+        "shared": true,
+        "size_bytes": 23113
+      },
+      "references/framework-notes.md": {
+        "kind": "reference",
+        "sha256": "200e166529e6a4c28838a8eacbaf22465e36c3c75368a23d4194e44d41ae7b40",
+        "size_bytes": 3972
+      },
+      "references/glossary.md": {
+        "kind": "reference",
+        "sha256": "9decfb9503f5534c758e3d8331096c24b2e93297b6bdcf51800c71810b494be8",
+        "shared": true,
+        "size_bytes": 11308
+      },
+      "references/list-quality-standard.md": {
+        "kind": "reference",
+        "sha256": "fd6bcf61adddb3e3e4f83efb853503650b42509bed527c8849322c9af1a0acc5",
+        "shared": true,
+        "size_bytes": 29256
+      },
+      "references/routing-matrix.md": {
+        "kind": "reference",
+        "sha256": "20a3a2416b779ac6f74f901fada6e5330ad65b2724e6f7ad9809ec4fb5998b04",
+        "size_bytes": 7858
+      },
+      "references/scrapercity-agent-patterns.md": {
+        "kind": "reference",
+        "sha256": "1df41ebafe623125eb22fad130ba2791e74ad9b45819f2904ffe1f28e4d96b99",
+        "shared": true,
+        "size_bytes": 15558
+      },
+      "references/scrapercity-catalog.md": {
+        "kind": "reference",
+        "sha256": "f4848372f0ab6c2966f25e600498d082b15eaa84626b063533fdd2d2d5723468",
+        "shared": true,
+        "size_bytes": 17686
+      },
+      "references/scrapercity-platform.md": {
+        "kind": "reference",
+        "sha256": "159c51347ca44d3236cab7ec3febb88532ded5e2586db0355f5d1943d9035bc7",
+        "shared": true,
+        "size_bytes": 5487
+      },
+      "scripts/check-output.py": {
+        "kind": "script",
+        "sha256": "fe184965711d92cbe803de776cf504a4ccf94ab6ddb74f9040c81581fa6414a7",
+        "size_bytes": 9666
+      },
+      "templates/output-template.md": {
+        "kind": "template",
+        "sha256": "a993e5bbbfbb263b584bdb85c27330057143c835d79d4d71ae6b0fc5c0227e79",
+        "size_bytes": 989
+      }
     }
   },
-  "files": 392,
-  "lockfileVersion": 1,
-  "skills": 31
+  "kinds": {
+    "example": 38,
+    "reference": 264,
+    "script": 32,
+    "skill entrypoint": 31,
+    "template": 35
+  },
+  "schemaVersion": 2,
+  "totals": {
+    "bytes": 5727977,
+    "files": 400,
+    "skills": 31
+  }
 }

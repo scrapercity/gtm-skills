@@ -5,11 +5,10 @@ description: >-
   emails and addresses with ScraperCity People Finder ($0.0199 per result; a
   search with 0 matches is billed as 1 result) and Property Lookup ($0.15 per
   property, plus $0.10 for owner contact), with Distress List as a lead feed.
-  Searches the strongest identifier first, scores every match 0 to 100,
-  escalates only weak or ownerless rows to the pricier tool, holds the FCRA
-  line (no tenant, employment, credit or insurance decisions), and scrubs
-  phones against Do Not Call before any call. Use when the user says "skip
-  trace these owners", "find the owner's phone number", "here are property
+  Searches the strongest identifier first, bands every match by the evidence
+  that confirms it, escalates only weak or ownerless rows to the pricier tool,
+  and builds a call queue and a mail file. Use when the user says "skip trace
+  these owners", "find the owner's phone number", "here are property
   addresses, get me contacts", "find current contact info for these names", or
   "skip trace my pre-foreclosure list".
 license: MIT
@@ -18,31 +17,43 @@ metadata:
   version: "1.0.0"
   author: ScraperCity
   category: list-building
-  tags: [skip-tracing, people-finder, property-owner, real-estate, fcra, dnc, public-records]
-  related_skills: [scrapercity-real-estate-data, mobile-appender, cold-calling, crm-enricher, email-list-cleaner, scrapercity-mcp]
+  tags:
+    - skip-tracing
+    - people-finder
+    - property-owner
+    - real-estate
+    - public-records
+  related_skills:
+    - scrapercity-real-estate-data
+    - mobile-appender
+    - cold-calling
+    - crm-enricher
+    - email-list-cleaner
+    - scrapercity-mcp
   frameworks:
-    - "Fair Credit Reporting Act, 15 U.S.C. 1681 (FTC guidance on consumer reports and permissible purpose)"
-    - "FTC enforcement - Spokeo (2012) and Instant Checkmate and TruthFinder (2023)"
-    - "CFPB - Regulation F, 12 CFR 1006.10 location communications"
-    - "FCC - TCPA, 47 U.S.C. 227 and 47 CFR 64.1200"
-    - "FTC - Telemarketing Sales Rule and National Do Not Call Registry"
-    - "CFPB - Regulation O, 12 CFR 1015 (mortgage assistance relief)"
-    - "USPS - Publication 28 address standards"
-  shared_references: [scrapercity-catalog.md, scrapercity-platform.md, list-quality-standard.md, scrapercity-agent-patterns.md, outbound-compliance-primer.md]
+    - "USPS - Publication 28 postal addressing standards"
+    - "ITU-T - Recommendation E.164 international phone number format"
+    - "County auditor and assessor property records - owner of record"
+    - "ScraperCity - People Finder, Property Lookup and Distress List catalog"
+  shared_references:
+    - scrapercity-catalog.md
+    - scrapercity-platform.md
+    - list-quality-standard.md
+    - scrapercity-agent-patterns.md
 ---
 
 # Skip Tracer
 
 ## Overview
 
-This skill takes a list of people or properties and returns, for each row, the best current phones, emails and mailing address it can find, a match score from 0 to 100 with a band, the tool and identifier that produced the match, a DNC status for every phone, and a report that prices each step before it runs.
+This skill takes a list of people or properties and returns, for each row, the best current phones, emails and mailing address it can find, a match band with the evidence behind it, the tool and identifier that produced the match, a call status for every phone, and a report that prices each step before it runs.
 
 It prevents four mistakes:
 
-1. Searching the weakest identifier. A name alone matches many people and People Finder bills every result. An address with a ZIP or a phone number usually returns one person.
-2. Paying $0.25 a row for Property Lookup with owner contact on every address when a $0.0199 People Finder search answers most of them. This skill runs the cheap search first and escalates only weak matches and rows with no known owner.
-3. Calling the wrong person. An address search returns the people tied to that address, which can be a tenant or a former owner. Every match is scored against what the input already knows before anyone dials.
-4. Crossing the FCRA line. People Finder and Property Lookup results are prospecting and contact data. They are never the basis for a tenant, employment, credit or insurance decision.
+1. Searching the weakest identifier. A name alone matches many people and People Finder bills every result. An address with a ZIP or a phone number narrows the search to a household or a subscriber.
+2. Paying $0.25 a row for Property Lookup with owner contact on every address when a $0.0199 People Finder search answers many of them. This skill runs the cheap search first, measures its match rate on a pilot, and escalates only weak matches and rows with no known owner.
+3. Calling the wrong person. An address search returns the people tied to that address, which can be a tenant or a former owner. Every match is banded by what the input already knows before anyone dials.
+4. Paying twice for the same search. Two filings on one property, or one owner on several properties, are deduped before the run and grouped after it.
 
 ## When to Use
 
@@ -60,52 +71,38 @@ Use a different skill when:
 | Mobiles for B2B contacts from LinkedIn URLs or work emails | `mobile-appender` |
 | Missing fields in a B2B CRM export | `crm-enricher` |
 | The call script and cadence | `cold-calling` |
-| A tenant, employment or credit screen | No skill here. Use a consumer reporting agency that complies with the FCRA |
 
 ## Prerequisites
 
 | Input | Why | Default if unknown |
 |-|-|-|
-| Purpose of the search, in one sentence | FCRA gate | Ask. Do not run without it |
-| Who the user is (investor, agent, collector, law firm, business re-engaging customers) | Collectors follow Regulation F; investors follow foreclosure and state wholesaling rules | Ask |
 | The input file and which identifiers each row has | Picks the search order | Profile it |
-| Expected name for address rows (owner of record) | Needed to score an address match | Unknown; plan Property Lookup with owner contact for those rows |
-| Outreach channel: mail, manual call, automated call, text, email | Compliance and whether a skip trace is even needed | Mail and manual calls |
-| DNC access (Registry SAN) and internal do-not-call list | Scrub before calls | Ask; without it phones stay on hold |
+| Expected name for address rows (owner of record) | Needed to band an address match | Unknown; plan Property Lookup with owner contact for those rows |
+| Outreach channel: mail, calls, email | Mail-only campaigns may not need a skip trace at all | Ask |
+| Suppression list: everyone who asked to be removed, from every tool | Those numbers never enter the call queue | Ask; start one if none exists |
+| Budget for the run | Sets how many rescue searches the plan can afford | Ask |
 
 ## Authoritative Foundations
 
 | Source | What it contributes here |
 |-|-|
-| FCRA, 15 U.S.C. 1681, and FTC guidance | A consumer report used for credit, insurance, employment or housing eligibility triggers permissible purpose, accuracy and adverse action duties. This skill's output is never used for those decisions. |
-| FTC v. Spokeo (2012, $800,000) | A people-search site that marketed profiles to HR and recruiters for screening was treated as a consumer reporting agency. Selling or using people data for screening pulls it into the FCRA. |
-| FTC v. Instant Checkmate and TruthFinder (2023, $5.8 million) | Background report sites were charged with acting as consumer reporting agencies without accuracy procedures and with giving reports to users who had no permissible purpose. |
-| CFPB Regulation F, 12 CFR 1006.10 | Debt collectors contacting third parties for location information must identify themselves, say they are confirming or correcting location information, not mention the debt, and generally contact each third party once. |
-| TCPA, 47 U.S.C. 227, and 47 CFR 64.1200 | Autodialed, prerecorded or AI-voice calls and texts to wireless numbers need consent; calling hours 8 a.m. to 9 p.m. local; internal DNC lists; $500 per violation in private actions, up to triple if willful. |
-| FTC Telemarketing Sales Rule | Scrub against the National DNC Registry at least every 31 days. A skip-traced homeowner has no established business relationship with the caller. |
-| CFPB Regulation O, 12 CFR 1015 | Offers to stop a foreclosure or modify a loan are mortgage assistance relief services; no advance fees and required disclosures. Purchase offers stay outside it. |
-| USPS Publication 28 | Standard address format (street suffix and unit abbreviations, ZIP) so searches match. |
+| USPS Publication 28 | Standard address format (street suffix and unit abbreviations, two-letter state, ZIP) so address searches match and dedupe. |
+| ITU-T Recommendation E.164 | The international phone format (+, country code, number, at most 15 digits) every phone is normalized to before dedupe and dialing. |
+| County auditor or assessor property records | The owner of record for an address, used to spot-check confirmed matches before the call queue opens. |
+| ScraperCity catalog | People Finder bills $0.0199 per result with 0-match searches billed as 1; Property Lookup is $0.15 per property, +$0.10 for owner contact; Distress List is $0.05 per property, 1 to 500 per run, and its description says to pair it with People Finder to reach the owner. |
+| ScraperCity API docs | Results are stored for 48 hours, so every run is downloaded the same day. |
 
-Details and routing: `references/framework-notes.md`. Compliance detail: `references/fcra-and-contact-compliance.md`. Nothing here is legal advice.
+Details and routing: `references/framework-notes.md`.
 
 ## Workflow
 
-### 1. Purpose gate
+### 1. Decide whether a skip trace is needed
 
-Write the purpose in the report's first section. Stop if any answer below is yes:
-
-| Question | If yes |
-|-|-|
-| Will the result help decide whether to rent to, hire, lend to, insure or extend credit to this person? | Stop. FCRA use. Send the user to a consumer reporting agency |
-| Is the person someone the user knows personally and who has cut off contact? | Stop. Not a prospecting or business purpose |
-| Is the user a debt collector locating a consumer? | Proceed under Regulation F location rules; no debt mention to third parties |
-| Will numbers be autodialed, sent prerecorded or AI voice, or texted? | Proceed only for numbers with documented consent; everything else is manual calls or mail |
-
-Also ask whether a skip trace is needed at all. For mail to property owners, the property address (and the owner mailing address from Property Lookup) may be enough.
+For mail to property owners, the property address (and the owner mailing address from Property Lookup) may be enough. Run a skip trace when the plan includes calls or email, or when the owner's mailing address is unknown.
 
 ### 2. Profile and normalize identifiers
 
-Normalize addresses to USPS format ("4410 W Linda Ln, Tampa, FL 33629": number, directional, street, suffix, unit, city, two-letter state, ZIP), phones to E.164, emails to lowercase. Then class each row by its strongest identifier:
+Normalize addresses to USPS format ("4410 W Linda Ln, Tampa, FL 33629": number, directional, street, suffix, unit, city, two-letter state, ZIP), phones to E.164, emails to lowercase. Dedupe search values. Then class each row by its strongest identifier:
 
 | Class | Identifier | Tool and parameter | `max_results` |
 |-|-|-|-|
@@ -113,11 +110,11 @@ Normalize addresses to USPS format ("4410 W Linda Ln, Tampa, FL 33629": number, 
 | A2 | Full address with ZIP, owner unknown | `scrape_property_lookup` `includeOwnerContact: true` | n/a |
 | P | Phone number | `find_people` `phone_number` | 1 |
 | E | Personal email | `find_people` `email` | 1 |
-| N1 | Name plus last known address | `find_people` `street_citystatezip` with that address, then a `name` search if the person moved | 1, then 3 |
-| N2 | Name plus city and state only | `find_people` `name` | 3 |
+| N1 | Name plus last known address | `find_people` `street_citystatezip` with that address, then a `name` search if the person moved | 1, then your name setting |
+| N2 | Name plus city and state | `find_people` `name` | Your name setting (the example uses 3) |
 | X | Name only, or address without ZIP | Fix the input first; skip the search |
 
-Each array entry is its own search. The catalog does not document pairing a name and an address in one search, so search the stronger identifier and use the other to score.
+Each array entry is its own search, and every returned result is billed, so `max_results` is 1 wherever the identifier points to one household or subscriber. For name searches, set `max_results` to the number of same-name candidates you are willing to pay to compare. The catalog does not document pairing a name and an address in one search, so search the stronger identifier and use the other to band.
 
 ### 3. Price it and pilot
 
@@ -127,49 +124,58 @@ property lookup       = properties x $0.15, or x $0.25 with includeOwnerContact
 distress list         = maxItems x $0.05
 ```
 
-Pilot 25 rows per class to measure match rates. Run `check_wallet`. Over $5, show the estimate and wait for a go-ahead.
+Pilot a random sample per class (the size is your call; 25 People Finder searches cost $0.50). From the pilot, compute cost per usable owner for each path: People Finder cost per search divided by its share of rows reaching probable or better, against $0.25 divided by Property Lookup's share. The cheaper path per usable owner runs on that class. Run `check_wallet`, show the estimate, and wait for a go-ahead before the paid run.
 
 ### 4. Run the strong searches
 
-Batch up to 500 searches per run. Poll `check_run_status` every 2 minutes (these runs take minutes), then `download_results`. Keep the run log.
+Send every search of a class in one run. Check `check_run_status` once, report the status, and check again on the next turn; then `download_results` the same day. Keep a run log: date, tool, class, inputs, runId, billed results, cost.
 
-### 5. Score every match
+### 5. Band every match by its evidence
 
-Points (see `references/identifier-strategy-and-match-scoring.md` for edge cases):
+Compare each returned candidate with what the input already knows, using only fields present in the downloaded CSV header. Record the evidence in `match_evidence` and band from it:
 
-| Evidence | Points |
-|-|-|
-| Name match to the expected person: exact first and last 40; last plus nickname or initial 30; last only 15 | up to 40 |
-| Address: result's current address equals the input address 25; same city and state 10 | up to 25 |
-| Corroboration: an input phone or email appears in the result | 20 |
-| Recency: the result marks a phone or address as current or recent | 10 |
-| Age or life-status fields consistent with the input (no deceased flag) | 5 |
-
-Score only with fields present in the downloaded CSV header. If a field is absent, its points are unavailable: score = points earned / points available x 100. Rows with no expected name (A2 before lookup) cannot exceed the probable band.
-
-| Band | Score | Use |
+| Evidence | Meaning | Band |
 |-|-|-|
-| `confirmed` | 80 to 100 | Call and mail |
-| `probable` | 60 to 79 | Call with an identity check in the first sentence; mail |
-| `weak` | 40 to 59 | Mail only; rescue search if budget allows |
-| `no_match` | 0 to 39 | Rescue search or drop |
+| `name+address`, `name+contact`, `name+address+contact` | Expected first and last name (or nickname or initial) matches, plus the input address or an input phone or email other than the one searched | `confirmed` |
+| `owner_record` | Property Lookup returned a person as the owner of record for the input address | `confirmed` |
+| `name+city` | Name matches, same city and state, different street | `probable` |
+| `address_only` | No expected name; the result lives at the input address | `probable` |
+| `surname+address` | Last name only, at the input address (spouse or relative) | `probable` |
+| `name_only`, `surname+city` | Name with no location agreement, or surname in the same city | `weak` |
+| `tie` | Two candidates carry the same evidence | `weak` |
+| `entity` | Owner is an LLC, trust or bank | `weak` |
+| `none`, `deceased` | Nothing agrees, or the result carries a deceased flag | `no_match` |
+
+| Band | Use |
+|-|-|
+| `confirmed` | Call and mail |
+| `probable` | Call with an identity check in the first sentence ("Am I speaking with the owner of 2217 Elmwood?"); mail |
+| `weak` | Mail only; rescue search if budget allows |
+| `no_match` | Rescue search, Property Lookup, or mail to "Current Owner" |
+
+Then check a random sample of `confirmed` rows against the county auditor or assessor's owner of record and write the result as one QA line. When missed rows share one evidence type, move that evidence type down one band and re-band the file (`references/skip-trace-runbook.md` section 9).
 
 ### 6. Rescue and escalate
 
 | Row state | Next step | Cost |
 |-|-|-|
-| A1 weak or no match | `name` search, `max_results: 3`, scored against the city | up to 3 x $0.0199 |
+| A1 weak or no match | `name` search at your name setting, banded against the city | up to max_results x $0.0199 |
 | A2 or any address row needing an owner name | `scrape_property_lookup` with `includeOwnerContact: true` | $0.25 |
-| Owner is an LLC, trust or bank | Do not skip trace the entity as a person; research the registered agent with the state, or mail the owner address | $0 |
-| Deceased flag | Stop calling; mail to the estate at the property or the probate address | $0 |
+| Owner is an LLC, trust or bank | Do not search the entity as a person; look up the registered agent in the state business registry, or mail the owner address | $0 |
+| Deceased flag | Mail the estate at the property or the probate address | $0 |
 
-### 7. Phone hygiene and DNC
+The plan budgets one rescue per row. A second pass is another billed search, so price it before adding it.
 
-Normalize every phone to E.164, keep line type where the data gives it, scrub the internal do-not-call list, then the National DNC Registry (within 31 days) and state lists. Homeowner calls are telephone solicitations; Registry numbers are removed unless the user holds written consent. Mark each phone `callable_manual`, `hold_dnc`, `hold_internal_dnc`, `do_not_call_deceased`, or `mail_only` when the row's band is below probable.
+### 7. Phone order and suppression
 
-### 8. Deliver
+Normalize every phone to E.164 and keep line type where the data gives it. Order each row's phones by the recency field the CSV holds, newest first; once the first call block has outcomes, order line types by the connect rate you measured for each. A phone that shows up on two or more unrelated owners is a shared line (property manager, office): flag it and dial it last. Remove every number on the suppression list. Mark each phone `callable`, `suppressed`, `estate_mail`, or `mail_only` when the row's band is below probable.
 
-CSV with one row per input and up to 3 phones and 2 emails ranked, plus the report from `templates/output-template.md`. Run `scripts/check-output.py`.
+### 8. Group owners, hand off, read the outcomes
+
+1. Group rows by matched owner. An owner on two or more input properties is flagged `PORTFOLIO`, takes the strongest match across their rows, and goes to the top of the call queue with every address in one call.
+2. Write three files: the call queue (callable rows, portfolio owners first, then confirmed, then probable, phones in order, an outcome field), the mail file (every input row, owner name or "Current Owner", the owner's mailing address when it differs from the property), and an email file only when email is a planned channel. Columns: `references/skip-trace-runbook.md` section 11.
+3. Set up the dialer outcomes before the first call block: `right_party`, `relative_or_tenant`, `wrong_number`, `disconnected`, `no_answer`, `remove_request`. A `remove_request` goes on the suppression list the same day, every number on the row, in every tool. After the first block, compare the wrong-party share of `probable` with `confirmed` and decide from those numbers whether probable rows keep their calls next run (section 10).
+4. Set a re-trace age before each new campaign from your own wrong-number rate on older rows. Write the report from `templates/output-template.md` and run `scripts/check-output.py`.
 
 ## ScraperCity Implementation
 
@@ -182,8 +188,6 @@ CSV with one row per input and up to 3 phones and 2 emails ranked, plus the repo
 | Person search | `find_people` (`name`, `email`, `phone_number`, `street_citystatezip`, `max_results`) | $0.0199 per result; a search with 0 matches is billed as 1 result |
 | Owner of record and contact | `scrape_property_lookup` (`addresses`, `includeOwnerContact`, `fileName`) | $0.15 per property, +$0.10 for owner contact |
 | Email check for an email channel | `validate_emails` | $0.0072 per email |
-
-Per scrapercity.com, People Finder searches 10B+ public records. That is coverage, not a match rate for any list.
 
 ### Calls
 
@@ -222,46 +226,52 @@ Ceiling before the run: rescue at 71 x 3 = 213 results ($4.24), so $55.21. The a
 
 ## Output Format
 
-1. `skiptrace-[segment]-[date].csv`: input columns, `match_score`, `match_band`, `matched_by` (class and tool), `matched_name`, `current_address`, `phone_1` to `phone_3` (E.164), `phone_n_dnc`, `phone_n_status`, `email_1`, `email_2`, `owner_type` (person, llc, trust, bank, estate), `flags`, `source`, `pulled_at`.
-2. A report from `templates/output-template.md`: purpose and permissible use, input profile, identifier plan, cost, match scoring, funnel, contact results, compliance check, sample rows, next steps.
+1. `skiptrace-[segment]-[date].csv`: input columns, `match_evidence`, `match_band`, `matched_by` (class and tool), `matched_name`, `current_address`, `phone_1` to `phone_3` (E.164), `phone_n_status`, `email_1`, `email_2`, `owner_type` (person, llc, trust, bank, estate), `flags`, `source`, `pulled_at`.
+2. `calls-[segment]-[date].csv` (call queue) and `mail-[segment]-[date].csv` (every input row with the mailing name and address).
+3. A report from `templates/output-template.md`: purpose and channels, input profile, identifier plan, cost, match bands with the QA line, funnel, contact results with portfolio owners and shared lines, sample rows, next steps with the dialer outcome setup.
+
+What the reader receives is the deliverable only: product names (People Finder, Property Lookup, Distress List, Email Validator), never tool ids, internal file paths or reference section numbers; another skill is named only in a handoff line that tells the user what to run next; no tables of checks that were not run (one "Not checked:" line instead); no repeated identical rows where one template plus a list will do.
 
 ## Quality Check
 
-- [ ] Purpose written, and the report states the results are not used for tenant, employment, credit or insurance decisions.
+- [ ] Purpose and channels written in one table.
 - [ ] Every search used the strongest identifier the row had, and `max_results` is 1 for address, phone and email searches.
 - [ ] Cost lines equal billed results x $0.0199 for People Finder and properties x $0.15 or $0.25 for Property Lookup.
-- [ ] Every row has a score and a band; the bands sum to the rows searched.
+- [ ] Every row has evidence and a band; the bands sum to the rows searched; each sample row's band matches its evidence.
 - [ ] No `weak` or `no_match` row has a phone marked callable.
-- [ ] Every callable phone is E.164, off the internal list, and Registry-scrubbed within 31 days.
+- [ ] Every callable phone is E.164 and off the suppression list.
 - [ ] Entities (LLC, trust, bank) and deceased flags are routed away from person outreach.
+- [ ] The QA line shows how many sampled confirmed rows match the county owner of record.
+- [ ] Portfolio owners and shared lines are counted in Contact Results, and the call queue lists portfolio owners first.
+- [ ] Next Steps sets up the six call outcomes and the band review before the first call block.
+- [ ] The report names products, not tool ids or file paths.
 - [ ] `scripts/check-output.py report.md` prints PASS.
 
 ## Common Pitfalls
 
 | Mistake | Why it fails | Fix |
 |-|-|-|
-| Name-only searches with `max_results: 10` | Bills up to 10 results per search for people you cannot tell apart | Strongest identifier first; names at 3 and scored |
+| Name-only searches with `max_results: 10` | Bills up to 10 results per search for people you cannot tell apart | Strongest identifier first; name searches at your setting and banded |
 | Address without ZIP | Weak matches and failed runs | USPS format with ZIP |
-| Treating the first person at the address as the owner | Tenants and relatives live there | Score against the owner name; use Property Lookup with owner contact when the owner is unknown |
-| Property Lookup with owner contact on every row | $0.25 versus $0.0199 | People Finder first, escalate only weak or ownerless rows |
+| Treating the first person at the address as the owner | Tenants and relatives live there | Band against the owner name; use Property Lookup with owner contact when the owner is unknown |
+| Property Lookup with owner contact on every row | $0.25 versus $0.0199 | Compare cost per usable owner on the pilot; escalate only weak or ownerless rows |
 | Skip tracing bank-owned properties | The owner is the lender | Drop `bankOwned` for owner outreach |
-| Screening a tenant "just to check" | FCRA use with non-consumer-report data | Consumer reporting agency only |
-| A collector telling a relative about the debt | Regulation F violation | Location script only; no debt mention |
-| Texting skip-traced numbers | TCPA consent required | Manual calls and mail |
-| Calling a Registry number because "it's public" | TSR and FCC DNC rules apply to homeowners | Scrub and remove |
+| Searching an LLC as a person | Returns unrelated people with the same words in their name | Registered agent lookup, or mail the entity |
+| Calling each property of a portfolio owner separately | Several reps call one owner about several houses | Group by owner; one call with every address |
+| A removal request logged in one dialer only | The next tool calls or mails the same person again | One suppression list, updated the same day, synced to every tool |
+| Never reading call outcomes | A probable band that reaches the wrong person keeps getting dialed | Read wrong-party share per band after the first block |
+| Downloading days later | Results are stored for 48 hours | Download the same day |
 
 ## Execution Artifacts
 
 | File | Open it when |
 |-|-|
 | `references/framework-notes.md` | You need the source behind a rule or which file to open. |
-| `references/identifier-strategy-and-match-scoring.md` | Choosing the search per row, setting `max_results`, scoring, rescue rules, entities and deceased owners. |
-| `references/fcra-and-contact-compliance.md` | The purpose gate, FCRA boundary, collector rules, DNC and TCPA for homeowners, foreclosure offers. |
-| `references/skip-trace-runbook.md` | Pricing, piloting, batching, the Distress List feed, Property Lookup escalation, output schema. |
-| `references/outbound-compliance-primer.md` | Shared TCPA, DNC and email rules. |
+| `references/identifier-strategy-and-match-scoring.md` | Choosing the search per row, setting `max_results`, banding, rescue rules, entities and deceased owners, phone order, shared lines, portfolio owners. |
+| `references/skip-trace-runbook.md` | Pricing, piloting, batching, the Distress List feed, Property Lookup escalation, output schema, QA sample, call outcomes and band review, handoff files, refresh. |
 | `references/list-quality-standard.md` | E.164 and normalization (shared). |
 | `references/scrapercity-catalog.md` | Prices and parameters (shared). |
-| `references/scrapercity-platform.md` | The compliance boundary for public-records tools (shared). |
+| `references/scrapercity-platform.md` | Plans and tool groups (shared). |
 | `references/scrapercity-agent-patterns.md` | Wallet, polling, retries (shared). |
 | `templates/output-template.md` | Writing the report. |
 | `examples/worked-example.md` | A finished report for a Columbus, OH home-buying investor. |
@@ -269,7 +279,7 @@ Ceiling before the run: rescue at 71 x 3 = 213 results ($4.24), so $55.21. The a
 
 ## Related Skills
 
-- `scrapercity-real-estate-data` for distress lists, valuations, agent lists and state wholesaling rules.
+- `scrapercity-real-estate-data` for distress lists, valuations and agent lists.
 - `mobile-appender` for B2B mobiles from LinkedIn URLs or work emails.
 - `cold-calling` for scripts, identity checks and cadence.
 - `crm-enricher` to write results back to a CRM with audit columns.

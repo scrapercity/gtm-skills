@@ -15,15 +15,33 @@ metadata:
   version: "1.0.0"
   author: ScraperCity
   category: scrapercity
-  tags: [cli, bash, cron, automation, ci, scripting, npx]
-  related_skills: [using-scrapercity-skills, scrapercity-mcp, scrapercity-api, scrapercity-integrations, scrapercity-lead-database, scrapercity-local-business-database, email-list-cleaner, cold-email-list]
+  tags:
+    - cli
+    - bash
+    - cron
+    - automation
+    - ci
+    - scripting
+    - npx
+  related_skills:
+    - using-scrapercity-skills
+    - scrapercity-mcp
+    - scrapercity-api
+    - scrapercity-integrations
+    - scrapercity-lead-database
+    - scrapercity-local-business-database
+    - email-list-cleaner
+    - cold-email-list
   frameworks:
     - "ScraperCity - scrapercity npm package 1.0.17 (bin/cli.mjs, lib/client.mjs)"
     - "npm - npx and package execution docs"
     - "IEEE and The Open Group - POSIX crontab and shell utilities"
     - "GitHub - Actions workflow syntax, schedule events and encrypted secrets"
     - "AWS Architecture Blog - exponential backoff and jitter"
-  shared_references: [scrapercity-catalog.md, scrapercity-platform.md, scrapercity-agent-patterns.md]
+  shared_references:
+    - scrapercity-catalog.md
+    - scrapercity-platform.md
+    - scrapercity-agent-patterns.md
 ---
 
 # ScraperCity CLI
@@ -37,7 +55,7 @@ The mistakes it prevents:
 - Scripting around a flag that does not exist, or a command the CLI does not have (there is no `property-lookup` command in 1.0.17).
 - Treating `db-leads` output as an export. It prints the total, the next cursor and the first 3 rows only.
 - Combining flags that the 1.0.17 parser mixes into other values, such as `scrapercity builtwith Shopify --name x`, which searches for the technology "Shopify x".
-- A cron job that dies silently because cron has no `PATH` to `node` and no `SCRAPERCITY_API_KEY`.
+- A cron job that dies silently because cron has neither a `PATH` to `node` nor `SCRAPERCITY_API_KEY`.
 - A daily pull that re-buys or re-downloads yesterday's records because it skipped `--exclude-delivered` or paged with `--page`.
 
 ## When to Use
@@ -47,7 +65,7 @@ Use it when the user says:
 - "Give me the command to scrape plumbers in Denver" or "what does `--after` do?"
 - "Write a script that pulls new leads every morning."
 - "Run ScraperCity in GitHub Actions" or "in a Makefile."
-- "Validate this CSV's emails from the terminal."
+- "Validate this CSV's emails from the terminal, then push the good ones into Instantly."
 - "`scrapercity` says Unknown command" or "No API key."
 - "Is there a CLI command for property lookup / the ecommerce database / webhooks?"
 
@@ -74,7 +92,7 @@ Use a different skill for nearby jobs:
 |---|---|
 | `scrapercity` 1.0.17 `bin/cli.mjs` and `lib/client.mjs` | The command list, every flag and its default, the key lookup order, what each command prints, exit codes, and the parser behavior documented in `references/gaps-and-quirks.md`. The only source for CLI behavior. The README and SKILL tables in the CLI repo carry outdated prices; this skill does not use them. |
 | `references/scrapercity-catalog.md` | Every price, endpoint and input schema; the command list for 1.0.17. |
-| `references/scrapercity-agent-patterns.md` | Wallet first, count first, $5 approval line, polling cadence, error and retry tables, CSV naming. |
+| `references/scrapercity-agent-patterns.md` | Wallet first, count first, a go-ahead before every paid run, polling cadence, error and retry tables, CSV naming. |
 | `references/scrapercity-platform.md` | Plans, 100 records per database request, `excludeDelivered`, `after`, 100,000 new records a day. |
 | npm docs | `npx --package`, `-y` to skip the install prompt, version pinning. |
 | POSIX crontab and shell | Cron runs with a minimal environment; five time fields; `set -e` exit behavior. |
@@ -111,7 +129,7 @@ A total of 0 prints as `? total leads`. Treat `?` as zero.
 
 ### 4. Estimate and confirm
 
-Multiply billable units by catalog price for every step, including the CLI defaults you did not override (`maps` 500 places, `apollo` 1,000 leads, `store-leads` 1,000 leads). Show the table and get a go-ahead over $5. For a recurring job, show the monthly total too.
+Multiply billable units by catalog price for every step, including the CLI defaults you did not override (`maps` 500 places, `apollo` 1,000 leads, `store-leads` 1,000 leads). Show the table and get a go-ahead before any paid run. For a recurring job, show the monthly total too.
 
 ### 5. Start, capture the run id, poll, download
 
@@ -174,7 +192,7 @@ Request: a morning job on Growth that adds 400 new VP Sales leads and 100 new Te
 | `email-validate` on every new email | 15,000 | $0.0072 | $108.00 |
 | **Total** | | | **$108.00** |
 
-Per day that is $3.60, under the $5 line, but the month is $108.00, which is 68% of Growth's $159 monthly credit. Show the monthly figure once and get an explicit approval before turning on cron. Database pulls use 400 of the Lead Database's 100,000 a day allowance and 100 of the Local Business Database's.
+Per day that is $3.60 and the month is $108.00, which is 68% of Growth's $159 monthly credit. Show the monthly figure once and get an explicit approval before turning on cron. Database pulls use 400 of the Lead Database's 100,000 a day allowance and 100 of the Local Business Database's.
 
 ## Output Format
 
@@ -188,6 +206,11 @@ A CLI run spec in Markdown, built from `templates/output-template.md`:
 6. **Failure Handling**: each failure, how the script detects it, what it does.
 7. **Verification**: dry-run results.
 
+A one-command question ("what does `--after` do?", "the command to validate this file") gets the command and two or three lines on what it bills and prints, not a spec. The spec is for scripts, schedules and multi-step jobs.
+
+- Each fact once; every call and script written out in full (no `"..."` values, no loop described in a comment); no counts or results marked assumed. If nothing has run, say so once at the top.
+- What the reader receives is the deliverable only: no internal file paths, reference section numbers or runbook IDs; another skill is named only in a handoff line that tells the user what to run next; no tables of checks that were not run (one "Not checked:" line instead); and no repeated identical rows where one template plus a list will do.
+
 ## Quality Check
 
 - Every command exists in 1.0.17 and every flag is one that command reads.
@@ -196,7 +219,7 @@ A CLI run spec in Markdown, built from `templates/output-template.md`:
 - `--exclude-delivered` is paired with `--after`, never with `--page` above 1.
 - Every start command captures the `runId`; every download names its file with `-o`.
 - No `apollo` run is polled with `poll`; a webhook is named.
-- Cost lines use catalog prices, CLI defaults are counted, and a total over $5 (or monthly over $5) has an approval line.
+- Cost lines use catalog prices, CLI defaults are counted, and any paid total (per run or per month) has an approval line.
 - Version is pinned in scheduled jobs.
 
 ## Common Pitfalls
@@ -207,6 +230,7 @@ A CLI run spec in Markdown, built from `templates/output-template.md`:
 | Parsing `db-leads` output as the full result | It prints 3 rows and a count of the rest | REST loop with `jq` for files |
 | `scrapercity builtwith Shopify --name shopify-us` | Positional words and the `--name` value are joined: technology becomes "Shopify shopify-us" | `scrapercity builtwith Shopify` alone; set a file name through MCP or REST |
 | `website-finder --file d.txt --title CEO` | The file name and the title are sent as domains too | MCP `scrape_website_finder` or REST |
+| Paying Website Finder for a role at named companies on Growth | The Lead Database may already hold that person, free | `db-leads --domain acme.example --title "VP Sales" --has-email --limit 3` per domain first; Website Finder (MCP or REST) only for domains with no match |
 | `bizbuysell URL --limit 50` | `50` is sent as a second start URL | Omit `--limit` (default 100) or use MCP/REST for another cap |
 | `yelp -l "Denver, CO"` | Split on commas into "Denver" and "CO", doubling the location combinations | `-l "Denver CO"`; commas only between places |
 | `airbnb --city "Lisbon, Portugal"` | Split into two cities; the tool needs "City, Country" | MCP `scrape_airbnb` or REST |
@@ -215,6 +239,8 @@ A CLI run spec in Markdown, built from `templates/output-template.md`:
 | `--exclude-delivered --page 2` | Taking page 1 removes rows from the next query, so page 2 skips records | `--after 0`, then each printed cursor |
 | Copying a run id from `runs` | `runs` shows only the first 12 characters | Keep the full id from the start output |
 | `poll` on Apollo | Hits the 1-hour timeout and exits 1 while the run continues | Webhook, hourly `status` |
+| Validating `email-find` output again, or leaving the sender's import verification on | Email Finder results are validated when found; a second pass pays twice for the same answer | Skip validation on fresh `email-find` results; validate addresses from outside ScraperCity and any whose last check is older than the re-check window you set; `verify_leads_on_import: false` on the sender |
+| Scripting a push command that does not exist | The CLI has no sender or CRM push in 1.0.17 | Filter valid rows, then `curl` the sender API in batches (`references/scripting-patterns.md` section 7b) |
 
 ## Execution Artifacts
 
@@ -222,7 +248,7 @@ A CLI run spec in Markdown, built from `templates/output-template.md`:
 |---|---|
 | `references/framework-notes.md` | You need the source behind a rule or which file to open. |
 | `references/command-reference.md` | You need a command's syntax, flags, defaults, API mapping, price or printed output. |
-| `references/scripting-patterns.md` | Writing a loop, a poll-and-download, a cron job, a CSV pipe or a CI workflow. |
+| `references/scripting-patterns.md` | Writing a loop, a poll-and-download, a cron job, a CSV pipe, a sender handoff or a CI workflow. |
 | `references/gaps-and-quirks.md` | A command or flag is missing, or a flag combination behaves oddly in 1.0.17. |
 | `templates/output-template.md` | Start every CLI run spec from it. |
 | `examples/worked-example.md` | A finished spec (weekday VP Sales and Texas dentist feed with validation) to copy. |

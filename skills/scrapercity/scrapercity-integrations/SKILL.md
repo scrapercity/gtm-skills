@@ -3,13 +3,16 @@ name: scrapercity-integrations
 description: >-
   Connects ScraperCity to Clay (HTTP API column), n8n (HTTP Request node and
   Webhook trigger), Zapier (Webhooks by Zapier), Make, Pipedream, Google
-  Sheets, Airtable, HubSpot, Pipedrive, GoHighLevel, Instantly, Smartlead,
-  Lemlist, EmailBison and ManyReach. Produces an integration plan with the
-  data flow, where each key goes, a field mapping, vendor rate limits with
-  sources, dedupe rules and a cost table. Use when the user wants ScraperCity
-  leads to land in a CRM, a sheet or a cold email tool automatically, asks how
+  Sheets, Airtable, HubSpot, Salesforce, Attio, Pipedrive, GoHighLevel, Instantly, Smartlead,
+  Lemlist, EmailBison and ManyReach, including enrichment waterfalls ordered
+  by cost per found record, real-time form enrichment and job-change tracking
+  by Lead Database re-pulls. Produces an integration plan with the data flow,
+  where each key goes, a field mapping, vendor rate limits with sources,
+  dedupe rules and a cost table. Use when the user wants ScraperCity
+  leads loaded into a CRM, a sheet or a cold email tool automatically, asks how
   to call ScraperCity from Clay, n8n, Zapier or Make, wants a webhook to fire
-  a workflow when a run finishes, or asks for the field mapping into a
+  a workflow when a run finishes, asks for a Clay or n8n waterfall, wants
+  champion or job-change alerts, or asks for the field mapping into a
   specific tool.
 license: MIT
 compatibility: Claude Code, Claude Desktop, Codex, GitHub Copilot, Cursor, Gemini CLI, Windsurf, Cline, OpenCode, Goose
@@ -17,24 +20,48 @@ metadata:
   version: "1.0.0"
   author: ScraperCity
   category: scrapercity
-  tags: [integrations, clay, n8n, zapier, make, pipedream, hubspot, gohighlevel, instantly, smartlead, webhooks]
-  related_skills: [using-scrapercity-skills, scrapercity-api, scrapercity-mcp, scrapercity-cli, scrapercity-lead-database, scrapercity-local-business-database, email-list-cleaner, sending-platforms, crm-enricher, cold-email-list]
+  tags:
+    - integrations
+    - clay
+    - n8n
+    - zapier
+    - make
+    - pipedream
+    - hubspot
+    - gohighlevel
+    - instantly
+    - smartlead
+    - webhooks
+  related_skills:
+    - using-scrapercity-skills
+    - scrapercity-api
+    - scrapercity-mcp
+    - scrapercity-cli
+    - scrapercity-lead-database
+    - scrapercity-local-business-database
+    - email-list-cleaner
+    - sending-platforms
+    - crm-enricher
+    - cold-email-list
   frameworks:
     - "ScraperCity - scrapercity npm package 1.0.17 and scrapercity.com/api-docs"
     - "Clay University - HTTP API and webhook integration docs"
     - "n8n, Zapier, Make, Pipedream - official node, webhook and limits docs"
     - "Google Apps Script - UrlFetchApp and quotas"
-    - "HubSpot, Pipedrive, HighLevel, Airtable - official API reference and rate limits"
+    - "HubSpot, Salesforce, Attio, Pipedrive, HighLevel, Airtable - official API reference and rate limits"
     - "Instantly, Smartlead, Lemlist, EmailBison, ManyReach - official API docs"
     - "IETF RFC 6750 - Bearer Token Usage"
-  shared_references: [scrapercity-catalog.md, scrapercity-platform.md, scrapercity-agent-patterns.md]
+  shared_references:
+    - scrapercity-catalog.md
+    - scrapercity-platform.md
+    - scrapercity-agent-patterns.md
 ---
 
 # ScraperCity Integrations
 
 ## Overview
 
-This skill wires ScraperCity into the tools a team already runs: an enrichment table, an automation platform, a CRM, a sheet, a cold email sender. The deliverable is an integration plan: each step of the flow, where each key is stored, which ScraperCity field lands in which destination field, the rate each hop is paced at against the vendor's published limit, and what it costs per month.
+This skill wires ScraperCity into the tools a team already runs: an enrichment table, an automation platform, a CRM, a sheet, a cold email sender. The deliverable is an integration plan: each step of the flow, where each key is stored, which ScraperCity field maps to which destination field, the rate each hop is paced at against the vendor's published limit, and what it costs per month.
 
 Every third-party mechanism here was checked in that vendor's own documentation on 2026-10-13. The ScraperCity side follows the `scrapercity` npm package and `references/scrapercity-catalog.md`.
 
@@ -56,6 +83,11 @@ The mistakes it prevents:
 - "Put ScraperCity results in a Google Sheet on a schedule."
 - "What fields map to GoHighLevel?"
 - "Zapier keeps returning 429."
+- "Build me a Clay waterfall that tries the database first and only pays when it has to."
+- "Alert the account owner when one of our champions changes jobs."
+- "Enrich and route our demo-request form fills by company size."
+- "Load the new leads into Salesforce without creating duplicates."
+- "Re-check the emails in our CRM before next month's sequences."
 
 Use a different skill for nearby jobs:
 
@@ -106,6 +138,10 @@ Write it as source, transform, destination, trigger: "Local Business Database, v
 | Situation | Platform |
 |---|---|
 | Enriching rows already in a Clay table, one sync lookup per row | Clay HTTP API column |
+| A waterfall across several sources (database, finders, providers the team already has) | Clay columns or n8n, per `references/waterfall-recipes.md` |
+| Real-time form fills routed by company size | n8n Webhook plus a Lead Database lookup by domain |
+| Monthly champion and stakeholder checks | n8n schedule or a Clay table, per `references/job-change-tracking.md` |
+| Monthly re-validation of CRM emails due for a send | n8n schedule, per `references/automation-recipes.md` |
 | Daily feeds, scraper runs finished by webhook, several destinations | n8n or Make |
 | The team already lives in Zapier, under a few thousand records a day | Zapier with the hourly `excludeDelivered` pattern |
 | Code with retries and pagination, no server to run | Pipedream |
@@ -140,6 +176,7 @@ Pull one record (`limit=1`) or run a 3-row test and map from the keys you see. T
 |---|---|---|
 | ScraperCity API | 100 a minute per key, 10 concurrent scrapes | 1 call a second; one webhook-driven download per run |
 | HubSpot batch upsert | 100 or 190 per 10 s by tier, 100 records per batch | 1 batch a second |
+| Salesforce sObject Collections upsert | 200 records per request; org-wide daily request allocation | 1 request a second; check the org's remaining allocation first |
 | Pipedrive persons | 20 to 120 per 2 s by plan, daily token budget | Half the burst limit; dedupe before loading instead of searching |
 | GoHighLevel upsert | 100 per 10 s, 200,000 a day | 5 a second |
 | Instantly bulk add | 100 a second, 6,000 a minute per workspace, 1,000 leads per call | Batches of 100 to 1,000 with a 2 s pause |
@@ -154,10 +191,11 @@ Pull one record (`limit=1`) or run a 3-row test and map from the keys you see. T
 - Across pulls: `excludeDelivered=true` plus the `after` cursor. Each call differs, so the 30-second duplicate window never trips.
 - Across notifications: store the `runId`s this flow started and the ones it finished. ScraperCity notifies for every run on the account.
 - In the destination: upsert where the API offers it (HubSpot by email, GoHighLevel by the duplicate setting, Airtable `performUpsert`), skip flags where it does not (Instantly `skip_if_in_workspace`, Lemlist `deduplicate`).
+- One direction: ScraperCity results flow into the CRM. A two-way sync between an enrichment table and the CRM lets old CRM values overwrite fresh results on the next sync. Write status and source fields every time, contact fields only when empty, and never owner, stage or deal fields.
 
 ### 8. Estimate cost, then test small
 
-Price every ScraperCity step from `references/scrapercity-catalog.md`. Show the monthly total and get a yes before scheduling anything over about $5. Run a 5-record pull and a 50-email validator run ($0.36) through every step, then check 20 records in each destination UI.
+Price every ScraperCity step from `references/scrapercity-catalog.md`. Show the monthly total and get a yes before scheduling any paid step. Run a 5-record pull and a 50-email validator run ($0.36) through every step, then check 20 records in each destination UI.
 
 ### 9. Write the plan
 
@@ -233,6 +271,11 @@ An integration plan in Markdown from `templates/output-template.md`:
 
 Check it with `python3 scripts/check-output.py plan.md`.
 
+A one-hop question (the Clay column settings, a field name in one destination, a vendor's batch size) gets that answer in a few lines; the full plan is for flows that will run on a schedule or a trigger.
+
+- Each fact once; every call and script written out in full (no `"..."` values, no loop described in a comment); no counts or results marked assumed. If nothing has run, say so once at the top.
+- What the reader receives is the deliverable only: no internal file paths, reference section numbers or runbook IDs; another skill is named only in a handoff line that tells the user what to run next; no tables of checks that were not run (one "Not checked:" line instead); and no repeated identical rows where one template plus a list will do.
+
 ## Quality Check
 
 - The ScraperCity key sits in an `Authorization: Bearer` header from a credential store, never a URL, a sheet cell or a step name.
@@ -242,8 +285,10 @@ Check it with `python3 scripts/check-output.py plan.md`.
 - The webhook flow checks `runId` against runs it started and confirms `SUCCEEDED` before downloading.
 - Emails are validated before any sender load; senders do not re-verify what ScraperCity already validated unless the user asks.
 - Database feeds use `excludeDelivered=true` with `after`; nothing pairs `excludeDelivered` with `page` above 1.
-- The cost table uses catalog prices and was approved if over about $5.
+- The cost table uses catalog prices and was approved before any paid step ran.
 - A 5-record and 50-email test ran end to end, and 20 records were checked in each destination.
+- A waterfall plan lists its steps by cost per found record, states the per-row ceiling, and writes misses as not found.
+- A job-change flow confirms each candidate before routing and never enrolls a mover into a sequence automatically.
 
 ## Common Pitfalls
 
@@ -260,7 +305,9 @@ Check it with `python3 scripts/check-output.py plan.md`.
 | Airtable batches of 100 | Airtable takes 10 records per request | 10 per call at 4 calls a second |
 | GoHighLevel `tags` on existing contacts | `tags` overwrites every tag on the contact | Use the Add Tag endpoint for existing contacts |
 | Pipedrive `job_title` without contact sync | The request fails with 403 | Use a custom field |
-| `personal_email` into a cold campaign | Personal inboxes raise complaint and legal risk | Map only the work `email` |
+| `personal_email` into a cold campaign | Personal inboxes draw more spam complaints, which pulls inbox placement down for every send on the domain | Map only the work `email` |
+| A waterfall that pays per lookup before the free database step | Pays for rows the database already covers | Database first, then pay-on-find tools, then per-lookup providers ordered by cost per found |
+| Auto-enrolling job-change candidates into a sequence | The database's refresh timing is not published, so some candidates have not moved | Confirm on the public profile; a person writes the first note |
 | Using an old guide's path | Some guides show scraper paths as GET or under other names | Use the paths in `references/scrapercity-catalog.md` |
 
 ## Execution Artifacts
@@ -268,9 +315,11 @@ Check it with `python3 scripts/check-output.py plan.md`.
 | File | Use it when |
 |---|---|
 | `references/framework-notes.md` | You need the source behind a rule, or which file to open. |
-| `references/automation-recipes.md` | Setting up Clay, n8n, Zapier, Make, Pipedream, Google Sheets (tested Apps Script included) or Airtable. |
-| `references/crm-and-sender-recipes.md` | Loading into HubSpot, Pipedrive, GoHighLevel, Instantly, Smartlead, Lemlist, EmailBison or ManyReach. |
+| `references/automation-recipes.md` | Setting up Clay, n8n (importable workflow JSON included), Zapier, Make, Pipedream, Google Sheets (tested Apps Script included), Airtable, real-time form enrichment, or monthly CRM email re-validation. |
+| `references/crm-and-sender-recipes.md` | Loading into HubSpot, Salesforce, Attio, Pipedrive, GoHighLevel, Instantly, Smartlead, Lemlist, EmailBison or ManyReach. |
 | `references/field-mapping.md` | Mapping ScraperCity fields to any destination, and the transforms. |
+| `references/waterfall-recipes.md` | Ordering sources by cost per found record, the per-row ceiling, the validation gate, the Clay column layout with its formulas, and the n8n version. |
+| `references/job-change-tracking.md` | Champion and stakeholder re-pulls by `socialUrl`: watch list, cadence, classification, routing, a sample note to a mover, metrics, in n8n or a Clay table. |
 | `templates/output-template.md` | Start every integration plan here. |
 | `examples/worked-example.md` | A complete n8n plan: Texas HVAC contractors into GoHighLevel and Smartlead. |
 | `scripts/check-output.py` | Run on the finished plan before handing it over. |

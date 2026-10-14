@@ -1,10 +1,10 @@
 # Mailbox Roster and Ramp: [fill company]
 
-Prepared [fill date] for [fill team or client]. Mailboxes from the `domain-infrastructure` plan dated [fill date].
+[fill: one line with the date and, only if the brief left them out, the stand-in names used]
 
 ## Summary
 
-[fill: one paragraph with the number of mailboxes (active and reserve), the people who own them, the sequencer, the warmup start date, the first cold send date, the full-volume date and the steady-state daily sends]
+[fill: at most three sentences: the warmup path chosen and the one reason, and anything the table cannot say. No date or count that the table below already gives]
 
 | Item | Value |
 |-|-|
@@ -12,29 +12,49 @@ Prepared [fill date] for [fill team or client]. Mailboxes from the `domain-infra
 | Sequencer | [fill] |
 | Active mailboxes | [fill] |
 | Reserve mailboxes | [fill] |
-| Warmup start | [fill] |
+| Warmup path | [fill] |
 | First cold send | [fill] |
 | Full volume date | [fill] |
 | Steady-state cold sends a day | [fill] |
 
 ## Sender Identities
 
-| Person | Title | Consent recorded | Photo uploaded | Mailboxes owned | Reply backup |
-|-|-|-|-|-|-|
-| [fill] | [fill] | [fill] | [fill] | [fill] | [fill] |
+| Person | Title | Mailboxes owned | Reply backup |
+|-|-|-|-|
+| [fill] | [fill] | [fill] | [fill] |
+
+[fill: the address format rotation and the display-name rule, stated once]
 
 ## Mailbox Roster
 
-| Mailbox | Domain | Owner | Display name | Role | Rotation group | Warmup start | First cold send | Cold cap at full volume | Window (recipient TZ) | Reply routing |
-|-|-|-|-|-|-|-|-|-|-|-|
-| [fill] | [fill] | [fill] | [fill] | [fill] | [fill] | [fill] | [fill] | [fill] | [fill] | [fill] |
+| Mailbox | Owner | Provider | Role | Group | Wave |
+|-|-|-|-|-|-|
+| [fill] | [fill] | [fill] | [fill] | [fill] | [fill] |
+
+## Account Settings
+
+| Setting | [fill provider] | [fill provider] |
+|-|-|-|
+| Sign-in security | [fill] | [fill] |
+| Sequencer connection | [fill] | [fill] |
+| Volume guard | [fill] | [fill] |
+| Tenant-wide limit | [fill] | [fill] |
+| Photo and recovery | [fill] | [fill] |
+
+DNS records on each sending domain:
+
+| Record | [fill provider] | [fill provider] |
+|-|-|-|
+| MX | [fill exact value and priority] | [fill] |
+| SPF (TXT on @) | [fill exact v=spf1 value] | [fill] |
+| DKIM | [fill host, e.g. google._domainkey, and key length] | [fill] |
+| DMARC (TXT on `_dmarc`) | [fill exact v=DMARC1 value with a report address] | [fill] |
 
 ## Signature Block
 
 ```text
 [fill name]
 [fill title], [fill company]
-[fill postal address]
 [fill opt-out line]
 ```
 
@@ -42,11 +62,26 @@ Set in: [fill sequencer and mail client]
 
 ## Warmup and Ramp Schedule
 
+| Wave | Mailboxes | Warmup start | First cold send | Cold cap at full volume |
+|-|-|-|-|-|
+| [fill] | [fill] | [fill] | [fill] | [fill] |
+
 | Dates | Row | Cold cap per mailbox | Warmup per day | Campaign daily limit | Gate to move on |
 |-|-|-|-|-|-|
 | [fill] | [fill] | [fill] | [fill] | [fill] | [fill] |
 
-Warmup settings entered: [fill]
+| Date | Step | Done when |
+|-|-|-|
+| [fill] | [fill: DNS, users, security, photos] | [fill] |
+| [fill] | [fill: register and verify every sending domain in Google Postmaster Tools] | [fill] |
+| [fill] | [fill: header test, OAuth connection, warmup on (reserves the same day)] | [fill] |
+| [fill] | [fill: list validated, only `valid` rows loaded] | [fill] |
+| [fill] | [fill: gate check with the named inbox placement test] | [fill] |
+| [fill] | [fill: first cold send] | [fill] |
+
+Tenant quota check: [fill only when a mailbox is on Microsoft 365; otherwise delete this line]
+
+Warmup settings entered: [fill, with the exact setting names]
 
 ## Sending Rules
 
@@ -66,9 +101,9 @@ Warmup settings entered: [fill]
 |-|-|
 | Owner per rotation group | [fill] |
 | Check times | [fill] |
-| Positive reply SLA | [fill] |
+| Positive reply response target | [fill the team's target and how it is measured] |
 | Opt-out handling | [fill] |
-| Routing option | [fill] |
+| Routing | [fill] |
 
 ## Rotation and Retirement
 
@@ -77,10 +112,3 @@ Warmup settings entered: [fill]
 | [fill] | [fill] | [fill] | [fill] |
 
 Reserves on hand: [fill]. Reorder point: [fill].
-
-## List Feed and Cost
-
-| Week | Cold sends a day | New prospects | Validation cost |
-|-|-|-|-|
-| [fill] | [fill] | [fill] | [fill] |
-| Total | [fill] | [fill] | [fill] |

@@ -20,7 +20,7 @@ Prepared [fill date] for [fill rep or team]. Seller: [fill what the user sells, 
 |-|-|-|-|-|
 | [fill] | [fill] | [fill] | [fill] | [fill] |
 
-Background (older than 12 months): [fill]
+Background (older than [fill the cutoff the user set]): [fill]
 
 ## Tech Stack
 
@@ -48,6 +48,8 @@ Hypothesis: [fill two sentences]
 |-|-|-|-|-|
 | 1 | [fill] | [fill] | [fill] | [fill] |
 
+Warm path check: [fill colleague connected to the economic buyer, or none found]
+
 ## Sources
 
 | ID | Source | URL | Date checked |
@@ -63,5 +65,9 @@ Hypothesis: [fill two sentences]
 
 ## Open Questions and Next Steps
 
-1. [fill]
-2. [fill]
+Open questions for the first call: [fill]
+
+| # | Step | Owner | Date | Done when |
+|-|-|-|-|-|
+| 1 | [fill] | [fill] | [fill] | [fill] |
+| 2 | [fill] | [fill] | [fill] | [fill] |

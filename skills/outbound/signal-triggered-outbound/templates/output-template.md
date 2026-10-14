@@ -1,55 +1,71 @@
 # Signal Program: [fill]
 
-Company and offer: [fill]. ICP: [fill]. Snapshot store: [fill]. Scheduler: [fill]. Destinations: [fill].
-
-## Program Summary
-
-| Item | Value |
-|-|-|
-| Cycle date | [fill] |
-| Baseline pull date | [fill] |
-| Signals tracked | [fill] |
-| Accounts with a live signal this cycle | [fill] |
-| Tier A, B, C counts | [fill] |
+Offer: [fill]. ICP: [fill]. Buyer: [fill]. Stack: [fill] (one named tool per outside feed). [fill: one line saying which inputs are the user's and which are this plan's settings, and that no pulls have run yet, if so.]
 
 ## Signal Catalog
 
-| Signal | Tool | Detection rule | Date anchor | Half-life (days) | Max age (days) | Base points |
-|-|-|-|-|-|-|-|
-| [fill] | [fill] | [fill] | [fill] | [fill] | [fill] | [fill] |
+| Signal | Source | Detection rule | Date anchor | Half-life (days) | Max age (days) | Base points | Touch within |
+|-|-|-|-|-|-|-|-|
+| [fill] | [fill] | [fill] | [fill] | [fill] | [fill] | [fill] | [fill] |
+
+Not used: [fill: signal, one-line reason].
 
 ## Scoring Model
 
 | Component | Rule | Points |
 |-|-|-|
-| [fill] | [fill] | [fill] |
+| Fit: [fill] | [fill] | [fill] |
+| Signal strength | Base points x 0.5 ^ (age / half-life); each further live signal adds [fill]; cap [fill] | [fill] |
+| Reachability | [fill] | [fill] |
+| Negative: [fill] | [fill]; pause [fill] days | -[fill] |
+| Tiers | A [fill] and up, B [fill] to [fill], C below [fill] | 0 to 100 |
 
-## Repeat Pull Schedule
+Example: [fill: one account, one line of arithmetic].
 
-| Pull | Tool | Parameters | Frequency | Cost per run |
-|-|-|-|-|-|
-| [fill] | [fill] | [fill] | [fill] | [fill] |
+## Exclusions
 
-## Message Angles
-
-| Signal | Angle | First line |
+| Class | Match rule | List source |
 |-|-|-|
-| [fill] | [fill] | [fill] |
-
-## Signal Queue
-
-| Account | Signal | Signal date | Age (days) | Score | Tier | Action |
-|-|-|-|-|-|-|-|
-| [fill] | [fill] | [fill] | [fill] | [fill] | [fill] | [fill] |
+| Competitors | [fill] | [fill] |
+| Vendors | [fill] | [fill] |
+| Partners | [fill] | [fill] |
+| Agencies | [fill] | [fill] |
+| Customers and open opportunities | [fill] | [fill] |
+| Do not contact | [fill] | [fill] |
 
 ## Routing and SLAs
 
-| Tier | Score | First touch | SLA | Owner |
+| Tier | First touch | SLA | Owner | Missed SLA |
 |-|-|-|-|-|
 | [fill] | [fill] | [fill] | [fill] | [fill] |
 
-## Cost Estimate
+| Signal | First contact | Second thread |
+|-|-|-|
+| [fill] | [fill] | [fill] |
 
-| Line | Count | Unit price | Cost |
-|-|-|-|-|
-| [fill] | [fill] | [fill] | [fill] |
+## First Emails
+
+Claims to confirm: [fill: every product capability and proof result below that the user has not stated].
+
+### [fill]
+
+Angle: [fill]
+
+> Subject: [fill]
+>
+> [fill]
+
+Fields: [fill: each merge field, its source column, one example value].
+
+## Pulls and Cost
+
+| Pull | Source, in plain words | Frequency | Cost per run | Cost per 4 weeks |
+|-|-|-|-|-|
+| [fill] | [fill] | [fill] | [fill] | [fill] |
+| Total | | | | [fill] |
+
+## Launch Plan
+
+| Week of | Step | Owner |
+|-|-|-|
+| [fill] | [fill] | [fill] |

@@ -1,131 +1,128 @@
-# Local Business List Report: dentists in the Austin, TX metro
+# Local Business List: dentists in the Austin, TX metro
 
-Prepared 2026-10-13 for Brightchair Marketing, an agency selling patient-acquisition campaigns to independent dental practices. Use: cold email, first test to one sub-segment. Plan: Growth ($149/mo). Wallet before run: $158.90. Business names, domains and emails are fictional and use the reserved `.example` domain.
+Illustrative example. Prepared 2026-10-13 for Brightchair Marketing, an agency selling patient-acquisition campaigns to independent dental practices. Use: cold email. Plan: Growth ($149/mo). Business names, domains and emails are invented and use the reserved `.example` domain; counts are illustrative.
+
+**Status: Delivered.** Every count below comes from the run on 2026-10-13.
+
+## Short Answer
+
+| Question | Answer |
+|-|-|
+| How many you can email | 545 independent practices with a validated email, 337 of them with a named contact |
+| How big the market is | 1,214 dental listings in the Local Business Database across 10 sub-cities; every sub-city now matches 88% or more of its NPI Registry practices |
+| What is held back | 100 catch-all addresses in their own file; 20 unknown, re-validated on 2026-10-16 |
+| What it cost | $8.71 in usage, inside the Growth plan's $159 monthly credit: $0.016 per send-ready practice |
+| What to send first | 100 emails to named_contact practices tagged few_reviews, starting 2026-10-14 |
 
 ## Search Definition
 
 | Field | Value |
 |-|-|
-| keyword | dentist, dental clinic, cosmetic dentist, pediatric dentist |
-| notCategory | Dental laboratory, Dental supply store |
-| Area | Austin, TX metro split into 10 sub-cities (Travis, Williamson and Hays counties) |
-| Must have | Website with a real domain, an email that validates |
-| Nice to have | Named contact (`hasContact`), used for personalization when present |
-| Exclusions and suppression | 11 current agency clients (domain and phone), dental schools, practices emailed by the agency in the last 90 days |
-| Chain policy | One row per email: group practices that share one inbox across locations collapse to one row |
+| Category words | dentist, dental clinic, cosmetic dentist, pediatric dentist |
+| Excluded categories | Dental laboratory, Dental supply store, Dental school |
+| Area | 10 sub-cities across Travis, Williamson and Hays counties |
+| Must have | Website on its own domain, an email that validates |
+| Scope | Specialists kept and tagged in `subtype` (Brightchair's choice) |
+| Independence | Brands on 5 or more locations (Brightchair's chain line), Brightchair's list of 9 Texas groups, and homepage text naming a group |
+| Suppression | 11 current clients (domain and phone), practices Brightchair emailed in the last 90 days |
+| Chain policy | One row per email: practices that share one inbox across locations collapse to one row |
 
-## Geography Split
+## Coverage
 
-| Sub-area | All businesses (A) | With website and email (C) | Email coverage | Action |
+Gap line: email coverage under 58.3%, 5 points below the metro average of 63.3% (Brightchair's setting). NPI target: 85% of the sub-area's NPI organization dentists matched (Brightchair's setting).
+
+| Sub-area | Database (A) | With website and email (C) | NPI matched, before and after | Action |
 |-|-|-|-|-|
-| Austin | 761 | 498 | 65.4% | Database only |
-| Round Rock | 118 | 74 | 62.7% | Database only |
-| Cedar Park | 83 | 52 | 62.7% | Database only |
-| Georgetown | 66 | 41 | 62.1% | Database, plus a Yelp spot check |
-| Pflugerville | 47 | 27 | 57.4% | Maps gap fill |
-| Leander | 34 | 19 | 55.9% | Maps gap fill |
-| Kyle | 31 | 16 | 51.6% | Maps gap fill |
-| Buda | 18 | 9 | 50.0% | Maps gap fill |
-| San Marcos | 39 | 22 | 56.4% | Yelp gap fill (dense Yelp listings near the university) |
-| Lakeway | 17 | 10 | 58.8% | Database only |
-| Total | 1,214 | 768 | 63.3% | Gap threshold: under 58.3% (5 points below the metro average) |
+| Other 5 sub-areas (Austin, Round Rock, Cedar Park, Georgetown, Lakeway) | 1,045 | 675 | 91% to 94% | None |
+| Pflugerville | 47 | 27 | 66% to 89% | Maps, 2 terms |
+| Leander | 34 | 19 | 64% to 88% | Maps, 2 terms |
+| Kyle | 31 | 16 | 71% to 90% | Maps, 2 terms |
+| Buda | 18 | 9 | 68% to 88% | Maps, 2 terms |
+| San Marcos | 39 | 22 | 79% to 86% | Yelp (dense listings near the university) |
+| Total | 1,214 | 768 | | |
 
-`searched_as` read all 10 places as cities in Texas; no keyword came back `matches_nothing`.
-
-## Count Check
-
-| Call | Filters | pagination.total | Decision |
-|-|-|-|-|
-| A | keyword, location, notCategory | 1,214 | Market size for the metro |
-| B | plus hasWebsite | 1,093 | 325 businesses have a website but no email in the database |
-| C | plus hasEmail | 768 | Pull all 768 (8 pages of 100 with after cursors) |
-| D | plus hasContact | 402 | 402 of the 768 carry a named contact; used for the first-name variant of the email |
-
-User go-ahead: approved in chat on 2026-10-13 after seeing the table above and the $9.59 ceiling for scrapes and validation.
-
-## Source Results
-
-| Source | Inputs | Returned | New after dedupe | Cost |
-|-|-|-|-|-|
-| Local Business Database (call C) | 10 sub-cities, 4 keywords | 768 | 768 | $0.00 |
-| scrape_maps | Pflugerville, Leander, Kyle, Buda; "dentist", "dental clinic"; cap 40 per term | 228 | 37 | $2.26 |
-| scrape_yelp | "dentist" in San Marcos and Georgetown; searchLimit 30 | 58 | 5 | $0.57 |
-| scrape_website_finder | 26 new domains with no email; jobTitle "Office Manager" | 15 | 15 | $0.75 |
-
-Maps returned under its cap of 40 for every term in every sub-city, so no further split was needed. The Maps start responses reported no extra `local_business_database` matches the account did not already have.
-
-## Cleaning Funnel
+## Funnel
 
 | Stage | Rows | Change | Reason |
 |-|-|-|-|
-| Local Business Database pull | 768 | 0 | Call C, every row has a website and an email |
+| Database rows with a website and an email | 768 | 0 | Start of the email file |
 | Add Maps businesses | 805 | +37 | 228 returned, 191 already in the pool by phone, domain or name plus ZIP |
 | Add Yelp businesses | 810 | +5 | 58 returned, 53 already in the pool |
-| Drop rows with no website | 802 | -8 | 7 Maps and 1 Yelp listings with only a Facebook page or no site |
-| Drop rows still without an email | 791 | -11 | Website Finder found no contact on 11 of the 26 domains |
-| Drop wrong category or closed | 782 | -9 | 6 dental labs or supply stores that matched "dental", 3 marked permanently closed |
-| Dedupe on email | 768 | -14 | Group practices using one inbox for several locations |
-| Suppression | 734 | -34 | 11 agency clients, 23 practices emailed in the last 90 days |
-| Send-ready after validation | 561 | -173 | 103 catch-all to their own file, 21 unknown held, 46 invalid and 3 disposable removed |
+| Drop rows with no website | 802 | -8 | Facebook page or no site |
+| Drop wrong category or closed | 793 | -9 | 6 labs or supply stores, 3 permanently closed |
+| Drop group-run locations | 771 | -22 | 14 on Brightchair's group list, 8 whose homepage says "supported by" a group |
+| Drop rows still without an email | 760 | -11 | Website Finder found no contact on 11 of 26 domains |
+| Dedupe on email | 747 | -13 | Practices sharing one inbox across locations |
+| Suppression | 713 | -34 | 11 clients, 23 emailed in the last 90 days |
+| Send-ready after validation | 545 | -168 | Only valid addresses stay; the split is below |
 
 ## Validation Results
 
 | Status | Count | Share | Action |
 |-|-|-|-|
-| valid | 561 | 76.4% | Main CSV; 214 of them are role addresses (info@, office@), kept on a local list |
-| valid_catch_all | 103 | 14.0% | Catch-all file, sent at no more than 10% of daily volume after the main file shows bounces under 2% |
-| unknown | 21 | 2.9% | Re-validate once on 2026-10-16 |
-| invalid | 46 | 6.3% | Removed, added to the sequencer blocklist |
-| disposable | 3 | 0.4% | Removed, added to the blocklist |
-| Total validated | 734 | 100% | One `validate_emails` run, `emailCount` 734 |
+| valid | 545 | 76.4% | Main file; 208 role addresses (info@, office@) stay, since the owner often reads them |
+| catch_all | 100 | 14.0% | Own file and campaign |
+| unknown | 20 | 2.8% | Re-validate once on 2026-10-16 |
+| invalid | 45 | 6.3% | Removed and blocklisted |
+| disposable | 3 | 0.4% | Removed and blocklisted |
+| Total validated | 713 | 100% | One Email Validator run |
 
-## Cost Estimate
+## Segments
 
-| Item | Units | Unit price | Cost |
+| Segment | Rule | Rows | Send order |
 |-|-|-|-|
-| Local Business Database counts and pull | 768 businesses | Included in Growth plan | $0.00 |
-| scrape_maps | 228 businesses | $0.0099 | $2.26 |
-| scrape_yelp | 58 results | $0.0099 | $0.57 |
-| scrape_website_finder | 15 contacts found | $0.0499 | $0.75 |
-| validate_emails | 734 emails | $0.0072 | $5.28 |
-| Total paid usage | | | $8.86 |
+| named_contact | Personal address with a contact name | 337 | 1: first-name copy |
+| role_inbox | info@, office@, frontdesk@ | 208 | 2: copy addressed to the practice |
+| few_reviews | Under 20 Google reviews (Brightchair's cutoff) | 72 | First inside each base segment |
+| multi_location | Same domain on 2 to 4 locations | 17 | One email per owner |
 
-Cost per send-ready practice: $8.86 / 561 = $0.016. Wallet after run: $150.04.
+## Cost
 
-## Output Schema
+| Item | Units | Unit price | Cost | New rows | Cost per new |
+|-|-|-|-|-|-|
+| Local Business Database counts and pull | 768 businesses | Included in Growth | $0.00 | 768 | $0.00 |
+| Google Maps, 4 sub-cities x 2 terms, cap 40 | 228 businesses | $0.0099 | $2.26 | 37 | $0.061 |
+| Yelp, San Marcos and Georgetown, 30 each | 58 results | $0.0099 | $0.57 | 5 | $0.114 |
+| Website Finder, "Office Manager" on 26 domains | 15 contacts found | $0.0499 | $0.75 | 15 | $0.050 |
+| Email Validator | 713 emails | $0.0072 | $5.13 | - | - |
+| Total usage | | | $8.71 | | |
+
+The approved ceiling was $9.59. Yelp cost about twice as much per new practice as Maps, so the next refresh skips Yelp for dentists. Wallet after the run: $150.19.
+
+## Checks
+
+| Check | Pass line | Result |
+|-|-|-|
+| Count reconciliation | Pulled rows equal the count; sub-areas sum to the total | 768 pulled, 768 counted |
+| NPI coverage | 85% per sub-area (Brightchair's setting) | Every sub-area 86% or more after gap fills |
+| Maps cap | No term returns at its cap of 40 | Highest term returned 34 |
+| Dedupe | No duplicate domain, phone or email | 0 duplicates |
+| QA sample, 20 random rows | 18 of 20 per check (Brightchair's setting) | Category fit 20 of 20, open at the listed address 19 of 20 (one suite change, fixed), own-domain website 20 of 20, phone E.164 20 of 20 |
+| Catch-all start | Main file hard bounces under 2% over its first 200 sends (Alex Berman's 2% line, Instantly's 200-send window) | Measured after the first 200 sends |
+
+## Output Columns
 
 | Column | Example | Rule |
 |-|-|-|
 | business_name | Barton Creek Family Dentistry | As listed |
 | business_name_key | barton creek family dentistry | Lowercase, punctuation and legal suffix removed |
-| category | Dentist | Primary category from the source |
-| website | https://www.bartoncreekdental.example/ | As listed |
 | domain | bartoncreekdental.example | Registrable domain; blank for platform hosts |
 | email | info@bartoncreekdental.example | Lowercased |
 | email_status | valid | Only valid in the main file |
-| email_validated_at | 2026-10-13 | ISO date |
 | is_role | true | Role addresses kept on this local list |
 | phone | +15125550143 | E.164 |
-| contact_name | Dr. Alicia Moreno | From the database contact fields or Website Finder |
+| contact_name, contact_title | Dr. Alicia Moreno, Owner | Database contact or Website Finder |
+| subtype | general | general, or the NPI specialty |
 | street, city, state, postal_code | 3801 Bee Caves Rd, Austin, TX, 78746 | ZIP stored as text |
 | rating, reviews | 4.8, 312 | From the source |
-| sub_area | Austin | Sub-city from the geography split |
-| source | local_db | local_db, maps, yelp, joined with a pipe when merged |
-| source_detail | local_db:keyword=dentist...;location=10 sub-cities;hasEmail | Query fingerprint or run id |
+| segment | role_inbox;few_reviews | Base segment plus tags |
+| source | local_db | local_db, maps, yelp, website_finder, joined with a pipe |
 
-## Sample Rows
-
-| business_name | domain | email | email_status | phone | city | source |
-|-|-|-|-|-|-|-|
-| Barton Creek Family Dentistry | bartoncreekdental.example | info@bartoncreekdental.example | valid | +15125550143 | Austin | local_db |
-| Round Rock Smiles | roundrocksmiles.example | amorales@roundrocksmiles.example | valid | +15125550188 | Round Rock | local_db |
-| Plum Creek Dental | plumcreekdental.example | office@plumcreekdental.example | valid | +15125550121 | Kyle | maps |
-| Pflugerville Pediatric Dentistry | pflugervillekidsdds.example | frontdesk@pflugervillekidsdds.example | valid | +15125550167 | Pflugerville | local_db |
-| Riverside Dental San Marcos | riversidedentalsm.example | kim.tran@riversidedentalsm.example | valid | +15125550109 | San Marcos | yelp |
-
-QA sample: 20 random rows opened on 2026-10-13; 19 were independent practices matching the listing, 1 was a practice that had moved to a new suite in the same building (kept, address updated).
+Files: `local-dentists-austin-tx-2026-10-13.csv` (main) and `local-dentists-austin-tx-2026-10-13-catch-all.csv`.
 
 ## Next Steps
 
-1. Start with one sub-segment: the send-ready practices with a named contact (402 before cleaning), first-name personalization, about 100 sends a day; widen to role addresses only after the first 300 sends show bounces under 2%.
-2. Re-validate the 21 unknown rows on 2026-10-16 and schedule a monthly `excludeDelivered: true` pull for new practices in the same 10 sub-cities.
+1. 2026-10-14: import the main file to the sequencer with email, first name from contact_name ("Dr." removed; a blank name reads "Hi there"), business_name, city and segment. One campaign per base segment. The first 100 sends go to named_contact practices tagged few_reviews, Alex Berman's first-test size for one segment.
+2. 2026-10-16: re-validate the 20 unknown rows.
+3. After the first 200 sends: open role_inbox, then the catch-all campaign, if hard bounces stay under 2% (Berman's line).
+4. 2026-11-13: re-run the same database search for new practices only, and re-validate any row older than 90 days before it is sent (ZeroBounce recommends verifying at least quarterly).

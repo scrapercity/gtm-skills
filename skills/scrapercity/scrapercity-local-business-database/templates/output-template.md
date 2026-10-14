@@ -12,7 +12,7 @@
 
 ## Search Spec
 
-Every parameter must be a real `query_local_business_database` parameter.
+Every parameter must exist in `query_local_business_database`.
 
 | Parameter | Value | Reason |
 |---|---|---|
@@ -66,7 +66,7 @@ Every parameter must be a real `query_local_business_database` parameter.
 | Address inside the places | [fill] |
 | Rating and reviews inside segment | [fill] |
 | Email or phone present as required | [fill] |
-| On-target rows | [fill] / 20 |
+| On-target rows | [fill] / [fill] |
 
 ## Next Steps
 

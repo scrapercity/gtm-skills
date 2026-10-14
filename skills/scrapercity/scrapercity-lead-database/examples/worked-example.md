@@ -14,7 +14,7 @@ _Illustrative example. Companies, people, counts and run results are invented to
 
 ## Filter Spec
 
-Every parameter must be a real `query_lead_database` parameter. Every geography row says person or company.
+Every parameter must exist in `query_lead_database`. Every geography row says person or company.
 
 | Parameter | Value | Reason |
 |---|---|---|
@@ -62,7 +62,7 @@ The 49 calls run at one call every 0.7 seconds, under the 100 requests a minute 
 | find_mobiles on the 300 accounts at 100-200 employees (40% found assumed) | 120 found | $0.25 | $30.00 |
 | Total paid | | | $64.65 |
 
-Allowance share: 4,812 of 100,000 new leads, 4.8% of one day. For comparison, the same 4,812 leads through `scrape_apollo` would cost 4,812 x $0.0039 = $18.77 and take hours to days. User approved the $64.65 before validation started, since it is over $5.
+Allowance share: 4,812 of 100,000 new leads, 4.8% of one day. For comparison, the same 4,812 leads through `scrape_apollo` would cost 4,812 x $0.0039 = $18.77 and take hours to days. User approved the $64.65 before validation started.
 
 ## Sample QA
 
@@ -73,6 +73,7 @@ Allowance share: 4,812 of 100,000 new leads, 4.8% of one day. For comparison, th
 | HQ or person location as specified | 20 of 20 company_country United States. 2 people located in Canada at US companies, kept on purpose |
 | Email present | 20 of 20 |
 | Excluded titles absent | 0 assistants, 0 interns, 0 enablement |
+| Pass mark (set before the sample) | 18 / 20, the user's bar for this pull |
 | On-target rows | 19 / 20 |
 
 ## Next Steps

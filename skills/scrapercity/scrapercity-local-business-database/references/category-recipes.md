@@ -1,6 +1,6 @@
 # Local Business Category Recipes
 
-Ready searches for 56 verticals. Each row gives the `keyword` array to start with, an optional `category` array to tighten it, the `notCategory` exclusions that remove common neighbors, and the filter flags that fit the usual offer.
+Ready searches for 59 verticals. Each row gives the `keyword` array to start with, an optional `category` array to tighten it, the `notCategory` exclusions that remove common neighbors, and the filter flags that fit the usual offer.
 
 How to use a row:
 
@@ -114,7 +114,7 @@ The database has no franchise flag. Three ways to cut chain locations:
 | Offer | Flags |
 |---|---|
 | Cold email | `hasEmail: true` |
-| Cold calling | `hasPhone: true` (check DNC and TCPA rules for mobiles) |
+| Cold calling | `hasPhone: true` (call the business `phone`; check the internal do-not-contact list before each block) |
 | Website, SEO, ads services | `hasWebsite: true` for redesign offers, or no flag and filter rows without `website` for "you have no website" offers |
 | Personalized email to the owner | `hasContact: true` |
 | Review management | `maxRating: 4.2` or `maxReviews: 30` |

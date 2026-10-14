@@ -11,20 +11,20 @@ Which sources shape the router, what each one contributes, and which file to ope
 | ScraperCity Lead Database and Local Business Database API docs (AGENT_DOCS in the npm package) | 100,000 new records a day, free re-fetch of records already delivered, `excludeDelivered`, `after` cursors | Step 3, the repeat-pull chains |
 | Agent Skills specification, agentskills.io | Progressive disclosure: load a skill's body only when its step starts | Step 6 (handoff) and the "load every skill up front" pitfall |
 | Alex Berman, alexberman.com | Targeting and offer carry most of the result, so the chain fixes list and offer before copy | Chain order in `references/chains.md` |
-| FTC, CAN-SPAM Act: A Compliance Guide for Business | Opt-out, postal address, honest headers and subject lines for commercial email | Compliance gate, email rows |
-| FCC, 47 CFR 64.1200 (TCPA rules) | Consent for autodialed or artificial-voice calls to wireless numbers, DNC registry, calling hours | Compliance gate, phone rows |
-| FTC, Fair Credit Reporting Act guidance | People-search and public-records data must not drive employment, tenant, credit or insurance decisions | Compliance gate, public-records rows |
+| Google, Email sender guidelines and FAQ | One-click unsubscribe for bulk mail, unsubscribes processed within 48 hours, spam rate under 0.1% and never 0.3% or higher | Suppression and deliverability gates |
+| Yahoo, Sender Hub best practices | A working list-unsubscribe header with one-click support, unsubscribes honored within 2 days, spam rate below 0.3% | Suppression gate |
+| `scrapercity-api` bulk pipeline, `scrapercity-integrations` waterfall and job-change recipes | Stage order for existing files, cost-per-found ordering, `socialUrl` re-pulls | Chains 10 and 11, routing rows |
+| `docs/INSTALL.md` in this repo | Installer flags, bundles, agent folders, the Claude Code plugin | Install section |
 
 ## Routing table
 
 | Question | Open |
 |-|-|
 | Which skill handles this phrase? | `references/routing-matrix.md` |
-| What order do the skills run in for a whole program? | `references/chains.md` |
+| What order do the skills run in for a full program? | `references/chains.md` |
 | What does a tool cost, and what inputs does it take? | `references/scrapercity-catalog.md` |
 | Does this plan tier include the databases? | `references/scrapercity-platform.md` |
 | How do I poll, page, retry and handle errors? | `references/scrapercity-agent-patterns.md` |
-| What rules apply to this channel in this country? | `references/outbound-compliance-primer.md` |
 | Is this list ready to send? | `references/list-quality-standard.md` |
 | What should the deliverable look like? | `templates/output-template.md`, then `examples/worked-example.md` |
 | Is my routing plan complete? | `scripts/check-output.py` |
@@ -35,8 +35,9 @@ Which sources shape the router, what each one contributes, and which file to ope
 2. **Included before paid.** A database the plan includes beats any per-result scraper for the same records.
 3. **Pay-on-find before pay-per-search.** Email Finder and Mobile Finder charge only on a hit, so they come before People Finder, which bills a 0-match search as 1 result.
 4. **List and offer before words.** Copy, sequences and call scripts wait for the list and the offer.
-5. **Gate before spend, gate before send.** Wallet and count before any paid pull; compliance and validation before any send or dial.
+5. **Gate before spend, gate before send.** Wallet and count before any paid pull; suppression and validation before any send or dial.
 6. **One skill in context at a time.** Finish a skill's deliverable and its check, then load the next.
+7. **One owner per deliverable.** Exactly one skill owns the final file or plan; every other skill feeds it an input or checks it.
 
 ## Sources
 
@@ -47,6 +48,6 @@ Which sources shape the router, what each one contributes, and which file to ope
 - https://scrapercity.com/skills
 - https://agentskills.io/specification
 - https://alexberman.com
-- https://www.ftc.gov/business-guidance/resources/can-spam-act-compliance-guide-business
-- https://www.ecfr.gov/current/title-47/chapter-I/subchapter-B/part-64/subpart-L/section-64.1200
-- https://www.ftc.gov/legal-library/browse/statutes/fair-credit-reporting-act
+- https://support.google.com/a/answer/81126
+- https://support.google.com/a/answer/14229414
+- https://senders.yahooinc.com/best-practices/

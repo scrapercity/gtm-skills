@@ -2,7 +2,7 @@
 
 The shared bar for every list a skill in this repo hands to a user: B2B contact lists, company lists, local business lists and send-ready cold email files. Each list-building skill points here instead of restating these rules. When a skill's own reference is stricter, the stricter rule wins.
 
-Thresholds marked "house standard" are ScraperCity's operating defaults. They are starting points to test against your own bounce and reply data, dated 2026-10. Thresholds attributed to a mailbox provider or a law come from the source named next to them.
+Every number here names its source (a mailbox provider, a sending tool, a published dataset or a named operator). Where no published source sets a number, the rule is a setting the user fills in from their own bounce and reply data, and the deliverable records the value used.
 
 ## 1. How to use this file
 
@@ -13,6 +13,7 @@ Thresholds marked "house standard" are ScraperCity's operating defaults. They ar
 | Before merging sources or appending to an old list | 4 Dedupe keys and precedence |
 | After `validate_emails` finishes | 5 Validation statuses |
 | Before any campaign launch or re-launch | 6 Freshness, 7 Suppression |
+| Scheduling re-pulls of a list you keep (TAM, CRM, account universe) | 6a Refresh cadence |
 | Final gate before handing a file to a sequencer | 9 Acceptance thresholds, 10 QA sample |
 
 ## 2. Required columns
@@ -33,7 +34,7 @@ Column names are snake_case, lowercase, stable across runs, so a file built in M
 | `email_status` | Yes for email lists | One of the buckets in section 5. Never blank on a delivered email list. |
 | `email_validated_at` | Yes for email lists | ISO date `YYYY-MM-DD` of the validation run. |
 | `phone` | If present | E.164 per 3c. Company or direct line. |
-| `mobile` | If present | E.164. Keep separate from `phone`; mobiles carry TCPA consent rules for calls and texts in the US. |
+| `mobile` | If present | E.164. Keep separate from `phone`: a mobile is a person's own line, and call lists read it against the do-not-contact list in section 7. |
 | `linkedin_url` | Recommended | `https://www.linkedin.com/in/<slug>` lowercase, no query string, no trailing slash. |
 | `company_name` | Yes | Display name as the source gave it, trimmed. |
 | `company_domain` | Yes | Registrable domain per 3e, for example `acme.com`. |
@@ -41,7 +42,7 @@ Column names are snake_case, lowercase, stable across runs, so a file built in M
 | `company_employees` | Recommended | Integer. |
 | `company_revenue` | Optional | Integer USD. |
 | `company_city`, `company_state`, `company_country` | Recommended | HQ location; state as USPS 2-letter code for US; country as ISO 3166-1 alpha-2. |
-| `person_city`, `person_state`, `person_country` | Recommended | Where the person sits, which can differ from HQ. Drives time zone and law (CASL, PECR, GDPR). |
+| `person_city`, `person_state`, `person_country` | Recommended | Where the person sits, which can differ from HQ. Drives send time, call windows and language. |
 | `source` | Yes | Controlled vocabulary in section 8. |
 | `source_detail` | Yes | Query fingerprint or run id, for example `lead_db:title=VP Sales;keywords=saas;emp=50-200` or `run:8f3a...`. |
 | `pulled_at` | Yes | ISO date the record was retrieved. |
@@ -67,6 +68,8 @@ Column names are snake_case, lowercase, stable across runs, so a file built in M
 | `employees` | B2B company lists | Integer. |
 | `source`, `source_detail`, `pulled_at`, `segment` | Yes | As in 2a. |
 
+Keep company rows and person rows in two files joined on `company_domain` (person) to `domain` (company). A firmographic refresh then updates one company row instead of every contact at it, and the per-domain cap and account tiers read from the company file.
+
 Store ZIP codes, phone numbers and IDs as text. Spreadsheet apps strip leading zeros and turn long digit strings into scientific notation; open CSVs with the import wizard or in a script, never by double-click.
 
 ## 3. Normalization
@@ -84,7 +87,7 @@ Normalize every page or download as it arrives, before merging. Keep the origina
 ### 3b. Emails
 
 1. Trim, strip `mailto:`, surrounding brackets and trailing punctuation.
-2. Lowercase for the dedupe key. RFC 5321 section 2.4 allows a case-sensitive local-part, but Gmail, Microsoft 365 and nearly every corporate server treat it case-insensitively, so lowercasing the full address for matching is safe; send to the lowercased form.
+2. Lowercase for the dedupe key. RFC 5321 section 2.4 allows a case-sensitive local-part, but Gmail, Microsoft 365 and corporate servers in common use treat it case-insensitively, so lowercasing the full address for matching is safe; send to the lowercased form.
 3. Do not strip `+tags` or Gmail dots for sending. For the dedupe key only, a consumer Gmail address can drop dots and `+tag`; corporate addresses keep them.
 4. Reject syntax failures (no `@`, spaces, two `@`, missing TLD) before paying to validate them; mark `email_status = invalid` with reason `syntax`.
 5. Flag role accounts with `is_role = true` when the local-part is one of: info, contact, hello, admin, office, sales, support, help, team, billing, accounts, marketing, careers, jobs, hr, noreply, no-reply, webmaster, enquiries, reception, frontdesk, appointments. Role addresses are normal on local business lists and a weaker choice on named-contact B2B lists (section 9).
@@ -163,64 +166,81 @@ The merged row's `source` lists every contributing source joined with `|`, for e
 
 ### 4c. Completeness score (tie-breaker)
 
-When a skill must keep one whole record (for example TAM builds that keep the most complete record per business), score each candidate: email 3, `email_status = valid` 2, named contact 2, phone 1, website 1, full street address 1, rating and reviews 1. Keep the highest score; break ties by newer `pulled_at`.
+When a skill must keep one record intact (for example TAM builds that keep the most complete record per business), score each candidate: email 3, `email_status = valid` 2, named contact 2, phone 1, website 1, full street address 1, rating and reviews 1. Keep the highest score; break ties by newer `pulled_at`.
 
 ## 5. Validation statuses and what to do with each
 
-Run `validate_emails` ($0.0072 per email) on every address that did not come from `find_emails` within the last 30 days (Email Finder results are validated at lookup time per its tool description). Validator outputs vary by tool version; read the header row of the downloaded CSV and map each raw result into these buckets. Keep the raw value in `email_status_raw`.
+Run `validate_emails` ($0.0072 per email) on every address that did not come from `find_emails` in this pull (Email Finder results are validated at lookup time per its tool description). Read the header row of the downloaded CSV before mapping, since columns can change between versions, and keep the raw value in `email_status_raw`.
+
+ScraperCity's Email Validator reports the result in `email_result` (per scrapercity.com/email-validator, checked 2026-10-12). Map it like this:
+
+| Raw `email_result` | Bucket (`email_status`) |
+|-|-|
+| `valid` | `valid` |
+| `valid_catch_all` | `catch_all` |
+| `unknown` | `unknown` |
+| `invalid` | `invalid` |
+| `disposable` | `disposable` |
+
+Other validators use other words ("accept_all", "risky", "deliverable"); map them by meaning with the table below.
 
 | Bucket (`email_status`) | Typical raw meanings | Cold email action | Other uses |
 |-|-|-|-|
 | `valid` | Deliverable, mailbox confirmed, SMTP accepted | Send-ready file | CRM import |
-| `catch_all` | Accept-all domain, server accepts any address, mailbox not confirmable | Separate catch-all file. Send only from a separate campaign at no more than 10% of a day's volume, watch bounces daily (house standard) | Fine for direct mail matching or ads audiences |
-| `unknown` | Timeout, greylisting, server did not answer | Hold. Re-validate once after 72 hours; still unknown after that goes to the catch-all file rules or is dropped | Keep for phone outreach |
+| `catch_all` | Accept-all domain, server accepts any address, mailbox not confirmable | Hold file. After the valid file's test cell passes, send it as its own 100-contact cell and release the rest only while bounces stay under 2% (section 10) | Fine for direct mail matching or ads audiences |
+| `unknown` | Timeout, greylisting, server did not answer | Hold. Re-validate once on a later day; still unknown after that goes to the catch-all file rules or is dropped | Keep for phone outreach |
 | `invalid` | Mailbox does not exist, domain has no MX, syntax error | Remove from every send file. Add to the bounce suppression list | Try `find_emails` with name and domain for a replacement |
 | `disposable` | Temporary inbox provider | Remove and suppress | None |
 | `spamtrap` or `abuse` (if the validator reports it) | Known trap or complainer | Remove and suppress permanently | None |
 
 `is_role = true` is a flag on top of a bucket, not a bucket. A valid `info@` on a dentist list is sendable; on a named-VP list it is a fallback only.
 
-If more than 15% of a source's emails come back `invalid`, stop and check the source before validating more of it; a bad batch usually means an old export, a wrong domain column or a scraped page of support addresses (house standard).
+Alex Berman aims for 95% or more valid on a list he sends (alexberman.com, B2B lead generation). When one source's batch comes back far below that, stop and check the source before validating more of it; a bad batch usually means an old export, a wrong domain column or a scraped page of support addresses.
 
 ## 6. Freshness
 
-| Field | Max age before re-check (house standard) | Why |
+| Field | When to re-check | Basis |
 |-|-|-|
-| `email_status` before the first send of a campaign | 30 days | Mailboxes close when people leave; a 30-day window keeps the bounce estimate close to the validation result. |
-| `email_status` for a re-launch to the same list | Re-validate if older than 30 days | Same reason. Cost is $7.20 per 1,000. |
-| `title` and `company_name` | 90 days | Job changes. |
-| Local business phone, website, hours | 180 days | Closures and moves. |
+| `email_status` before the first send of a campaign | Validate before sending | Alex Berman: verify addresses before you send and keep bounces under 2% (alexberman.com, cold email templates). Cost is $7.20 per 1,000. |
+| `email_status` for a re-launch to the same list | Re-validate before the re-launch | Same. |
+| `title` and `company_name` | At the interval the user sets from the decay rate below | Job changes. |
+| Local business phone, website, hours | At the interval the user sets from the change rate measured at the last refresh | Closures and moves. |
 
-A rough decay model: the US Bureau of Labor Statistics reported median employee tenure of 4.1 years in January 2026. If departures were spread evenly, that implies roughly 1.4% of a contact list changing employer each month, about 15% a year. Treat this as a floor for planning; promotions, title changes and company closures add to it. Measure your own bounce rate per list age and replace this estimate.
+Decay rates to plan with: ZeroBounce's 2025 Email List Decay Report (its 2024 verification data) found email databases degrade by at least 28% a year, which compounds to about 2.7% a month (1 - 0.72^(1/12)). The US Bureau of Labor Statistics reported median employee tenure of 4.1 years in January 2026; if departures were spread evenly, roughly 1.4% of a contact list changes employer each month. Divide the share of stale rows the user will accept by the monthly rate to get a re-check interval, then replace the rate with the bounce rate the user measures by list age.
+
+### 6a. Refresh cadence by data type
+
+How often to re-pull or re-check each kind of data on a list you keep using (a TAM file, a CRM, an account universe). Where no source sets the cadence, the user sets it and the next refresh tests it.
+
+| Data type | Fields | Refresh cadence | How | Basis |
+|-|-|-|-|-|
+| Firmographic | `company_industry`, `company_employees`, `company_revenue`, HQ location | The user's interval | `query_lead_database` with `companyDomain` and `limit: 1` per account; owned records re-fetch free | Set from the change rate at the last refresh |
+| Technographic | Technologies, apps, ecommerce platform, plan | The user's interval | Tech Stack Search (`scrape_builtwith`, $4.99 per technology) or a narrow `scrape_store_leads` re-pull | Set from the change rate at the last refresh; see `signal-triggered-outbound` when the tech change is the trigger |
+| CRM dedupe | Duplicate people (key 1 to 4 in 4a) and companies (domain) | Before each import into the CRM | Export, run section 4 keys, merge in the CRM's own tool | Duplicates mean the same person gets two sequences |
+| Person role and employer | `title`, `company_name`, `company_domain` | The user's interval | Lead Database by `socialUrl` or `companyDomain` | ZeroBounce and BLS decay rates above |
+| Email deliverability | `email_status`, `email_validated_at` | Before any send | `validate_emails` at $0.0072 each | Alex Berman: verify before sending |
+| Local business contact | `phone`, `website`, hours, open or closed | The user's interval | `query_local_business_database` re-pull or `scrape_maps` | Set from the change rate at the last refresh |
+| Suppression lists | Unsubscribes, bounces, complaints, do-not-contact requests | Before every send and every call block | Sync from the sequencer, the dialer and the reply inbox into one list | Gmail asks bulk senders to honor unsubscribes within 48 hours and to keep spam rate under 0.3% (Google sender FAQ) |
+
+At each refresh, record the share of a field that changed across the records checked, and set the next interval for that field from it: a field that changed a lot gets a shorter interval, one that barely moved a longer one.
 
 Use `excludeDelivered=true` on `query_lead_database` and `query_local_business_database` for daily or weekly incremental pulls, so a scheduled job only returns records the account does not already have.
 
 ## 7. Suppression lists
 
-Apply suppression after dedupe and before validation (no point paying to validate a row you will drop). Match in this order: exact email, then domain, then `business_name_key`.
+Apply suppression after dedupe and before validation (no point paying to validate a row you will drop). Match in this order: exact email, then domain, then `business_name_key`. Keep one suppression list that every tool reads (sequencer, dialer, CRM, the next list pull); a person who asked to be removed in one tool and then hears from another tends to click "Report spam", which counts against Google's 0.3% spam-rate line.
 
 | List | Match on | Source of truth | Rule |
 |-|-|-|-|
-| Unsubscribes and opt-outs | email, and domain if the person asked to block their company | Sequencer export plus reply inbox | Permanent. CAN-SPAM requires honoring opt-outs within 10 business days and keeping the mechanism working for 30 days after a send (FTC). Gmail and Yahoo expect bulk senders to process one-click unsubscribes within 2 days. CASL sets 10 business days. |
+| Unsubscribes and "remove me" replies | email, and domain if the person asked to block their company | Sequencer export plus reply inbox | Permanent. Add the same day, in every tool. Gmail asks bulk senders to honor unsubscribes within 48 hours (Google sender FAQ); a remove request that keeps getting mail turns into a complaint. |
+| Internal do-not-contact list | email, phone, mobile | Reps, reply inbox, call notes | Permanent. Anyone who asked not to be called or emailed, logged by whoever heard it. Checked before every call block and every send. |
 | Hard bounces | email | Sequencer bounce log, `invalid` validator results | Permanent for that address. |
 | Spam complaints | email and domain | Sequencer, feedback loops | Permanent. |
 | Current customers | domain | CRM | Exclude from prospecting lists unless the campaign is an expansion play. |
 | Open opportunities | domain | CRM | Exclude; the account owner works them. |
 | Competitors and partners | domain | Maintained by the user | Exclude. |
-| Do-not-contact accounts | domain | Legal or leadership | Exclude. |
-| Contacted in the last N days | email | Sequencer | House standard: 90 days between cold sequences to the same person. |
-| Jurisdiction rules | `person_country` | Section 7a | Route or exclude per law. |
-
-### 7a. Jurisdiction routing
-
-| Recipient | Rule of thumb | Source |
-|-|-|-|
-| US business address | CAN-SPAM: no B2B exemption; truthful headers and subject, physical address, working opt-out. | FTC CAN-SPAM guide |
-| Canada | CASL: needs consent. Implied consent can apply to a conspicuously published business address when the message relates to the person's role and the posting does not refuse unsolicited mail. Keep where you found the address. | CRTC CASL FAQ |
-| UK corporate subscriber (company, LLP, government body) | PECR allows B2B marketing email without prior consent; identify yourself and give an opt-out. Sole traders and some partnerships are treated as individuals and need consent. | ICO guide to PECR |
-| EU | GDPR applies to named business addresses; document a legitimate interest assessment and national e-privacy rules before sending. | Outbound compliance primer |
-
-See `references/outbound-compliance-primer.md` for the full treatment. Nothing here is legal advice.
+| Do-not-contact accounts | domain | Leadership or account owners | Exclude. |
+| Contacted in the last N days | email | Sequencer | N is the user's re-contact window. Alex Berman's TAM breakdown sends one email per person per cycle and starts the next cycle 30 to 60 days later with a refreshed message. |
 
 ## 8. Source column
 
@@ -251,33 +271,40 @@ A file is send-ready only when every row below passes. Anything that fails goes 
 
 | Check | Threshold | Basis |
 |-|-|-|
-| `email_status` in the send file | 100% `valid` | House standard; catch-all and unknown live in their own files. |
+| `email_status` in the send file | 100% `valid` | Definition of the send file; catch-all and unknown live in their own files. |
 | Invalid, disposable, spamtrap rows | 0 | Yahoo asks senders to remove invalid recipients promptly; Microsoft's May 2025 high-volume sender rules list removing invalid addresses as list hygiene. |
-| `email_validated_at` within 30 days of first send | 100% of rows | House standard (section 6). |
+| `email_validated_at` before the first send | 100% of rows | Alex Berman: verify before sending (section 6). |
 | Duplicate emails | 0 | Section 4. |
 | Suppression matches | 0 | Section 7. |
-| Rows missing `first_name` in a personalized campaign | 2% or less | House standard; the rest go to a non-personalized variant. |
-| Role addresses on a named-contact B2B list | 5% or less | House standard. Local business lists are exempt. |
-| Contacts per company domain per campaign | 3 or fewer for B2B; 1 per location for local | House standard; more than that reads as spam to the company's admin and raises complaint risk. |
+| Rows missing `first_name` in a personalized campaign | 0 | Rows without a first name go to a non-personalized variant. |
+| Role addresses on a named-contact B2B list | The user's cap | Local business lists are exempt. |
+| Contacts per company domain per campaign | The user's cap for B2B; 1 per location for local | Gartner's B2B Buying Report (2022 survey) puts buying groups at five to 11 people; the cap sets how many of them one campaign reaches. |
 | Required columns (section 2) populated | 100% for required fields | This file. |
-| Projected hard bounce rate | Under 2% | House target. Instantly auto-pauses a campaign above 5% bounces after 200 sends by default; Smartlead lets you set the pause threshold. Stay well below the pause line. |
-| Spam complaint rate after launch | Under 0.1%, never 0.3% | Google sender guidelines; Yahoo uses 0.3%. |
+| Projected hard bounce rate | Under 2% | Alex Berman, alexberman.com cold email templates. Instantly auto-pauses a campaign above 5% bounces after 200 sends by default; Smartlead lets you set the pause threshold. |
+| Spam complaint rate after launch | Under 0.1%, never 0.3% | Google sender FAQ; Yahoo uses 0.3%. |
 
-## 10. QA sample before delivery
+## 10. QA sample and fit scorecard before delivery
 
-Pull 20 random rows (or 2% of the file, whichever is larger, up to 50) and check by hand:
+Pull a random sample of rows (per tier when the list is tiered) and check each by hand against the brief the list was built for, opening the LinkedIn URL or the company team page. Size the sample from the misfit ceiling: when no row in n misses, the 95% upper limit on the misfit rate is about 3/n for n over 30 (Eypasch et al., BMJ 1995). 60 rows with no misses caps misfits under 5%; 100 rows caps them under 3%. Write the sample size and what it caps in the report.
 
-1. Name and title belong together and match the company (open the LinkedIn URL or company team page for 5 of them).
-2. Domain resolves to the company's real site, not a parked page or a platform host.
-3. Title fits the ICP; no assistant, intern, former, retired or "to the" titles slipped through.
-4. Location fits the filter.
-5. Phone formatted as E.164.
+| Dimension | Pass rule per row | When a row misses |
+|-|-|-|
+| Title fit | Title is in the agreed title family; no assistant, intern, former, retired or "to the" titles | Add the offending words to `notTitle`, recount, re-pull |
+| Company fit | Industry or keywords, business model and employee band match the ICP filters | Tighten `keywords` or `notKeywords`, or add the site check; re-read `search_translation` if a URL was used |
+| Location fit | Person country and state match the filter | Check `country` versus `companyCountry`; one is the person, the other is HQ |
+| Domain resolves | `company_domain` opens the company's own site, not a parked page or a platform host | Re-run domain normalization; blank platform hosts |
+| Person still there | The profile or team page shows the person at the company today | Re-pull with `excludeDelivered` for newer records; re-validate |
+| Formatting | Names cased, phone E.164, ZIP as text | Fix the normalizer and re-run it on every row |
 
-Two or more misses in a 20-row sample means the filter or mapping is wrong. Fix the query and re-pull rather than hand-patching rows.
+The file passes when no miss traces to a filter, mapping or normalizer change; a miss that does means fix the query and re-pull rather than hand-patching rows. Report the sample as "60 of 60 title fit, 59 of 60 company fit..." in one line.
+
+Release a new list as a test cell first. Alex Berman tests a niche with about 100 emails (Lean B2B interview, December 2020). Release the rest once the cell's bounce rate is under 2% (alexberman.com). Catch-all rows follow as their own 100-contact cell under the same line.
+
+After launch, keep reading the list through replies. Sort them into wrong person, referred, not now, not interested and positive. When referral replies from one title family keep naming another title, move the referred-to title into slot 1 and the old title down or out. Not-now replies are timing, not a list error. Change the list or the copy between rounds, never both, so the next round of replies shows which change worked.
 
 ## 11. Delivery report block
 
-Every list skill ends its deliverable with this funnel, numbers that add up from top to bottom:
+Every list skill that ran its pulls ends its deliverable with this funnel, numbers that add up from top to bottom. A plan written before any call could run carries no projected funnel or bucket shares: it gives sourced counts, cost ceilings and the dated step that measures each stage.
 
 ```text
 Matched (pagination.total or run rows)   N0
@@ -293,18 +320,23 @@ Cost: database pulls (plan allowance) + paid tools at catalog prices = $X
 
 ## Sources
 
-- FTC, CAN-SPAM Act: A Compliance Guide for Business: https://www.ftc.gov/business-guidance/resources/can-spam-act-compliance-guide-business
-- FTC, Complying with the Telemarketing Sales Rule (B2B call exemption): https://www.ftc.gov/business-guidance/resources/complying-telemarketing-sales-rule
 - Google, Email sender guidelines: https://support.google.com/a/answer/81126
+- Google, Email sender guidelines FAQ (spam rate and 48-hour unsubscribe, checked 2026-10-13): https://support.google.com/a/answer/14229414
+- ScraperCity, Email Validator (`email_result` values): https://scrapercity.com/email-validator
 - Google, Gmail security and spam protection announcement (Oct 2023): https://blog.google/products/gmail/gmail-security-authentication-spam-protection/
 - Yahoo Sender Hub, Best practices: https://senders.yahooinc.com/best-practices/
 - Microsoft, Outlook requirements for high-volume senders (2025): https://techcommunity.microsoft.com/blog/microsoftdefenderforoffice365blog/strengthening-email-ecosystem-outlook%E2%80%99s-new-requirements-for-high%E2%80%90volume-senders/4399730
 - Instantly, High bounce auto-pause feature: https://help.instantly.ai/en/articles/9823139-high-bounce-auto-pause-feature
 - Smartlead, High bounce rate auto protection: https://helpcenter.smartlead.ai/en/articles/274-what-is-high-bounce-rate-auto-protection-in-smartlead
-- ICO, Guide to PECR, electronic mail marketing: https://ico.org.uk/for-organisations/direct-marketing-and-privacy-and-electronic-communications/guide-to-pecr/electronic-and-telephone-marketing/electronic-mail-marketing/
-- CRTC, CASL frequently asked questions: https://crtc.gc.ca/eng/com500/faq500.htm
 - IETF RFC 5321, Simple Mail Transfer Protocol, section 2.4: https://datatracker.ietf.org/doc/html/rfc5321#section-2.4
 - Twilio, What is E.164: https://www.twilio.com/docs/glossary/what-e164
 - Public Suffix List: https://publicsuffix.org/
 - US Bureau of Labor Statistics, Employee Tenure (January 2026): https://www.bls.gov/news.release/tenure.nr0.htm
+- ZeroBounce, Email List Decay Report (February 2025, 2024 data, at least 28% a year): https://www.zerobounce.net/blog/newsroom/press/zerobounce-report-email-list-decay
+- Alex Berman, Cold email templates (verify before sending, bounces under 2%): https://alexberman.com/cold-email-templates
+- Alex Berman, B2B lead generation (verify every email, 95%+ valid): https://alexberman.com/b2b-lead-generation
+- Alex Berman, Map your market, skip the follow-ups (one email per person per cycle, 30 to 60 days between cycles): https://alexberman.com/cold-email-tam-strategy-skip-followups-breakdown
+- Lean B2B, interview with Alex Berman on testing market segments (about 100 emails per niche, December 2020): https://leanb2bbook.com/blog/alex-berman-b2b-market-segments/
+- Eypasch E, Lefering R, Kum CK, Troidl H. Probability of adverse events that have not yet occurred: a statistical reminder. BMJ 1995;311:619 (3/n upper limit for zero events): https://www.bmj.com/content/311/7005/619
+- Gartner, B2B Buying Report (buying groups of five to 11 people, 2022 survey): https://emt.gartnerweb.com/ngw/globalassets/en/sales-service/documents/trends/gartner-b2b-buying-report.pdf
 - ScraperCity tool catalog: references/scrapercity-catalog.md

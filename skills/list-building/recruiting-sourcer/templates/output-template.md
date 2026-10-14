@@ -9,6 +9,8 @@ Prepared [fill date] for [fill agency or company]. Client: [fill client or confi
 | Role as written | [fill] |
 | Seniority | [fill] |
 | Location | [fill] |
+| Pay band | [fill] |
+| Selling points | [fill] |
 | Target companies | [fill] |
 | Company traits | [fill] |
 | Screened by a human, not filtered | [fill] |
@@ -28,6 +30,8 @@ Prepared [fill date] for [fill agency or company]. Client: [fill client or confi
 | Search | pagination.total | Decision |
 |-|-|-|
 | [fill] | [fill] | [fill] |
+
+QA sample ([fill] random rows after the final pull): title fit [fill] of [fill], level fit [fill] of [fill], location [fill] of [fill], profile confirmed [fill] of [fill].
 
 ## Sourcing Funnel
 
@@ -56,15 +60,9 @@ Prepared [fill date] for [fill agency or company]. Client: [fill client or confi
 
 User go-ahead: [fill]
 
-## Compliance Check
-
-| Item | Answer | Law or rule | Action |
-|-|-|-|-|
-| [fill] | [fill] | [fill] | [fill] |
-
 ## Shortlist Sample
 
-| Name | Title | Company domain | Location | Tier | Rank score | email_status | Mobile |
+| Name | Title | Company domain | Location | Tier | Fit | email_status | Mobile |
 |-|-|-|-|-|-|-|-|
 | [fill] | [fill] | [fill] | [fill] | [fill] | [fill] | [fill] | [fill] |
 
@@ -73,6 +71,16 @@ User go-ahead: [fill]
 | Step | Channel | Timing | Rule |
 |-|-|-|-|
 | [fill] | [fill] | [fill] | [fill] |
+
+## Message Drafts
+
+### Email 1, day [fill]
+
+> [fill]
+
+### Email 3, day [fill]
+
+> [fill]
 
 ## Next Steps
 
