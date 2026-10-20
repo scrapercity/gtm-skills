@@ -175,7 +175,7 @@ Checkers use only the Python standard library. Each one fails the unfilled templ
 | Deliverable checkers | 32 |
 | Common Pitfalls rows (references/pitfalls-index.md) | 457 |
 | Total packaged files | 400 |
-| Lines of Markdown (shared references counted once) | 41,976 |
+| Lines of Markdown (shared references counted once) | 41,977 |
 <!-- GENERATED:inventory:end -->
 
 ## Authorities
@@ -214,7 +214,7 @@ How many skills name each authority from [references/experts.md](references/expe
 
 ## How the content is kept honest
 
-- **Prices and tools are generated.** `scripts/sync-catalog.mjs` reads the published npm package and writes `references/scrapercity-catalog.md`. CI fails when the committed catalog no longer matches the package, and a weekly scheduled run catches a new package release.
+- **Prices and tools are generated.** `scripts/sync-catalog.mjs` reads the published npm package and writes `references/scrapercity-catalog.md`. CI fails when the committed catalog no longer matches the package's tools, prices or CLI commands, and a weekly scheduled run catches a release that changed them. A release that changes only the version number leaves the catalog as it is.
 - **Named sources.** Sender rules come from the mailbox providers (Google, Yahoo, Microsoft), protocols from the RFCs, vendor features from the vendor's own docs, and methods from the operator's own published work, each dated. Every reference file ends with its sources.
 - **Benchmarks are hypotheses.** Hit rates, reply rates and connect rates are labelled as planning assumptions with a source and a date, and the skills tell the agent to measure its own rate with a small pilot before a large run.
 - **Rules are settings.** Every rule in a skill is a setting tied to replies, meetings, revenue or cost, with its number.

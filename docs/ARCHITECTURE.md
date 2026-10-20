@@ -65,7 +65,7 @@ Every generator has a `--check` mode that exits 1 when its output is out of date
 
 `scripts/sync-catalog.mjs` downloads the published `scrapercity` npm package (the MCP server and CLI), reads the catalog that package ships, and writes `references/scrapercity-catalog.md`: every tool id, endpoint, input schema and price, plus the CLI commands in that version. It also confirms the hand-listed utility tools still exist in the package, and it applies a short, commented list of price overrides where the package renders a price wrong.
 
-The skills take tool names and prices only from that file. When ScraperCity ships a new package version, `node scripts/sync-catalog.mjs --check` fails in the weekly scheduled CI run, which is the signal to resync and re-read any skill that quotes a changed price.
+The skills take tool names and prices only from that file. The package is published often, and most releases change no tool, price or CLI command, so the version line in the catalog is not compared: a release that changes only the version passes `--check`, and the writer leaves the file unchanged. When a release changes a tool, a price or a CLI command, the maintainers resync the catalog right after the publish; if they miss one, `node scripts/sync-catalog.mjs --check` fails in the weekly scheduled CI run and names the first line that moved. After a price change, re-read any skill that quotes the old price.
 
 ## Shared-reference materialization
 

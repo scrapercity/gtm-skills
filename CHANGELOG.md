@@ -13,6 +13,7 @@ The author docs (SKILL_AUTHORING, QUALITY_BAR, SOURCE_STANDARDS, RELEASE_PROCESS
 
 ### Added
 
+- `sync-catalog.mjs` skips the version line when it compares the catalog with the package: a package release that changes no tool, price or CLI command passes `--check` and leaves the file unchanged, and a failing check names the first line that moved.
 - `validate-skills.py --check-legal` (off by default) fails any skill file or root reference that names a law, regulation or regulator, cites a CFR section, sends the reader to legal counsel, or adds a legal checkpoint. Reply-classification words stay allowed in `reply-handling`, and law firms stay a prospecting vertical.
 - `validate-skills.py --strict`: Agent Skills name rules, no reserved words or XML tags, only spec frontmatter keys, block-style lists (the `skills-ref` validator rejects flow lists), SKILL.md under 500 lines, unique names, each section once, at least 3 distinct frameworks, no filler phrases, every file named in Execution Artifacts, every Markdown link resolving inside the skill, no symlinks, empty files or junk, a checker that exits 2 with no argument and repeats its result, and the "Illustrative example" label.
 - `scripts/check-repo.py`: required files, version agreement across plugin.json, marketplace.json, CITATION.cff and CHANGELOG, plugin skill paths, installer bundles and docs, SHA-pinned actions, the owner rules in author docs, dashes, restricted names, secrets and junk in every file git would publish.
