@@ -41,9 +41,9 @@
       },
       "references/scrapercity-catalog.md": {
         "kind": "reference",
-        "sha256": "9d95af13cb7f494cf76149ce375023a1fa50ad767e0594bea1d6a7580bda9943",
+        "sha256": "d579414af999d7fca0f942bb72877b0adc99d5c72e121e39bb829e9f8f8345ca",
         "shared": true,
-        "size_bytes": 17942
+        "size_bytes": 17959
       },
       "references/scrapercity-platform.md": {
         "kind": "reference",
@@ -114,9 +114,9 @@
       },
       "references/scrapercity-catalog.md": {
         "kind": "reference",
-        "sha256": "9d95af13cb7f494cf76149ce375023a1fa50ad767e0594bea1d6a7580bda9943",
+        "sha256": "d579414af999d7fca0f942bb72877b0adc99d5c72e121e39bb829e9f8f8345ca",
         "shared": true,
-        "size_bytes": 17942
+        "size_bytes": 17959
       },
       "references/scrapercity-platform.md": {
         "kind": "reference",
@@ -190,9 +190,9 @@
       },
       "references/scrapercity-catalog.md": {
         "kind": "reference",
-        "sha256": "9d95af13cb7f494cf76149ce375023a1fa50ad767e0594bea1d6a7580bda9943",
+        "sha256": "d579414af999d7fca0f942bb72877b0adc99d5c72e121e39bb829e9f8f8345ca",
         "shared": true,
-        "size_bytes": 17942
+        "size_bytes": 17959
       },
       "references/scrapercity-platform.md": {
         "kind": "reference",
@@ -250,9 +250,9 @@
       },
       "references/scrapercity-catalog.md": {
         "kind": "reference",
-        "sha256": "9d95af13cb7f494cf76149ce375023a1fa50ad767e0594bea1d6a7580bda9943",
+        "sha256": "d579414af999d7fca0f942bb72877b0adc99d5c72e121e39bb829e9f8f8345ca",
         "shared": true,
-        "size_bytes": 17942
+        "size_bytes": 17959
       },
       "references/scrapercity-platform.md": {
         "kind": "reference",
@@ -317,9 +317,9 @@
       },
       "references/scrapercity-catalog.md": {
         "kind": "reference",
-        "sha256": "9d95af13cb7f494cf76149ce375023a1fa50ad767e0594bea1d6a7580bda9943",
+        "sha256": "d579414af999d7fca0f942bb72877b0adc99d5c72e121e39bb829e9f8f8345ca",
         "shared": true,
-        "size_bytes": 17942
+        "size_bytes": 17959
       },
       "references/scrapercity-platform.md": {
         "kind": "reference",
@@ -383,9 +383,9 @@
       },
       "references/scrapercity-catalog.md": {
         "kind": "reference",
-        "sha256": "9d95af13cb7f494cf76149ce375023a1fa50ad767e0594bea1d6a7580bda9943",
+        "sha256": "d579414af999d7fca0f942bb72877b0adc99d5c72e121e39bb829e9f8f8345ca",
         "shared": true,
-        "size_bytes": 17942
+        "size_bytes": 17959
       },
       "references/scrapercity-platform.md": {
         "kind": "reference",
@@ -463,9 +463,9 @@
       },
       "references/scrapercity-catalog.md": {
         "kind": "reference",
-        "sha256": "9d95af13cb7f494cf76149ce375023a1fa50ad767e0594bea1d6a7580bda9943",
+        "sha256": "d579414af999d7fca0f942bb72877b0adc99d5c72e121e39bb829e9f8f8345ca",
         "shared": true,
-        "size_bytes": 17942
+        "size_bytes": 17959
       },
       "references/scrapercity-platform.md": {
         "kind": "reference",
@@ -545,9 +545,9 @@
       },
       "references/scrapercity-catalog.md": {
         "kind": "reference",
-        "sha256": "9d95af13cb7f494cf76149ce375023a1fa50ad767e0594bea1d6a7580bda9943",
+        "sha256": "d579414af999d7fca0f942bb72877b0adc99d5c72e121e39bb829e9f8f8345ca",
         "shared": true,
-        "size_bytes": 17942
+        "size_bytes": 17959
       },
       "references/scrapercity-platform.md": {
         "kind": "reference",
@@ -616,9 +616,9 @@
       },
       "references/scrapercity-catalog.md": {
         "kind": "reference",
-        "sha256": "9d95af13cb7f494cf76149ce375023a1fa50ad767e0594bea1d6a7580bda9943",
+        "sha256": "d579414af999d7fca0f942bb72877b0adc99d5c72e121e39bb829e9f8f8345ca",
         "shared": true,
-        "size_bytes": 17942
+        "size_bytes": 17959
       },
       "references/scrapercity-platform.md": {
         "kind": "reference",
@@ -672,9 +672,9 @@
       },
       "references/scrapercity-catalog.md": {
         "kind": "reference",
-        "sha256": "9d95af13cb7f494cf76149ce375023a1fa50ad767e0594bea1d6a7580bda9943",
+        "sha256": "d579414af999d7fca0f942bb72877b0adc99d5c72e121e39bb829e9f8f8345ca",
         "shared": true,
-        "size_bytes": 17942
+        "size_bytes": 17959
       },
       "references/scrapercity-platform.md": {
         "kind": "reference",
@@ -738,9 +738,9 @@
       },
       "references/scrapercity-catalog.md": {
         "kind": "reference",
-        "sha256": "9d95af13cb7f494cf76149ce375023a1fa50ad767e0594bea1d6a7580bda9943",
+        "sha256": "d579414af999d7fca0f942bb72877b0adc99d5c72e121e39bb829e9f8f8345ca",
         "shared": true,
-        "size_bytes": 17942
+        "size_bytes": 17959
       },
       "references/scrapercity-platform.md": {
         "kind": "reference",
@@ -803,9 +803,9 @@
       },
       "references/scrapercity-catalog.md": {
         "kind": "reference",
-        "sha256": "9d95af13cb7f494cf76149ce375023a1fa50ad767e0594bea1d6a7580bda9943",
+        "sha256": "d579414af999d7fca0f942bb72877b0adc99d5c72e121e39bb829e9f8f8345ca",
         "shared": true,
-        "size_bytes": 17942
+        "size_bytes": 17959
       },
       "references/scrapercity-platform.md": {
         "kind": "reference",
@@ -880,9 +880,9 @@
       },
       "references/scrapercity-catalog.md": {
         "kind": "reference",
-        "sha256": "9d95af13cb7f494cf76149ce375023a1fa50ad767e0594bea1d6a7580bda9943",
+        "sha256": "d579414af999d7fca0f942bb72877b0adc99d5c72e121e39bb829e9f8f8345ca",
         "shared": true,
-        "size_bytes": 17942
+        "size_bytes": 17959
       },
       "references/scrapercity-platform.md": {
         "kind": "reference",
@@ -952,9 +952,9 @@
       },
       "references/scrapercity-catalog.md": {
         "kind": "reference",
-        "sha256": "9d95af13cb7f494cf76149ce375023a1fa50ad767e0594bea1d6a7580bda9943",
+        "sha256": "d579414af999d7fca0f942bb72877b0adc99d5c72e121e39bb829e9f8f8345ca",
         "shared": true,
-        "size_bytes": 17942
+        "size_bytes": 17959
       },
       "references/scrapercity-platform.md": {
         "kind": "reference",
@@ -1035,9 +1035,9 @@
       },
       "references/scrapercity-catalog.md": {
         "kind": "reference",
-        "sha256": "9d95af13cb7f494cf76149ce375023a1fa50ad767e0594bea1d6a7580bda9943",
+        "sha256": "d579414af999d7fca0f942bb72877b0adc99d5c72e121e39bb829e9f8f8345ca",
         "shared": true,
-        "size_bytes": 17942
+        "size_bytes": 17959
       },
       "references/scrapercity-platform.md": {
         "kind": "reference",
@@ -1106,9 +1106,9 @@
       },
       "references/scrapercity-catalog.md": {
         "kind": "reference",
-        "sha256": "9d95af13cb7f494cf76149ce375023a1fa50ad767e0594bea1d6a7580bda9943",
+        "sha256": "d579414af999d7fca0f942bb72877b0adc99d5c72e121e39bb829e9f8f8345ca",
         "shared": true,
-        "size_bytes": 17942
+        "size_bytes": 17959
       },
       "references/scrapercity-platform.md": {
         "kind": "reference",
@@ -1177,9 +1177,9 @@
       },
       "references/scrapercity-catalog.md": {
         "kind": "reference",
-        "sha256": "9d95af13cb7f494cf76149ce375023a1fa50ad767e0594bea1d6a7580bda9943",
+        "sha256": "d579414af999d7fca0f942bb72877b0adc99d5c72e121e39bb829e9f8f8345ca",
         "shared": true,
-        "size_bytes": 17942
+        "size_bytes": 17959
       },
       "references/scrapercity-platform.md": {
         "kind": "reference",
@@ -1237,9 +1237,9 @@
       },
       "references/scrapercity-catalog.md": {
         "kind": "reference",
-        "sha256": "9d95af13cb7f494cf76149ce375023a1fa50ad767e0594bea1d6a7580bda9943",
+        "sha256": "d579414af999d7fca0f942bb72877b0adc99d5c72e121e39bb829e9f8f8345ca",
         "shared": true,
-        "size_bytes": 17942
+        "size_bytes": 17959
       },
       "references/scrapercity-platform.md": {
         "kind": "reference",
@@ -1308,9 +1308,9 @@
       },
       "references/scrapercity-catalog.md": {
         "kind": "reference",
-        "sha256": "9d95af13cb7f494cf76149ce375023a1fa50ad767e0594bea1d6a7580bda9943",
+        "sha256": "d579414af999d7fca0f942bb72877b0adc99d5c72e121e39bb829e9f8f8345ca",
         "shared": true,
-        "size_bytes": 17942
+        "size_bytes": 17959
       },
       "references/scrapercity-platform.md": {
         "kind": "reference",
@@ -1386,9 +1386,9 @@
       },
       "references/scrapercity-catalog.md": {
         "kind": "reference",
-        "sha256": "9d95af13cb7f494cf76149ce375023a1fa50ad767e0594bea1d6a7580bda9943",
+        "sha256": "d579414af999d7fca0f942bb72877b0adc99d5c72e121e39bb829e9f8f8345ca",
         "shared": true,
-        "size_bytes": 17942
+        "size_bytes": 17959
       },
       "references/scrapercity-platform.md": {
         "kind": "reference",
@@ -1468,9 +1468,9 @@
       },
       "references/scrapercity-catalog.md": {
         "kind": "reference",
-        "sha256": "9d95af13cb7f494cf76149ce375023a1fa50ad767e0594bea1d6a7580bda9943",
+        "sha256": "d579414af999d7fca0f942bb72877b0adc99d5c72e121e39bb829e9f8f8345ca",
         "shared": true,
-        "size_bytes": 17942
+        "size_bytes": 17959
       },
       "references/scrapercity-platform.md": {
         "kind": "reference",
@@ -1560,9 +1560,9 @@
       },
       "references/scrapercity-catalog.md": {
         "kind": "reference",
-        "sha256": "9d95af13cb7f494cf76149ce375023a1fa50ad767e0594bea1d6a7580bda9943",
+        "sha256": "d579414af999d7fca0f942bb72877b0adc99d5c72e121e39bb829e9f8f8345ca",
         "shared": true,
-        "size_bytes": 17942
+        "size_bytes": 17959
       },
       "references/scrapercity-platform.md": {
         "kind": "reference",
@@ -1632,9 +1632,9 @@
       },
       "references/scrapercity-catalog.md": {
         "kind": "reference",
-        "sha256": "9d95af13cb7f494cf76149ce375023a1fa50ad767e0594bea1d6a7580bda9943",
+        "sha256": "d579414af999d7fca0f942bb72877b0adc99d5c72e121e39bb829e9f8f8345ca",
         "shared": true,
-        "size_bytes": 17942
+        "size_bytes": 17959
       },
       "references/scrapercity-platform.md": {
         "kind": "reference",
@@ -1707,9 +1707,9 @@
       },
       "references/scrapercity-catalog.md": {
         "kind": "reference",
-        "sha256": "9d95af13cb7f494cf76149ce375023a1fa50ad767e0594bea1d6a7580bda9943",
+        "sha256": "d579414af999d7fca0f942bb72877b0adc99d5c72e121e39bb829e9f8f8345ca",
         "shared": true,
-        "size_bytes": 17942
+        "size_bytes": 17959
       },
       "references/scrapercity-platform.md": {
         "kind": "reference",
@@ -1762,9 +1762,9 @@
       },
       "references/scrapercity-catalog.md": {
         "kind": "reference",
-        "sha256": "9d95af13cb7f494cf76149ce375023a1fa50ad767e0594bea1d6a7580bda9943",
+        "sha256": "d579414af999d7fca0f942bb72877b0adc99d5c72e121e39bb829e9f8f8345ca",
         "shared": true,
-        "size_bytes": 17942
+        "size_bytes": 17959
       },
       "references/scrapercity-platform.md": {
         "kind": "reference",
@@ -1832,9 +1832,9 @@
       },
       "references/scrapercity-catalog.md": {
         "kind": "reference",
-        "sha256": "9d95af13cb7f494cf76149ce375023a1fa50ad767e0594bea1d6a7580bda9943",
+        "sha256": "d579414af999d7fca0f942bb72877b0adc99d5c72e121e39bb829e9f8f8345ca",
         "shared": true,
-        "size_bytes": 17942
+        "size_bytes": 17959
       },
       "references/scrapercity-platform.md": {
         "kind": "reference",
@@ -1898,9 +1898,9 @@
       },
       "references/scrapercity-catalog.md": {
         "kind": "reference",
-        "sha256": "9d95af13cb7f494cf76149ce375023a1fa50ad767e0594bea1d6a7580bda9943",
+        "sha256": "d579414af999d7fca0f942bb72877b0adc99d5c72e121e39bb829e9f8f8345ca",
         "shared": true,
-        "size_bytes": 17942
+        "size_bytes": 17959
       },
       "references/scrapercity-platform.md": {
         "kind": "reference",
@@ -1964,9 +1964,9 @@
       },
       "references/scrapercity-catalog.md": {
         "kind": "reference",
-        "sha256": "9d95af13cb7f494cf76149ce375023a1fa50ad767e0594bea1d6a7580bda9943",
+        "sha256": "d579414af999d7fca0f942bb72877b0adc99d5c72e121e39bb829e9f8f8345ca",
         "shared": true,
-        "size_bytes": 17942
+        "size_bytes": 17959
       },
       "references/scrapercity-platform.md": {
         "kind": "reference",
@@ -2024,9 +2024,9 @@
       },
       "references/scrapercity-catalog.md": {
         "kind": "reference",
-        "sha256": "9d95af13cb7f494cf76149ce375023a1fa50ad767e0594bea1d6a7580bda9943",
+        "sha256": "d579414af999d7fca0f942bb72877b0adc99d5c72e121e39bb829e9f8f8345ca",
         "shared": true,
-        "size_bytes": 17942
+        "size_bytes": 17959
       },
       "references/scrapercity-platform.md": {
         "kind": "reference",
@@ -2084,9 +2084,9 @@
       },
       "references/scrapercity-catalog.md": {
         "kind": "reference",
-        "sha256": "9d95af13cb7f494cf76149ce375023a1fa50ad767e0594bea1d6a7580bda9943",
+        "sha256": "d579414af999d7fca0f942bb72877b0adc99d5c72e121e39bb829e9f8f8345ca",
         "shared": true,
-        "size_bytes": 17942
+        "size_bytes": 17959
       },
       "references/scrapercity-platform.md": {
         "kind": "reference",
@@ -2173,9 +2173,9 @@
       },
       "references/scrapercity-catalog.md": {
         "kind": "reference",
-        "sha256": "9d95af13cb7f494cf76149ce375023a1fa50ad767e0594bea1d6a7580bda9943",
+        "sha256": "d579414af999d7fca0f942bb72877b0adc99d5c72e121e39bb829e9f8f8345ca",
         "shared": true,
-        "size_bytes": 17942
+        "size_bytes": 17959
       },
       "references/scrapercity-platform.md": {
         "kind": "reference",
@@ -2195,7 +2195,7 @@
       }
     }
   },
-  "generatedFrom": "1d25fe0ecb60bf6be124aee8f337889f9fb11d0b",
+  "generatedFrom": "cf9b916807212340e6cde0091818877376776f82",
   "kinds": {
     "example": 38,
     "reference": 264,
@@ -2205,7 +2205,7 @@
   },
   "schemaVersion": 2,
   "totals": {
-    "bytes": 5735913,
+    "bytes": 5736440,
     "files": 400,
     "skills": 31
   }
