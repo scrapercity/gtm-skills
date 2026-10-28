@@ -52,7 +52,11 @@ const { TOOLS, ENDPOINT_BY_TOOL } = await import(pathToFileURL(path.join(pkg, 'l
 const mcpSource = fs.readFileSync(path.join(pkg, 'bin', 'mcp.mjs'), 'utf8')
 const cliSource = fs.readFileSync(path.join(pkg, 'bin', 'cli.mjs'), 'utf8')
 
-const missing = UTILITY_TOOLS.filter(([n]) => !mcpSource.includes(`'${n}'`)).map(([n]) => n)
+// Since scrapercity 1.0.24 the hand-written tools live in lib/utilityTools.mjs, shared by the MCP server and
+// the JavaScript and Python SDKs; earlier versions define them in bin/mcp.mjs.
+const utilPath = path.join(pkg, 'lib', 'utilityTools.mjs')
+const utilityNames = fs.existsSync(utilPath) ? (await import(pathToFileURL(utilPath).href)).UTILITY_TOOLS.map((t) => t.name) : null
+const missing = UTILITY_TOOLS.filter(([n]) => (utilityNames ? !utilityNames.includes(n) : !mcpSource.includes(`'${n}'`))).map(([n]) => n)
 if (missing.length) {
   console.error(`FAIL: utility tools no longer in scrapercity@${version}: ${missing.join(', ')}`)
   process.exit(1)
