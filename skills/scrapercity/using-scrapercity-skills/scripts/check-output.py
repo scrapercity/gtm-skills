@@ -33,7 +33,7 @@ SKILLS = {
 PRICES = {
     "query_lead_database": 0.0, "query_local_business_database": 0.0,
     "scrape_apollo": 0.0039, "scrape_website_finder": 0.0499, "find_people": 0.0199,
-    "scrape_distress_list": 0.05, "validate_emails": 0.0072, "scrape_maps": 0.0099,
+    "scrape_distress_list": 0.05, "validate_emails": 0.00169, "scrape_maps": 0.0099,
     "scrape_airbnb": 0.019, "scrape_bizbuysell": 0.0099, "scrape_crexi": 0.029,
     "scrape_angi": 0.0099, "scrape_yelp": 0.0099, "scrape_zillow_agents": 0.029,
     "scrape_property_lookup": 0.15, "search_criminal_records": 1.00, "scrape_store_leads": 0.0039,

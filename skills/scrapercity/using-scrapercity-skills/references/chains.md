@@ -18,8 +18,8 @@ Example: 1,500 dentists in Austin and Houston with a website and an email.
 |-|-:|-:|-:|
 | `query_local_business_database` | 1,500 | included | $0.00 |
 | `scrape_maps` (gap fill) | 300 | $0.0099 | $2.97 |
-| `validate_emails` | 1,800 | $0.0072 | $12.96 |
-| **Total** | | | **$15.93** |
+| `validate_emails` | 1,800 | $0.00169 | $3.04 |
+| **Total** | | | **$6.01** |
 
 ## 2. B2B contacts by title and company size
 
@@ -36,8 +36,8 @@ Example: VP or Head of Sales at US software companies with 50 to 200 employees, 
 | Tool | Units | Unit price | Cost |
 |-|-:|-:|-:|
 | `query_lead_database` (`hasEmail: true`) | 3,000 | included | $0.00 |
-| `validate_emails` | 3,000 | $0.0072 | $21.60 |
-| **Total** | | | **$21.60** |
+| `validate_emails` | 3,000 | $0.00169 | $5.07 |
+| **Total** | | | **$5.07** |
 
 ## 3. Named accounts
 
@@ -54,8 +54,8 @@ Example: 200 target domains; the database covers 140 of them; 500 contacts end u
 | `query_lead_database` by `companyDomain` | 140 domains | included | $0.00 |
 | `scrape_website_finder` (60 uncovered domains, 1 contact found each, assumption) | 60 | $0.0499 | $2.99 |
 | `find_emails` (100 contacts without email, 60% found, assumption) | 60 | $0.05 | $3.00 |
-| `validate_emails` | 500 | $0.0072 | $3.60 |
-| **Total** | | | **$9.59** |
+| `validate_emails` | 500 | $0.00169 | $0.85 |
+| **Total** | | | **$6.84** |
 
 ## 4. Online stores by platform and app
 
@@ -70,8 +70,8 @@ Example: 2,000 US Shopify apparel stores with the Klaviyo app and an email.
 | Tool | Units | Unit price | Cost |
 |-|-:|-:|-:|
 | `scrape_store_leads` | 2,000 | $0.0039 | $7.80 |
-| `validate_emails` | 2,000 | $0.0072 | $14.40 |
-| **Total** | | | **$22.20** |
+| `validate_emails` | 2,000 | $0.00169 | $3.38 |
+| **Total** | | | **$11.18** |
 
 ## 5. Distressed property owners
 
@@ -106,8 +106,8 @@ Example: 400 senior backend engineers in Austin, excluding the hiring company, w
 |-|-:|-:|-:|
 | `query_lead_database` | 400 | included | $0.00 |
 | `find_mobiles` (50 inputs, 40% found, assumption) | 20 | $0.25 | $5.00 |
-| `validate_emails` | 400 | $0.0072 | $2.88 |
-| **Total** | | | **$7.88** |
+| `validate_emails` | 400 | $0.00169 | $0.68 |
+| **Total** | | | **$5.68** |
 
 ## 7. CRM hygiene
 
@@ -122,8 +122,8 @@ Example: a 5,000-contact HubSpot export, 1,200 rows missing an email.
 | Tool | Units | Unit price | Cost |
 |-|-:|-:|-:|
 | `find_emails` (1,200 inputs, 55% found, assumption) | 660 | $0.05 | $33.00 |
-| `validate_emails` | 5,000 | $0.0072 | $36.00 |
-| **Total** | | | **$69.00** |
+| `validate_emails` | 5,000 | $0.00169 | $8.45 |
+| **Total** | | | **$41.45** |
 
 ## 8. Owner call program
 
@@ -157,8 +157,8 @@ Example: 50 new roofing contractors a day across Texas, emailed within 48 hours.
 | Tool | Units per month (22 sending days) | Unit price | Cost per month |
 |-|-:|-:|-:|
 | `query_local_business_database` (`excludeDelivered: true`) | 1,100 | included | $0.00 |
-| `validate_emails` | 1,100 | $0.0072 | $7.92 |
-| **Total** | | | **$7.92** |
+| `validate_emails` | 1,100 | $0.00169 | $1.86 |
+| **Total** | | | **$1.86** |
 
 ## 10. Bulk enrichment of an existing file
 
@@ -172,9 +172,9 @@ Example: a 5,000-row CRM export; the steps, batch ledger and write-back rules ar
 
 | Tool | Units | Unit price | Cost |
 |-|-:|-:|-:|
-| `validate_emails` (emails already in the file, after suppression) | 3,500 | $0.0072 | $25.20 |
+| `validate_emails` (emails already in the file, after suppression) | 3,500 | $0.00169 | $5.92 |
 | `find_emails` (630 missing after a Lead Database match, 55% found, assumption) | 347 | $0.05 | $17.35 |
-| **Total** | | | **$42.55** |
+| **Total** | | | **$23.27** |
 
 ## 11. Champion job-change tracking
 
@@ -189,12 +189,12 @@ Example: 600 champions and power users checked monthly on Growth.
 |-|-:|-:|-:|
 | `query_lead_database` by `socialUrl` | 600 | included | $0.00 |
 | `find_emails` (3 movers without an email on the record) | 3 | $0.05 | $0.15 |
-| `validate_emails` (5 movers with a database email) | 5 | $0.0072 | $0.04 |
-| **Total per month** | | | **$0.19** |
+| `validate_emails` (5 movers with a database email) | 5 | $0.00169 | $0.01 |
+| **Total per month** | | | **$0.16** |
 
 ## Plan choice across chains
 
-Starter ($49 a month, $49 of credits) has no database access, so chains 1, 2, 3, 6, 8 and 9 fall back to scrapers. Chain 1 on Starter: 1,800 Maps businesses x $0.0099 = $17.82, plus $12.96 validation, $30.78 in all. Growth ($149 a month) carries $159 of credits and includes the databases. When a user runs more than one of the database chains a month, Growth is usually cheaper per record; `outbound-unit-economics` has the break-even table.
+Starter ($49 a month, $49 of credits) has no database access, so chains 1, 2, 3, 6, 8 and 9 fall back to scrapers. Chain 1 on Starter: 1,800 Maps businesses x $0.0099 = $17.82, plus $3.04 validation, $20.86 in all. Growth ($149 a month) carries $159 of credits and includes the databases. When a user runs more than one of the database chains a month, Growth is usually cheaper per record; `outbound-unit-economics` has the break-even table.
 
 ## Sources
 

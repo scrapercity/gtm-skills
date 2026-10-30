@@ -81,13 +81,13 @@ The validation run reported 498 emails received, equal to the unique count sent.
 | Website Finder, primary titles | 66 contacts found | $0.0499 | $3.29 |
 | Website Finder, fallback titles | 31 contacts found | $0.0499 | $1.55 |
 | Email Finder | 25 emails found (11 free misses) | $0.05 | $1.25 |
-| Email Validator | 498 emails | $0.0072 | $3.59 |
+| Email Validator | 498 emails | $0.00169 | $0.84 |
 | Mobile Finder | 103 numbers found (141 free misses) | $0.25 | $25.75 |
-| Total paid usage | | | $35.43 |
+| Total paid usage | | | $32.68 |
 
-Total without mobiles: $9.68, or $0.021 per valid contact (464). Wallet after run: $135.77.
+Total without mobiles: $6.93, or $0.015 per valid contact (464). Wallet after run: $138.52.
 
-Approval: the user approved the waterfall ceiling of $15.09 on 2026-10-13 after seeing the 600-slot plan, then approved a separate Mobile Finder ceiling of $61.00 (244 inputs x $0.25) once the slot 1 count was known.
+Approval: the user approved the waterfall ceiling of $12.34 on 2026-10-13 after seeing the 600-slot plan, then approved a separate Mobile Finder ceiling of $61.00 (244 inputs x $0.25) once the slot 1 count was known.
 
 ## Sample Contacts
 

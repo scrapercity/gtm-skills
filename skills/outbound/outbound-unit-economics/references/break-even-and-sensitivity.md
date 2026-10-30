@@ -26,7 +26,7 @@ What changes the answer:
 - A team that would otherwise pay $0.0039 per lead for Apollo pulls gets Lead Database records at $0 on Growth. 10,000 leads a month is $39.00 of Apollo usage that disappears.
 - Scale's higher rate limits help automation and do not change this table.
 - Large, steady usage favors buying extra credits on Scale (30% bonus) over stacking Growth purchases (10%).
-- The plan is a small line next to people: in the worked example the Starter route saves $69.05 a month, 0.7% of program cost.
+- The plan is a small line next to people: in the worked example the Starter route saves $93.84 a month, 0.9% of program cost.
 
 ## 2. CAC limits and the most a meeting can cost, by deal size
 
@@ -97,7 +97,7 @@ Domains, leads, mobile inputs and SDR FTE scale together; the sequencer tier and
 |-|-|-|-|-|
 | 1x | $10,363.14 | 18.91 | $548.09 | $3,806.15 |
 | 2x | $20,352.21 | 37.82 | $538.19 | $3,737.46 |
-| 3x | $30,366.92 | 56.72 | $535.35 | $3,717.70 |
+| 3x | $30,341.28 | 56.72 | $534.90 | $3,714.56 |
 
 Volume barely moves unit cost because people are 95% of it and scale with meetings. Rates move it: one more point of reply rate does more than tripling volume.
 

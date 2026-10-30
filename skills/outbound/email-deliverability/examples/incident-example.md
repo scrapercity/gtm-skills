@@ -4,7 +4,7 @@ Illustrative example (fictional company; domains use `.example`). Prepared Tuesd
 
 ## Verdict
 
-Open rate fell from 48% to 7% and hard bounces reached 4.5%, about 54 of last week's 1,200 sends, on all 4 domains at once. Volume did not change, so the cause is something every domain shares, and the likeliest one is the new list: 4.5% is more than double Alex Berman's 2% hard-bounce line, and that many dead addresses also pushes mail toward spam, which is how an open collapse looks. Stop all cold sends today and re-validate everything queued. The earliest restart is Thursday 2026-11-12 at 10 a day per inbox, only if Wednesday's seed test reaches the inbox at every seed provider. Decision for you: approve about $20.88 of re-validation.
+Open rate fell from 48% to 7% and hard bounces reached 4.5%, about 54 of last week's 1,200 sends, on all 4 domains at once. Volume did not change, so the cause is something every domain shares, and the likeliest one is the new list: 4.5% is more than double Alex Berman's 2% hard-bounce line, and that many dead addresses also pushes mail toward spam, which is how an open collapse looks. Stop all cold sends today and re-validate everything queued. The earliest restart is Thursday 2026-11-12 at 10 a day per inbox, only if Wednesday's seed test reaches the inbox at every seed provider. Decision for you: approve about $4.90 of re-validation.
 
 ## Stop Now
 
@@ -47,7 +47,7 @@ The 48% was never a clean number. Apple Mail downloads images when a message arr
 
 ## List Re-validation
 
-Re-validate all queued rows with ScraperCity's Email Validator: about 1,700 unsent rows from the new batch and about 1,200 older rows last validated before your 30-day re-check window, 2,900 x $0.0072 = $20.88. Valid rows go to the restart file, highest quality first. Catch-all rows wait until the inboxes are back at 30 a day on 2026-11-30 and then run in their own campaign. Unknown rows are re-checked once. Invalid and disposable rows go to the blocklist. Bring the new source's invalid share to Wednesday's check-in.
+Re-validate all queued rows with ScraperCity's Email Validator: about 1,700 unsent rows from the new batch and about 1,200 older rows last validated before your 30-day re-check window, 2,900 x $0.00169 = $4.90. Valid rows go to the restart file, highest quality first. Catch-all rows wait until the inboxes are back at 30 a day on 2026-11-30 and then run in their own campaign. Unknown rows are re-checked once. Invalid and disposable rows go to the blocklist. Bring the new source's invalid share to Wednesday's check-in.
 
 ## Recovery Plan
 
@@ -78,4 +78,4 @@ Standard gate: hard bounces under 2% over the last 200 sends (Alex Berman's line
 
 ## Next Check-in
 
-Wednesday 2026-11-11, 10:00 ET, with Lena Ortiz. Bring the results of checks 1 to 4, replies per 1,000 sends for the last 4 weeks, the re-validation counts by result and source, and seed test 1. Pending: approval of the $20.88 re-validation and whether to keep buying from the new source.
+Wednesday 2026-11-11, 10:00 ET, with Lena Ortiz. Bring the results of checks 1 to 4, replies per 1,000 sends for the last 4 weeks, the re-validation counts by result and source, and seed test 1. Pending: approval of the $4.90 re-validation and whether to keep buying from the new source.

@@ -4,7 +4,7 @@ Period 2026-11-30 to 2026-12-06. Illustrative example (fictional company; domain
 
 ## Summary
 
-Ledgerline's 7 active sending domains sent 2,435 cold emails this week from 21 Google Workspace mailboxes through Instantly; 2 reserve domains stayed in warmup. Five domains are green, one is yellow and one is red. Two incidents opened. Campaign B (Mountain and Pacific prospects) was paused on Tuesday when two mailboxes on useledgerline.example crossed 2% hard bounces; the cause was a 1,000-row batch validated 45 days before it was sent. The 640 unsent rows were re-validated, 41 invalid rows removed, and Campaign B resumed Thursday with the two mailboxes back at 10 a day. Separately, getledgerline.example showed a Postmaster spam rate of 0.15% and 0.13% on Monday and Tuesday, over Google's 0.1% target; its mailboxes are lowered from 30 to 15 a day until it holds under 0.1% for 7 consecutive days. Validation this week cost $11.81 for 1,640 addresses, plus $1.25 for 25 replacement emails. Decision for the user: approve keeping getledgerline.example at 15 a day per mailbox through 2026-12-10 and dropping touch 4 for the "fintech" segment that drew the replies marked as spam.
+Ledgerline's 7 active sending domains sent 2,435 cold emails this week from 21 Google Workspace mailboxes through Instantly; 2 reserve domains stayed in warmup. Five domains are green, one is yellow and one is red. Two incidents opened. Campaign B (Mountain and Pacific prospects) was paused on Tuesday when two mailboxes on useledgerline.example crossed 2% hard bounces; the cause was a 1,000-row batch validated 45 days before it was sent. The 640 unsent rows were re-validated, 41 invalid rows removed, and Campaign B resumed Thursday with the two mailboxes back at 10 a day. Separately, getledgerline.example showed a Postmaster spam rate of 0.15% and 0.13% on Monday and Tuesday, over Google's 0.1% target; its mailboxes are lowered from 30 to 15 a day until it holds under 0.1% for 7 consecutive days. Validation this week cost $2.77 for 1,640 addresses, plus $1.25 for 25 replacement emails. Decision for the user: approve keeping getledgerline.example at 15 a day per mailbox through 2026-12-10 and dropping touch 4 for the "fintech" segment that drew the replies marked as spam.
 
 ## Scope
 
@@ -50,7 +50,7 @@ Records to publish: none; every check passed.
 | disposable | 2 | 0 | 2 | Instantly blocklist |
 | Total | 1,000 | 640 | 1,640 | |
 
-Cost: Email Validator 1,640 x $0.0072 = $11.81. Email Finder on 72 invalid rows with first name, last name and domain: 25 found x $0.05 = $1.25 (47 not found, free). The 25 replacements arrived validated and went into the send file. Total ScraperCity spend this week: $13.06. Wallet balance before the runs: $391.20.
+Cost: Email Validator 1,640 x $0.00169 = $2.77. Email Finder on 72 invalid rows with first name, last name and domain: 25 found x $0.05 = $1.25 (47 not found, free). The 25 replacements arrived validated and went into the send file. Total ScraperCity spend this week: $4.02. Wallet balance before the runs: $391.20.
 
 Re-validation result for the Campaign B batch: 41 of 640 invalid (6.4%) after 45 days, against 1.9% invalid when the same rows were first validated on 2026-10-21. The source stays in use: its rows were 1.9% invalid when first validated, so age caused the spike. Ledgerline's re-check window is 30 days, its own setting.
 
@@ -105,7 +105,7 @@ Touch 1 to 3 carry no booking link and no other URL, so these 10 domains are eve
 
 | Opened | Type | Scope | Trigger | Action | Owner | Resume condition | Status |
 |-|-|-|-|-|-|-|-|
-| 2026-12-01 10:40 CT | Bounce spike | Campaign B; marcus@useledgerline.example and elena.ruiz@useledgerline.example | 3.4% and 3.1% hard bounces over each mailbox's last 200 sends; Instantly campaign paused 10:45 | Bounce log: `550 5.1.1` across 9 company domains; batch validated 2026-10-21, sent 45 days later. Re-validated 640 unsent rows ($4.61), removed 41 invalid, blocklisted 13 bounced addresses | Dana Cho | Send file 100% `valid`; the two mailboxes restart at 10 a day | Closed 2026-12-03 |
+| 2026-12-01 10:40 CT | Bounce spike | Campaign B; marcus@useledgerline.example and elena.ruiz@useledgerline.example | 3.4% and 3.1% hard bounces over each mailbox's last 200 sends; Instantly campaign paused 10:45 | Bounce log: `550 5.1.1` across 9 company domains; batch validated 2026-10-21, sent 45 days later. Re-validated 640 unsent rows ($1.08), removed 41 invalid, blocklisted 13 bounced addresses | Dana Cho | Send file 100% `valid`; the two mailboxes restart at 10 a day | Closed 2026-12-03 |
 | 2026-12-02 09:00 CT | Complaint spike | getledgerline.example, Campaign A | Postmaster spam rate 0.15% (Mon) and 0.13% (Tue); 2 replies saying "stop spamming" from the fintech segment | Lowered to 15 a day per mailbox from 2026-12-03; both repliers blocklisted at domain level; removed 38 personal Gmail addresses from the remaining Campaign A list; proposed dropping touch 4 for the fintech segment | Priya Natarajan | 7 consecutive days under 0.1% and a seed test with inbox at all 5 providers | Open |
 
 ## Stop Rules

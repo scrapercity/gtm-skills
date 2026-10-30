@@ -226,7 +226,7 @@ The copy uses fields ScraperCity returns. Pull or confirm them before writing.
 | Store Leads | `scrape_store_leads` | Store platform, installed apps (Shopify), technologies, category, estimated monthly visits, city | $0.0039 per lead |
 | Tech Stack Search | `scrape_builtwith` | The technology searched (every domain in the result uses it) | $4.99 per technology |
 | Email Finder | `find_emails` | A named person's email when the listing has only info@ | $0.05 per email found |
-| Email Validator | `validate_emails` | Pre-send gate only | $0.0072 per email |
+| Email Validator | `validate_emails` | Pre-send gate only | $0.00169 per email |
 
 Draft samples:
 
@@ -243,8 +243,8 @@ scrape_store_leads  platform="shopify" apps="Recharge" countryCode="US" emails=t
 | Store Leads sample for drafting (Shopify, Recharge, US) | 20 | $0.0039 | $0.08 |
 | Store Leads full cell | 1,500 | $0.0039 | $5.85 |
 | Email Finder for stores with no named contact, 600 lookups, 50% found (assumed for this example) | 300 found | $0.05 | $15.00 |
-| Email Validator on all addresses | 1,500 | $0.0072 | $10.80 |
-| Total | | | $31.73 |
+| Email Validator on all addresses | 1,500 | $0.00169 | $2.54 |
+| Total | | | $23.47 |
 
 Show the user this table and get approval before the full pull. Call `check_wallet` first.
 

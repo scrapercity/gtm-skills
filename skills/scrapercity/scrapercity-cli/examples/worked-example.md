@@ -20,7 +20,7 @@ Every command must exist in scrapercity 1.0.17 and use only flags that command r
 
 | Step | Command | Maps to | Billable units | Notes |
 |---|---|---|---|---|
-| 1 | `npx -y scrapercity@1.0.17 wallet` | `GET /api/v1/wallet` | 0 | Guard: stop when balance is under the day's $3.60 ceiling |
+| 1 | `npx -y scrapercity@1.0.17 wallet` | `GET /api/v1/wallet` | 0 | Guard: stop when balance is under the day's $0.85 ceiling |
 | 2 | `npx -y scrapercity@1.0.17 db-leads --title "VP Sales, Vice President of Sales, Head of Sales" --not-title "Assistant, Intern, Operations" --company-country "United States" --industry "computer software" --min-employees 50 --max-employees 500 --has-email --limit 1` | Lead Database count | 0 | Printed `18940 total leads, page 1 of 18940`. Run once by hand |
 | 3 | `npx -y scrapercity@1.0.17 db-local --keyword dentist --location "Texas" --has-email --limit 1` | Local Business Database count | 0 | Printed `9870 total businesses`; `Places: Texas, US`. Run once by hand |
 | 4 | `curl -G https://app.scrapercity.com/api/v1/database/leads` with the step 2 filters plus `excludeDelivered=true`, `after`, `limit` | Lead Database rows | 400 new leads a day | Cursor loop from `after=0`; rows saved as JSON lines, then CSV |
@@ -35,10 +35,10 @@ Every command must exist in scrapercity 1.0.17 and use only flags that command r
 |---|---:|---:|---:|
 | Lead Database new leads, 400 a run for 22 weekday runs | 8,800 | included in Growth | $0.00 |
 | Local Business Database new businesses, 100 a run for 22 runs | 2,200 | included in Growth | $0.00 |
-| `email-validate` on every new email, up to 500 a run for 22 runs | 11,000 | $0.0072 | $79.20 |
-| Total | | | $79.20 |
+| `email-validate` on every new email, up to 500 a run for 22 runs | 11,000 | $0.00169 | $18.59 |
+| Total | | | $18.59 |
 
-Approval: Per run the ceiling is 500 x $0.0072 = $3.60. Per month (22 weekdays) it is $79.20, 49.8% of the $159 Growth credit, leaving $79.80 for other work each cycle. Shown to Priya as a monthly figure and approved in writing on 2026-10-13. Each run uses 400 and 100 of the two databases' 100,000 a day allowances. At these rates the lead segment lasts about 47 runs (18,940 / 400, a little over 9 weeks) and the dentist segment about 99 runs (9,870 / 100, about 20 weeks); the script warns on a short day so a segment can be widened before it runs dry.
+Approval: Per run the ceiling is 500 x $0.00169 = $0.85. Per month (22 weekdays) it is $18.59, 11.7% of the $159 Growth credit, leaving $140.41 for other work each cycle. Shown to Priya as a monthly figure and approved in writing on 2026-10-13. Each run uses 400 and 100 of the two databases' 100,000 a day allowances. At these rates the lead segment lasts about 47 runs (18,940 / 400, a little over 9 weeks) and the dentist segment about 99 runs (9,870 / 100, about 20 weeks); the script warns on a short day so a segment can be widened before it runs dry.
 
 ## Script
 
@@ -55,7 +55,7 @@ SC=(npx -y scrapercity@1.0.17)
 API=https://app.scrapercity.com
 TODAY=$(date -u +%Y%m%d)
 OUT="out/$TODAY"; mkdir -p "$OUT"
-LEADS_TARGET=400; DENT_TARGET=100; NEED=3.60
+LEADS_TARGET=400; DENT_TARGET=100; NEED=0.85
 
 start_run() {
   local out id
@@ -144,7 +144,7 @@ exit 0
 
 | Failure | Detection | Action |
 |---|---|---|
-| Balance under $3.60 | Wallet guard exits 3 with the balance in the log | Priya tops up; the next weekday run continues from `after=0`, so no day's leads are lost |
+| Balance under $0.85 | Wallet guard exits 3 with the balance in the log | Priya tops up; the next weekday run continues from `after=0`, so no day's leads are lost |
 | Key missing or rejected (401) | `:?missing key` stops the script, or the CLI exits 1 with a key message | Fix `~/.config/scrapercity/env`; never put the key in the script |
 | Database search took too long (503) | curl exits 22; the server message goes to the log | Narrow the segment (split by `companyState`) and rerun by hand |
 | Rate limited (429) | curl exits 22 with a rate message | The 1 second sleep keeps the loop near 60 requests a minute; rerun once after 30 seconds |
@@ -156,8 +156,8 @@ exit 0
 
 | Check | Result |
 |---|---|
-| Dry run with targets set to 5 and 5 on 2026-10-13 | 5 leads and 5 dentists written, 10 emails validated for $0.07, file `validated-daily-feed-20261013-5a1d2e7b.csv` |
-| First full run 2026-10-14 | leads=400, dentists=100, emails=497 (3 duplicates removed), run 3c9e1f0a SUCCEEDED, cost 497 x $0.0072 = $3.58 |
+| Dry run with targets set to 5 and 5 on 2026-10-13 | 5 leads and 5 dentists written, 10 emails validated for $0.02, file `validated-daily-feed-20261013-5a1d2e7b.csv` |
+| First full run 2026-10-14 | leads=400, dentists=100, emails=497 (3 duplicates removed), run 3c9e1f0a SUCCEEDED, cost 497 x $0.00169 = $0.84 |
 | Second run 2026-10-15 overlap check | `comm -12` on the two days' sorted email lists returned 0 shared emails |
 | Script lint | `bash -n daily-feed.sh` exits 0; `shellcheck` shows no errors |
 | Key exposure | `grep -c SCRAPERCITY_API_KEY= daily-feed.sh` returns 0 |

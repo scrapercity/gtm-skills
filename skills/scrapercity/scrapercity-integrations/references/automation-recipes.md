@@ -24,7 +24,7 @@ Sync vs async decides the design on every platform:
 | Wallet, runs, status | JSON in the response | Yes |
 | Any scraper (`find_emails`, `validate_emails`, `scrape_maps`, ...) | Only a `runId` | No. Batch many rows into one run, then finish on the webhook |
 
-A per-row scraper call turns 2,000 rows into 2,000 runs: past the 10 concurrent limit, past 100 requests a minute, and 2,000 CSVs to stitch back together. One `validate_emails` run with 2,000 addresses costs the same 2,000 x $0.0072 = $14.40 and returns one file.
+A per-row scraper call turns 2,000 rows into 2,000 runs: past the 10 concurrent limit, past 100 requests a minute, and 2,000 CSVs to stitch back together. One `validate_emails` run with 2,000 addresses costs the same 2,000 x $0.00169 = $3.38 and returns one file.
 
 ## Clay
 
@@ -390,7 +390,7 @@ A form fill is the one place a per-row call belongs, because a person is waiting
 3. HTTP Request: GET `/api/v1/database/leads?companyDomain={{domain}}&limit=1` with the Header Auth credential. Read the company fields from `data[0]` (`company_size`, `employees_count`, `company_industry`, `company_annual_revenue`, `company_country`). A `pagination.total` of 0 means the database has no record for that domain; route it as size unknown.
 4. Switch on size band and country: for example 200+ employees to an account executive, 11 to 199 to an SDR queue, 1 to 10 to a nurture list.
 5. CRM node: create or update the contact with the company fields, the route and `enrichment_source = ScraperCity Lead Database`.
-6. A nightly job sends that day's form emails to one `validate_emails` run ($0.0072 each) and writes `email_status` back. Validation is asynchronous, so it never sits in the real-time path.
+6. A nightly job sends that day's form emails to one `validate_emails` run ($0.00169 each) and writes `email_status` back. Validation is asynchronous, so it never sits in the real-time path.
 
 Cost: $0 wallet per form fill on Growth and Scale. One request per fill stays far inside 100 a minute unless a campaign drives more than one submission a second; above that, queue fills and drain at one a second.
 
@@ -406,7 +406,7 @@ Work emails go stale as people change jobs (the job-change recipe estimates abou
 6. Write back `email_status` and `email_validated_at` on every contact (HubSpot batch upsert of 100). Never blank the `email` field.
 7. Invalid results: remove the contact from active sequences, add the address to the shared bounce suppression list, and for contacts on open opportunities create a task for the owner and queue the person for the `socialUrl` lookup in the job-change recipe, since an invalid work address often means the person left.
 
-Cost: 2,000 contacts due in a month is 2,000 x $0.0072 = $14.40, two validator runs, about 25 ScraperCity requests.
+Cost: 2,000 contacts due in a month is 2,000 x $0.00169 = $3.38, two validator runs, about 25 ScraperCity requests.
 
 ## Sources
 

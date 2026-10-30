@@ -11,10 +11,10 @@ Goal: a list of active agents in a market, segmented by production.
 | 1 | `scrape_zillow_agents` `{"location":"Denver, CO","searchLimit":300}` | One run per city or ZIP; 500 max per run |
 | 2 | Repeat for suburbs: Aurora, Lakewood, Littleton, Arvada | Dedupe on profile URL |
 | 3 | Optional `specialty` runs (for example `buyer`) for a niche offer | Probe codes with `searchLimit: 5` first |
-| 4 | `validate_emails` on the agent emails | $0.0072 each |
+| 4 | `validate_emails` on the agent emails | $0.00169 each |
 | 5 | Segment by recent sales count and active listings | See `references/tool-reference.md` |
 
-Priced example: 5 cities x 300 agents = 1,500 x $0.029 = $43.50. Validation on 1,350 emails = $9.72. Total $53.22.
+Priced example: 5 cities x 300 agents = 1,500 x $0.029 = $43.50. Validation on 1,350 emails = $2.28. Total $45.78.
 
 Routing: email is the main channel (validated, one-click unsubscribe), then calls to the listed number. Anyone who asks to stop goes on the suppression list the same day.
 

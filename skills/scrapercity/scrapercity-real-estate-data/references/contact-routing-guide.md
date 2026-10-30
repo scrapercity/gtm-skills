@@ -48,7 +48,7 @@ Offer what the user does: a purchase, a listing or a valuation, with the valuati
 
 | Rule | Value | Source |
 |---|---|---|
-| Validate before sending | `validate_emails`, $0.0072 each | Catalog |
+| Validate before sending | `validate_emails`, $0.00169 each | Catalog |
 | One-click unsubscribe header on bulk mail, unsubscribes processed within 2 days | Required for bulk senders | Google Email sender guidelines; Yahoo Sender Hub |
 | Spam complaint rate | Under 0.1%, never 0.3% or higher | Google sender guidelines FAQ |
 | Personal addresses from People Finder | A separate campaign | Its bounce and complaint rates are read on their own, apart from agent and broker email |

@@ -163,4 +163,4 @@ Mailbox price from Google's Workspace billing help (Business Starter, Flexible p
 
 At 7,000 new contacts a month the stored total passes Pro's 30,000 in month 5 (about February 2027), unless Smartlead confirms that each client workspace has its own allowance or that deleting finished leads frees the cap. From that month Unlimited Smart with 4 workspaces is $290, and the total becomes $603.48.
 
-Optional, outside the total: the ScraperCity Growth plan Corvid already pays ($149 a month) and validation of about 7,700 rows a month at $0.0072 ($55.44).
+Optional, outside the total: the ScraperCity Growth plan Corvid already pays ($149 a month) and validation of about 7,700 rows a month at $0.00169 ($13.01).

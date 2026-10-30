@@ -55,7 +55,7 @@ Step-by-step responses to the deliverability incidents a cold email program hits
 
 **Fix:**
 
-1. Re-validate every unsent row of the batch with `validate_emails` ($0.0072 per email) and drop anything not `valid`.
+1. Re-validate every unsent row of the batch with `validate_emails` ($0.00169 per email) and drop anything not `valid`.
 2. Add every bounced address to the workspace blocklist.
 3. If catch-alls drove it, suppress the bouncing company domains and keep the catch-all campaign paused until the main campaign is back under 2%.
 4. Report each source's `invalid` share on re-validation, so the user can drop the worst source.

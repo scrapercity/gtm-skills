@@ -137,7 +137,7 @@ ScraperCity webhook (runId)
   -> GET /api/v1/scrape/status/{runId}          confirm SUCCEEDED (no signature scheme is documented)
   -> GET /api/downloads/{runId}                 CSV, within 48 hours
   -> normalize, dedupe, suppress                 csv-mapping-and-import.md sections 4 to 6
-  -> POST /api/v1/scrape/email-validator         validate_emails, $0.0072 per email
+  -> POST /api/v1/scrape/email-validator         validate_emails, $0.00169 per email
   -> poll status, download validated CSV
   -> split files, push valid rows to a PAUSED campaign
   -> notify the owner to review counts and start the campaign

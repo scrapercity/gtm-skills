@@ -33,7 +33,7 @@ Prepared 2026-10-13 for Ledgerpath (ledgerpath.example), an accounts payable aut
 | ICP filters with notTitle | 2,861 | Target 1,200 send-ready; pull 1,600 (1,200 / 0.75, the yield Ledgerpath measured on its last construction list) |
 | Priority domains, 6 batches with finance titles | 96 | One best person per domain for 96 of 140 domains; 44 domains go to Website Finder |
 
-User go-ahead: approved in chat on 2026-10-13 after seeing the counts and the $15.30 ceiling.
+User go-ahead: approved in chat on 2026-10-13 after seeing the counts and the $5.85 ceiling.
 
 ## Pipeline Funnel
 
@@ -72,7 +72,7 @@ User go-ahead: approved in chat on 2026-10-13 after seeing the counts and the $1
 | Total sends | 3,741 |
 | Sending days | 21 |
 
-Wave 1 holds 1,033 first contacts per company and starts 2026-10-20; wave 2 (214 rows) starts once each company's first contact finishes the sequence without a reply. Rows validated on 2026-10-13 stay inside the four-week window through 2026-11-10. Rows still unsent that day (about 250, mostly wave 2) are re-validated before their first step, about $1.80.
+Wave 1 holds 1,033 first contacts per company and starts 2026-10-20; wave 2 (214 rows) starts once each company's first contact finishes the sequence without a reply. Rows validated on 2026-10-13 stay inside the four-week window through 2026-11-10. Rows still unsent that day (about 250, mostly wave 2) are re-validated before their first step, about $0.42.
 
 ## Sequencer Import
 
@@ -97,10 +97,10 @@ Upload settings: CSV saved as UTF-8 with the header row first; "Check for duplic
 | Lead Database ICP pull and priority domains | 1,696 leads | Included in Growth plan | $0.00 |
 | Website Finder | 19 contacts found | $0.0499 | $0.95 |
 | Email Finder | 10 emails found (5 free misses) | $0.05 | $0.50 |
-| Email Validator | 1,552 emails | $0.0072 | $11.17 |
-| Total paid usage | | | $12.62 |
+| Email Validator | 1,552 emails | $0.00169 | $2.62 |
+| Total paid usage | | | $4.07 |
 
-Cost per send-ready row: $12.62 / 1,247 = $0.010. Wallet after run: $154.13. The 1,696 leads used under 2% of the 100,000 daily allowance.
+Cost per send-ready row: $4.07 / 1,247 = $0.003. Wallet after run: $162.68. The 1,696 leads used under 2% of the 100,000 daily allowance.
 
 ## Sample Rows
 

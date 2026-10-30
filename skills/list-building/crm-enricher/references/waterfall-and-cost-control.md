@@ -16,9 +16,9 @@ The usual waterfall formula, price per attempt divided by hit rate, applies to t
 
 | Step | What you pay | Cost per usable result |
 |-|-|-|
-| Lead Database email, then `validate_emails` | $0 wallet on Growth and Scale, plus $0.0072 per address checked | $0.0072 / valid share |
+| Lead Database email, then `validate_emails` | $0 wallet on Growth and Scale, plus $0.00169 per address checked | $0.00169 / valid share |
 | `find_emails` (validated at lookup per its tool description) | $0.05 per email found | $0.05 |
-| `scrape_website_finder` contact, then `validate_emails` | $0.0499 per contact found plus $0.0072 | ($0.0499 + $0.0072) / valid share |
+| `scrape_website_finder` contact, then `validate_emails` | $0.0499 per contact found plus $0.00169 | ($0.0499 + $0.00169) / valid share |
 | `find_mobiles` number, then line-type, shared-number and suppression checks | $0.25 per number found | $0.25 / survival share |
 
 Rule: included steps first, then the cheapest usable result, then steps that need a different input (Website Finder for accounts with no named person). No published figure gives the valid share or the survival share; measure both on the first batch and use them for the rest of the run.
@@ -42,7 +42,7 @@ The mobile ladder's second run cannot bill one person twice: it only receives pe
 
 | Cap | How to set it | Where it is enforced |
 |-|-|-|
-| Per row | The sum of the paid steps a row may enter. A contact allowed into every step costs at most $0.05 (email) + $0.25 (mobile) + $0.0144 (two validations) = $0.31. Mobiles are the lever: keep them to the accounts or stages the user named and, within those, to the seniority levels and departments reps will dial. | Field rule sheet: list which segments enter which paid step |
+| Per row | The sum of the paid steps a row may enter. A contact allowed into every step costs at most $0.05 (email) + $0.25 (mobile) + $0.00338 (two validations) = $0.30. Mobiles are the lever: keep them to the accounts or stages the user named and, within those, to the seniority levels and departments reps will dial. | Field rule sheet: list which segments enter which paid step |
 | Per page | 5 pages of 100 per domain on the Lead Database | Runbook REST loop |
 | Per run | Ceiling = every paid lookup hits. Shown before any paid step; over $5 waits for a go-ahead | `check_wallet`, then the user |
 | Per month (scheduled jobs) | Records expected per month x per-row cap, agreed with the user | Sum the run log before each batch; `list_runs` only covers the last 168 hours, so keep your own log for the month. Pause the job at 80% of the cap |
@@ -55,7 +55,7 @@ After each run, score every step on what it added that earlier steps had not:
 | Step | Rows entered | Incremental fills | Cost | Cost per incremental fill |
 |-|-:|-:|-:|-:|
 | Lead Database by `socialUrl`, `companyDomain` and `companyName` | 611 | 211 emails | $0.00 | $0.00 |
-| `validate_emails` | 2,112 | 103 bad existing emails caught | $15.21 | $0.15 per bad address caught |
+| `validate_emails` | 2,112 | 103 bad existing emails caught | $3.57 | $0.03 per bad address caught |
 | `find_emails` pass 1 | 479 | 219 blanks filled, 71 invalid replaced, 2 job changers | $14.60 | $0.05 |
 | `find_emails` pass 2, company-name retry | 120 | 18 blanks filled | $0.90 | $0.05 |
 | `find_mobiles`, two passes | 385 (290 + 95) | 99 mobiles | $24.75 | $0.25 |
@@ -75,7 +75,7 @@ Cut or move a step later when its cost per incremental fill is above what the fi
 
 - When a month's paid tool use reaches $159, Growth's credits cover it, so the databases come at no extra cost over buying the same credits on Starter.
 - Below that, the $100 price difference pays for itself when the Lead Database fills 2,000 or more emails a month that would otherwise go to Email Finder ($100 / $0.05 = 2,000), before counting titles, phones and company fields it fills for $0.
-- On Starter, fill company fields from the `validate_emails` company columns ($0.0072 per address) instead of buying a database plan for firmographics alone.
+- On Starter, fill company fields from the `validate_emails` company columns ($0.00169 per address) instead of buying a database plan for firmographics alone.
 - Scale's credits exceed its price by $151. Compare it with Growth plus purchased credits once monthly spend passes about $800, or when the 100 requests a minute limit stretches a backfill across too many hours.
 
 ## 6. Technographics with Tech Stack Search

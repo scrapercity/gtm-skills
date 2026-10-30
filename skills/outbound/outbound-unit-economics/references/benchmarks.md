@@ -75,7 +75,7 @@ A program that mails thousands of contacts a month is a 500+ recipient sender, s
 
 | Item | Value | Source |
 |-|-|-|
-| `validate_emails` | $0.0072 per email | `references/scrapercity-catalog.md` |
+| `validate_emails` | $0.00169 per email | `references/scrapercity-catalog.md` |
 | `find_emails` | $0.05 per email found, free if not found | Same |
 | `find_mobiles` | $0.25 per number found, free if not found | Same |
 | `scrape_apollo` | $0.0039 per lead | Same |

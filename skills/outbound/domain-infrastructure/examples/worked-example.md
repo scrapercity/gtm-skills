@@ -214,7 +214,7 @@ Setup: all 30 domains added and verified in Google Postmaster Tools (the Postmas
 
 Wide build instead: 62 x $8.40 + 38 x $4.00 + 50 x $11.08 / 12 + $97.00 = $815.97 a month, $284.07 more.
 
-Not in the total: list validation, if the send file is not validated elsewhere, 10,500 new prospects a month x $0.0072 = $75.60; the provider-mix sample already run cost $3.60.
+Not in the total: list validation, if the send file is not validated elsewhere, 10,500 new prospects a month x $0.00169 = $17.75; the provider-mix sample already run cost $0.85.
 
 ## Launch Risks and Scaling Triggers
 

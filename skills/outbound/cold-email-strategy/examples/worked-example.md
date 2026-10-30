@@ -55,12 +55,12 @@ Prices: ScraperCity and Instantly pricing pages, checked 2026-10-12 and 2026-10-
 |-|-|-|-|
 | Growth plan (Local Business Database included) | 1 month | $149.00 | $149.00 |
 | Email Finder, cell A dentists whose listing shows only a practice inbox | 520 lookups, 286 found | $0.05 per email found | $14.30 |
-| Email Validator, cell A | 1,846 | $0.0072 | $13.29 |
-| Email Finder and Email Validator, cell B on 2026-11-18 | 380 lookups, 209 found; 1,329 validated | $0.05; $0.0072 | $20.02 |
+| Email Validator, cell A | 1,846 | $0.00169 | $3.12 |
+| Email Finder and Email Validator, cell B on 2026-11-18 | 380 lookups, 209 found; 1,329 validated | $0.05; $0.00169 | $12.70 |
 | Instantly Hypergrowth, billed monthly (Growth's 1,000 uploaded contacts is under the 2,240 this plan sends to) | 1 month | $97.00 | $97.00 |
 | Google Workspace seats, 3 on each sending domain | 6 seats | $7.00 | $42.00 |
 | Sending domains, $12 a year each | 2 | $1.00 a month | $2.00 |
-| Total | | | $290.00 a month cash. Growth costs $149 and includes $159 of monthly credits for pay-per-result tools, so the $47.61 of finder and validator usage costs nothing extra |
+| Total | | | $290.00 a month cash. Growth costs $149 and includes $159 of monthly credits for pay-per-result tools, so the $30.12 of finder and validator usage costs nothing extra |
 
 Validation result: cell A 1,515 valid, 191 catch-all held, 140 invalid removed. One address per practice (the named dentist when valid, else the practice inbox) leaves 1,310. Catch-all addresses wait in a hold campaign at 9 sends a day, dropped if its bounces pass 2%.
 

@@ -1,6 +1,6 @@
 # Batching and Re-validation Runbook
 
-How to validate files of any size with `validate_emails`, keep the bill equal to the unique count, track runs, recover from failures, split risky rows into their own send plans, and set the next validation date. Price: $0.0072 per email (`references/scrapercity-catalog.md`). The validator dedupes each submitted batch and bills unique addresses; dedupe locally anyway so the quoted count matches the bill and so duplicates across batches are not billed twice.
+How to validate files of any size with `validate_emails`, keep the bill equal to the unique count, track runs, recover from failures, split risky rows into their own send plans, and set the next validation date. Price: $0.00169 per email (`references/scrapercity-catalog.md`). The validator dedupes each submitted batch and bills unique addresses; dedupe locally anyway so the quoted count matches the bill and so duplicates across batches are not billed twice.
 
 ## 1. Pick the path by size
 
@@ -60,7 +60,7 @@ curl -s -H "Authorization: Bearer $SCRAPERCITY_API_KEY" -o validated_chunk_01.cs
 | `emailCount` equals the chunk's line count | Continue |
 | `emailCount` lower by a few | The validator merged exact duplicates you missed; continue and note it |
 | `emailCount` higher than the line count | Wrong file submitted; `cancel_run` and investigate |
-| `estimatedCost` differs from `emailCount` x $0.0072 by more than a cent | Stop and check the live price at scrapercity.com/pricing |
+| `estimatedCost` differs from `emailCount` x $0.00169 by more than a cent | Stop and check the live price at scrapercity.com/pricing |
 
 Polling: a typical run finishes in minutes. In a chat session, check once per turn and report `handled / requested`. Download within 48 hours of SUCCEEDED (results are stored for 48 hours per scrapercity.com/api-docs).
 
@@ -120,15 +120,15 @@ Every row ends up in one file (SKILL.md step 7). These send plans keep risky row
 
 | Situation | Re-validate when | Cost per 1,000 |
 |-|-|-|
-| Rows validated but not yet mailed | Four weeks after `email_validated_at` | $7.20 |
-| Re-launch to a list mailed before | Before the re-launch if older than four weeks | $7.20 |
-| `unknown` results | Once, on a later date set in the report | $7.20 |
-| Live campaign hits 2% hard bounces | Pause, then re-validate the unsent remainder | $7.20 |
-| CRM contacts used for occasional one-to-one email | Before the next send, if older than four weeks | $7.20 |
+| Rows validated but not yet mailed | Four weeks after `email_validated_at` | $1.69 |
+| Re-launch to a list mailed before | Before the re-launch if older than four weeks | $1.69 |
+| `unknown` results | Once, on a later date set in the report | $1.69 |
+| Live campaign hits 2% hard bounces | Pause, then re-validate the unsent remainder | $1.69 |
+| CRM contacts used for occasional one-to-one email | Before the next send, if older than four weeks | $1.69 |
 | Catch-all rows that bounced | Never; suppress the bounced address | $0 |
 | Addresses on any suppression list | Never | $0 |
-| A live send hard-bounces at a domain | Re-validate the unsent rows at that domain before their next step | $7.20 |
-| A job-change signal on a contact (Lead Database shows a new company) | Validate the old address before the next send | $7.20 |
+| A live send hard-bounces at a domain | Re-validate the unsent rows at that domain before their next step | $1.69 |
+| A job-change signal on a contact (Lead Database shows a new company) | Validate the old address before the next send | $1.69 |
 
 The four-week window comes from Hunter's Email Verification Guide (4 Nov 2025): in its test, over 2% of a list went invalid within four weeks and 5.5% within eight, and Berman keeps bounces under 2%. Two more published figures bracket decay over a year: US Bureau of Labor Statistics data put median employee tenure at 4.1 years in January 2026, roughly 1.4% of a contact list changing employer each month before promotions and closures; ZeroBounce's Email List Decay Report for 2026 (2025 data, vendor-reported) found at least 23% of an email list decays within a year, after 28% in the previous edition. Plan on 1.3% to 2.3% a month and replace it with your own bounce rate by months since validation.
 
@@ -157,13 +157,13 @@ Re-validation runs only on rows that are still candidates to send. Never re-vali
 
 | Job | Steps | Cost formula |
 |-|-|-|
-| Quick check of a few addresses before a one-off send | MCP `validate_emails` with the array; route by status | n x $0.0072 |
-| CRM hygiene before a send | Export contacts with `email_validated_at` older than four weeks and an open sequence or a planned send; validate; write status back | stale rows x $0.0072 |
-| Pre-launch check on a purchased or inherited list | Full SKILL.md workflow, tier C rules | unique after suppression x $0.0072 |
-| Bounce spike on a live campaign | Pause; export unsent rows; validate; resume with valid only | unsent rows x $0.0072 |
-| Merge two lists before one campaign | Repair, build `email_key`, dedupe across both, suppress, validate once | unique across both x $0.0072 |
-| Event list right after the event | Validate before the first send; apply the typo map first, since badge-scan rows are typed by hand | unique x $0.0072 |
-| 100,000-row archive | Chunks at the user's size; run log; 402 check before each chunk | 100,000 x $0.0072 = $720.00, shown and approved before the first chunk |
+| Quick check of a few addresses before a one-off send | MCP `validate_emails` with the array; route by status | n x $0.00169 |
+| CRM hygiene before a send | Export contacts with `email_validated_at` older than four weeks and an open sequence or a planned send; validate; write status back | stale rows x $0.00169 |
+| Pre-launch check on a purchased or inherited list | Full SKILL.md workflow, tier C rules | unique after suppression x $0.00169 |
+| Bounce spike on a live campaign | Pause; export unsent rows; validate; resume with valid only | unsent rows x $0.00169 |
+| Merge two lists before one campaign | Repair, build `email_key`, dedupe across both, suppress, validate once | unique across both x $0.00169 |
+| Event list right after the event | Validate before the first send; apply the typo map first, since badge-scan rows are typed by hand | unique x $0.00169 |
+| 100,000-row archive | Chunks at the user's size; run log; 402 check before each chunk | 100,000 x $0.00169 = $169.00, shown and approved before the first chunk |
 
 ## Sources
 

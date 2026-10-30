@@ -86,12 +86,12 @@ Prices from `references/scrapercity-catalog.md`. Lead Database rows are included
 | Line | Units | Unit price | Cost |
 |---|---:|---:|---:|
 | Lead Database rows, 22 weekdays x 500 | 11,000 | $0.00 (Growth) | $0.00 |
-| `validate_emails`, 22 x 500 unique emails | 11,000 | $0.0072 | $79.20 |
+| `validate_emails`, 22 x 500 unique emails | 11,000 | $0.00169 | $18.59 |
 | `scrape_apollo`, one run a month | 2,000 | $0.0039 | $7.80 |
-| `validate_emails` on the Apollo leads | 2,000 | $0.0072 | $14.40 |
-| Total per month | | | $101.40 |
+| `validate_emails` on the Apollo leads | 2,000 | $0.00169 | $3.38 |
+| Total per month | | | $29.77 |
 
-$101.40 is under the $159 of monthly Growth credits. The first daily run costs $3.60 and the Apollo run plus its validation $22.20, both shown to the agency owner and approved before go-live. If the Apollo start response shows `lead_database.matches` of 640, those 640 come from the database at no wallet charge and the Apollo `count` drops to 1,360, saving 640 x $0.0039 = $2.50.
+$29.77 is under the $159 of monthly Growth credits. The first daily run costs $0.85 and the Apollo run plus its validation $11.18, both shown to the agency owner and approved before go-live. If the Apollo start response shows `lead_database.matches` of 640, those 640 come from the database at no wallet charge and the Apollo `count` drops to 1,360, saving 640 x $0.0039 = $2.50.
 
 ## Test Plan
 
@@ -100,7 +100,7 @@ $101.40 is under the $159 of monthly Growth credits. The first daily run costs $
 | `GET /api/v1/wallet` with the new key | 200, plan Growth, balance $142.60 |
 | Count with `limit=1` | `pagination.total` 18,420 |
 | Cursor pull capped at 250 rows on a test day | 250 rows, 3 calls, no repeated ids |
-| Validator on 3 known addresses | `SUCCEEDED` in under 2 min, CSV downloaded, cost $0.02 |
+| Validator on 3 known addresses | `SUCCEEDED` in under 2 min, CSV downloaded, cost $0.01 |
 | Fake webhook post with an existing runId, sent twice | One download, second post ignored by the `runId` log |
 | Same filters sent as a POST JSON body | Same `pagination.total` as the GET |
 | `python3 -m py_compile` and a cron dry run | Pass |
@@ -109,4 +109,4 @@ $101.40 is under the $159 of monthly Growth credits. The first daily run costs $
 
 1. Register `https://feeds.example-agency.com/hooks/sc-7f3a9c2e41b8` at app.scrapercity.com/dashboard/webhooks and post one test notification.
 2. Turn on the 06:00 UTC weekday cron for `daily_feed.py` and the hourly cron for `sweep.py`.
-3. Review the first week: rows delivered, validator pass rate, wallet spend against the $101.40 monthly estimate.
+3. Review the first week: rows delivered, validator pass rate, wallet spend against the $29.77 monthly estimate.

@@ -140,7 +140,7 @@ On Starter, step 1 is unavailable. Price the scraper path, and show the Growth u
 
 ### 4. Price the job
 
-For each paid tool: units times unit price, with units estimated from a count call or a stated hit-rate assumption. Add validation for every email that will be sent ($0.0072 each). Sum it. Compare the total with the wallet balance and the user's ceiling.
+For each paid tool: units times unit price, with units estimated from a count call or a stated hit-rate assumption. Add validation for every email that will be sent ($0.00169 each). Sum it. Compare the total with the wallet balance and the user's ceiling.
 
 ### 5. Set the gates
 
@@ -179,10 +179,10 @@ Worked routing estimate: "Email 1,500 dentists in Austin and Houston, Growth pla
 |-|-|-:|-:|-:|
 | Pull businesses with a website and email | `query_local_business_database` | 1,500 | $0.00 (included) | $0.00 |
 | Fill gaps where the database is thin | `scrape_maps` | 300 | $0.0099 | $2.97 |
-| Validate every email before sending | `validate_emails` | 1,800 | $0.0072 | $12.96 |
-| **Total** | | | | **$15.93** |
+| Validate every email before sending | `validate_emails` | 1,800 | $0.00169 | $3.04 |
+| **Total** | | | | **$6.01** |
 
-The same job on Starter, with Maps for all 1,800 businesses: 1,800 x $0.0099 = $17.82, plus $12.96 validation = $30.78. Show both and let the user choose.
+The same job on Starter, with Maps for all 1,800 businesses: 1,800 x $0.0099 = $17.82, plus $3.04 validation = $20.86. Show both and let the user choose.
 
 ### Install and verify these skills
 
@@ -197,7 +197,7 @@ Project scope by default: skills include small Python checker scripts, so read t
 
 1. Files: `python3 scripts/generate-lock.py --verify <skills folder>` from a clone at the same tag reports no `MISMATCH` or `MISSING` lines (a `gh`-installed `SKILL.md` shows one expected mismatch for its tracking fields).
 2. Checker: `python3 scripts/check-output.py examples/worked-example.md` in any installed skill prints PASS.
-3. Routing: in a new session ask "email 200 dentists in Austin, Growth plan". The agent should load this router, name `local-business-list` as the first skill, and price validation at $0.0072 an email before anything runs.
+3. Routing: in a new session ask "email 200 dentists in Austin, Growth plan". The agent should load this router, name `local-business-list` as the first skill, and price validation at $0.00169 an email before anything runs.
 
 Every flag, bundle and agent folder is in the repo's `docs/INSTALL.md`; the lock format is in `docs/INTEGRITY.md`.
 

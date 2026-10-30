@@ -193,7 +193,7 @@ When the input is a file the user already has, follow `references/bulk-enrichmen
 
 ### 10. Write the spec and test it
 
-Fill `templates/output-template.md`, run the test plan (wallet, count, a 3-email validator run for $0.02, a fake webhook post sent twice), then `python3 scripts/check-output.py spec.md`.
+Fill `templates/output-template.md`, run the test plan (wallet, count, a 3-email validator run for $0.01, a fake webhook post sent twice), then `python3 scripts/check-output.py spec.md`.
 
 ## ScraperCity Implementation
 
@@ -250,12 +250,12 @@ A monthly job for a SaaS outbound agency on Growth: 500 new VP Sales leads a wee
 | Line | Units | Unit price | Cost |
 |---|---:|---:|---:|
 | Lead Database rows, 22 x 500 | 11,000 | included in Growth | $0.00 |
-| `validate_emails` on those rows | 11,000 | $0.0072 | $79.20 |
+| `validate_emails` on those rows | 11,000 | $0.00169 | $18.59 |
 | `scrape_apollo` | 2,000 | $0.0039 | $7.80 |
-| `validate_emails` on the Apollo leads | 2,000 | $0.0072 | $14.40 |
-| **Total per month** | | | **$101.40** |
+| `validate_emails` on the Apollo leads | 2,000 | $0.00169 | $3.38 |
+| **Total per month** | | | **$29.77** |
 
-That fits inside the $159 of monthly Growth credits. The Apollo run plus validation is $22.20, shown and approved before the first start. Requests: 5 database calls a day at 1 a second, up to 40 status checks per validator run at 15 s over its 1 to 10 minute delivery time, one webhook-driven download for Apollo. Peak 10 a minute against a limit of 100.
+That fits inside the $159 of monthly Growth credits. The Apollo run plus validation is $11.18, shown and approved before the first start. Requests: 5 database calls a day at 1 a second, up to 40 status checks per validator run at 15 s over its 1 to 10 minute delivery time, one webhook-driven download for Apollo. Peak 10 a minute against a limit of 100.
 
 ## Output Format
 

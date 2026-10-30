@@ -234,13 +234,13 @@ Track reply, positive reply and meeting rate by signal type and by age bucket. O
 | Pre-foreclosure, foreclosure, auction | `scrape_distress_list` | `search`, `distressTypes`, `maxItems` (max 500) | property address | $0.05 per property |
 | Agents in a market | `scrape_zillow_agents` | `location`, `specialty`, `searchLimit` (max 500) | profile URL or name plus brokerage | $0.029 per agent |
 | New-to-account records | `query_lead_database`, `query_local_business_database`, Ecommerce Database REST | `excludeDelivered: true`, `after` cursor | record id | Included in Growth |
-| Contacts for scored accounts | `query_lead_database`, `scrape_website_finder`, `find_emails`, `validate_emails`, `find_mobiles` | `companyDomain`; `domains` plus `jobTitle`; names plus domain | email | $0, $0.0499 per contact found, $0.05 per email found, $0.0072 per email, $0.25 per mobile found |
+| Contacts for scored accounts | `query_lead_database`, `scrape_website_finder`, `find_emails`, `validate_emails`, `find_mobiles` | `companyDomain`; `domains` plus `jobTitle`; names plus domain | email | $0, $0.0499 per contact found, $0.05 per email found, $0.00169 per email, $0.25 per mobile found |
 | Job change, champion left (S16, S21) | `query_lead_database` | `socialUrl` per CRM champion or customer contact | LinkedIn URL plus `company_domain` | Included in Growth |
 | New leader at a watched account (S20) | `query_lead_database` | `companyDomain` (several, comma separated), `seniority: ["vp", "c_suite"]`, `department` | LinkedIn URL per domain | Included in Growth |
 | Competitor install base (S24) | `scrape_builtwith` (Tech Stack Search) | `technology` set to the competitor's product | domain | $4.99 per technology |
 | Form D company to domain (S22) | `query_lead_database` | `companyName`, `companyState`, `limit: 5` | domain | Included in Growth |
 | Event exhibitors and speakers (S26) | `query_lead_database`, `scrape_website_finder` | `companyDomain` list plus `title`; `domains` plus `jobTitle` for gaps | email | $0; $0.0499 per contact found |
-| G2 intent account, webinar registrant (S27, S28) | `query_lead_database`, `validate_emails` | `companyDomain` plus buyer `title` for S27; the registrant's email or `socialUrl` for S28 | domain; email | $0; $0.0072 per email |
+| G2 intent account, webinar registrant (S27, S28) | `query_lead_database`, `validate_emails` | `companyDomain` plus buyer `title` for S27; the registrant's email or `socialUrl` for S28 | domain; email | $0; $0.00169 per email |
 
 Three things about repeat pulls that change cost:
 
@@ -269,12 +269,12 @@ Cron with the CLI and REST, n8n workflows, webhook handling and a stdlib diff sc
 | Store Leads ICP universe, monthly (Shopify, US, 20,000 to 150,000 visits, `emails: true`) | 9,800 stores | $0.0039 | $38.22 |
 | Tech Stack Search "Klaviyo", weekly | 4 pulls | $4.99 | $19.96 |
 | `scrape_website_finder` founder at domains with no Lead Database contact, weekly | 7 found x 4 | $0.0499 | $1.40 |
-| `validate_emails` on contacts, weekly | 36 x 4 | $0.0072 | $1.04 |
+| `validate_emails` on contacts, weekly | 36 x 4 | $0.00169 | $0.24 |
 | `find_mobiles` for tier A calls, weekly | 4 found x 4 | $0.25 | $4.00 |
 | Lead Database contacts by `companyDomain` | 29 x 4 | Included in Growth | $0.00 |
-| Total for the cycle | | | $64.62 |
+| Total for the cycle | | | $63.82 |
 
-Over $5: run `check_wallet`, show this table, wait for a yes. Test the universe with `totalLeads: 100` ($0.39) first and confirm the visits filter behaves as expected. Rounding: per-line costs are rounded to the cent; the unrounded total is $64.614.
+Over $5: run `check_wallet`, show this table, wait for a yes. Test the universe with `totalLeads: 100` ($0.39) first and confirm the visits filter behaves as expected. Rounding: per-line costs are rounded to the cent; the unrounded total is $63.821.
 
 ## Output Format
 

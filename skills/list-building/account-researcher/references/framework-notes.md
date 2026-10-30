@@ -46,7 +46,7 @@ LinkedIn's compare-plans page (checked 2026-10-13) lists TeamLink and Relationsh
 
 ### ScraperCity tool behavior
 
-From the published package (version 1.0.17): Tech Stack Search takes one `technology` and returns the domains detected using it at $4.99 per technology; Website Finder takes one `jobTitle` per request; Email Finder results are validated at lookup; the Email Validator returns `sc_mx_provider` and `sc_mx_security_gateway`, which reveal the mail platform and any security gateway for $0.0072.
+From the published package (version 1.0.17): Tech Stack Search takes one `technology` and returns the domains detected using it at $4.99 per technology; Website Finder takes one `jobTitle` per request; Email Finder results are validated at lookup; the Email Validator returns `sc_mx_provider` and `sc_mx_security_gateway`, which reveal the mail platform and any security gateway for $0.00169.
 
 ## What this skill does not use
 

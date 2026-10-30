@@ -195,7 +195,7 @@ Pull one record (`limit=1`) or run a 3-row test and map from the keys you see. T
 
 ### 8. Estimate cost, then test small
 
-Price every ScraperCity step from `references/scrapercity-catalog.md`. Show the monthly total and get a yes before scheduling any paid step. Run a 5-record pull and a 50-email validator run ($0.36) through every step, then check 20 records in each destination UI.
+Price every ScraperCity step from `references/scrapercity-catalog.md`. Show the monthly total and get a yes before scheduling any paid step. Run a 5-record pull and a 50-email validator run ($0.08) through every step, then check 20 records in each destination UI.
 
 ### 9. Write the plan
 
@@ -250,9 +250,9 @@ A home-services agency: 300 new Texas HVAC contractors rated 4 stars and up each
 | Line | Units | Unit price | Cost |
 |---|---:|---:|---:|
 | Local Business Database rows, 22 x 300 | 6,600 | included in Growth | $0.00 |
-| `validate_emails`, one email per business | 6,600 | $0.0072 | $47.52 |
-| Test batch | 50 | $0.0072 | $0.36 |
-| **First month** | | | **$47.88** |
+| `validate_emails`, one email per business | 6,600 | $0.00169 | $11.15 |
+| Test batch | 50 | $0.00169 | $0.08 |
+| **First month** | | | **$11.23** |
 
 The same 6,600 businesses scraped fresh with `scrape_maps` would add 6,600 x $0.0099 = $65.34 and come without rating filters or `excludeDelivered`. Requests: about 5 a minute at peak against 100. GoHighLevel: 300 upserts at 5 a second, one minute a day. Smartlead: one call a day with about 240 valid leads (400 is the cap).
 

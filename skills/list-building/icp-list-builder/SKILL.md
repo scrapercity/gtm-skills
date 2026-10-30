@@ -177,7 +177,7 @@ Check a random sample per tier by hand on title, company, location, domain and s
 |-|-|-|
 | Plan and balance | `check_wallet` | Free |
 | Evidence lookups, counts, pulls | `query_lead_database` | Included on Growth ($149/mo) and Scale; 100,000 new leads a day; re-fetching leads you already have is free |
-| Validate | `validate_emails` | $0.0072 per email |
+| Validate | `validate_emails` | $0.00169 per email |
 | Poll and fetch | `check_run_status`, `download_results` | Free |
 | Email for a named top-tier contact | `find_emails` | $0.05 per email found, free if not found |
 | Technology-defined segment | `scrape_builtwith` (Tech Stack Search) | $4.99 per technology |
@@ -229,12 +229,12 @@ Food and beverage manufacturers, 200-2,000 employees: 1,228 firms in SUSB 2022, 
 | Item | Units | Unit price | Cost |
 |-|-:|-:|-:|
 | Counts and pulls, four families | Up to 13,508 people | Included in Growth | $0.00 |
-| Validator, primaries | 3,118 | $0.0072 | $22.45 |
-| Validator, second pass ceiling | 3,118 | $0.0072 | $22.45 |
+| Validator, primaries | 3,118 | $0.00169 | $5.27 |
+| Validator, second pass ceiling | 3,118 | $0.00169 | $5.27 |
 | Email Finder ceiling, Tier 1 slots | 684 | $0.05 per email found | $34.20 |
-| Total paid usage, ceiling | | | $79.10 |
+| Total paid usage, ceiling | | | $44.74 |
 
-$79.10 sits inside Growth's $159 monthly credit, so the cash cost is the $149 plan fee. It exceeds $5, so show this table and wait for a yes before step 9.
+$44.74 sits inside Growth's $159 monthly credit, so the cash cost is the $149 plan fee. It exceeds $5, so show this table and wait for a yes before step 9.
 
 ### Error handling
 

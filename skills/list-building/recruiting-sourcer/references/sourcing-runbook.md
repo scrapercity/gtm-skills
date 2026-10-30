@@ -83,7 +83,7 @@ Location, company size and keywords are search filters, so every pulled row alre
 
 | Step | Who | Tool | Cost |
 |-|-|-|-|
-| Validate Lead Database emails | A and B | `validate_emails` | $0.0072 each |
+| Validate Lead Database emails | A and B | `validate_emails` | $0.00169 each |
 | Find missing work emails | A and B | `find_emails` with first name, last name, domain | $0.05 per found |
 | Mobiles | A only | `find_mobiles`, LinkedIn URL first, else work email, one input per person | $0.25 per found |
 

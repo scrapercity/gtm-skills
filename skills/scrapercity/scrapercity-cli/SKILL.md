@@ -189,10 +189,10 @@ Request: a morning job on Growth that adds 400 new VP Sales leads and 100 new Te
 |---|---:|---:|---:|
 | `db-leads` new leads (400 a day, cursor loop) | 12,000 | included in Growth | $0.00 |
 | `db-local` new businesses (100 a day) | 3,000 | included in Growth | $0.00 |
-| `email-validate` on every new email | 15,000 | $0.0072 | $108.00 |
-| **Total** | | | **$108.00** |
+| `email-validate` on every new email | 15,000 | $0.00169 | $25.35 |
+| **Total** | | | **$25.35** |
 
-Per day that is $3.60 and the month is $108.00, which is 68% of Growth's $159 monthly credit. Show the monthly figure once and get an explicit approval before turning on cron. Database pulls use 400 of the Lead Database's 100,000 a day allowance and 100 of the Local Business Database's.
+Per day that is $0.85 and the month is $25.35, which is 16% of Growth's $159 monthly credit. Show the monthly figure once and get an explicit approval before turning on cron. Database pulls use 400 of the Lead Database's 100,000 a day allowance and 100 of the Local Business Database's.
 
 ## Output Format
 

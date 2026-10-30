@@ -79,7 +79,7 @@ App Store review flag: 61 US stores left a 1 or 2 star Klaviyo review in the las
 | Tier | Method | Stores | With a named valid email | Note |
 |-|-|-|-|-|
 | T1 | Website Finder, title "Founder", then Email Validator | 171 | 91 | 98 founders found, 91 valid; the role inbox moves to the hold file for these 91 |
-| T2 | Website Finder, title "Founder", queued after a wallet top-up | 470 | 0 | Ceiling 470 x $0.0499 = $23.45 plus validation |
+| T2 | Website Finder, title "Founder", queued, paid from the remaining wallet | 470 | 0 | Ceiling 470 x $0.0499 = $23.45 plus $0.79 validation; wallet after at the ceiling $9.34 |
 | T3 | Role inbox | 542 | 0 | Founder-run stores; `hello@` and `team@` reach the founder |
 
 ## Cost Estimate
@@ -91,12 +91,12 @@ App Store review flag: 61 US stores left a 1 or 2 star Klaviyo review in the las
 | Store Leads T2 | 600 leads | $0.0039 | $2.34 |
 | Store Leads T3 | 700 leads | $0.0039 | $2.73 |
 | Tech Stack Search, Recharge | 1 technology | $4.99 | $4.99 |
-| Email Validator, store emails | 1,461 emails | $0.0072 | $10.52 |
+| Email Validator, store emails | 1,461 emails | $0.00169 | $2.47 |
 | Website Finder, T1 founders | 98 contacts found | $0.0499 | $4.89 |
-| Email Validator, founder emails | 98 emails | $0.0072 | $0.71 |
-| Total | | | $27.11 |
+| Email Validator, founder emails | 98 emails | $0.00169 | $0.17 |
+| Total | | | $18.52 |
 
-Ceiling shown before the run: Store Leads 1,625 requested leads x $0.0039 = $6.34, Tech Stack Search $4.99, store email validation up to $11.70, Website Finder on 171 T1 domains up to $8.53 with $1.23 validation; $32.79 in total. Agency owner approved in chat on 2026-10-13; wallet after the run $24.99.
+Ceiling shown before the run: Store Leads 1,625 requested leads x $0.0039 = $6.34, Tech Stack Search $4.99, store email validation up to $2.75, Website Finder on 171 T1 domains up to $8.53 with $0.29 validation; $22.90 in total. Agency owner approved in chat on 2026-10-13; wallet after the run $33.58.
 
 ## Sample Rows
 
@@ -113,6 +113,6 @@ QA sample (20 random rows, 2026-10-13): store live 20 of 20, category fit 19 of 
 ## Next Steps
 
 1. Load three campaigns, one per tier, with store_name, category, the uses_recharge and unhappy_with_klaviyo flags and first name as custom variables; role inboxes read "Hi {store name} team". Send the 23 unhappy_with_klaviyo stores and the 91 named T1 founders first; T1 copy cites one missing flow found on their site, T3 copy leads with the fixed-price package.
-2. Top up the wallet and run Website Finder for T2 founders (ceiling $23.45 plus validation) before the T2 campaign starts.
+2. Run Website Finder for T2 founders from the remaining wallet (ceiling $23.45 plus $0.79 validation, leaving at least $9.34) before the T2 campaign starts.
 3. Re-validate the 31 unknown addresses on 2026-10-16; send catch-all stores from a separate low-volume campaign once the main campaigns show bounces under 2%.
 4. On 2026-11-13, continue T2 from the saved nextOffset, dedupe on domain against this file, and re-validate any row validated more than 30 days before its send date.

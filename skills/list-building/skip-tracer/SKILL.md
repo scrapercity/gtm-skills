@@ -187,7 +187,7 @@ Normalize every phone to E.164 and keep line type where the data gives it. Order
 | Lead feed | `scrape_distress_list` (`search`, `distressTypes`, `maxItems` 1 to 500) | $0.05 per property |
 | Person search | `find_people` (`name`, `email`, `phone_number`, `street_citystatezip`, `max_results`) | $0.0199 per result; a search with 0 matches is billed as 1 result |
 | Owner of record and contact | `scrape_property_lookup` (`addresses`, `includeOwnerContact`, `fileName`) | $0.15 per property, +$0.10 for owner contact |
-| Email check for an email channel | `validate_emails` | $0.0072 per email |
+| Email check for an email channel | `validate_emails` | $0.00169 per email |
 
 ### Calls
 

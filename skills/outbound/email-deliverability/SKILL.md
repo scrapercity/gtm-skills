@@ -270,10 +270,10 @@ $0.05 per email found, free when nothing is found, and every found email is vali
 
 | Line | Count | Unit | Cost |
 |-|-|-|-|
-| `validate_emails`, full list | 6,000 | $0.0072 | $43.20 |
-| Re-validate `unknown` once (assume 3%) | 180 | $0.0072 | $1.30 |
+| `validate_emails`, full list | 6,000 | $0.00169 | $10.14 |
+| Re-validate `unknown` once (assume 3%) | 180 | $0.00169 | $0.30 |
 | `find_emails` on `invalid` rows with a name and domain (assume 5% invalid) | 300 inputs | $0.05 per email found | $15.00 ceiling if every input is found |
-| Total ceiling | | | $59.50 |
+| Total ceiling | | | $25.44 |
 
 Expected spend is lower: `find_emails` charges nothing for inputs it cannot find. Compare with the cost of one burned domain: a $11.08 domain, its 2 to 3 mailbox seats for the rest of the term, and 2 to 4 weeks of warmup (Berman) before a replacement can send.
 
@@ -289,7 +289,7 @@ Owner defaults to "the outbound lead, unless you name someone else today"; the s
 2. Stop Now: dated bullets (pause, suppress bounces everywhere, quarantine the batch, no new domains, open tracking off, the bounce auto-pause lowered to 2% with its menu path) and what keeps running (warmup at its current setting, the opt-out line, same-day opt-out suppression).
 3. Diagnosis: at least 3 causes ranked 1, 2, 3, each with why it fits, the result that confirms it and the result that clears it. Under it, the checks once, numbered, as commands (bounce log read by its text, `dig` lines, header test, blocklist lookups, a named seed test), then the fix for each ranked cause written out in full: SPF and DMARC records ready to paste, the Google Admin DKIM path, the tracking CNAME.
 4. Measurement: three or four sentences on why opens cannot decide it (Apple Mail Privacy Protection, Outlook image blocking, security filters) and the three deciding signals: seed placement, replies per 1,000 sends, hard bounces with codes.
-5. List Re-validation: rows, count, cost at $0.0072, routing per result.
+5. List Re-validation: rows, count, cost at $0.00169, routing per result.
 6. Recovery Plan: the standard gate line once with its numbers and sources, then a dated table with weekday names, sends per inbox, total sends a day, and a gate per sending row ("standard gate" plus that day's extra).
 7. Resume and Retire Rules: what to do when a gate is missed (without restating the gate numbers) and the keep, rest or retire rule, decided by seeds and bounces.
 8. Next Check-in: date, time, the numbers to bring, decisions pending. Not a second list of what would change the ranking.
@@ -328,7 +328,7 @@ Incident recovery plan:
 - [ ] At least 3 causes ranked in order, each with a confirming check and a clearing result; the rank 1 cause explains every symptom given.
 - [ ] Stop Now is dated, keeps warmup at its current setting and the opt-out line, and buys no domains before the cause is written down.
 - [ ] Measurement names Apple Mail Privacy Protection and says seeds, replies per 1,000 sends and bounces decide.
-- [ ] Re-validation count x $0.0072 is computed right; catch-alls wait until the last step.
+- [ ] Re-validation count x $0.00169 is computed right; catch-alls wait until the last step.
 - [ ] Every calendar row has a date; totals equal inboxes x sends per inbox; restart at 10 to 20 a day (Berman); no step more than doubles (Google); the standard gate is defined once with its numbers.
 - [ ] The checks are numbered commands; each ranked cause has its fix written out (records, Admin path, CNAME); the seed test names its tool or seed accounts.
 - [ ] `python3 scripts/check-output.py plan.md` prints PASS (it also enforces the length cap).
@@ -337,7 +337,7 @@ Weekly health report:
 
 - [ ] Every sending domain has a row in Authentication, Domain Health and Blocklist Checks.
 - [ ] Every domain status follows the step 7 rules: 2% bounces or 0.3% spam is never green or yellow.
-- [ ] Validation bucket counts add up to the total validated, and the cost uses $0.0072 per email.
+- [ ] Validation bucket counts add up to the total validated, and the cost uses $0.00169 per email.
 - [ ] No row without `valid` status is in a main send file.
 - [ ] Every incident names its type, an owner and a resume condition; Scope names one owner with pause authority and the backup capacity.
 - [ ] Blocklist Checks cover every linked domain on the Spamhaus DBL, SURBL and URIBL, not only sending domains.
@@ -357,7 +357,7 @@ Weekly health report:
 | Restarting at the old cap after the fix | The domains have not proven recovery and a second spike follows | Restart at 10 a day per inbox and step up weekly behind numeric gates, no step more than double the last |
 | Sending an unvalidated or stale list | Closed mailboxes bounce and push the campaign past the 2% line | Re-validate rows older than the re-check window before the first send |
 | Mixing catch-alls into the main campaign | One accept-all company that rejects later pushes the campaign's bounce rate past the auto-pause line | Separate catch-all campaign |
-| Re-validating catch-alls hoping for a different answer | Pays $0.0072 again for the same result | `find_emails` for a second address, or accept the risk in the catch-all campaign |
+| Re-validating catch-alls hoping for a different answer | Pays $0.00169 again for the same result | `find_emails` for a second address, or accept the risk in the catch-all campaign |
 | Treating Postmaster "No data" as healthy | Low personal-Gmail volume shows nothing | Judge by seeds, bounces and replies per provider |
 | Buying new domains when placement drops | The cause (list, copy, volume) moves to the new domains and burns them too | Run R2 and fix the cause; promote an already-warmed reserve if capacity is short |
 | Delisting before fixing the cause | Relisting follows and the second removal is harder | Fix, then request removal |

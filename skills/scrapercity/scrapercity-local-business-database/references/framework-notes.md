@@ -29,7 +29,7 @@ From the published `scrapercity` npm package, version 1.0.17:
 
 ### ScraperCity catalog and platform facts
 
-Prices: `scrape_maps` $0.0099 per business, `scrape_yelp` $0.0099 per result, `scrape_angi` $0.0099 per listing, `validate_emails` $0.0072 per email, `find_emails` $0.05 per email found, `find_mobiles` $0.25 per number found. Plans and allowance: Growth $149/mo and Scale $649/mo include the database; 100,000 new businesses a day; re-fetching owned records is free.
+Prices: `scrape_maps` $0.0099 per business, `scrape_yelp` $0.0099 per result, `scrape_angi` $0.0099 per listing, `validate_emails` $0.00169 per email, `find_emails` $0.05 per email found, `find_mobiles` $0.25 per number found. Plans and allowance: Growth $149/mo and Scale $649/mo include the database; 100,000 new businesses a day; re-fetching owned records is free.
 
 ### Google Business Profile category guidelines
 

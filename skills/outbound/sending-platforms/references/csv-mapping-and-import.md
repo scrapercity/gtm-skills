@@ -114,7 +114,7 @@ Check: zero empty cells in any column used in copy, and no `{{` in a rendered pr
 | 1 | Normalize every file (list quality standard section 3) | Required columns filled |
 | 2 | Dedupe inside the file and against the sequencer workspace on lowercased email | 0 duplicates |
 | 3 | Suppress: unsubscribes, bounces, complaints, customers, open deals, competitors, anyone contacted inside the user's re-contact gap (Alex Berman waits 30 to 60 days between cycles) | 0 matches |
-| 4 | Validate with `validate_emails` ($0.0072 per email) any row last checked before the user's re-check window | 100% of main-file rows `valid` |
+| 4 | Validate with `validate_emails` ($0.00169 per email) any row last checked before the user's re-check window | 100% of main-file rows `valid` |
 | 5 | Split files: main (valid), catch-all, role-address variant, non-personalized variant | Each file maps to one campaign or variant |
 | 6 | Rename headers to the platform's names (section 2) | Header row matches the table |
 | 7 | Upload with duplicate checks on and every block list honored | Instantly "Check for Duplicates" checked; Smartlead `ignore_global_block_list`, `ignore_unsubscribe_list` and `ignore_community_bounce_list` all false; ManyReach `addOnlyIfNew=true` |

@@ -9,7 +9,7 @@ Pricing, piloting, batching, the Distress List feed, Property Lookup escalation 
 | `find_people` | Result | $0.0199 | A search with 0 matches is billed as 1 result |
 | `scrape_property_lookup` | Property | $0.15 | +$0.10 with `includeOwnerContact: true`, so $0.25 |
 | `scrape_distress_list` | Property | $0.05 | `maxItems` 1 to 500 per run |
-| `validate_emails` | Email | $0.0072 | Only if an email channel is planned |
+| `validate_emails` | Email | $0.00169 | Only if an email channel is planned |
 
 ## 2. Cost formulas
 

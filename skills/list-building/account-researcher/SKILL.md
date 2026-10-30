@@ -168,7 +168,7 @@ Fill `templates/output-template.md`, list every source with a URL and the date c
 | Snapshot, team counts, people | `query_lead_database` | Included on Growth and Scale; 100,000 new leads a day |
 | Missing role at the domain | `scrape_website_finder` | $0.0499 per contact found |
 | Email from a name and domain | `find_emails` | $0.05 per email found, free if not found |
-| Validate emails, read mail provider and gateway | `validate_emails` | $0.0072 per email |
+| Validate emails, read mail provider and gateway | `validate_emails` | $0.00169 per email |
 | Technology presence | `scrape_builtwith` (Tech Stack Search) | $4.99 per technology |
 | Mobile for a planned call, if asked | `find_mobiles` | $0.25 per number found, free if not found |
 | Runs | `check_run_status`, `download_results`, `list_runs` | Free |
@@ -211,10 +211,10 @@ One Standard brief, two technologies that flip the pitch (Salesforce and HubSpot
 | Tech Stack Search | 2 technologies | $4.99 | $9.98 |
 | Website Finder for the missing evaluator | 1 contact found | $0.0499 | $0.05 |
 | Email Finder for the champion | 1 email found | $0.05 | $0.05 |
-| validate_emails | 3 emails | $0.0072 | $0.02 |
-| Total | | | $10.10 |
+| validate_emails | 3 emails | $0.00169 | $0.01 |
+| Total | | | $10.09 |
 
-Ten tier 1 accounts checked against the same two technology lists cost $9.98 for Tech Stack Search in total, not $99.80, so the per-account cost falls to about $1.12. Call `check_wallet`, show this table and wait for a yes before any paid lookup.
+Ten tier 1 accounts checked against the same two technology lists cost $9.98 for Tech Stack Search in total, not $99.80, so the per-account cost falls to about $1.11. Call `check_wallet`, show this table and wait for a yes before any paid lookup.
 
 ### Error handling
 

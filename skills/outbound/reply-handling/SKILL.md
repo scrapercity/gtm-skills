@@ -210,7 +210,7 @@ Add unsubscribe, hostile and hard-bounce addresses to the global suppression lis
 For "talk to Sarah Kim, she runs ops" or "I've left; try David":
 
 1. Parse first name, last name, the job the referrer said they own, and the company domain (from the referrer's email domain if not given).
-2. `find_emails` with `contacts: [{"first_name": "Sarah", "last_name": "Kim", "domain": "acme.example"}]`. Charged $0.05 only if found, and found addresses come back already validated. Run `validate_emails` ($0.0072) only on an address the referrer typed out.
+2. `find_emails` with `contacts: [{"first_name": "Sarah", "last_name": "Kim", "domain": "acme.example"}]`. Charged $0.05 only if found, and found addresses come back already validated. Run `validate_emails` ($0.00169) only on an address the referrer typed out.
 3. Thank the referrer in one line (R10) and stop their sequence.
 4. Send the referred person R11 as a new thread, not a forward:
    - Subject names the referrer ("Tom suggested I reach out").
@@ -233,7 +233,7 @@ Count replies by class per campaign cell. Mostly "not interested" points at targ
 | Step | Tool | Parameters | Price |
 |-|-|-|-|
 | Find the referred person's email | `find_emails` (Email Finder) | `contacts: [{first_name, last_name, domain}]` or `full_name` + `company_name` | $0.05 per email found, free if not found; found emails are already validated |
-| Check an address the referrer typed out | `validate_emails` (Email Validator) | `emails: [...]` | $0.0072 per email |
+| Check an address the referrer typed out | `validate_emails` (Email Validator) | `emails: [...]` | $0.00169 per email |
 | Find the role holder when only a team is named | `query_lead_database` | `companyDomain`, `title`, `seniority`, `hasEmail: true`, `limit: 10` | Included on Growth ($149/mo) and Scale |
 | Mobile for a hot referral that prefers calls | `find_mobiles` (Mobile Finder) | `inputs: ["sarah.kim@acmedental.example"]` | $0.25 per number found, free if not found |
 
@@ -259,10 +259,10 @@ Both finders bill only on a hit, so the estimate is a ceiling: every lookup foun
 | Line | Count | Unit price | Ceiling |
 |-|-|-|-|
 | `find_emails` on referral and wrong-person replies with a named person | 24 | $0.05 per email found | $1.20 |
-| `validate_emails` on 2 addresses referrers typed out | 2 | $0.0072 | $0.01 |
+| `validate_emails` on 2 addresses referrers typed out | 2 | $0.00169 | $0.00 |
 | `find_mobiles` for 5 referrals who asked for a call | 5 | $0.25 per number found | $1.25 |
 | "Talk to the team" replies resolved with Lead Database | 9 | included on Growth | $0.00 |
-| Total | | | $2.46 |
+| Total | | | $2.45 |
 
 Under $5, so no separate approval is needed; call `check_wallet` once a week.
 

@@ -312,9 +312,9 @@ These numbers come from one company in 2016, before Apple Mail Privacy Protectio
 | Step | Count | Unit price | Cost |
 |-|-|-|-|
 | `scrape_website_finder`, 40 domains x 6 titles, 60% of requests find one contact (planning assumption) | 144 contacts found | $0.0499 | $7.19 |
-| `validate_emails` on every found address | 144 | $0.0072 | $1.04 |
+| `validate_emails` on every found address | 144 | $0.00169 | $0.24 |
 | `find_mobiles` for the call step, 30% found (planning assumption) | 43 numbers | $0.25 | $10.75 |
-| Total | | | $18.98 |
+| Total | | | $18.18 |
 
 Call `check_wallet` first and show the user this table before the pull.
 

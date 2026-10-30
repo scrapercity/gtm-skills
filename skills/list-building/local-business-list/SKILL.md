@@ -216,7 +216,7 @@ Send every unique email to `validate_emails`. `valid` rows form the main CSV. Ro
 | Home services by ZIP | `scrape_angi` | $0.0099 per listing |
 | Email at the business website | `scrape_website_finder` | $0.0499 per contact found |
 | Email from a contact name | `find_emails` | $0.05 per email found, free if not found |
-| Validation | `validate_emails` | $0.0072 per email |
+| Validation | `validate_emails` | $0.00169 per email |
 | Owner mobile, if asked | `find_mobiles` (Mobile Finder) | $0.25 per number found, free if not found |
 
 ### Calls
@@ -261,10 +261,10 @@ Dentists in the Austin metro, 10 sub-cities, database first, Maps in 4 thin sub-
 | scrape_maps, 4 sub-cities x 2 terms x 40 cap (ceiling 320) | 228 returned | $0.0099 | $2.26 |
 | scrape_yelp, 1 term x 2 locations x 30 (ceiling 60) | 58 returned | $0.0099 | $0.57 |
 | Website Finder on 26 domains with no email | 15 contacts found | $0.0499 | $0.75 |
-| validate_emails after screening, dedupe and suppression | 713 emails | $0.0072 | $5.13 |
-| Total | | | $8.71 |
+| validate_emails after screening, dedupe and suppression | 713 emails | $0.00169 | $1.20 |
+| Total | | | $4.78 |
 
-The ceiling shown before the scrapes was $3.17 (Maps) + $0.59 (Yelp) + $5.83 (validation of up to 810 emails) = $9.59, shown before any paid step, so it waited for a yes. The Website Finder ceiling ($1.30 for 26 domains) was shown and approved after the scrapes, once the domain count was known. Cost per send-ready business in the example: $8.71 / 545 = $0.016.
+The ceiling shown before the scrapes was $3.17 (Maps) + $0.59 (Yelp) + $1.37 (validation of up to 810 emails) = $5.13, shown before any paid step, so it waited for a yes. The Website Finder ceiling ($1.30 for 26 domains) was shown and approved after the scrapes, once the domain count was known. Cost per send-ready business in the example: $4.78 / 545 = $0.009.
 
 ### Error handling
 

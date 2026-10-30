@@ -58,11 +58,11 @@ The 49 calls run at one call every 0.7 seconds, under the 100 requests a minute 
 | Line | Units | Unit price | Cost |
 |---|---:|---:|---:|
 | Lead Database pull | 4,812 | included in Growth | $0.00 |
-| validate_emails on every email | 4,812 | $0.0072 | $34.65 |
+| validate_emails on every email | 4,812 | $0.00169 | $8.13 |
 | find_mobiles on the 300 accounts at 100-200 employees (40% found assumed) | 120 found | $0.25 | $30.00 |
-| Total paid | | | $64.65 |
+| Total paid | | | $38.13 |
 
-Allowance share: 4,812 of 100,000 new leads, 4.8% of one day. For comparison, the same 4,812 leads through `scrape_apollo` would cost 4,812 x $0.0039 = $18.77 and take hours to days. User approved the $64.65 before validation started.
+Allowance share: 4,812 of 100,000 new leads, 4.8% of one day. For comparison, the same 4,812 leads through `scrape_apollo` would cost 4,812 x $0.0039 = $18.77 and take hours to days. User approved the $38.13 before validation started.
 
 ## Sample QA
 
@@ -78,6 +78,6 @@ Allowance share: 4,812 of 100,000 new leads, 4.8% of one day. For comparison, th
 
 ## Next Steps
 
-1. Run `validate_emails` on all 4,812 emails ($34.65) and keep only valid results for the first send.
+1. Run `validate_emails` on all 4,812 emails ($8.13) and keep only valid results for the first send.
 2. Split the file by employee band (50-99 and 100-200) so each band gets its own opening line, then hand off to `cold-email-list`.
 3. Schedule the daily feed: same filters, `excludeDelivered: true`, `after: "0"`, loop to null, append new leads to the run log, and validate them the same day.

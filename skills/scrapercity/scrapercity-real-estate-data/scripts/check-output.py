@@ -24,7 +24,7 @@ PRICES = {
     "scrape_crexi": {0.029},
     "scrape_bizbuysell": {0.0099},
     "find_people": {0.0199},
-    "validate_emails": {0.0072},
+    "validate_emails": {0.00169},
     "find_emails": {0.05},
     "find_mobiles": {0.25},
 }

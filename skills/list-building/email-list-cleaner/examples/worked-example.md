@@ -42,7 +42,7 @@ Syntax fixes applied and kept: 143, logged in `fix_applied`. Examples: `mailto:`
 | disposable | 88 | 0.9% | removed.csv and the Instantly blocklist |
 | Total validated | 10,351 | 100% | One run |
 
-Billed count from the run: `emailCount` 10,351 on run `3f9c27ab`, equal to the unique count sent; estimated cost in the start response $74.53.
+Billed count from the run: `emailCount` 10,351 on run `3f9c27ab`, equal to the unique count sent; estimated cost in the start response $17.49.
 
 Invalid rate by source: webinar registrations 8.1% (498 of 6,120 validated), badge scans 21.0% (641 of 3,050), partner list 16.1% (190 of 1,181). Badge scans and the partner list run at two to two and a half times the webinar list's invalid rate; neither should be reused without a fresh pull.
 
@@ -70,13 +70,13 @@ Invalid rate by source: webinar registrations 8.1% (498 of 6,120 validated), bad
 
 | Item | Units | Unit price | Cost |
 |-|-|-|-|
-| Email Validator | 10,351 | $0.0072 | $74.53 |
+| Email Validator | 10,351 | $0.00169 | $17.49 |
 | Email Finder replacements for 40 invalid VIP contacts | 20 found (20 misses free) | $0.05 | $1.00 |
-| Total paid usage | | | $75.53 |
+| Total paid usage | | | $18.49 |
 
-Scheduled, not yet billed: unknown retry of 418 addresses on 2026-10-16, $3.01. Wallet after run: $136.87.
+Scheduled, not yet billed: unknown retry of 418 addresses on 2026-10-16, $0.71. Wallet after run: $193.91.
 
-Approval: the user approved the $74.53 validation estimate and the $2.00 replacement ceiling in chat on 2026-10-13, after seeing the funnel down to 10,351 unique addresses.
+Approval: the user approved the $17.49 validation estimate and the $2.00 replacement ceiling in chat on 2026-10-13, after seeing the funnel down to 10,351 unique addresses.
 
 ## Re-validation Schedule
 

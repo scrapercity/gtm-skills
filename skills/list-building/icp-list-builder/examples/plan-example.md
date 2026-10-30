@@ -11,7 +11,7 @@ Status: Plan, prepared 2026-10-13. No ScraperCity call has run in this session; 
 | How many companies? | Up to 1,228 US firms with 200-1,999 employees run at least one food or beverage plant (Census SUSB 2022). The deduped database count at step 3 replaces this. |
 | How many contacts? | 6,140 to 13,508 people sit in those buying groups (1,228 firms x 5 to 11 people per group, Gartner B2B Buying Report, 2022 survey). The plan validates the 3,118 its tier caps select. |
 | How to tier them? | Three tiers by firm size, 4, 3 and 2 contacts per account (table under Account Tiers). A new plant, a new plant leader or maintenance hiring lifts an account one tier for the next send cycle. |
-| What does it cost? | $149 for one month of Growth. Paid usage is at most $79.10 and fits inside the plan's $159 monthly credit. |
+| What does it cost? | $149 for one month of Growth. Paid usage is at most $44.74 and fits inside the plan's $159 monthly credit. |
 | How do you get verified emails? | Validate only the tier-selected contacts, send only `valid`, hold catch-all and unknown, then release through a 100-contact test cell that must stay under 2% bounces. Steps, owners and dates are under Next Steps. |
 
 ## ICP Definition
@@ -75,10 +75,10 @@ Capacity: Tier 1 is sized by headcount band. Send your AE and SDR headcount and 
 |-|-|-|-|
 | Growth plan, includes the Lead Database and a $159 monthly credit | 1 month | $149/mo | $149.00 |
 | Lead Database counts and pulls, four role families | Up to 13,508 people, inside one day's 100,000-lead allowance | Included in Growth | $0.00 |
-| Email Validator, primary contact per slot | 3,118 emails (171 x 4 + 320 x 3 + 737 x 2) | $0.0072 | $22.45 |
-| Email Validator, second pass per slot (backup for an invalid, or one re-check of an unknown), ceiling | 3,118 emails | $0.0072 | $22.45 |
+| Email Validator, primary contact per slot | 3,118 emails (171 x 4 + 320 x 3 + 737 x 2) | $0.00169 | $5.27 |
+| Email Validator, second pass per slot (backup for an invalid, or one re-check of an unknown), ceiling | 3,118 emails | $0.00169 | $5.27 |
 | Email Finder, Tier 1 slots with a named person and no email, ceiling | 684 lookups | $0.05 per email found, free if none | $34.20 |
-| Total paid usage, ceiling | | | $79.10 |
+| Total paid usage, ceiling | | | $44.74 |
 
 Prices: ScraperCity pricing page and tool catalog, checked 2026-10-13. The paid usage ceiling sits inside the $159 credit, so the cash cost is the $149 plan fee.
 
@@ -110,7 +110,7 @@ The send file (valid only) and the hold file (catch-all and still-unknown) share
 | 3 | Pull all four families with cursor paging; dedupe company_domain; post the company count next to the Census ceiling | Agent | 2026-10-15 | Company count posted |
 | 4 | Read each company's site: keep firms with a plant or facility page (URL recorded), drop distributors, brokers and brands that use co-manufacturers. Same pass on the 100-199 band: firms whose site, press or job posts state 200-2,000 employees join | Agent | 2026-10-16 | Every account has plant_check_url and a yes or no |
 | 5 | Score, tier, pick a primary and a backup per slot, apply suppression | Agent | 2026-10-16 | Slot file of 3,118 primaries |
-| 6 | Approve paid usage up to $79.10 | You | 2026-10-19 | Approved |
+| 6 | Approve paid usage up to $44.74 | You | 2026-10-19 | Approved |
 | 7 | Validate primaries; an invalid slot gets its backup validated, an unknown gets one re-check on 2026-10-20; Tier 1 named slots with no email go to Email Finder | Agent | 2026-10-19 | Send file and hold file written, bucket counts posted |
 | 8 | Fit sample: 60 random send-file rows per tier against LinkedIn or the team page (title, company, location, domain, still employed). Zero misses caps misfits under 5% at 95% confidence (3/n, Eypasch et al., BMJ 1995). A miss a filter word would have stopped means fix the filter and re-pull | SDR lead | 2026-10-20 | Counts per dimension posted |
 | 9 | Test cell of 100 valid Tier 3 contacts, the size Alex Berman tests a niche with (Lean B2B interview, December 2020) | SDR lead | 2026-10-21 | Bounces under 2% (alexberman.com cold email templates): release the send file by tier |

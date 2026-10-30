@@ -19,7 +19,7 @@ The spreadsheet-ready model behind this skill: every input with its default and 
 | Bonus on purchased credits | B4 | 0.10 | catalog | Starter 0, Growth 0.10, Scale 0.30 |
 | Leads pulled | B5 | 4,500 | user input | Size to capacity (B55) divided by the valid rate |
 | Catalog price per lead | B6 | 0 | catalog | Lead Database and Local Business Database on Growth or Scale 0; `scrape_apollo` 0.0039; `scrape_store_leads` 0.0039; `scrape_maps` 0.0099 |
-| Valid rate | B7 | 0.70 | assumption | Measure with a 200-email `validate_emails` test ($1.44) |
+| Valid rate | B7 | 0.70 | assumption | Measure with a 200-email `validate_emails` test ($0.34) |
 | Inputs to `find_mobiles` | B8 | 300 | user input | Tier A accounts or calls planned |
 | Mobile hit rate | B9 | 0.40 | assumption | Measure on 100 inputs; cost per mobile stays $0.25 |
 | Sending domains | B10 | 5 | user input | `domain-infrastructure` |
@@ -64,11 +64,11 @@ The spreadsheet-ready model behind this skill: every input with its default and 
 | Cell | Label | Formula | Example result |
 |-|-|-|-|
 | B46 | Lead cost at catalog price | `=B5*B6` | 0.00 |
-| B47 | validate_emails cost | `=B5*0.0072` | 32.40 |
+| B47 | validate_emails cost | `=B5*0.00169` | 7.61 |
 | B48 | Valid emails | `=B5*B7` | 3,150.00 |
 | B49 | Mobiles found | `=B8*B9` | 120.00 |
 | B50 | find_mobiles cost | `=B49*0.25` | 30.00 |
-| B51 | Catalog-price spend | `=B46+B47+B50` | 62.40 |
+| B51 | Catalog-price spend | `=B46+B47+B50` | 37.61 |
 | B52 | ScraperCity cash | `=B2+MAX(0,B51-B3)/(1+B4)` | 149.00 |
 | B53 | Mailboxes | `=B10*B11` | 15.00 |
 | B54 | Sends per month | `=B53*B12*B13` | 9,450.00 |
@@ -92,7 +92,7 @@ The spreadsheet-ready model behind this skill: every input with its default and 
 | B72 | AE time cost | `=B69*B63+B70*B64` | 4,413.53 |
 | B73 | Total monthly program cost | `=B65+B72` | 10,363.14 |
 | B74 | Loaded cost per lead pulled | `=B73/B5` | 2.30 |
-| B75 | Data cost per verified email | `=(B46+B47)/B48` | 0.0103 |
+| B75 | Data cost per verified email | `=(B46+B47)/B48` | 0.0024 |
 | B76 | Cost per conversation | `=B73/B67` | 274.04 |
 | B77 | Cost per meeting booked | `=B73/B68` | 548.09 |
 | B78 | Cost per meeting held | `=B73/B69` | 685.11 |
@@ -183,7 +183,7 @@ Gross margin,0.7
 Customer lifetime in months,24
 Sales cycle in months,1
 Lead cost at catalog price,=B5*B6
-validate_emails cost,=B5*0.0072
+validate_emails cost,=B5*0.00169
 Valid emails,=B5*B7
 Mobiles found,=B8*B9
 find_mobiles cost,=B49*0.25

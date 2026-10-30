@@ -154,7 +154,7 @@ Before launch, the user sets the number of replies or connected calls to review 
 | Database pass and committee map | `query_lead_database` | Included on Growth and Scale, 100,000 new leads a day |
 | Title search on domains | `scrape_website_finder` | $0.0499 per contact found |
 | Email from name and domain | `find_emails` | $0.05 per email found, free if not found |
-| Validation | `validate_emails` | $0.0072 per email |
+| Validation | `validate_emails` | $0.00169 per email |
 | Mobiles | `find_mobiles` | $0.25 per number found, free if not found |
 | Large-company search by URL | `scrape_apollo` | $0.0039 per lead, 500 minimum, hours to days, use a webhook |
 | Runs | `check_run_status`, `download_results`, `list_runs` | Free |
@@ -225,10 +225,10 @@ Apollo runs take hours to several days; register a webhook at app.scrapercity.co
 | Lead Database pass (contact slots and slot 3 map) | 900 slots | Included in Growth | $0.00 |
 | Website Finder for slots the database left empty (planned 150) | 150 contacts | $0.0499 | $7.49 |
 | Email Finder for names without email (planned 80) | 80 emails | $0.05 | $4.00 |
-| Validation of database and Website Finder emails (planned 500) | 500 emails | $0.0072 | $3.60 |
+| Validation of database and Website Finder emails (planned 500) | 500 emails | $0.00169 | $0.85 |
 | Mobile Finder, slot 1 only, if asked | 300 numbers | $0.25 | $75.00 |
-| Total without mobiles | | | $15.09 |
-| Total with mobiles | | | $90.09 |
+| Total without mobiles | | | $12.34 |
+| Total with mobiles | | | $87.34 |
 
 Run a test batch of each paid step, at a size the user picks, to turn the ceiling into an expected cost (hit rates are unknown until measured). Show this table, run `check_wallet`, and get approval before any paid step.
 

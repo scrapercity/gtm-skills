@@ -11,7 +11,7 @@ Run completed 2026-10-13 for Tallyroll (tallyroll.example), which sells payroll 
 | What happens | Every existing email validated; blank emails filled from the Lead Database, then Email Finder; titles, seniority and company fields refreshed and job changes caught; mobiles added for Director-and-above Finance, HR and People contacts on open deals; written back update-only with an audit trail |
 | Fields after the run | Email, Email Status (new), Email Validated At (new), Job Title, Seniority (new), Department (new), Mobile Phone Number (buyers on open deals), LinkedIn Profile URL, Industry, Number of Employees |
 | Campaign-ready emails | 2,080 valid (2,028 existing contacts, 52 new contacts), plus 168 catch-all addresses for a separate lane |
-| Cost | $56.81 of credits against a $119.56 ceiling, inside Growth's $159 monthly credit, so cash is the $149 plan; $0.03 per campaign-ready email, $0.26 per dial-ready mobile (96 numbers) |
+| Cost | $45.17 of credits against a $107.92 ceiling, inside Growth's $159 monthly credit, so cash is the $149 plan; $0.02 per campaign-ready email, $0.26 per dial-ready mobile (96 numbers) |
 | Time | Lookups ran in one day; the AEs return the review file by 2026-10-20 |
 | Approvals needed | Review file decisions from the two AEs by 2026-10-20 |
 
@@ -45,7 +45,7 @@ Run completed 2026-10-13 for Tallyroll (tallyroll.example), which sells payroll 
 | second phone | Lead Database phone when the HubSpot phone differs | append_new |
 | contact owner, lifecycle stage, lead status, subscription and opt-out properties | HubSpot only | never_overwrite |
 
-Approval: Priya Natarajan (RevOps lead) approved the sheet and the $119.56 ceiling on 2026-10-12, after the pilots below.
+Approval: Priya Natarajan (RevOps lead) approved the sheet and the $107.92 ceiling on 2026-10-12, after the pilots below.
 
 ## Routing Plan
 
@@ -72,13 +72,13 @@ Match tiers: high 1,120, medium 96, low 54, none 370, of 1,640 attempted. High m
 | Line | Units | Unit price | Actual | Ceiling |
 |-|-|-|-|-|
 | Lead Database | 2,162 calls (380 by LinkedIn URL, 1,060 people-at-domain including extra pages, 52 by company name, 610 company reads, 60 account-only) | Included in Growth | $0.00 | $0.00 |
-| Email Validator | 2,112 emails (1,760 existing, 267 Lead Database emails, 36 unknown retries, 49 new account contacts) | $0.0072 | $15.21 | $15.21 |
+| Email Validator | 2,112 emails (1,760 existing, 267 Lead Database emails, 36 unknown retries, 49 new account contacts) | $0.00169 | $3.57 | $3.57 |
 | Email Finder, pass 1 | 479 lookups (378 blanks, 98 invalid replacements, 3 job changers), 292 found | $0.05 per email found | $14.60 | $23.95 |
 | Email Finder, pass 2 (company name retry) | 120 lookups, 18 found | $0.05 per email found | $0.90 | $6.00 |
 | Mobile Finder, pass 1 (URL, else work email) | 290 inputs, 87 found | $0.25 per number found | $21.75 | $72.50 |
 | Mobile Finder, pass 2 (work email, URL misses only) | 95 inputs, 12 found | $0.25 per number found | $3.00 | $0.00 extra: only pass-1 misses enter |
 | Website Finder | 38 domains, 27 contacts found | $0.0499 per contact found | $1.35 | $1.90 |
-| Total | | | $56.81 | $119.56 |
+| Total | | | $45.17 | $107.92 |
 
 Pilots before the go-ahead: Email Finder found 29 of 50, Mobile Finder 15 of 50. Email Finder and Mobile Finder bill only on a hit, so the ceiling is every lookup hitting.
 
@@ -192,7 +192,7 @@ Website Finder needs the job title with the domain list, so it runs through REST
 |-|-|-|-|-|-|
 | Send gate | HubSpot active segment: Email Status valid, Email Validated At within 90 days (ZeroBounce: verify at least once a quarter), no opt-out or JOB_CHANGE flag; sequences enroll only from it | 2026-10-14 | Built once | Priya Natarajan | $0.00 |
 | Catch-all lane (168 addresses) | Separate campaign once the main campaign's first 200 sends bounce under 2% (Berman's bounce line; Instantly runs its bounce check after 200 sends); paused past 2% | 2026-10-21 | Once | Priya Natarajan | $0.00 |
-| Contacts entering a later sequence | Email Validator on rows last validated more than 90 days before the send | 2027-01-11 | Before each send | Priya Natarajan | $7.20 per 1,000 |
+| Contacts entering a later sequence | Email Validator on rows last validated more than 90 days before the send | 2027-01-11 | Before each send | Priya Natarajan | $1.69 per 1,000 |
 | 680 SQL and opportunity contacts | Lead Database job-change sweep by LinkedIn URL; about 9 to 16 changes a month at a planning decay of 1.3% to 2.3% a month (BLS median tenure 4.1 years, January 2026; ZeroBounce 2026 decay report, at least 23% a year) | 2026-11-13 | Monthly, Tallyroll's choice | Priya Natarajan | $0.00 on Growth |
 | 610 active account domains | Title and company refresh; employees written only on a size-band change | 2027-01-13 | Quarterly, Tallyroll's choice | Priya Natarajan | $0.00 on Growth |
 | Mobiles reps mark wrong | Mobile Finder for those people only | 2026-11-16 | On rep flags | Sales manager | $0.25 per number found |

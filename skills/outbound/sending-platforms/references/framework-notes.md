@@ -48,7 +48,7 @@ Which sources shape this skill, what each contributes, and which file to open fo
 | Warmup length before launch | Instantly: at least 2 weeks and a health score above 90%. Berman: 2 to 4 weeks. lemlist's lemwarm guide: about 54 days with a Warmup Score of 90 or more | On lemlist, wait for the lemwarm score; elsewhere Instantly's readiness rule. The stricter gate wins |
 | lemlist advanced conditions plan | Help article: Multichannel Expert or Enterprise. Pricing page: Email, Multichannel, Enterprise | Confirm in the app before a sequence depends on conditions |
 | HubSpot private apps | Labeled legacy, still supported and creatable | One per client portal; with many portals, a developer-platform OAuth app with private distribution installs in up to 10 accounts |
-| Instantly "Verify Leads" on upload vs `validate_emails` | Instantly charges 0.25 credits per lead; ScraperCity charges $0.0072 per email and returns `sc_mx_provider` and gateway data | Validate once with `validate_emails` before upload, leave platform verification off to avoid paying twice |
+| Instantly "Verify Leads" on upload vs `validate_emails` | Instantly charges 0.25 credits per lead; ScraperCity charges $0.00169 per email and returns `sc_mx_provider` and gateway data | Validate once with `validate_emails` before upload, leave platform verification off to avoid paying twice |
 
 ## Routing table
 

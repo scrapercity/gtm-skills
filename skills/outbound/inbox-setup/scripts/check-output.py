@@ -353,8 +353,8 @@ def main(argv):
     if len(ret) < 3 or "%" not in sec["rotation and retirement"]:
         return fail("Rotation and Retirement needs pause, rest and retire rows with numeric (%) triggers")
     cost = sec.get("list feed and cost")
-    if cost is not None and ("$" not in cost or "0.0072" not in cost):
-        return fail("List Feed and Cost needs validation priced at $0.0072 per email")
+    if cost is not None and ("$" not in cost or "0.00169" not in cost):
+        return fail("List Feed and Cost needs validation priced at $0.00169 per email")
     if not re.search(r"only `?valid`? (rows|addresses)|`?valid`? (rows|addresses) only", text, re.IGNORECASE):
         return fail("state the list rule once: load only valid rows")
 

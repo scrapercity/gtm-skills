@@ -299,7 +299,7 @@ FILTERS = {
     "hasEmail": True,
 }
 DAILY_CAP = 500
-VALIDATE_PRICE = 0.0072  # validate_emails, per email, from references/scrapercity-catalog.md
+VALIDATE_PRICE = 0.00169  # validate_emails, per email, from references/scrapercity-catalog.md
 
 w = sc.wallet()
 balance = float(w["wallet"]["total_balance_dollars"])
@@ -663,7 +663,7 @@ http.createServer((req, res) => {
 1. `python3 -m py_compile scrapercity_client.py daily_feed.py webhook_receiver.py sweep.py` and `node --check scrapercity-client.mjs maps-job.mjs webhook-receiver.mjs`.
 2. Run `wallet()` alone. A 401 means the key is wrong or has stray quotes.
 3. Run a database count with `limit: 1`. No wallet charge.
-4. Start the cheapest paid run you can: `validate_emails` on 3 addresses costs 3 x $0.0072 = $0.02.
+4. Start the cheapest paid run you can: `validate_emails` on 3 addresses costs 3 x $0.00169 = $0.01.
 5. Post a fake notification to the receiver with a run id you already have: `curl -X POST localhost:8080/hooks/scrapercity-change-me -H "Content-Type: application/json" -d '{"runId":"RUN_ID","fileName":"test","leadsCount":3}'`. It should download once and ignore a second post.
 
 ## Sources

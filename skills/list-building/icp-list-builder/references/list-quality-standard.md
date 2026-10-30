@@ -141,7 +141,7 @@ US states as USPS 2-letter codes. Countries as ISO 3166-1 alpha-2 (US, CA, GB, D
 
 ## 4. Dedupe keys and precedence
 
-Dedupe inside each source first, then across sources. Run it before validation so you never pay $0.0072 twice for the same address.
+Dedupe inside each source first, then across sources. Run it before validation so you never pay $0.00169 twice for the same address.
 
 ### 4a. Keys, in the order they are tried
 
@@ -170,7 +170,7 @@ When a skill must keep one record intact (for example TAM builds that keep the m
 
 ## 5. Validation statuses and what to do with each
 
-Run `validate_emails` ($0.0072 per email) on every address that did not come from `find_emails` in this pull (Email Finder results are validated at lookup time per its tool description). Read the header row of the downloaded CSV before mapping, since columns can change between versions, and keep the raw value in `email_status_raw`.
+Run `validate_emails` ($0.00169 per email) on every address that did not come from `find_emails` in this pull (Email Finder results are validated at lookup time per its tool description). Read the header row of the downloaded CSV before mapping, since columns can change between versions, and keep the raw value in `email_status_raw`.
 
 ScraperCity's Email Validator reports the result in `email_result` (per scrapercity.com/email-validator, checked 2026-10-12). Map it like this:
 
@@ -201,7 +201,7 @@ Alex Berman aims for 95% or more valid on a list he sends (alexberman.com, B2B l
 
 | Field | When to re-check | Basis |
 |-|-|-|
-| `email_status` before the first send of a campaign | Validate before sending | Alex Berman: verify addresses before you send and keep bounces under 2% (alexberman.com, cold email templates). Cost is $7.20 per 1,000. |
+| `email_status` before the first send of a campaign | Validate before sending | Alex Berman: verify addresses before you send and keep bounces under 2% (alexberman.com, cold email templates). Cost is $1.69 per 1,000. |
 | `email_status` for a re-launch to the same list | Re-validate before the re-launch | Same. |
 | `title` and `company_name` | At the interval the user sets from the decay rate below | Job changes. |
 | Local business phone, website, hours | At the interval the user sets from the change rate measured at the last refresh | Closures and moves. |
@@ -218,7 +218,7 @@ How often to re-pull or re-check each kind of data on a list you keep using (a T
 | Technographic | Technologies, apps, ecommerce platform, plan | The user's interval | Tech Stack Search (`scrape_builtwith`, $4.99 per technology) or a narrow `scrape_store_leads` re-pull | Set from the change rate at the last refresh; see `signal-triggered-outbound` when the tech change is the trigger |
 | CRM dedupe | Duplicate people (key 1 to 4 in 4a) and companies (domain) | Before each import into the CRM | Export, run section 4 keys, merge in the CRM's own tool | Duplicates mean the same person gets two sequences |
 | Person role and employer | `title`, `company_name`, `company_domain` | The user's interval | Lead Database by `socialUrl` or `companyDomain` | ZeroBounce and BLS decay rates above |
-| Email deliverability | `email_status`, `email_validated_at` | Before any send | `validate_emails` at $0.0072 each | Alex Berman: verify before sending |
+| Email deliverability | `email_status`, `email_validated_at` | Before any send | `validate_emails` at $0.00169 each | Alex Berman: verify before sending |
 | Local business contact | `phone`, `website`, hours, open or closed | The user's interval | `query_local_business_database` re-pull or `scrape_maps` | Set from the change rate at the last refresh |
 | Suppression lists | Unsubscribes, bounces, complaints, do-not-contact requests | Before every send and every call block | Sync from the sequencer, the dialer and the reply inbox into one list | Gmail asks bulk senders to honor unsubscribes within 48 hours and to keep spam rate under 0.3% (Google sender FAQ) |
 

@@ -160,7 +160,7 @@ Pull a deduplicated email list out of any CSV, whatever the column is called:
 ```bash
 grep -Eoh '[A-Za-z0-9._%+-]+@[A-Za-z0-9.-]+\.[A-Za-z]{2,}' out/*-"${TODAY}".jsonl \
   | tr '[:upper:]' '[:lower:]' | sort -u > "out/emails-${TODAY}.txt"
-wc -l < "out/emails-${TODAY}.txt"     # units for the estimate: lines x $0.0072
+wc -l < "out/emails-${TODAY}.txt"     # units for the estimate: lines x $0.00169
 run=$(start_run email-validate --file "out/emails-${TODAY}.txt")
 "${SC[@]}" poll "$run" --interval 30
 "${SC[@]}" download "$run" -o "out/validated-daily-feed-${TODAY}-${run:0:8}.csv"

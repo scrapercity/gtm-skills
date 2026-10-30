@@ -259,7 +259,7 @@ Prices come from `references/scrapercity-catalog.md`; plan facts from `reference
 | Ecommerce store by platform, app or traffic | `scrape_store_leads` | `platform`, `apps`, `technologies`, `category`, `countryCode`, `minEstimatedMonthlyVisits`, `emails: true`, `totalLeads`, `offset` | $0.0039 per lead |
 | Companies using a technology | `scrape_builtwith` then `scrape_website_finder` | `technology`; then `domains`, `jobTitle`, `autoValidateEmails: true` | $4.99 per technology, then $0.0499 per contact found |
 | Named person, no email | `find_emails` | `contacts: [{first_name, last_name, domain}]` | $0.05 per email found, free if not found |
-| Every address before sending | `validate_emails` | `emails` | $0.0072 per email |
+| Every address before sending | `validate_emails` | `emails` | $0.00169 per email |
 
 ### Count first, then pull
 
@@ -283,10 +283,10 @@ CLI equivalents: `npx scrapercity db-local`, `npx scrapercity db-leads`, `npx sc
 | Growth plan (Local Business Database, Lead Database) | 1 month | $149.00 | $149.00 |
 | Local Business Database: cell A pulled, cell B counted | 1,560 pulled | included | $0.00 |
 | Email Finder for cell A dentists whose listing shows only a generic inbox, 520 lookups, 55% found (planning assumption) | 286 found | $0.05 | $14.30 |
-| Email Validator on cell A (1,560 + 286) | 1,846 | $0.0072 | $13.29 |
-| Total cash (usage $27.59 drawn from the $159 plan credits) | | | $149.00 |
+| Email Validator on cell A (1,560 + 286) | 1,846 | $0.00169 | $3.12 |
+| Total cash (usage $17.42 drawn from the $159 plan credits) | | | $149.00 |
 
-Cell B adds $20.02 of finder and validation usage when it is pulled (380 lookups, 209 found, 1,329 validated), still inside the monthly credits. Present this table, then wait for approval before the paid steps.
+Cell B adds $12.70 of finder and validation usage when it is pulled (380 lookups, 209 found, 1,329 validated), still inside the monthly credits. Present this table, then wait for approval before the paid steps.
 
 ### Validation gate
 
@@ -342,7 +342,7 @@ Also confirm by reading:
 | One campaign for "SaaS companies" | Mixed buyers need different offers; results average out and teach nothing | Split by title, size and trigger into cells |
 | Offer is a service list | A stranger gets no reason to reply | Niche + measured result + mechanism, against the current alternative |
 | Sizing by gut | A 1,200 contact cell runs dry in two months at 30 new contacts a day | Count with `limit: 1`; put the run-dry date in the plan |
-| Skipping validation on database pulls | Bounces over Berman's 2% ceiling damage domain reputation for every cell | Validate everything, $7.20 per 1,000 |
+| Skipping validation on database pulls | Bounces over Berman's 2% ceiling damage domain reputation for every cell | Validate everything, $1.69 per 1,000 |
 | Judging tests on opens | Apple MPP inflates opens; tracking pixels add a spam signal | Decide on positive replies per 100 delivered |
 | A fourth and fifth touch while contacts wait | Each extra touch costs new contacts at fixed capacity | 3 touches; a breakup only when no new contacts are waiting |
 | Five follow-ups to a 300,000 contact market | Burns the audience; unsubscribes rise after touch 3 | One touch per 60-day cycle, fresh copy |

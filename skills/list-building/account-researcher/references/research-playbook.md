@@ -38,7 +38,7 @@ Write the count into the brief as a number with its basis: "41 people with sales
 
 Ranking inside a slot: exact title match, then higher seniority, then email present, then person located at HQ. A person new in the role goes to the top of the contact plan, since a new leader is a transition trigger (Elias).
 
-Emails: `find_emails` for any person with a name and no email ($0.05 if found, free if not); `validate_emails` for every Lead Database and Website Finder email ($0.0072 each). Mark `valid` as ready, `valid_catch_all` as "send with care", `unknown`, `invalid` and `disposable` as not ready.
+Emails: `find_emails` for any person with a name and no email ($0.05 if found, free if not); `validate_emails` for every Lead Database and Website Finder email ($0.00169 each). Mark `valid` as ready, `valid_catch_all` as "send with care", `unknown`, `invalid` and `disposable` as not ready.
 
 Person-level details to look for (cite each):
 

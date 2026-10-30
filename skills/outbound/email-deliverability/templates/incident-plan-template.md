@@ -40,7 +40,7 @@ Fix when confirmed: [fill: each ranked cause's fix written out: SPF and DMARC re
 
 ## List Re-validation
 
-[fill: which rows get re-validated, the count, the cost at $0.0072 per email, how each result is routed, and each source's invalid share]
+[fill: which rows get re-validated, the count, the cost at $0.00169 per email, how each result is routed, and each source's invalid share]
 
 ## Recovery Plan
 

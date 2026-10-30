@@ -65,11 +65,11 @@ Every parameter must exist in `query_local_business_database`.
 | Line | Units | Unit price | Cost |
 |---|---:|---:|---:|
 | Local Business Database pull, segments A, B, C | 826 | included in Growth | $0.00 |
-| validate_emails (826 businesses, 1,001 emails) | 1,001 | $0.0072 | $7.21 |
+| validate_emails (826 businesses, 1,001 emails) | 1,001 | $0.00169 | $1.69 |
 | find_emails for the dentist named on the website of 200 practices without a contact, ceiling if every lookup finds one | 200 | $0.05 | $10.00 |
-| Total paid, ceiling | | | $17.21 |
+| Total paid, ceiling | | | $11.69 |
 
-Email Finder bills only emails found, so its line lands at found emails x $0.05. For comparison, `scrape_maps` for the same 1,146 practices would cost 1,146 x $0.0099 = $11.35 without a rating filter or named contacts. The user approved the $17.21 ceiling before validation.
+Email Finder bills only emails found, so its line lands at found emails x $0.05. For comparison, `scrape_maps` for the same 1,146 practices would cost 1,146 x $0.0099 = $11.35 without a rating filter or named contacts. The user approved the $11.69 ceiling before validation.
 
 ## Sample QA
 
@@ -83,6 +83,6 @@ Email Finder bills only emails found, so its line lands at found emails x $0.05.
 
 ## Next Steps
 
-1. Validate the 1,001 emails ($7.21) and drop invalid addresses before any send.
+1. Validate the 1,001 emails ($1.69) and drop invalid addresses before any send.
 2. Write one first line per segment (A, B, C) and hand the three files to `cold-email-list`; personalize with `contact_first_name` where present.
 3. Schedule a weekly refresh: same search, `excludeDelivered: true`, `after: "0"`, so only new practices come back.

@@ -127,7 +127,7 @@ Set `is_role = true` for the local parts listed in the reference file. On a name
 
 ### 6. Show the count and cost, then validate
 
-Unique addresses to validate x $0.0072 is the cost. Call `check_wallet`, show the funnel so far and the cost, and wait for a go-ahead before submitting. Then submit:
+Unique addresses to validate x $0.00169 is the cost. Call `check_wallet`, show the funnel so far and the cost, and wait for a go-ahead before submitting. Then submit:
 
 - A list short enough to fit in one tool argument: MCP `validate_emails` with the array.
 - Larger files: one-column text files, submitted through the CLI or REST, one run per file; split into chunks of a size the user picks only so a failed run is cheap to retry. The runbook is `references/batching-and-revalidation-runbook.md`.
@@ -156,7 +156,7 @@ Hard bounces on `send_ready.csv` should stay under 2% (Berman; Instantly's defau
 | Step | Tool | Price (catalog) |
 |-|-|-|
 | Balance and plan | `check_wallet` | Free |
-| Validate | `validate_emails` (`POST /api/v1/scrape/email-validator`, body `{"emails": [...]}`) | $0.0072 per email |
+| Validate | `validate_emails` (`POST /api/v1/scrape/email-validator`, body `{"emails": [...]}`) | $0.00169 per email |
 | Poll, fetch | `check_run_status`, `download_results` | Free |
 | Replace an invalid address for a high-value contact | `find_emails` with `contacts: [{first_name, last_name, domain}]` | $0.05 per email found, free if not found |
 
@@ -190,11 +190,11 @@ A 12,400-row event and webinar list, last mailed 14 months ago (tier C):
 
 | Item | Units | Unit price | Cost |
 |-|-:|-:|-:|
-| Validation | 10,351 | $0.0072 | $74.53 |
+| Validation | 10,351 | $0.00169 | $17.49 |
 | Optional replacements for 40 invalid VIP contacts, 20 found | 20 found | $0.05 | $1.00 |
-| Total | | | $75.53 |
+| Total | | | $18.49 |
 
-Validating before suppression would have billed at least 480 more addresses (402 suppressed, 17 network-role, 61 broken), $3.46, plus up to 1,388 near-duplicates that the validator's own dedupe may not merge (case variants, Gmail dots and `+tags`), up to $9.99 more. Show this table and wait for a yes before submitting.
+Validating before suppression would have billed at least 480 more addresses (402 suppressed, 17 network-role, 61 broken), $0.81, plus up to 1,388 near-duplicates that the validator's own dedupe may not merge (case variants, Gmail dots and `+tags`), up to $2.35 more. Show this table and wait for a yes before submitting.
 
 ### Error handling
 

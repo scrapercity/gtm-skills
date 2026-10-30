@@ -51,7 +51,7 @@ Normalize both domains (lowercase, no scheme, no `www.`) before comparing.
 
 Replacement at the old account: `query_lead_database` with `companyDomain` set to the old domain and the departed person's `title` or `seniority` returns who holds the role now, free on Growth.
 
-Contact at the new company: if the record carries an email, validate it ($0.0072). If not, `find_emails` with first name, last name and the new domain ($0.05 if found, nothing if not), batched into one run for that month's movers.
+Contact at the new company: if the record carries an email, validate it ($0.00169). If not, `find_emails` with first name, last name and the new domain ($0.05 if found, nothing if not), batched into one run for that month's movers.
 
 ## 5. Routing
 
@@ -120,10 +120,10 @@ A SaaS company on Growth watches 600 champions and power users monthly.
 |---|---:|---:|---:|
 | `query_lead_database` by `socialUrl`, 600 people | 600 | included | $0.00 |
 | Candidates at about 1.4% a month (BLS-based estimate, section 2) | 8 | | |
-| `validate_emails` on movers whose record carries an email (assume 5) | 5 | $0.0072 | $0.04 |
+| `validate_emails` on movers whose record carries an email (assume 5) | 5 | $0.00169 | $0.01 |
 | `find_emails` on the other 3 | 3 | $0.05 | $0.15 |
 | Replacement lookups at the 8 old accounts by `companyDomain` + title | 8 | included | $0.00 |
-| **Monthly total** | | | **$0.19** |
+| **Monthly total** | | | **$0.16** |
 
 600 lookups at one a second take 10 minutes of a single n8n run. Most of the cost is owner time on about 16 tasks a month (8 movers, 8 replacement checks), so keep the out-of-ICP rule in section 5 strict.
 

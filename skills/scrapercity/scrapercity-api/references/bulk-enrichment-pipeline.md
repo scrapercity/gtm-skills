@@ -55,7 +55,7 @@ The saving is plain arithmetic: every row cut before `find_emails` saves up to $
 
 | Row has | Row needs | Order | Price |
 |---|---|---|---|
-| Email from outside ScraperCity, or last validated before your re-check window | Deliverability | `validate_emails` | $0.0072 per email |
+| Email from outside ScraperCity, or last validated before your re-check window | Deliverability | `validate_emails` | $0.00169 per email |
 | Email from a `find_emails` run inside your re-check window | Nothing | Skip validation: Email Finder results are validated when found | $0 |
 | First, last and domain, no email | Work email | 1. Lead Database by `companyDomain` (Growth plan), match first + last in your own code. 2. `find_emails` for the rest | 1. $0 wallet. 2. $0.05 per email found, free if not found |
 | Domain and a target role, no person | The person and email | 1. Lead Database by `companyDomain` + `title` or `seniority` (Growth). 2. `scrape_website_finder` with `jobTitle` for domains with no match | 1. $0 wallet. 2. $0.0499 per contact found |
@@ -150,12 +150,12 @@ A 5,000-row CRM export on Growth. 3,800 rows have an email from outside ScraperC
 | Stage | Rows | Tool | Billable units | Unit price | Cost |
 |---|---:|---|---:|---:|---:|
 | Suppression removes customers, unsubscribes and recent contacts | 5,000 to 4,550 | none | 0 | | $0.00 |
-| Validate existing emails (3,800 minus 300 suppressed) | 3,500 | `validate_emails` | 3,500 | $0.0072 | $25.20 |
+| Validate existing emails (3,800 minus 300 suppressed) | 3,500 | `validate_emails` | 3,500 | $0.00169 | $5.92 |
 | Lead Database by domain for the 1,050 missing emails left after suppression; 40% matched by name (assumption) | 1,050 | `query_lead_database` | 0 | included | $0.00 |
 | Email Finder on the 630 still missing; 55% found (assumption) | 630 | `find_emails` | 347 | $0.05 | $17.35 |
-| **Expected total** | | | | | **$42.55** |
+| **Expected total** | | | | | **$23.27** |
 
-Ceiling if every Email Finder lookup hits: 630 x $0.05 = $31.50, so 25.20 + 31.50 = $56.70. Both figures go to the user before the first run. The 347 found emails skip validation because Email Finder validated them. Lead Database calls: one per unique domain at 1 a second, well inside 100 a minute.
+Ceiling if every Email Finder lookup hits: 630 x $0.05 = $31.50, so 5.92 + 31.50 = $37.42. Both figures go to the user before the first run. The 347 found emails skip validation because Email Finder validated them. Lead Database calls: one per unique domain at 1 a second, well inside 100 a minute.
 
 ## Sources
 

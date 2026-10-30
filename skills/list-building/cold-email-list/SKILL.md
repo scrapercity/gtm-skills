@@ -142,7 +142,7 @@ Page with `after: "0"`, `limit: 100`, then `pagination.next_after` until null or
 | A person with no email | `find_emails` with `first_name`, `last_name`, `domain` (`company_name` only when no domain resolves; `full_name` when the name will not split) | $0.05 per email found, free if not found |
 | Still no email | Drop from the email file; keep in a gaps file | $0 |
 
-Leave `autoValidateEmails` off on Website Finder; validation runs once in step 7. Record a miss in the gaps file; no address is built from a naming pattern. Order follows price per usable result: a database email costs $0.0072 / valid share to validate into a usable address (about $0.009 at the example's 80% valid share) against $0.05 from Email Finder and ($0.0499 + $0.0072) / valid share from Website Finder plus validation.
+Leave `autoValidateEmails` off on Website Finder; validation runs once in step 7. Record a miss in the gaps file; no address is built from a naming pattern. Order follows price per usable result: a database email costs $0.00169 / valid share to validate into a usable address (about $0.0021 at the example's 80% valid share) against $0.05 from Email Finder and ($0.0499 + $0.00169) / valid share from Website Finder plus validation.
 
 ### 6. Normalize, dedupe, suppress
 
@@ -150,7 +150,7 @@ Normalize per `references/list-quality-standard.md` section 3. Dedupe on lowerca
 
 ### 7. Validate
 
-Send every email that did not come from Email Finder to `validate_emails` ($0.0072 each). Route: `valid` to the send file; `valid_catch_all` to a catch-all file for a separate campaign at a daily volume the user sets, paused if its bounces pass 2% (Berman), highest-evidence rows first (high `email_quality`, an address format that matches other known addresses at the domain, no security gateway); `unknown` held for one retry on a date in the report; `invalid` and `disposable` removed and added to the blocklist.
+Send every email that did not come from Email Finder to `validate_emails` ($0.00169 each). Route: `valid` to the send file; `valid_catch_all` to a catch-all file for a separate campaign at a daily volume the user sets, paused if its bounces pass 2% (Berman), highest-evidence rows first (high `email_quality`, an address format that matches other known addresses at the domain, no security gateway); `unknown` held for one retry on a date in the report; `invalid` and `disposable` removed and added to the blocklist.
 
 ### 8. Cap and order per company
 
@@ -178,7 +178,7 @@ Fill `templates/output-template.md`, run the launch checklist in the reference, 
 | Count and pull | `query_lead_database` | Included on Growth and Scale; 100,000 new leads a day |
 | Empty target domains | `scrape_website_finder` | $0.0499 per contact found |
 | Names without emails | `find_emails` | $0.05 per email found, free if not found |
-| Validation | `validate_emails` | $0.0072 per email |
+| Validation | `validate_emails` | $0.00169 per email |
 | URL-based people search the database cannot cover | `scrape_apollo` | $0.0039 per lead; hours to days, use a webhook |
 | Runs | `check_run_status`, `download_results`, `list_runs` | Free |
 
@@ -214,10 +214,10 @@ Website Finder for empty domains: `{"domains": ["..."], "jobTitle": "Controller"
 | Lead Database: ICP pull and priority domains | 1,696 leads | Included in Growth | $0.00 |
 | Website Finder on 44 empty priority domains | 19 contacts found | $0.0499 | $0.95 |
 | Email Finder for 15 names | 10 emails found | $0.05 | $0.50 |
-| validate_emails after dedupe and suppression | 1,552 emails | $0.0072 | $11.17 |
-| Total | | | $12.62 |
+| validate_emails after dedupe and suppression | 1,552 emails | $0.00169 | $2.62 |
+| Total | | | $4.07 |
 
-Ceiling shown before the run: $2.20 (Website Finder, 44 domains) + $0.75 (Email Finder, 15 names) + $12.35 (validation, up to 1,715 emails) = $15.30. Run `check_wallet`, show it and wait for a yes. Cost per send-ready row in the example: $12.62 / 1,247 = $0.010.
+Ceiling shown before the run: $2.20 (Website Finder, 44 domains) + $0.75 (Email Finder, 15 names) + $2.90 (validation, up to 1,715 emails) = $5.85. Run `check_wallet`, show it and wait for a yes. Cost per send-ready row in the example: $4.07 / 1,247 = $0.003.
 
 ### Error handling
 

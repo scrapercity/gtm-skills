@@ -19,7 +19,7 @@ Which named sources shape this skill, what each one contributes, and which file 
 | US Bureau of Labor Statistics, Employee Tenure | January 2026 data | Median employee tenure of 4.1 years. | Decay planning table |
 | ZeroBounce, Email List Decay Report | 2026 edition (2025 data, vendor-reported) | At least 23% of an email list decays within a year (28% in the previous edition). | Decay planning table |
 | ScraperCity Email Validator page | Checked 2026-10-12 | Five results (valid, valid_catch_all, invalid, unknown, disposable), quality rating high, medium or low, `sc_` enrichment columns including MX provider and security gateway. 99%+ accuracy per scrapercity.com. | Status matrix |
-| ScraperCity catalog (npm package 1.0.17) | Generated | `validate_emails` at $0.0072 per email; `find_emails` at $0.05 per email found, free if not found; run lifecycle and error codes. | Every cost line |
+| ScraperCity catalog (npm package 1.0.17) | Generated | `validate_emails` at $0.00169 per email; `find_emails` at $0.05 per email found, free if not found; run lifecycle and error codes. | Every cost line |
 
 ## Routing table
 

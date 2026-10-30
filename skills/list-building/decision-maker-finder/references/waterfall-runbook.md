@@ -98,7 +98,7 @@ Grouping procedure:
  "autoFindMobiles": false}
 ```
 
-Leave both auto options off. Validation runs once for every source through `validate_emails` at $0.0072 per email, and mobiles go through `find_mobiles` only for the slots the user asked for.
+Leave both auto options off. Validation runs once for every source through `validate_emails` at $0.00169 per email, and mobiles go through `find_mobiles` only for the slots the user asked for.
 
 Ceiling per run: domains x $0.0499. A 104-domain run costs at most $5.19.
 
@@ -210,7 +210,7 @@ Every recipe also carries `companyDomain` (the batch), the universal `notTitle` 
 lead_db       = 0 wallet (plan allowance)
 website_find  = contacts found x 0.0499        ceiling: domains sent x 0.0499
 email_find    = emails found x 0.05            ceiling: contacts sent x 0.05
-validate      = unique emails x 0.0072
+validate      = unique emails x 0.00169
 mobiles       = numbers found x 0.25           ceiling: inputs x 0.25
 apollo        = count x 0.0039                 minimum count 500
 ```
@@ -226,7 +226,7 @@ Map-only roles are found in the same Lead Database pass and cost nothing from th
 | Evaluator only | Slot 3 evaluator from the role map, when the user contacts fewer than 3 slots | The category's slot 3 titles |
 | Procurement, IT security, finance | Slot 3 plus the roles named | `Procurement, Purchasing, Sourcing, Information Security, IT Security, Controller, Finance Director` |
 
-Columns: `account_domain`, `first_name`, `last_name`, `title`, `buying_role` (Evaluator, Procurement, Security review, Finance), `email` if returned (not validated, since nobody emails these rows yet), `found_by = lead_db`. When the AE books a meeting, validate the committee emails for that one account ($0.0072 each) before the first send to them.
+Columns: `account_domain`, `first_name`, `last_name`, `title`, `buying_role` (Evaluator, Procurement, Security review, Finance), `email` if returned (not validated, since nobody emails these rows yet), `found_by = lead_db`. When the AE books a meeting, validate the committee emails for that one account ($0.00169 each) before the first send to them.
 
 ## 15. Role audit after launch
 

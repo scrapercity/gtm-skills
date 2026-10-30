@@ -230,7 +230,7 @@ Use the cost model below. Get approval before any pull over about $5, and run `c
 | Property details and owner contact for mail to owners | `scrape_property_lookup` | `addresses`, `includeOwnerContact: true` | $0.15 per property, +$0.10 for owner contact |
 | Distressed properties for owner mail | `scrape_distress_list` | `search`, `distressTypes`, `maxItems` | $0.05 per property |
 | LinkedIn profile URLs for manual touches | `query_lead_database` | `socialUrl` match, or read profile fields returned | Included on Growth |
-| Validate emails before the email touches | `validate_emails` | `emails` | $0.0072 per email |
+| Validate emails before the email touches | `validate_emails` | `emails` | $0.00169 per email |
 
 Order of operations to avoid wasted spend: pull the list, validate emails, tier the contacts, run the phone check on tier A and B, then call `find_mobiles` only for contacts who passed it and have no `contact_mobile` already.
 
@@ -253,12 +253,12 @@ Mobile Finder bills only on a hit, so the table shows the ceiling (every lookup 
 | Line | Count | Unit price | Cost |
 |-|-|-|-|
 | Local Business Database pull with `hasPhone`, `hasEmail` | 400 | included on Growth | $0.00 |
-| `validate_emails` | 400 | $0.0072 | $2.88 |
+| `validate_emails` | 400 | $0.00169 | $0.68 |
 | Owners already carrying `contact_mobile` | 120 | included | $0.00 |
 | `find_mobiles` on the other 280, ceiling | 280 | $0.25 per number found | $70.00 |
 | Postcards to 400 business addresses, all-in print and postage | 400 | $1.50 (top of directmail.io's $0.85 to $1.50 small-volume range, April 2026) | $600.00 |
-| ScraperCity data subtotal | | | $72.88 |
-| Total including mail | | | $672.88 |
+| ScraperCity data subtotal | | | $70.68 |
+| Total including mail | | | $670.68 |
 
 Callable mobiles after the check = 120 + numbers found - matches on the internal do-not-call list and opt-outs. Owners without a callable mobile get business-line calls asking for them by name. Show this table and get approval before `find_mobiles` (it passes $5) and before the mail order.
 

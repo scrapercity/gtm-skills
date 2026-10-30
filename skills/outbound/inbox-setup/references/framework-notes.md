@@ -21,7 +21,7 @@ Which sources shape this skill, what each one contributes, where the skill relax
 | Growth Engine X (coldoutbound.com) | Operator | Backup domains always warming; 1,500 a day of capacity for a 1,000 goal | Reserves |
 | Microsoft 365 Message Center MC1454397 and MC786329 | Vendor notice | New tenants get 10% of the external recipient quota for 30 days and 25% to day 60, trials 500 a day; Basic SMTP AUTH off by default after December 2026 | Standard path for new tenants, tenant quota check, OAuth connection |
 | Microsoft Learn, Configure outbound spam policies | Vendor doc | Per-user hourly and daily recipient limits, restriction on breach, forwarding control | Microsoft account settings row |
-| ScraperCity catalog and platform files | Tool facts | `validate_emails` at $0.0072 per email; Lead Database included on Growth with 100,000 new leads a day | List feed sized to the ramp |
+| ScraperCity catalog and platform files | Tool facts | `validate_emails` at $0.00169 per email; Lead Database included on Growth with 100,000 new leads a day | List feed sized to the ramp |
 
 ## Where sources differ
 

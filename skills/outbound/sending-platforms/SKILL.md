@@ -275,7 +275,7 @@ These calls are for the agent. In the plan, write each as a step a person runs: 
 
 **Local Business Database and Maps** feed local campaigns with the columns in `references/csv-mapping-and-import.md` sections 1b and 1c.
 
-**Validate** every email before import: `validate_emails(emails=[...])` at $0.0072 per email; keep `email_result`, `email_quality` and `sc_mx_provider`.
+**Validate** every email before import: `validate_emails(emails=[...])` at $0.00169 per email; keep `email_result`, `email_quality` and `sc_mx_provider`.
 
 **Push** by CSV upload, or by API for daily feeds (endpoints, batch sizes, dedupe flags and rate limits per platform in `references/csv-mapping-and-import.md` section 4). Instantly example, up to 1,000 leads a call:
 
@@ -299,14 +299,14 @@ Reconcile `leads_uploaded` and the skip counters (`in_blocklist`, `skipped_count
 | `scrape_store_leads` | 1,500 stores | $0.0039 | $5.85 |
 | `query_lead_database` people at those domains | 1,180 kept | Included on Growth | $0.00 |
 | ScraperCity Growth plan | 1 | $149 a month | $149.00 |
-| `validate_emails` (people plus store inboxes) | 1,676 | $0.0072 | $12.07 |
+| `validate_emails` (people plus store inboxes) | 1,676 | $0.00169 | $2.83 |
 | Instantly Hypergrowth (25,000 contacts, 125,000 emails a month, webhooks) | 1 | $97 a month | $97.00 |
 | Google Workspace Business Starter mailboxes, Flexible plan | 12 | $8.40 a month | $100.80 |
 | `.com` sending domains (Porkbun, $11.08 a year) | 4 | $0.92 a month | $3.69 |
 | n8n, self-hosted on an existing server | 1 | $0 extra | $0.00 |
-| Total | | | $368.41 |
+| Total | | | $359.17 |
 
-Growth at $47 is ruled out: 1,587 contacts to upload is over its 1,000-contact limit, and webhooks need Hypergrowth. The paid ScraperCity lines are $17.92; show them and the plan costs before pulling. The full monthly cost always carries mailboxes, domains, automation and verification next to the sequencer: here the sequencer is $97 of $368.41. Seat price from Google's Workspace billing help ($8.40 Flexible, $7.00 Annual), domain price from porkbun.com, both checked 2026-10-13.
+Growth at $47 is ruled out: 1,587 contacts to upload is over its 1,000-contact limit, and webhooks need Hypergrowth. The paid ScraperCity lines are $8.68; show them and the plan costs before pulling. The full monthly cost always carries mailboxes, domains, automation and verification next to the sequencer: here the sequencer is $97 of $359.17. Seat price from Google's Workspace billing help ($8.40 Flexible, $7.00 Annual), domain price from porkbun.com, both checked 2026-10-13.
 
 ## Output Format
 

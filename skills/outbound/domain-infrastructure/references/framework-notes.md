@@ -35,7 +35,7 @@ Which sources shape this skill, what each contributes, and which file to open fo
 | Instantly, high bounce auto-pause | Sequencer doc | Campaigns pause at 5% bounces after 200 sends by default | Bounce stop line |
 | Google, Top 10 Gmail sender issues; Recommended DMARC rollout | Mailbox provider doc | Keep spam rate below 0.1%; `p=none` for at least a week, then quarantine | Monitoring thresholds, DMARC progression |
 | Apollo, email sending limits | Sequencer doc | 10 to 20 sends an hour per mailbox | Hourly limit in the Microsoft outbound policy |
-| ScraperCity catalog and platform files | Tool facts | `query_lead_database` totals, `validate_emails` at $0.0072 with `sc_mx_provider` for provider mix | ScraperCity Implementation |
+| ScraperCity catalog and platform files | Tool facts | `query_lead_database` totals, `validate_emails` at $0.00169 with `sc_mx_provider` for provider mix | ScraperCity Implementation |
 
 ## Where sources differ
 

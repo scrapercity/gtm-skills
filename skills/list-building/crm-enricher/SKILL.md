@@ -200,7 +200,7 @@ Contact data decays at roughly 1.3% to 2.3% of a list a month (planning range fr
 | Missing or invalid email | `find_emails` with `contacts[]` of `{first_name, last_name, domain}` or `company_name` | $0.05 per email found, free if not found |
 | Mobile | `find_mobiles` with `inputs[]` (social URLs or emails) | $0.25 per number found, free if not found |
 | Contact for an account-only record | `scrape_website_finder` with `domains[]`, `jobTitle` | $0.0499 per contact found |
-| Existing emails, and company fields on Starter (the validator returns company name, industry, size, founded and location per domain) | `validate_emails` with `emails[]` | $0.0072 per email |
+| Existing emails, and company fields on Starter (the validator returns company name, industry, size, founded and location per domain) | `validate_emails` with `emails[]` | $0.00169 per email |
 | Technographic flags | `scrape_builtwith` (Tech Stack Search), one run per technology, joined on domain | $4.99 per technology, whatever the CRM size |
 
 ### Calls
@@ -228,7 +228,7 @@ REST for loops over hundreds of domains: `GET https://app.scrapercity.com/api/v1
 find_emails     expected = lookups x expected hit rate x $0.05     ceiling = lookups x $0.05
 find_mobiles    expected = inputs x expected hit rate x $0.25      ceiling = inputs x $0.25
 website_finder  ceiling  = domains x $0.0499 (one contact per domain per title)
-validate_emails exact    = unique emails x $0.0072
+validate_emails exact    = unique emails x $0.00169
 Lead Database   $0 on Growth and Scale (counts against 100,000 new leads a day)
 ```
 
@@ -241,15 +241,15 @@ A 2,400-contact HubSpot export (the full run is in `examples/worked-example.md`)
 | Line | Units | Unit price | Actual | Ceiling |
 |-|-:|-:|-:|-:|
 | `query_lead_database` lookups | 2,162 calls | Included | $0.00 | $0.00 |
-| `validate_emails` (existing, Lead Database, retries, new contacts) | 2,112 emails | $0.0072 | $15.21 | $15.21 |
+| `validate_emails` (existing, Lead Database, retries, new contacts) | 2,112 emails | $0.00169 | $3.57 | $3.57 |
 | `find_emails` pass 1 | 479 lookups, 292 found | $0.05 per found | $14.60 | $23.95 |
 | `find_emails` pass 2, company-name retry | 120 lookups, 18 found | $0.05 per found | $0.90 | $6.00 |
 | `find_mobiles` pass 1 | 290 inputs, 87 found | $0.25 per found | $21.75 | $72.50 |
 | `find_mobiles` pass 2, URL misses with an email | 95 inputs, 12 found | $0.25 per found | $3.00 | $0.00 extra |
 | `scrape_website_finder` | 38 domains, 27 found | $0.0499 per found | $1.35 | $1.90 |
-| Total | | | $56.81 | $119.56 |
+| Total | | | $45.17 | $107.92 |
 
-The table goes to the user before any paid call. Mobiles are 61% of the ceiling; if the user balks, narrow the seniority or department list first. In the report, these lines carry product names (Lead Database, Email Validator, Email Finder, Mobile Finder, Website Finder), never the tool ids.
+The table goes to the user before any paid call. Mobiles are 67% of the ceiling; if the user balks, narrow the seniority or department list first. In the report, these lines carry product names (Lead Database, Email Validator, Email Finder, Mobile Finder, Website Finder), never the tool ids.
 
 Plan choice: Growth's $159 of monthly credits exceed its $149 price, so once a month's paid tool use reaches $159 the Lead Database comes at no extra cost over Starter. Below that, the $100 difference pays for itself when the database fills 2,000 or more emails a month that would otherwise go to Email Finder at $0.05. Funding, hiring, intent and SIC or NAICS codes are not in the catalog; flag them `OUT_OF_CATALOG` rather than filling them.
 

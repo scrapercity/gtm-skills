@@ -90,8 +90,8 @@ Warm path check: no one on the Northwind team is connected to Renee Calloway or 
 | Tech Stack Search (Salesforce, HubSpot) | 2 technologies | $4.99 per technology | $9.98 |
 | Website Finder, Salesforce Administrator | 1 contact found | $0.0499 | $0.05 |
 | Email Finder, Director of Sales Operations | 1 email found | $0.05 | $0.05 |
-| Email Validator | 3 emails | $0.0072 | $0.02 |
-| Total paid usage | | | $10.10 |
+| Email Validator | 3 emails | $0.00169 | $0.01 |
+| Total paid usage | | | $10.09 |
 
 The user approved the $9.98 Tech Stack Search spend on 2026-10-13. Both technology CSVs are saved as `techstack-salesforce-20261013.csv` and `techstack-hubspot-20261013.csv`; checking the other 24 tier 1 accounts against them costs nothing more, which brings the Tech Stack Search cost to $0.40 per account.
 

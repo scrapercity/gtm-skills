@@ -118,7 +118,7 @@ The catalog documents `platform` and `category` as case-insensitive strings and 
 
 ### 4. Size each tier and confirm the cost
 
-There is no count endpoint for Store Leads. Plan each tier's `totalLeads` from the target, plus headroom for validation and dedupe losses: use the loss share from the user's last comparable pull, or validate the 25 probe emails ($0.18) and use that share, then replace it with the first tier's actual loss. Cost ceiling = sum of `totalLeads` x $0.0039, plus $4.99 per Tech Stack Search technology, plus validation at $0.0072 per email. Run `check_wallet`, show the table and wait for a go-ahead.
+There is no count endpoint for Store Leads. Plan each tier's `totalLeads` from the target, plus headroom for validation and dedupe losses: use the loss share from the user's last comparable pull, or validate the 25 probe emails ($0.04) and use that share, then replace it with the first tier's actual loss. Cost ceiling = sum of `totalLeads` x $0.0039, plus $4.99 per Tech Stack Search technology, plus validation at $0.00169 per email. Run `check_wallet`, show the table and wait for a go-ahead.
 
 ### 5. Pull each tier with offset paging
 
@@ -160,7 +160,7 @@ One CSV with a `tier` column, a hold file for catch-all and unknown, and the rep
 | Balance | `check_wallet` | Free |
 | Store pull | `scrape_store_leads` | $0.0039 per lead |
 | Second technology, exclusion | `scrape_builtwith` (Tech Stack Search) | $4.99 per technology |
-| Validation | `validate_emails` | $0.0072 per email |
+| Validation | `validate_emails` | $0.00169 per email |
 | Named contact | `scrape_website_finder` | $0.0499 per contact found |
 | Named contact (Growth plan) | `query_lead_database` with `companyDomain` | Included |
 
@@ -212,10 +212,10 @@ Shopify apparel stores in the US using Klaviyo with an email, three sales tiers,
 | Tier 2 pull, $50,000 to $249,999 | 600 leads | $0.0039 | $2.34 |
 | Tier 3 pull, $20,000 to $49,999 | 700 leads | $0.0039 | $2.73 |
 | Tech Stack Search, Recharge | 1 technology | $4.99 | $4.99 |
-| Validation after dedupe and suppression | 1,461 emails | $0.0072 | $10.52 |
-| Total | | | $21.51 |
+| Validation after dedupe and suppression | 1,461 emails | $0.00169 | $2.47 |
+| Total | | | $13.46 |
 
-Show the ceiling first (requested 1,625 leads x $0.0039 = $6.34, plus $4.99, plus up to 1,625 x $0.0072 = $11.70 validation, $23.03) and wait for a go-ahead.
+Show the ceiling first (requested 1,625 leads x $0.0039 = $6.34, plus $4.99, plus up to 1,625 x $0.00169 = $2.75 validation, $14.08) and wait for a go-ahead.
 
 ### Errors
 

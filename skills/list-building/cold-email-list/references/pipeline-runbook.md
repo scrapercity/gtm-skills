@@ -27,7 +27,7 @@ sending_days      = ceil(send_ready_rows x K / daily_sends)
 | 10 | 300 | 2,000 |
 | 20 | 600 | 4,000 |
 
-The 20 days and 3 steps in the table are example inputs. When the user asks for more rows than the window can send, build the first wave only and schedule the next pull with `excludeDelivered: true`. Rows validated more than four weeks before their send date need a second validation pass ($7.20 per 1,000): Hunter's 2025 decay test found over 2% of a list invalid after four weeks, which alone reaches Berman's 2% bounce line.
+The 20 days and 3 steps in the table are example inputs. When the user asks for more rows than the window can send, build the first wave only and schedule the next pull with `excludeDelivered: true`. Rows validated more than four weeks before their send date need a second validation pass ($1.69 per 1,000): Hunter's 2025 decay test found over 2% of a list invalid after four weeks, which alone reaches Berman's 2% bounce line.
 
 ## 2. Sourcing recipes
 
@@ -72,9 +72,9 @@ Run a test batch (size set by the user) before a large Website Finder or Email F
 
 | Source of the email | Paid per usable address | At an 80% valid share (example input; measure on your first batch) |
 |-|-|-|
-| Lead Database, then `validate_emails` | $0.0072 / valid share | $0.009 |
+| Lead Database, then `validate_emails` | $0.00169 / valid share | $0.0021 |
 | `find_emails` (validated at lookup per its tool description) | $0.05 | $0.05 |
-| `scrape_website_finder`, then `validate_emails` | ($0.0499 + $0.0072) / valid share | $0.071 |
+| `scrape_website_finder`, then `validate_emails` | ($0.0499 + $0.00169) / valid share | $0.064 |
 
 Email Finder batches from the CLI: `npx scrapercity email-find --file contacts.csv` wants a header row containing "first" and reads columns by position (first name, last name, domain, company name), splitting on every comma with no quote handling. Strip commas from names and company names, or send the batch as JSON through MCP or REST. A person whose name will not split into first and last can be sent as `full_name` with the domain.
 

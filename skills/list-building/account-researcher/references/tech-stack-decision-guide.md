@@ -13,7 +13,7 @@ A technology earns a place in the brief only if knowing it changes one of these:
 | Integration is a selling point but not a requirement | Free signals only; mark "likely" | $0 |
 | Curiosity, or "good to know" | Do not check | $0 |
 | The same technology decides the pitch for more than one account | One Tech Stack Search, reused for every account | $4.99 total |
-| Mail platform and security gateway (for deliverability notes) | `validate_emails` columns `sc_mx_provider`, `sc_mx_security_gateway` | $0.0072 per email |
+| Mail platform and security gateway (for deliverability notes) | `validate_emails` columns `sc_mx_provider`, `sc_mx_security_gateway` | $0.00169 per email |
 
 Show the user the technologies and the $4.99 each before running, and call `check_wallet` first.
 

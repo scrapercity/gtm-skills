@@ -31,7 +31,7 @@ Which sources shape this skill, what each contributes, and which file to open fo
 | lemlist help, legitimate clicks and opens, checked 2026-10-13 | Sequencer doc | Security filters (Proofpoint, Barracuda named) open and click within seconds | Recovery plans section 3 |
 | Microsoft Learn, NDR 550 5.1.10 | Mailbox provider doc | Recipient address not found at Exchange Online | Recovery plans section 2b |
 | Alex Berman (alexberman.com, cold email templates and TAM strategy breakdown, checked 2026-10-13) | Operator | Keep bounces under 2%; start new domains at 10 to 20 a day and ramp over 2 to 4 weeks; 2 to 3 inboxes per domain; under 50 a day per inbox; verify the list before sending | Stop rules, domain status, recovery calendar |
-| ScraperCity catalog and Email Validator page | Tool facts | `validate_emails` at $0.0072; `email_result`, `email_quality`, `sc_is_catch_all`, `sc_mx_provider`, `sc_mx_security_gateway`; `find_emails` at $0.05 per email found | ScraperCity Implementation, monitoring section 2 |
+| ScraperCity catalog and Email Validator page | Tool facts | `validate_emails` at $0.00169; `email_result`, `email_quality`, `sc_is_catch_all`, `sc_mx_provider`, `sc_mx_security_gateway`; `find_emails` at $0.05 per email found | ScraperCity Implementation, monitoring section 2 |
 
 ## Where sources differ, and the rule this skill uses
 

@@ -78,7 +78,7 @@ Expected cost at a given hit rate, before shared-number, line-type and suppressi
 | Line | Who bills it | Notes |
 |-|-|-|
 | Mobile Finder | ScraperCity wallet | $0.25 per number found |
-| Email validation for the multi-channel file | ScraperCity wallet | $0.0072 per email, optional |
+| Email validation for the multi-channel file | ScraperCity wallet | $0.00169 per email, optional |
 | Line-type lookup | The user's carrier lookup provider | Per lookup; only when the call plan needs true mobiles |
 
 Report only the ScraperCity lines in the cost total and list the others as "billed separately".

@@ -57,7 +57,7 @@ Use Sales Navigator for timing and the Lead Database for the contact data.
 2. Each week, collect the profile URLs of the new matches.
 3. For each URL, call `query_lead_database` with `socialUrl` set to the profile URL and `limit: 1`. A match returns the person with company fields and, often, an email (included in the Growth plan).
 4. No match, or no email: send first name, last name and company domain to `find_emails` ($0.05 per email found, free when not found).
-5. Validate every email that did not come from Email Finder with `validate_emails` ($0.0072 each).
+5. Validate every email that did not come from Email Finder with `validate_emails` ($0.00169 each).
 6. Mobiles only for people a rep will call by hand: `find_mobiles` accepts the profile URL ($0.25 per number found, free when not found).
 7. Set `segment` to the signal and week (`job-change-2026-w42`) so the copy can name the trigger.
 
@@ -79,9 +79,9 @@ Weekly cost ceiling for 60 new signal matches (illustrative; the match rate is a
 | Item | Units | Unit price | Ceiling |
 |-|-:|-:|-:|
 | `socialUrl` lookups | 60 | Included in Growth | $0.00 |
-| Validation of the 45 database emails (assumed 75% match) | 45 | $0.0072 | $0.32 |
+| Validation of the 45 database emails (assumed 75% match) | 45 | $0.00169 | $0.08 |
 | Email Finder on the other 15 | 15 | $0.05 if found | $0.75 |
-| Total ceiling | | | $1.07 |
+| Total ceiling | | | $0.83 |
 
 ## 5. Which tool does which job
 

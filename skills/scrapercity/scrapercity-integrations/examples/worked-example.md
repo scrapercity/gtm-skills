@@ -78,11 +78,11 @@ Prices from `references/scrapercity-catalog.md`. Smartlead, GoHighLevel and n8n 
 | Line | Units | Unit price | Cost |
 |---|---:|---:|---:|
 | Local Business Database rows, 22 weekdays x 300 | 6,600 | included in Growth | $0.00 |
-| `validate_emails`, one email per business | 6,600 | $0.0072 | $47.52 |
-| Test batch before go-live (50 emails) | 50 | $0.0072 | $0.36 |
-| Total for the first month | | | $47.88 |
+| `validate_emails`, one email per business | 6,600 | $0.00169 | $11.15 |
+| Test batch before go-live (50 emails) | 50 | $0.00169 | $0.08 |
+| Total for the first month | | | $11.23 |
 
-Each weekday run spends 300 x $0.0072 = $2.16. The monthly total of $47.88 was shown to the agency owner and approved before the schedule went live. It leaves about $83 of the current balance for other work.
+Each weekday run spends 300 x $0.00169 = $0.51. The monthly total of $11.23 was shown to the agency owner and approved before the schedule went live. It leaves about $120 of the current balance for other work.
 
 ## Dedupe and Idempotency
 
@@ -100,7 +100,7 @@ Each weekday run spends 300 x $0.0072 = $2.16. The monthly total of $47.88 was s
 | `GET /api/v1/wallet` with the new credential | 200, Growth, $131.40 |
 | Count with `limit=1` and the full filter set | `pagination.total` 3,960, so about 13 weekdays at 300 before widening to `minRating=3.5` or adding Oklahoma |
 | One page with `limit=5` through the Code node | 5 rows, emails lowercased, phones in E.164, domains bare |
-| Validator on 50 emails | `SUCCEEDED` in 3 minutes, 40 valid, $0.36 |
+| Validator on 50 emails | `SUCCEEDED` in 3 minutes, 40 valid, $0.08 |
 | Webhook from that run | Arrived at the production URL, matched the Data table, handled once; a manual re-post was ignored |
 | Smartlead load of the 40 valid | 40 added, 0 skipped, merge fields `{{rating}}` and `{{reviews}}` render in the preview |
 | GoHighLevel upsert of the 50 | 50 contacts with both tags; no workflow fired because the tag-based workflow was paused for the test |
@@ -110,4 +110,4 @@ Each weekday run spends 300 x $0.0072 = $2.16. The monthly total of $47.88 was s
 
 1. Publish both n8n workflows and the hourly backstop, then confirm the first 07:00 run in the Executions list.
 2. Turn the GoHighLevel tag workflow back on after the first live day looks right.
-3. Review after 10 weekdays: `pagination.total` remaining, validator pass rate, Smartlead bounce rate, wallet spend against the $47.88 estimate.
+3. Review after 10 weekdays: `pagination.total` remaining, validator pass rate, Smartlead bounce rate, wallet spend against the $11.23 estimate.

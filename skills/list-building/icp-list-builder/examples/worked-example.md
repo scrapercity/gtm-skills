@@ -2,7 +2,7 @@
 
 _Illustrative example of a run report. Companies, people, counts and run results are invented to show the format and use the reserved `.example` domain. Prices are ScraperCity catalog prices._
 
-Status: Ran 2026-10-12 for Pipeline Coaching Co., a sales-coaching firm selling a 12-week program to sales leaders. Counts, pull and validation below are live results. Plan: Growth. Wallet: $163.40 before, $150.44 after.
+Status: Ran 2026-10-12 for Pipeline Coaching Co., a sales-coaching firm selling a 12-week program to sales leaders. Counts, pull and validation below are live results. Plan: Growth. Wallet: $163.40 before, $160.36 after.
 
 ## Answer
 
@@ -10,7 +10,7 @@ Status: Ran 2026-10-12 for Pipeline Coaching Co., a sales-coaching firm selling 
 |-|-|
 | How many send-ready contacts? | 1,480 VP Sales, Head of Sales and CRO contacts at US B2B SaaS companies with 50-200 employees, every email validated `valid`, at most 3 per company |
 | What is held back? | 216 catch-all and unknown addresses in a hold file, released only after the test cell passes |
-| What did it cost? | $12.96 of paid usage, $0.0088 per send-ready contact |
+| What did it cost? | $3.04 of paid usage, $0.0021 per send-ready contact |
 
 ## ICP Definition
 
@@ -49,7 +49,7 @@ Exclusions: agency and staffing, shared by the churned and the lost account and 
 | Title, keywords, notKeywords, size, country, hasEmail | 4,388 | 2.9x the 1,500 target; of the first 100 rows, 16 were sales operations or sales engineers, so their words went into notTitle |
 | Recount with notTitle added | 3,412 | Pull 2,000 (1,500 / 0.75 yield) |
 
-You approved the pull and the $12.96 validation spend in chat on 2026-10-12.
+You approved the pull and the $3.04 validation spend in chat on 2026-10-12.
 
 ## Pull Funnel
 
@@ -81,8 +81,8 @@ Fit sample: 60 random send-file rows checked by hand on 2026-10-12: title 60 of 
 | Item | Units | Unit price | Cost |
 |-|-|-|-|
 | Lead Database counts and pull | 2,002 leads, 2% of the 100,000 daily allowance | Included in Growth | $0.00 |
-| Email Validator | 1,800 emails | $0.0072 | $12.96 |
-| Total paid usage | | | $12.96 |
+| Email Validator | 1,800 emails | $0.00169 | $3.04 |
+| Total paid usage | | | $3.04 |
 
 Prices: ScraperCity pricing page and tool catalog, checked 2026-10-12, matching the wallet change.
 

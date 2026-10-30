@@ -150,7 +150,7 @@ Show both layouts in the Capacity Plan and let the user choose. At 1,500 a day w
 
 | Method | How | Cost |
 |-|-|-|
-| Validation sample | 500 addresses through ScraperCity's Email Validator; count the mail provider and security gateway columns (ScraperCity Implementation, Step B) | $3.60 |
+| Validation sample | 500 addresses through ScraperCity's Email Validator; count the mail provider and security gateway columns (ScraperCity Implementation, Step B) | $0.85 |
 | MX lookup | Company domains from a 500-row sample: `dig +short MX <domain>`. `google.com` or `googlemail.com` = Google; `mail.protection.outlook.com` = Microsoft 365 | Free, slower |
 
 Write the shares (Google %, Microsoft %, other %) with the sample size as the source.
@@ -243,7 +243,7 @@ ScraperCity does not sell domains or mailboxes. It supplies the one number the p
 **Step B. Measure the recipient provider mix.** Take 500 addresses from the user's target list (or 500 Lead Database rows on the Growth plan, which count against the 100,000 a day allowance with no per-row charge) and validate them:
 
 ```text
-validate_emails(emails=[...500 addresses...])     # 500 x $0.0072 = $3.60
+validate_emails(emails=[...500 addresses...])     # 500 x $0.00169 = $0.85
 check_run_status(runId) -> download_results(runId)
 ```
 
@@ -261,7 +261,7 @@ Count `sc_mx_provider` (Google, Microsoft, other) and `sc_mx_security_gateway`. 
 | Domains, Porkbun `.com` | 30 x $11.08 = $332.40 a year | $27.70 a month |
 | Instantly Hypergrowth | flat, 125,000 emails a month | $97.00 a month |
 | Total | | $531.90 a month |
-| Provider-mix sample, outside the total | 500 x $0.0072 | $3.60 once |
+| Provider-mix sample, outside the total | 500 x $0.00169 | $0.85 once |
 
 Show this table to the user before buying anything. The plan's Total covers mailboxes, domains and the sequencer only; validation of the sending list is one line under it, marked as outside the total.
 

@@ -229,7 +229,7 @@ Planning assumption: 15% to 28% of a contact list a year, 1.3% to 2.3% a month. 
 
 | Segment | Check | Cadence | Cost |
 |-|-|-|-|
-| Contacts entering a sequence | `validate_emails` if `email_validated_at` is older than 90 days | Before each send | $7.20 per 1,000 validated |
+| Contacts entering a sequence | `validate_emails` if `email_validated_at` is older than 90 days | Before each send | $1.69 per 1,000 validated |
 | Open opportunities and customer champions | Lead Database `socialUrl` job-change sweep | User sets; expected changes per sweep = contacts x 1.3% to 2.3% x months since the last one | $0 wallet on Growth and Scale |
 | Active accounts | Title and company refresh; company fields written only on a size-band change | User sets the title and size freshness windows | $0 wallet on Growth and Scale |
 | Accounts tied to a technology trigger | Tech Stack Search per technology | Before each campaign that uses it | $4.99 per technology |

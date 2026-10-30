@@ -37,9 +37,9 @@ The most one row can cost in the work email waterfall:
 
 | Path | Billed | Cost |
 |---|---|---:|
-| Database has the email, then validate it before sending | `validate_emails` | $0.0072 |
+| Database has the email, then validate it before sending | `validate_emails` | $0.00169 |
 | Database misses, Email Finder finds (validated when found, no second check) | `find_emails` | $0.05 |
-| Both miss, Website Finder finds the role holder, then validate | `scrape_website_finder` + `validate_emails` | $0.0571 |
+| Both miss, Website Finder finds the role holder, then validate | `scrape_website_finder` + `validate_emails` | $0.05159 |
 | Every step misses | nothing | $0.00 |
 
 So the ceiling is $0.0571 per row, plus $0.25 when a mobile is requested and found. For 2,000 rows the email ceiling is 2,000 x $0.0571 = $114.20; show that next to the expected cost before the first run. Rows that reach the end with nothing are written as `not_found` and never get a constructed `first.last@` address.
@@ -49,7 +49,7 @@ So the ceiling is $0.0571 per row, plus $0.25 when a mobile is requested and fou
 | Source of the address | Validate before sending? |
 |---|---|
 | `find_emails`, found inside your re-check window | No. The catalog says every email it finds is validated |
-| Lead Database or Local Business Database record | Yes, $0.0072 each |
+| Lead Database or Local Business Database record | Yes, $0.00169 each |
 | `scrape_website_finder` | Yes, or send `autoValidateEmails: true` with the run (the catalog does not list a separate price for that flag; check the run cost in `/api/v1/runs` on a small test) |
 | Another provider, a CRM, a purchased list | Yes |
 | Any address last validated before your re-check window | Yes |
@@ -110,10 +110,10 @@ _Illustrative example. Hit rates are invented to show the arithmetic; prices are
 | Lead Database by domain + title | 1,000 | 620 people, 590 with email | 0 | included | $0.00 |
 | `scrape_website_finder`, `jobTitle: "VP Marketing"`, on 380 domains with no match | 380 | 150 | 150 | $0.0499 | $7.49 |
 | `find_emails` on 30 database people with no email | 30 | 18 | 18 | $0.05 | $0.90 |
-| `validate_emails` on 590 database emails + 150 Website Finder emails | 740 | | 740 | $0.0072 | $5.33 |
-| **Expected total** | | | | | **$13.72** |
+| `validate_emails` on 590 database emails + 150 Website Finder emails | 740 | | 740 | $0.00169 | $1.25 |
+| **Expected total** | | | | | **$9.64** |
 
-Ceiling if every pay-on-find step hits: 380 x $0.0499 + 30 x $0.05 + (590 + 380) x $0.0072 = $18.96 + $1.50 + $6.98 = $27.44. Both figures go to the user before the first paid step. Coverage: 590 + 150 + 18 = 758 of 1,000 accounts with an address before validation.
+Ceiling if every pay-on-find step hits: 380 x $0.0499 + 30 x $0.05 + (590 + 380) x $0.00169 = $18.96 + $1.50 + $1.64 = $22.10. Both figures go to the user before the first paid step. Coverage: 590 + 150 + 18 = 758 of 1,000 accounts with an address before validation.
 
 ## Sources
 

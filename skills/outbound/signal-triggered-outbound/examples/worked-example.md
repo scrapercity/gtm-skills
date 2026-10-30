@@ -113,15 +113,15 @@ Fields: {{visits_band}} = the band edge crossed in Store Leads estimated monthly
 | Klaviyo detections | Tech Stack Search: every domain running Klaviyo | Weekly, Monday 06:15 CT | $4.99 | $19.96 |
 | Buyers | Lead Database: founder, CEO and ecommerce titles at tier A and B domains (29 a week, estimate) | Weekly after scoring | $0.00, included in Growth | $0.00 |
 | Founders the database lacks | Website Finder on the remaining domains (7 found a week, estimate) | Weekly after scoring | $0.35 | $1.40 |
-| Email check | Email Validator on contacts not checked in 30 days (36 a week) | Weekly | $0.26 | $1.04 |
+| Email check | Email Validator on contacts not checked in 30 days (36 a week) | Weekly | $0.06 | $0.24 |
 | Mobiles | Mobile Finder for tier A founders (4 found a week) | Weekly | $1.00 | $4.00 |
-| Total | | | | $64.62 of the $159 Growth credits |
+| Total | | | | $63.82 of the $159 Growth credits |
 
 ## Launch Plan
 
 | Week of | Step | Owner |
 |-|-|-|
-| 2026-10-13 | Approve the $64.62 spend; run a 100-store universe test ($0.39) and confirm the visits filter applied | Founder |
+| 2026-10-13 | Approve the $63.82 spend; run a 100-store universe test ($0.39) and confirm the visits filter applied | Founder |
 | 2026-10-19 | Baseline: full universe and first Klaviyo pull stored; no alerts from the baseline | Ops lead |
 | 2026-10-26 | First cycle: diff, score and route; tier A calls and tier B campaigns start | Ops lead and account executive |
 | 2026-11-23 | Review four cycles: meetings per 100 contacts by signal and age bucket against the static Shopify campaign; re-fit half-lives and cut-offs | Founder |

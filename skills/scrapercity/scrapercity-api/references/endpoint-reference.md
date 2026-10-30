@@ -72,7 +72,7 @@ All are `POST /api/v1/scrape/{slug}` with a JSON body. Required fields are marke
 |---|---|---|---|
 | `apollo` | `scrape_apollo` | **`url`** (Apollo people search, Filters 1.0), `count` (500 to 50,000), `fileName` (max 50 chars) | $0.0039 per lead |
 | `maps` | `scrape_maps` | `searchStringsArray`, `locationQuery`, `customGeolocation`, `maxCrawledPlacesPerSearch`, or `url` (a Google Maps search link) | $0.0099 per business |
-| `email-validator` | `validate_emails` | **`emails`** (string array) | $0.0072 per email |
+| `email-validator` | `validate_emails` | **`emails`** (string array) | $0.00169 per email |
 | `email-finder` | `find_emails` | **`contacts`** (objects with `first_name`, `last_name`, `domain`, optional `full_name`, `company_name`); the package also sends `autoValidateEmails`, `autoFindMobiles` | $0.05 per email found, free if not found |
 | `mobile-finder` | `find_mobiles` | **`inputs`** (social profile URLs or work emails) | $0.25 per number found, free if not found |
 | `skip-trace` | `find_people` | `name`, `email`, `phone_number`, `street_citystatezip` (all string arrays), `max_results` | $0.0199 per result, 0 matches billed as 1 |

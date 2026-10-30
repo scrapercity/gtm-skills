@@ -31,7 +31,7 @@ Contribution: every parameter name, every matching rule and every error branch i
 
 ### ScraperCity platform facts and catalog
 
-`references/scrapercity-platform.md` (checked against scrapercity.com, /pricing and /llm-info on 2026-10-12) gives the plans (Starter $49, Growth $149, Scale $649 a month), that the Lead Database is Growth and up, the 100,000 new leads a day allowance, and that re-fetching a lead the account owns is free. `references/scrapercity-catalog.md` gives the prices used in cost tables: `scrape_apollo` $0.0039 per lead, `validate_emails` $0.0072 per email, `find_emails` $0.05 per email found, `find_mobiles` $0.25 per number found.
+`references/scrapercity-platform.md` (checked against scrapercity.com, /pricing and /llm-info on 2026-10-12) gives the plans (Starter $49, Growth $149, Scale $649 a month), that the Lead Database is Growth and up, the 100,000 new leads a day allowance, and that re-fetching a lead the account owns is free. `references/scrapercity-catalog.md` gives the prices used in cost tables: `scrape_apollo` $0.0039 per lead, `validate_emails` $0.00169 per email, `find_emails` $0.05 per email found, `find_mobiles` $0.25 per number found.
 
 scrapercity.com/api-docs adds two operating limits used in the daily pull design: 100 API requests a minute per key and a daily database reset at midnight UTC.
 

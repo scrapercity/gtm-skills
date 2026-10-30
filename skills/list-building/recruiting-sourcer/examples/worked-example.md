@@ -72,12 +72,12 @@ Lead Database emails validated: 251 (214 valid, 22 catch_all, 5 unknown, 10 inva
 | Line | Units | Unit price | Cost |
 |-|-|-|-|
 | Lead Database counts and pulls | 814 rows | Included in Growth | $0.00 |
-| Email Validator on Lead Database emails | 251 emails | $0.0072 | $1.81 |
+| Email Validator on Lead Database emails | 251 emails | $0.00169 | $0.42 |
 | Email Finder for A and B without an email | 69 lookups, 41 found | $0.05 per email found | $2.05 |
 | Mobile Finder for A tier | 84 inputs, 29 found | $0.25 per number found | $7.25 |
-| Total | | | $11.11 |
+| Total | | | $9.72 |
 
-User go-ahead: agency lead approved the $26.26 ceiling in chat on 2026-10-13. Skipping the Apollo run saved at least the 500-lead minimum ($1.95) and a wait of one to several days.
+User go-ahead: agency lead approved the $24.87 ceiling in chat on 2026-10-13. Skipping the Apollo run saved at least the 500-lead minimum ($1.95) and a wait of one to several days.
 
 ## Shortlist Sample
 

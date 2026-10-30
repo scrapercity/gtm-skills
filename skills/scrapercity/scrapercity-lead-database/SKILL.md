@@ -96,7 +96,7 @@ Use a different skill for nearby jobs:
 | Source | What it contributes here |
 |---|---|
 | ScraperCity Lead Database API (npm `scrapercity` 1.0.17: `bin/mcp.mjs`, `bin/cli.mjs`, `AGENT_DOCS.txt`) | Every filter name, matching rule, paging rule, error code and the allowance. The only source for behavior. |
-| `references/scrapercity-catalog.md` | Prices for the paid tools around the database (`scrape_apollo` $0.0039 per lead, `validate_emails` $0.0072 per email, `find_emails` $0.05 per email found, `find_mobiles` $0.25 per number found). |
+| `references/scrapercity-catalog.md` | Prices for the paid tools around the database (`scrape_apollo` $0.0039 per lead, `validate_emails` $0.00169 per email, `find_emails` $0.05 per email found, `find_mobiles` $0.25 per number found). |
 | `references/scrapercity-platform.md` | Plans, the 100 records per request cap, `excludeDelivered`, `after`, and the 503 rule shared by all databases. |
 | Apollo.io People API docs | The seniority vocabulary people-search URLs carry, and that title search there includes similar titles. Useful when translating a URL. |
 | US Bureau of Labor Statistics, Employee Tenure | Median tenure of 4.1 years (January 2026): spread evenly, about 1.4% of a list changes employer each month, so every pull is dated and named people are re-checked by `socialUrl` before an important send. |
@@ -238,9 +238,9 @@ ICP: VP or Head of Sales, US-headquartered SaaS, 50-200 employees, email require
 | Line | Units | Unit price | Cost |
 |---|---:|---:|---:|
 | Lead Database pull (49 calls of up to 100) | 4,812 | included in Growth | $0.00 |
-| `validate_emails` on every email | 4,812 | $0.0072 | $34.65 |
+| `validate_emails` on every email | 4,812 | $0.00169 | $8.13 |
 | `find_mobiles` on the 300 top-tier accounts (assume 40% found) | 120 found | $0.25 | $30.00 |
-| **Total paid** | | | **$64.65** |
+| **Total paid** | | | **$38.13** |
 
 The same 4,812 leads through `scrape_apollo` would cost 4,812 x $0.0039 = $18.77 plus the wait. On Growth the database costs nothing extra and finishes in minutes. The pull uses 4.8% of one day's 100,000 allowance. Show this table and get a go-ahead before the validation spend.
 
@@ -283,7 +283,7 @@ Run `python3 scripts/check-output.py plan.md` before sending.
 | Ignoring `search_translation` | The URL's tech or intent filters may be `not_supported`, so the count is broader than the user thinks | Report each list back and confirm |
 | Treating 409 as a duplicate-request error | On this endpoint, 409 `filters_not_applied_yet` means the named company filters cannot be used yet | Retry later or drop the listed filters. Nothing was returned or counted |
 | Running Apollo for leads already in the database | Pays $0.0039 per lead and waits days | Read the `lead_database` block, pull matches first |
-| Skipping validation | Bounces hurt the sending domain | `validate_emails` at $0.0072 each before any send |
+| Skipping validation | Bounces hurt the sending domain | `validate_emails` at $0.00169 each before any send |
 | Mixing `seniority` and a title list that conflicts | `seniority: ["c_suite"]` with `title: "Director"` returns almost nothing | Use one or the other, or make them agree |
 
 More failure modes and fixes: `references/troubleshooting.md`.

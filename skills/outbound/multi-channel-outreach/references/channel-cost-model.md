@@ -9,7 +9,7 @@ What each channel costs per contact and per touch, built from ScraperCity catalo
 | Need | Tool | Billable unit | Price | Notes |
 |-|-|-|-|-|
 | Mobile number from a work email or LinkedIn URL | `find_mobiles` | Number found | $0.25 | Free when nothing is found |
-| Email validation before every email touch | `validate_emails` | Email | $0.0072 | Returns `email_result`, `email_quality`, `sc_mx_provider` |
+| Email validation before every email touch | `validate_emails` | Email | $0.00169 | Returns `email_result`, `email_quality`, `sc_mx_provider` |
 | Work email from name and domain | `find_emails` | Email found | $0.05 | Free when not found; results are validated at lookup |
 | Contact plus email (and optional mobile) at a domain for one title | `scrape_website_finder` | Contact found | $0.0499 | `autoFindMobiles: true` adds Mobile Finder lookups at $0.25 per number found |
 | Local businesses with phone and address | `scrape_maps` | Business | $0.0099 | Business line, street address for mail |
@@ -36,7 +36,7 @@ What each channel costs per contact and per touch, built from ScraperCity catalo
 
 ```text
 email_touch      = (mailbox seats + domains + sequencer + data) per month / cold sends per month
-validation_share = $0.0072 per contact, paid once before the contact's first send
+validation_share = $0.00169 per contact, paid once before the contact's first send
 mobile_per_found = $0.25
 mobile_per_input = hit_rate x $0.25                     # hit_rate measured on a 50-input test
 call_attempt     = rep_hourly_cost / dials_per_hour
@@ -64,7 +64,7 @@ Illustrative inputs: $35 an hour loaded rep cost, 30 dials an hour, 40 profile v
 | Channel | Touch | Cost per touch | How |
 |-|-|-|-|
 | Email | One cold send | About $0.019 plus sequencer | $18.66 / 1,000 sends |
-| Email | Validation per contact | $0.0072 | Once per contact before the first send |
+| Email | Validation per contact | $0.00169 | Once per contact before the first send |
 | Phone | One dial attempt | $1.17 | $35 / 30 dials |
 | Phone | Mobile number for a tier A contact | $0.25 per number found | Free when not found |
 | LinkedIn | Profile view | $0.88 rep time plus seat share | $35 / 40 views |
@@ -81,11 +81,11 @@ Using the default cadences in `references/channel-scripts-and-cadences.md` secti
 
 | Tier | Touches | Data | Touch cost | Total per contact |
 |-|-|-|-|-|
-| A (email 4, calls 3, LinkedIn 3, postcard 1) | 11 | Validation $0.0072 + mobile $0.25 if found | Email 4 x $0.019 = $0.08; calls 3 x $1.17 = $3.51; LinkedIn view $0.88 + request $1.75 + message $0.88 + seat share 3 x $0.30 = $4.41; postcard $1.50 | About $9.76 |
-| B (email 4, calls 2 on business line, LinkedIn 2) | 8 | Validation $0.0072 | Email $0.08; calls 2 x $1.17 = $2.34; LinkedIn view $0.88 + request $1.75 + seat share $0.60 = $3.23 | About $5.66 |
-| C (email only, 4 touches) | 4 | Validation $0.0072 | $0.08 | About $0.09 plus sequencer |
+| A (email 4, calls 3, LinkedIn 3, postcard 1) | 11 | Validation $0.00169 + mobile $0.25 if found | Email 4 x $0.019 = $0.08; calls 3 x $1.17 = $3.51; LinkedIn view $0.88 + request $1.75 + message $0.88 + seat share 3 x $0.30 = $4.41; postcard $1.50 | About $9.75 |
+| B (email 4, calls 2 on business line, LinkedIn 2) | 8 | Validation $0.00169 | Email $0.08; calls 2 x $1.17 = $2.34; LinkedIn view $0.88 + request $1.75 + seat share $0.60 = $3.23 | About $5.65 |
+| C (email only, 4 touches) | 4 | Validation $0.00169 | $0.08 | About $0.08 plus sequencer |
 
-Tier A costs about 100 times tier C per contact. That is why tiering comes before any mobile lookup or mail order.
+Tier A costs about 120 times tier C per contact. That is why tiering comes before any mobile lookup or mail order.
 
 ## 6. Break-even spend per contact
 
@@ -101,7 +101,7 @@ Illustrative inputs, to be replaced by the user's:
 | $8,000 | 25% | 3% | $60.00 |
 | $1,000 | 20% | 1% | $2.00 |
 
-A $1,000 deal with a 1% meeting rate cannot carry a $9.76 tier A cadence; it gets tier C. Meeting rates are hypotheses until the first cohort of each tier finishes the cadence. Hand the measured rates to `outbound-unit-economics`.
+A $1,000 deal with a 1% meeting rate cannot carry a $9.75 tier A cadence; it gets tier C. Meeting rates are hypotheses until the first cohort of each tier finishes the cadence. Hand the measured rates to `outbound-unit-economics`.
 
 ## 7. Cost estimate checklist before any paid step
 

@@ -4,7 +4,7 @@ How to load ScraperCity records into HubSpot, Salesforce, Attio, Pipedrive and G
 
 ## Before any load
 
-1. Validate first. Send the emails to `validate_emails` ($0.0072 per email) and load only the ones that come back valid. A sender that imports unvalidated addresses pays for it in bounces. See the `email-list-cleaner` skill.
+1. Validate first. Send the emails to `validate_emails` ($0.00169 per email) and load only the ones that come back valid. A sender that imports unvalidated addresses pays for it in bounces. See the `email-list-cleaner` skill.
 2. Dedupe on a stable key before the load: lowercase email for people, normalized domain for companies, phone plus postal code for local businesses.
 3. Run one record end to end before the batch.
 4. Keep every destination token in the automation tool's secret store, never in a node name, a sheet cell or a committed file.

@@ -92,7 +92,7 @@ Use a different skill for nearby jobs:
 | Source | What it contributes |
 |---|---|
 | ScraperCity Local Business Database API (npm `scrapercity` 1.0.17) | Every filter, `searched_as`, the `lead_database` fallback block, `search_translation`, paging, POST for long requests, error branches, returned fields |
-| `references/scrapercity-catalog.md` | Prices for the scrapers and enrichment around the database: `scrape_maps` $0.0099 per business, `scrape_yelp` $0.0099 per result, `scrape_angi` $0.0099 per listing, `validate_emails` $0.0072 per email, `find_emails` $0.05 per email found |
+| `references/scrapercity-catalog.md` | Prices for the scrapers and enrichment around the database: `scrape_maps` $0.0099 per business, `scrape_yelp` $0.0099 per result, `scrape_angi` $0.0099 per listing, `validate_emails` $0.00169 per email, `find_emails` $0.05 per email found |
 | Google Business Profile category guidelines | A business picks the most specific category that says what it is. Search the specific category first ("Pediatric dentist"), then the broad word ("dentist") |
 | BrightLocal Local Consumer Review Survey 2026 | 68% of consumers will only use a business with 4+ stars, 31% only 4.5+, 47% will not use one with fewer than 20 reviews, 74% look for reviews written in the last three months. Basis for the rating and review segments |
 | USGS | One degree of latitude is about 69 miles; one degree of longitude is about 54.6 miles at 38 degrees north. Converts a map box from degrees to miles |
@@ -231,9 +231,9 @@ Dentists in the Austin metro, `hasEmail: true`. Count check returns 1,146. 412 h
 | Line | Units | Unit price | Cost |
 |---|---:|---:|---:|
 | Local Business Database pull (12 calls of up to 100) | 1,146 | included in Growth | $0.00 |
-| `validate_emails` (1,146 businesses, 1,388 emails) | 1,388 | $0.0072 | $9.99 |
+| `validate_emails` (1,146 businesses, 1,388 emails) | 1,388 | $0.00169 | $2.35 |
 | `find_emails` for owners named on 300 websites without a contact, ceiling if every lookup finds one | 300 | $0.05 | $15.00 |
-| **Total paid, ceiling** | | | **$24.99** |
+| **Total paid, ceiling** | | | **$17.35** |
 
 Email Finder bills only emails found, so the actual line is found emails x $0.05. The same 1,146 businesses through `scrape_maps` would cost 1,146 x $0.0099 = $11.35 before enrichment, without rating filters or named contacts. Show this table and get a go-ahead before any paid step.
 

@@ -22,7 +22,7 @@ MIN_CHARS = 2500
 MIN_TABLE_ROWS = 35
 STATUSES = ["valid", "valid_catch_all", "unknown", "invalid", "disposable"]
 FILES = ["send_ready", "catch_all", "hold_unknown", "removed"]
-PRICE = 0.0072
+PRICE = 0.00169
 # Deliverables carry no legal content (owner rule, 2026-10-13): the same terms that
 # scripts/validate-skills.py --check-legal rejects. Bracketed letters keep this file
 # from matching its own patterns; acronyms are case-sensitive like the validator's.
@@ -168,7 +168,7 @@ def main(argv):
     if send_ready > found["valid"] + 0.5:
         return fail("send_ready.csv has more rows than valid results; catch-all or unknown rows leaked in")
 
-    # Cost: the Email Validator units equal the validated total and the dollar figure equals units x $0.0072.
+    # Cost: the Email Validator units equal the validated total and the dollar figure equals units x $0.00169.
     cost_rows = table_rows(section(text, "Cost Estimate"))
     vrow = next((r for r in cost_rows if r[0].lower().startswith("email validator")), None)
     if not vrow or len(vrow) < 4:
@@ -179,7 +179,7 @@ def main(argv):
     if abs(units - total) > 0.5:
         return fail(f"Email Validator units {units:.0f} != Total validated {total:.0f}")
     if abs(units * PRICE - dollars) > 0.01:
-        return fail(f"Email Validator cost ${dollars:.2f} != {units:.0f} x $0.0072 = ${units * PRICE:.2f}")
+        return fail(f"Email Validator cost ${dollars:.2f} != {units:.0f} x $0.00169 = ${units * PRICE:.2f}")
     if not re.search(r"total[^\n]*\$\d", section(text, "Cost Estimate"), re.I):
         return fail("Cost Estimate needs a total with a $ figure")
 
@@ -191,7 +191,7 @@ def main(argv):
         if not re.search(r"\d{4}-\d{2}-\d{2}", " ".join(r)):
             return fail(f"Re-validation row '{r[0]}' has no YYYY-MM-DD date")
 
-    print(f"PASS - {path.name}: funnel reconciles to {sent:.0f} validated, {ftotal:.0f} rows routed, cost matches $0.0072 per email")
+    print(f"PASS - {path.name}: funnel reconciles to {sent:.0f} validated, {ftotal:.0f} rows routed, cost matches $0.00169 per email")
     return 0
 
 

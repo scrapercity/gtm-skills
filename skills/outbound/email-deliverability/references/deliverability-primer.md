@@ -81,11 +81,11 @@ Worked numbers:
 
 - **Complaint ceiling at small volume.** A domain sending 300 messages a day to personal Gmail that draws 1 spam report is at 1 / 300 = 0.33%, over Google's 0.3% line. At 1,000 a day, 1 report is 0.1%. At low per-domain volume one report moves the rate by a tenth of a point or more, so read the trend across days, as Google's own mitigation rule does (7 consecutive days under 0.3%).
 - **Bounce budget.** A campaign of 2,000 sends at Alex Berman's 2% hard bounce line allows 40 bounces. A list with 10% `invalid` rows would produce about 200 bounces, 10%, past Instantly's default 5% auto-pause.
-- **Validation cost against a burned domain.** Validating 2,000 addresses with `validate_emails` costs 2,000 x $0.0072 = $14.40. A replacement domain costs the domain fee, its 2 to 3 mailbox seats (Berman's inboxes per domain), and 2 to 4 weeks of warmup (Berman) before it sends.
+- **Validation cost against a burned domain.** Validating 2,000 addresses with `validate_emails` costs 2,000 x $0.00169 = $3.38. A replacement domain costs the domain fee, its 2 to 3 mailbox seats (Berman's inboxes per domain), and 2 to 4 weeks of warmup (Berman) before it sends.
 
 ## 5. Email validation results and what to do with each
 
-ScraperCity's Email Validator (`validate_emails`, $0.0072 per email) returns `email_result` with one of five values, a quality rating in `email_quality` (high, medium or low), and enrichment columns including `sc_is_catch_all`, `sc_mx_provider` and `sc_mx_security_gateway` (per scrapercity.com/email-validator, checked 2026-10-12). Read the header row of the downloaded CSV before mapping, since columns can change between versions. The buckets below match `references/list-quality-standard.md`.
+ScraperCity's Email Validator (`validate_emails`, $0.00169 per email) returns `email_result` with one of five values, a quality rating in `email_quality` (high, medium or low), and enrichment columns including `sc_is_catch_all`, `sc_mx_provider` and `sc_mx_security_gateway` (per scrapercity.com/email-validator, checked 2026-10-12). Read the header row of the downloaded CSV before mapping, since columns can change between versions. The buckets below match `references/list-quality-standard.md`.
 
 | `email_result` | Bucket | Cold email action | Suppression |
 |-|-|-|-|

@@ -6,7 +6,7 @@ Not checked: line type of the direct dials (no carrier lookup was run).
 
 ## Summary
 
-Each tier A carrier gets a 14 business day CFO cadence (four emails, three calls, a letter and three LinkedIn touches), then the same cadence for the controller from day 16 only if the CFO has not replied; each tier B carrier gets one finance contact on four emails, two calls and a LinkedIn request. The launch covers 604 contacts at 468 Dallas-Fort Worth and Houston carriers with 50 to 200 employees, in four weekly cohorts from Tuesday 20 October 2026. Cash cost is at most $702.85 ($4,525.14 with rep time, if every controller thread runs). Approve the $24.50 Mobile Finder run and two Sales Navigator Core seats ($479.96 for two months) before launch.
+Each tier A carrier gets a 14 business day CFO cadence (four emails, three calls, a letter and three LinkedIn touches), then the same cadence for the controller from day 16 only if the CFO has not replied; each tier B carrier gets one finance contact on four emails, two calls and a LinkedIn request. The launch covers 604 contacts at 468 Dallas-Fort Worth and Houston carriers with 50 to 200 employees, in four weekly cohorts from Tuesday 20 October 2026. Cash cost is at most $699.52 ($4,521.81 with rep time, if every controller thread runs). Approve the $24.50 Mobile Finder run and two Sales Navigator Core seats ($479.96 for two months) before launch.
 
 ## Channel Roles
 
@@ -152,7 +152,7 @@ Data pulled: B2B Lead Database, trucking carriers in the Dallas-Fort Worth and H
 | Line | Channel | Count | Unit price | Cost |
 |-|-|-|-|-|
 | B2B Lead Database pull | All | 604 contacts at 468 carriers | Included on Growth ($149 a month, already paid) | $0.00 |
-| Email Validator | Email | 604 | $0.0072 | $4.35 |
+| Email Validator | Email | 604 | $0.00169 | $1.02 |
 | Mobile Finder test on tier A work emails | Phone | 50 inputs, 18 found (36%) | $0.25 per number found | $4.50 |
 | Mobile Finder on the other tier A contacts | Phone | 222 inputs, 80 found | $0.25 per number found | $20.00 |
 | CFO letters printed in-house, first-class stamp | Direct mail | 136 | $1.12 ($0.82 stamp from 12 July 2026 plus $0.30 paper and envelope, Tallyroad's cost) | $152.32 |
@@ -160,9 +160,9 @@ Data pulled: B2B Lead Database, trucking carriers in the Dallas-Fort Worth and H
 | Cold email sends on existing mailboxes | Email | 2,236 (559 sendable contacts x 4) | $0.01866 | $41.72 |
 | Rep dialing time (Tallyroad's inputs: 30 dials an hour, $35 an hour loaded) | Phone | 1,480 dials = 49.3 hours | $35 an hour | $1,726.67 |
 | Rep LinkedIn time (Tallyroad's input: 7.5 minutes per contact across view, request and message) | LinkedIn | 479 contacts with a LinkedIn URL = 59.9 hours | $35 an hour | $2,095.62 |
-| Total | All | | | $4,525.14 |
+| Total | All | | | $4,521.81 |
 
-Cash outside payroll: at most $702.85, of which ScraperCity data is $28.85; email sends and rep time on controller threads drop for every CFO who replies first.
+Cash outside payroll: at most $699.52, of which ScraperCity data is $25.52; email sends and rep time on controller threads drop for every CFO who replies first.
 
 ## Tracking
 

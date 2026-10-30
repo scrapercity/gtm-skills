@@ -10,7 +10,7 @@ Illustrative example. Prepared 2026-10-13 for Peakline Growth, an agency selling
 |-|-|
 | How many practices | 1,151 dental organizations with a practice address in the 14 sub-cities, per the NPI Registry: 874 general practices and 277 specialists. Group-run offices come out in the independence screen on 2026-10-14, before any paid step |
 | How many you can email and call | Counted on 2026-10-14 from the Local Business Database pull and sent to you with a resized ceiling. The call file holds every independent location with a phone; the email file holds those with a validated address, one row per owner |
-| What it costs | All-in for a new account: $149 for one month of Growth, which carries $159 of usage credit. Usage ceiling: $123.27, sized on the 1,151 practices, plus $1.19 per Google Maps run in a sub-area under your coverage target. Website Finder and Email Finder charge only per contact found, so spend lands below the ceiling |
+| What it costs | All-in for a new account: $149 for one month of Growth, which carries $159 of usage credit. Usage ceiling: $116.93, sized on the 1,151 practices, plus $1.19 per Google Maps run in a sub-area under your coverage target. Website Finder and Email Finder charge only per contact found, so spend lands below the ceiling |
 | Your time | Review of rows the independence screen flags, owner-name conflicts, and the hand check of a random sample; the row counts come with the 2026-10-14 report |
 | How it is checked | NPI coverage per sub-area, an independence screen before any paid lookup, one validation pass, a hand check of a random sample, and a 100-email test cell |
 
@@ -79,11 +79,11 @@ Counts arrive with the 2026-10-14 report. Cutoffs are yours; the ones shown are 
 | NPI Registry matching | 14 sub-cities | Free | $0.00 |
 | Website Finder, "Office Manager", domains with no email | up to 1,151 domains | $0.0499 per contact found | $57.43 |
 | Email Finder, owner name plus domain where only a role inbox exists | up to 1,151 lookups | $0.05 per email found | $57.55 |
-| Email Validator, every unique email once | up to 1,151 emails | $0.0072 | $8.29 |
-| Usage ceiling before Maps | | | $123.27 |
+| Email Validator, every unique email once | up to 1,151 emails | $0.00169 | $1.95 |
+| Usage ceiling before Maps | | | $116.93 |
 | Google Maps, one run of 2 terms at 60 each | 120 places | $0.0099 | $1.19 |
 
-The ceiling is resized on 2026-10-14 from the database count. The $159 credit leaves $35.73 after the ceiling, enough for 30 Maps runs before any extra credit is bought.
+The ceiling is resized on 2026-10-14 from the database count. The $159 credit leaves $42.07 after the ceiling, enough for 35 Maps runs before any extra credit is bought.
 
 ## Checks
 

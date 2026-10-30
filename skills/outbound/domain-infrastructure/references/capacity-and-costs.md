@@ -86,7 +86,7 @@ Reserve mailboxes cost money and send nothing, which is why cost per 1,000 drops
 | Domains | 9 x $11.08 / 12 | $8.31 |
 | Sequencer, Instantly Hypergrowth (monthly billing) | 125,000 emails a month, 25,000 uploaded contacts | $97.00 |
 | Total, infrastructure and sequencer | | $332.11 |
-| Outside the total: lead data and validation, when the team buys them here | Growth plan $149.00; 4,200 new prospects x $0.0072 = $30.24 | $179.24 |
+| Outside the total: lead data and validation, when the team buys them here | Growth plan $149.00; 4,200 new prospects x $0.00169 = $7.10 | $156.10 |
 
 Sequencer headroom check: 12,600 sends a month is far under Instantly Hypergrowth's 125,000; 4,200 new contacts a month is under 25,000 uploaded contacts. Instantly's Growth plan ($47, 5,000 emails, 1,000 contacts) would be too small.
 

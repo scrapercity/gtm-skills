@@ -38,10 +38,10 @@ Pilot: 50 inputs, 18 found, hit rate 36%.
 |-|-|-|-|
 | Mobile Finder pilot | 50 inputs, 18 found | $0.25 per number found | $4.50 |
 | Mobile Finder main run | 276 inputs, 101 found | $0.25 per number found | $25.25 |
-| Email Validator on the 40 email inputs, for the follow-up email step | 40 emails | $0.0072 | $0.29 |
-| Total actual | | | $30.04 |
+| Email Validator on the 40 email inputs, for the follow-up email step | 40 emails | $0.00169 | $0.07 |
+| Total actual | | | $29.82 |
 
-User go-ahead: SDR manager approved the $69.00 ceiling in chat on 2026-10-13 after a wallet check showed $91.90 left after the pilot, enough to cover the ceiling. Billed separately and not in the total: 119 line-type lookups on the team's own carrier lookup account. Cost per dial-ready mobile: $30.04 / 102 = $0.29.
+User go-ahead: SDR manager approved the $69.00 ceiling in chat on 2026-10-13 after a wallet check showed $91.90 left after the pilot, enough to cover the ceiling. Billed separately and not in the total: 119 line-type lookups on the team's own carrier lookup account. Cost per dial-ready mobile: $29.82 / 102 = $0.29.
 
 ## Append Funnel
 

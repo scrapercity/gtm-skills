@@ -9,7 +9,7 @@ Plan only: nothing below has run yet. Run the steps in order; counts, runIds and
 ## Answer
 
 - Source: the Lead Database through `query_lead_database`, included in Growth. It has no funding-stage filter, so Series B comes from your domain list, passed as `companyDomain`. Step 4 tests whether a people-search URL can carry the stage instead.
-- Cost: $2.16 to validate 300 emails, plus $0.0072 for each top-up email if fewer than 300 come back `valid`. The database pull costs $0 on Growth.
+- Cost: $0.51 to validate 300 emails, plus $0.00169 for each top-up email if fewer than 300 come back `valid`. The database pull costs $0 on Growth.
 - Every paid call waits for your go-ahead. Time to file: database pages return in seconds, validation in 1 to 10 minutes.
 
 ## Client Setup
@@ -200,16 +200,16 @@ print(f"final.csv: {min(len(valid), target)} of {target}; next_validate.txt: {le
 PY
 ```
 
-If `next_validate.txt` is not empty, run steps 7 and 8 on it (saving as `validated_2.csv`) and step 9 again. Each top-up email costs $0.0072, so 40 more is $0.29.
+If `next_validate.txt` is not empty, run steps 7 and 8 on it (saving as `validated_2.csv`) and step 9 again. Each top-up email costs $0.00169, so 40 more is $0.07.
 
 | Step | Tool | Key parameters | Units | Unit price | Cost |
 |---|---|---|---:|---:|---:|
 | 2 | check_wallet | none | 1 | $0.00 | $0.00 |
 | 3-5 | query_lead_database | titles, notTitle, companyCountry, companyDomain batches, hasEmail; count, sample, pull | every match | $0.00 | $0.00 |
-| 7 | validate_emails | top 300 ranked emails, one run | 300 | $0.0072 | $2.16 |
-| Total | | | | | $2.16 |
+| 7 | validate_emails | top 300 ranked emails, one run | 300 | $0.00169 | $0.51 |
+| Total | | | | | $0.51 |
 
-Approval: the $2.16 validation waits for your go-ahead after the count, and each top-up batch is shown with its cost and waits for a go-ahead too.
+Approval: the $0.51 validation waits for your go-ahead after the count, and each top-up batch is shown with its cost and waits for a go-ahead too.
 
 ## Issues and Fixes
 

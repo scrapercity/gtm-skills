@@ -290,10 +290,10 @@ Request: roofing contractors in Dallas, Fort Worth and Austin with validated ema
 | Step | Units (ceiling) | Unit price | Ceiling cost |
 |---|---:|---:|---:|
 | `scrape_maps`, 3 runs (one per city), `maxCrawledPlacesPerSearch: 300` | 900 businesses | $0.0099 | $8.91 |
-| `validate_emails` on the emails returned (assume 600) | 600 emails | $0.0072 | $4.32 |
-| **Total ceiling** | | | **$13.23** |
+| `validate_emails` on the emails returned (assume 600) | 600 emails | $0.00169 | $1.01 |
+| **Total ceiling** | | | **$9.92** |
 
-$13.23 is 27% of the $49 balance. The agent shows this table and waits for a yes. On Growth, `query_local_business_database` returns the same kind of rows at $0 wallet cost within the 100,000 a day allowance, leaving only the $4.32 validation.
+$9.92 is 20% of the $49 balance. The agent shows this table and waits for a yes. On Growth, `query_local_business_database` returns the same kind of rows at $0 wallet cost within the 100,000 a day allowance, leaving only the $1.01 validation.
 
 ## Output Format
 

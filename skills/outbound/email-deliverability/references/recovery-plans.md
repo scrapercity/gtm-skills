@@ -118,7 +118,7 @@ Keep: warmup at its current setting (do not raise it; a warmup surge is a volume
 
 Route results with primer section 5. During the recovery calendar the main file is 100% `valid`; catch-all rows wait until the inboxes are back at their previous cap and then run in their own campaign. Compare each source's `invalid` share on re-validation and report it, so the user can decide whether to keep buying from it.
 
-Cost: rows x $0.0072. 3,000 queued rows cost $21.60. The Email Finder costs $0.05 per email found (nothing when none is found) and is worth running only on high-value accounts whose contact came back invalid.
+Cost: rows x $0.00169. 3,000 queued rows cost $5.07. The Email Finder costs $0.05 per email found (nothing when none is found) and is worth running only on high-value accounts whose contact came back invalid.
 
 ## 6. The recovery calendar
 

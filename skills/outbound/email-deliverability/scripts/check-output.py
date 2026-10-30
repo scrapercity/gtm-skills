@@ -5,7 +5,7 @@ Two kinds of deliverable are checked:
 - Incident recovery plan (has "## Verdict" and "## Recovery Plan"): ranked
   diagnosis with a confirming check per cause, a dated day-by-day calendar whose
   totals equal inboxes x sends per inbox, stop-now list, re-validation priced at
-  $0.0072, the open-rate caveat, and a length cap.
+  $0.00169, the open-rate caveat, and a length cap.
 - Weekly health report (everything else): statuses match the sourced thresholds
   (Berman 2% bounces, Google 0.1% and 0.3% spam rate), validation buckets add up,
   linked domains on DBL, SURBL and URIBL, six-month audit dated.
@@ -289,12 +289,12 @@ def check_incident(text, sec):
             return fail(f"Measurement must cover {what}")
 
     rv = sec["list re-validation"]
-    if "0.0072" not in rv or "$" not in rv:
-        return fail("List Re-validation needs the cost at $0.0072 per email")
-    for qty, total in re.findall(r"(\d[\d,]*)\s*x\s*\$0\.0072\s*=\s*\$(\d[\d,]*\.\d{2})", rv):
-        want = round(int(qty.replace(",", "")) * 0.0072, 2)
+    if "0.00169" not in rv or "$" not in rv:
+        return fail("List Re-validation needs the cost at $0.00169 per email")
+    for qty, total in re.findall(r"(\d[\d,]*)\s*x\s*\$0\.00169\s*=\s*\$(\d[\d,]*\.\d{2})", rv):
+        want = round(int(qty.replace(",", "")) * 0.00169, 2)
         if abs(want - float(total.replace(",", ""))) > 0.01:
-            return fail(f"re-validation cost {qty} x $0.0072 should be ${want:.2f}, not ${total}")
+            return fail(f"re-validation cost {qty} x $0.00169 should be ${want:.2f}, not ${total}")
 
     ph, prows = table(sec["recovery plan"])
     dc, pi, tc, gc = col(ph, "date"), col(ph, "per inbox"), col(ph, "total"), col(ph, "gate")
@@ -436,7 +436,7 @@ def main(argv):
     if not linked:
         return fail("Blocklist Checks must include the linked domains (tracking host, main site, booking link), not only sending domains")
 
-    # List validation: every bucket present, columns add up, priced at $0.0072.
+    # List validation: every bucket present, columns add up, priced at $0.00169.
     vh, vrows = table(sec["list validation"])
     found = {}
     total_row = None
@@ -464,8 +464,8 @@ def main(argv):
             return fail(f"List Validation column '{vh[ci]}' has a non-numeric bucket count")
         if sum(vals) != tot:
             return fail(f"List Validation column '{vh[ci]}' buckets sum to {sum(vals)}, Total says {tot}")
-    if "0.0072" not in sec["list validation"] or "$" not in sec["list validation"]:
-        return fail("List Validation needs the cost at $0.0072 per email")
+    if "0.00169" not in sec["list validation"] or "$" not in sec["list validation"]:
+        return fail("List Validation needs the cost at $0.00169 per email")
 
     # Incidents: a named incident type and an owner on every row.
     ih, irows = table(sec["incidents and actions"])

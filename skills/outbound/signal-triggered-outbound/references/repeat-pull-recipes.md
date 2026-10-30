@@ -318,7 +318,7 @@ Run changedetection.io (self-hosted with Docker) on competitor pricing, changelo
 | EDGAR, job board APIs, changedetection.io self-hosted | $0 plus server time |
 | Install base per competitor change, `scrape_builtwith` | $4.99 per run |
 | Buyers at matched domains, `query_lead_database` | Included in Growth |
-| Validation of found emails, `validate_emails` | $0.0072 each |
+| Validation of found emails, `validate_emails` | $0.00169 each |
 
 ## Sources
 

@@ -38,7 +38,7 @@ Ceiling = what the command can bill at its defaults if every unit is billable.
 |---|---|---|---|---|
 | `apollo` | `apollo URL [--count N] [--name TEXT]`; URL must be the first argument; `--count` (1000) is 500-50,000 | `scrape_apollo`: `url`, `count`, `fileName` | $0.0039 per lead | $3.90 |
 | `maps` | `maps -q TEXT -l PLACE [--limit N]`; long forms `--query`, `--location`; `--limit` (500) | `scrape_maps`: one `searchStringsArray` term, `locationQuery`, `maxCrawledPlacesPerSearch` | $0.0099 per business | $4.95 |
-| `email-validate` | `email-validate a@x.com b@y.com` or `--file FILE` (every line containing `@`) | `validate_emails`: `emails` | $0.0072 per email | emails x $0.0072 |
+| `email-validate` | `email-validate a@x.com b@y.com` or `--file FILE` (every line containing `@`) | `validate_emails`: `emails` | $0.00169 per email | emails x $0.00169 |
 | `email-find` | `--first --last --domain [--company] [--full-name]` for one person, or `--file CSV`; `--validate`, `--mobiles` | `find_emails`: `contacts`, plus `autoValidateEmails` and `autoFindMobiles` | $0.05 per email found, free if not found | contacts x $0.05 |
 | `mobile-find` | `mobile-find INPUT...` or `--file FILE` (one LinkedIn URL or work email per line) | `find_mobiles`: `inputs` | $0.25 per number found, free if not found | inputs x $0.25 |
 | `people-find` | `--name`, `--email`, `--phone` (comma lists), `--address` (list separated by `\|`), `--max-results` (1) | `find_people`: `name`, `email`, `phone_number`, `street_citystatezip`, `max_results` | $0.0199 per result, 0 matches billed as 1 | searches x $0.0199 |

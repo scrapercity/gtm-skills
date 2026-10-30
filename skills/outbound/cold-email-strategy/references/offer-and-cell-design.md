@@ -168,7 +168,7 @@ For 800 domains at a 45% find rate (assumed for this example): 360 contacts x $0
 | Step | Tool | Rate | Cost per 1,000 |
 |-|-|-|-|
 | Find missing emails (50% found, assumed for this example) | `find_emails` | $0.05 per email found | $25.00 |
-| Validate every address | `validate_emails` | $0.0072 per email | $7.20 |
+| Validate every address | `validate_emails` | $0.00169 per email | $1.69 |
 | Mobile numbers for phone touches (30% found, assumed for this example) | `find_mobiles` | $0.25 per number found | $75.00 |
 
 Find rates vary by segment; replace these example rates with the measured rate from your first run. They make no claim about ScraperCity accuracy. Email Finder and Mobile Finder charge only when they find something.

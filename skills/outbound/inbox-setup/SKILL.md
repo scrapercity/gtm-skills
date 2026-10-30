@@ -179,21 +179,21 @@ Page with `pagination.next_after` until 360 rows. Lead Database rows count again
 **Step C. Validate before the first send.**
 
 ```text
-validate_emails(emails=[...360 addresses...])   # 360 x $0.0072 = $2.59
+validate_emails(emails=[...360 addresses...])   # 360 x $0.00169 = $0.61
 ```
 
 Send only `valid`; bounces above 2% hurt a new domain's reputation (Alex Berman). Treatment of every result: `references/deliverability-primer.md` section 5.
 
 **Step D. Seed the time zone split.** Lead Database rows carry `state` and `country`; Local Business Database rows carry `state`, `postal_code` and `country_code`. Group prospects by time zone so each campaign's window matches its recipients.
 
-**Worked cost estimate** for a 12-active-mailbox ramp (catalog price $0.0072 per validated email):
+**Worked cost estimate** for a 12-active-mailbox ramp (catalog price $0.00169 per validated email):
 
 | Ramp week | Cap per mailbox | Cold sends that week | New prospects that week | Validation cost |
 |-|-|-|-|-|
-| 1 | 2 rising to 10 | 12 x (2 + 4 + 6 + 8 + 10) = 360 | 360 | $2.59 |
-| 2 | 12 rising to 20 | 12 x 80 = 960 | 600 | $4.32 |
-| 3 | 22 rising to 30 | 12 x 130 = 1,560 | 600 | $4.32 |
-| Total | | 2,880 | 1,560 | $11.23 |
+| 1 | 2 rising to 10 | 12 x (2 + 4 + 6 + 8 + 10) = 360 | 360 | $0.61 |
+| 2 | 12 rising to 20 | 12 x 80 = 960 | 600 | $1.01 |
+| 3 | 22 rising to 30 | 12 x 130 = 1,560 | 600 | $1.01 |
+| Total | | 2,880 | 1,560 | $2.63 |
 
 Week 1 sends are almost all first touches, so one prospect per send is the most it can use. From week 2 new prospects hold at 120 a day (the steady-state 360 sends / 3 steps) and the rest of the capacity carries follow-ups; rows not sent carry into the next week. Show this before validating.
 

@@ -4,7 +4,7 @@ Illustrative example: Kestrel Studio and every domain below are invented. Prepar
 
 ## Summary
 
-Use Instantly Hypergrowth at $97 a month on monthly billing. It covers the 1,587 contacts Kestrel will upload this month (over the Growth plan's 1,000) and is the first Instantly plan with webhooks, which feed HubSpot through n8n, and it passed Kestrel's 26-day trial. ScraperCity Store Leads and the Lead Database supply Shopify apparel stores using Klaviyo and the people who run them, validated before upload. Kestrel's 12 warmed mailboxes move over from Woodpecker. The first month costs $368.41 all-in, inside the $400 ceiling.
+Use Instantly Hypergrowth at $97 a month on monthly billing. It covers the 1,587 contacts Kestrel will upload this month (over the Growth plan's 1,000) and is the first Instantly plan with webhooks, which feed HubSpot through n8n, and it passed Kestrel's 26-day trial. ScraperCity Store Leads and the Lead Database supply Shopify apparel stores using Klaviyo and the people who run them, validated before upload. Kestrel's 12 warmed mailboxes move over from Woodpecker. The first month costs $359.17 all-in, inside the $400 ceiling.
 
 ## Assumptions and Open Questions
 
@@ -87,14 +87,14 @@ Headers are renamed in the file before upload. Instantly column names stay at 20
 
 | Step | Action | Owner | Due | Result |
 |-|-|-|-|-|
-| 1 | ScraperCity dashboard: wallet balance $212.40 on the Growth plan | Mara Lind | 2026-10-12 | Approved spend of $17.92 |
+| 1 | ScraperCity dashboard: wallet balance $212.40 on the Growth plan | Mara Lind | 2026-10-12 | Approved spend of $8.68 |
 | 2 | Store Leads test run: `POST https://app.scrapercity.com/api/v1/scrape/store-leads` with platform shopify, category apparel, apps Klaviyo, country US, 20,000 to 200,000 visits, `totalLeads` 100, `offset` 0 | Theo Ruiz | 2026-10-12 | 100 stores, $0.39; filters confirmed on 10 sampled rows |
 | 3 | Same call for the remaining 1,400, `offset` 100 to 1,400 in steps of 100 | Theo Ruiz | 2026-10-12 | 1,500 stores in total, $5.85 including the test |
 | 4 | Suppress 14 HubSpot customer domains | Theo Ruiz | 2026-10-12 | 1,486 stores |
 | 5 | Lead Database: `GET https://app.scrapercity.com/api/v1/database/leads` with the store domains in 15 batches of up to 100, founder and ecommerce titles, people with an email, `excludeDelivered=true` | Theo Ruiz | 2026-10-12 | 1,236 people at 990 stores; capped at 2 per domain: 1,180 kept |
 | 6 | Store inbox file for the 496 stores with no person | Theo Ruiz | 2026-10-12 | 496 rows, all role addresses, own campaign |
 | 7 | Dedupe on lowercased email across both files and against the Instantly workspace | Theo Ruiz | 2026-10-13 | 0 duplicates (new workspace) |
-| 8 | ScraperCity Email Validator (`POST https://app.scrapercity.com/api/v1/scrape/email-validator`) on 1,676 addresses | Theo Ruiz | 2026-10-13 | People: 1,002 valid, 121 catch-all, 19 unknown, 36 invalid, 2 disposable. Store inboxes: 401 valid, 63 catch-all, 9 unknown, 22 invalid, 1 disposable. $12.07 |
+| 8 | ScraperCity Email Validator (`POST https://app.scrapercity.com/api/v1/scrape/email-validator`) on 1,676 addresses | Theo Ruiz | 2026-10-13 | People: 1,002 valid, 121 catch-all, 19 unknown, 36 invalid, 2 disposable. Store inboxes: 401 valid, 63 catch-all, 9 unknown, 22 invalid, 1 disposable. $2.83 |
 | 9 | Split: People (1,002), Store inbox (401), Catch-all (184), Hold unknown (28), Suppress (61) | Theo Ruiz | 2026-10-13 | 1,587 rows to upload |
 | 10 | Upload three CSVs into paused campaigns, "Check for Duplicates Across All Campaigns/Lists" on | Theo Ruiz | 2026-10-13 | Instantly reported 0 existing, 0 invalid, 0 blocklisted; 1,587 imported |
 | 11 | Preview 10 renders per campaign, including 2 with fallbacks | Mara Lind | 2026-10-13 | Renders show neither raw `{{` nor "Hi ," |
@@ -169,10 +169,10 @@ Full monthly cost for the first month. Mailbox price from Google's Workspace bil
 | Mailboxes: Google Workspace Business Starter, existing, reconnected | 12 | $8.40 a month | $100.80 |
 | Domains: `.com`, existing | 4 | $11.08 a year ($0.92 a month) | $3.69 |
 | Automation: n8n self-hosted on an existing server | 1 | $0 extra | $0.00 |
-| Verification: ScraperCity Email Validator | 1,676 | $0.0072 | $12.07 |
+| Verification: ScraperCity Email Validator | 1,676 | $0.00169 | $2.83 |
 | Data: ScraperCity Growth plan (Lead Database) | 1 | $149 a month | $149.00 |
 | Data: ScraperCity Store Leads | 1,500 stores | $0.0039 | $5.85 |
 | CRM: HubSpot | Existing | $0 extra | $0.00 |
-| Total | | | $368.41 |
+| Total | | | $359.17 |
 
 Data and validation are in the total because Kestrel asked for the list too. Moving Instantly to yearly billing once the campaign proves out saves $19.40 a month ($97.00 minus $77.60).

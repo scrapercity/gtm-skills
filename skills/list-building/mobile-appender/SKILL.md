@@ -158,7 +158,7 @@ Deliver the CSV and the report from `templates/output-template.md`; run `scripts
 |-|-|-|
 | Balance | `check_wallet` | Free |
 | Mobile append | `find_mobiles` with `inputs[]` (social profile URLs or email addresses, auto-detected) | $0.25 per number found, free if not found |
-| Optional email check for the multi-channel file | `validate_emails` with `emails[]` | $0.0072 per email |
+| Optional email check for the multi-channel file | `validate_emails` with `emails[]` | $0.00169 per email |
 | Poll and fetch | `check_run_status`, `download_results` | Free |
 | Inputs from accounts | `query_lead_database` with `companyDomain`, `title`, `hasPhone` (Growth and Scale) | Included |
 

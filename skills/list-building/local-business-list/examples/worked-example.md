@@ -11,7 +11,7 @@ Illustrative example. Prepared 2026-10-13 for Brightchair Marketing, an agency s
 | How many you can email | 545 independent practices with a validated email, 337 of them with a named contact |
 | How big the market is | 1,214 dental listings in the Local Business Database across 10 sub-cities; every sub-city now matches 88% or more of its NPI Registry practices |
 | What is held back | 100 catch-all addresses in their own file; 20 unknown, re-validated on 2026-10-16 |
-| What it cost | $8.71 in usage, inside the Growth plan's $159 monthly credit: $0.016 per send-ready practice |
+| What it cost | $4.78 in usage, inside the Growth plan's $159 monthly credit: $0.009 per send-ready practice |
 | What to send first | 100 emails to named_contact practices tagged few_reviews, starting 2026-10-14 |
 
 ## Search Definition
@@ -84,10 +84,10 @@ Gap line: email coverage under 58.3%, 5 points below the metro average of 63.3% 
 | Google Maps, 4 sub-cities x 2 terms, cap 40 | 228 businesses | $0.0099 | $2.26 | 37 | $0.061 |
 | Yelp, San Marcos and Georgetown, 30 each | 58 results | $0.0099 | $0.57 | 5 | $0.114 |
 | Website Finder, "Office Manager" on 26 domains | 15 contacts found | $0.0499 | $0.75 | 15 | $0.050 |
-| Email Validator | 713 emails | $0.0072 | $5.13 | - | - |
-| Total usage | | | $8.71 | | |
+| Email Validator | 713 emails | $0.00169 | $1.20 | - | - |
+| Total usage | | | $4.78 | | |
 
-The approved ceiling was $9.59. Yelp cost about twice as much per new practice as Maps, so the next refresh skips Yelp for dentists. Wallet after the run: $150.19.
+The approved ceiling was $5.13. Yelp cost about twice as much per new practice as Maps, so the next refresh skips Yelp for dentists. Wallet after the run: $154.12.
 
 ## Checks
 

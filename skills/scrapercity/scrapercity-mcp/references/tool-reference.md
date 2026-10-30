@@ -32,7 +32,7 @@ Full filter semantics live in `scrapercity-lead-database` and `scrapercity-local
 | `scrape_website_finder` | `domains[]`, `jobTitle` (one per request) | $0.0499 per contact found | domains x $0.0499 | 5-15 min |
 | `find_people` | one of `name[]`, `email[]`, `phone_number[]`, `street_citystatezip[]`; `max_results` | $0.0199 per result (0 matches billed as 1) | searches x max(`max_results`, 1) x $0.0199 | 2-10 min |
 | `scrape_distress_list` | `search` (city + state or ZIP); `distressTypes[]`, `maxItems` 1-500 | $0.05 per property | `maxItems` x $0.05 | 1-30 min (README range) |
-| `validate_emails` | `emails[]` | $0.0072 per email | unique emails x $0.0072 | 1-10 min |
+| `validate_emails` | `emails[]` | $0.00169 per email | unique emails x $0.00169 | 1-10 min |
 | `scrape_maps` | `searchStringsArray[]` + `locationQuery`, or `url`; `maxCrawledPlacesPerSearch` | $0.0099 per business | terms x max places x $0.0099 | 5-30 min |
 | `scrape_airbnb` | `mode` and `city[]` ("City, Country", Europe only) or `listingUrl` or `bulkListings[]` | $0.019 per result | Test a small `maxPages` first | 10-30 min |
 | `scrape_bizbuysell` | `startUrls[]`; `maxItems` | $0.0099 per listing | `maxItems` x $0.0099 | 5-15 min |
@@ -206,7 +206,7 @@ print(f"final.csv: {min(len(valid), target)} of {target}; next_validate.txt: {le
 PY
 ```
 
-A non-empty `next_validate.txt` goes through one more `validate_emails` run (saved as `validated_2.csv`), then the script runs again. The cost of a top-up is its line count x $0.0072, shown before it starts. This replaces a guessed over-pull buffer: the plan prices the target count, and each top-up is priced from the real shortfall.
+A non-empty `next_validate.txt` goes through one more `validate_emails` run (saved as `validated_2.csv`), then the script runs again. The cost of a top-up is its line count x $0.00169, shown before it starts. This replaces a guessed over-pull buffer: the plan prices the target count, and each top-up is priced from the real shortfall.
 
 ## Sources
 

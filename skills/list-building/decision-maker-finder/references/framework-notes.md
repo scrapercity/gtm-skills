@@ -46,7 +46,7 @@ The waterfall runs from included-in-plan to most expensive per hit:
 | 1 | `query_lead_database` | Included in Growth and Scale | Free per lead within the daily allowance; returns titles, seniority and emails together; also maps committee roles at no wallet cost. |
 | 2 | `scrape_website_finder` | $0.0499 per contact found | Searches a domain for a title; only billed on hits. |
 | 3 | `find_emails` | $0.05 per email found | Turns a known name into an email; validated at lookup. |
-| 4 | `validate_emails` | $0.0072 per email | Required before sending anything not validated at lookup. |
+| 4 | `validate_emails` | $0.00169 per email | Required before sending anything not validated at lookup. |
 | 5 | `find_mobiles` | $0.25 per number found | Highest cost; optional; only for a planned call block. |
 | Side path | `scrape_apollo` | $0.0039 per lead, 500 minimum | For large accounts the database missed; slow (hours to days). Try the same URL in the Lead Database `url` parameter first. |
 

@@ -21,7 +21,7 @@ A campaign launches only when all 10 pass. Record the date and result of each ch
 
 ## 2. Validation results beyond the buckets
 
-`validate_emails` ($0.0072 per email) returns `email_result`, `email_quality` and enrichment columns including `sc_is_catch_all`, `sc_mx_provider` and `sc_mx_security_gateway` (per scrapercity.com/email-validator, checked 2026-10-12). The bucket actions are in `references/deliverability-primer.md` section 5. These are the extra rules this skill runs on top.
+`validate_emails` ($0.00169 per email) returns `email_result`, `email_quality` and enrichment columns including `sc_is_catch_all`, `sc_mx_provider` and `sc_mx_security_gateway` (per scrapercity.com/email-validator, checked 2026-10-12). The bucket actions are in `references/deliverability-primer.md` section 5. These are the extra rules this skill runs on top.
 
 ### 2a. Send order inside the valid file
 
@@ -38,7 +38,7 @@ A campaign launches only when all 10 pass. Record the date and result of each ch
 | Separate campaign | Catch-all rows never share a campaign with valid rows | The sequencer's bounce auto-pause then trips on the risky campaign only |
 | Volume share | Your setting; raise or lower it from the catch-all campaign's own bounce rate | No source publishes a share |
 | Sending mailboxes | Mailboxes at their full cap with bounces under 2% | New mailboxes get only `valid` rows |
-| Do not re-validate | A catch-all domain accepts every address at SMTP, so a second run usually returns the same result and costs $0.0072 again | Spend on `find_emails` for a second address instead when the account is high value |
+| Do not re-validate | A catch-all domain accepts every address at SMTP, so a second run usually returns the same result and costs $0.00169 again | Spend on `find_emails` for a second address instead when the account is high value |
 | Stop | Catch-all campaign hard bounces 2% or more across 200 sends | Berman's line; Instantly's 200-send window |
 | Learn | After every 200 catch-all sends, list the company domains that bounced and suppress them at domain level | Those domains accept at SMTP then bounce |
 
@@ -55,10 +55,10 @@ A campaign launches only when all 10 pass. Record the date and result of each ch
 
 | Situation | Re-validate | Cost per 1,000 |
 |-|-|-|
-| First send after the re-check window | Yes, the unsent rows | $7.20 |
-| `unknown` result | Once | $7.20 |
-| Bounce spike on a campaign | The unsent rows of that campaign, before resuming | $7.20 |
-| Re-launch to non-responders past the re-check window | Yes | $7.20 |
+| First send after the re-check window | Yes, the unsent rows | $1.69 |
+| `unknown` result | Once | $1.69 |
+| Bounce spike on a campaign | The unsent rows of that campaign, before resuming | $1.69 |
+| Re-launch to non-responders past the re-check window | Yes | $1.69 |
 | `catch_all` result | No (section 2b) | |
 
 ## 3. Seed and placement testing

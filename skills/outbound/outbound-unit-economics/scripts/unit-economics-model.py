@@ -22,7 +22,7 @@ import sys
 
 # ScraperCity catalog and plan facts (references/scrapercity-catalog.md, references/scrapercity-platform.md).
 PLANS = {"starter": (49.0, 49.0, 0.0), "growth": (149.0, 159.0, 0.10), "scale": (649.0, 800.0, 0.30)}
-VALIDATE = 0.0072      # validate_emails, per email
+VALIDATE = 0.00169      # validate_emails, per email
 MOBILE = 0.25          # find_mobiles, per number found (a miss is free)
 APOLLO = 0.0039        # scrape_apollo, per lead (the Starter route when the database is not included)
 

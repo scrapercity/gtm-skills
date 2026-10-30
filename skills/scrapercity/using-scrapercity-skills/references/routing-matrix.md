@@ -6,13 +6,13 @@ Intent to skill. Match the request against the trigger phrases, then read the fi
 
 | Intent | Trigger phrases | Skill | First tool | Cost driver |
 |-|-|-|-|-|
-| Contacts like my best customers | "lookalike", "people like these customers", "build me an ICP list" | `icp-list-builder` | `query_lead_database` with `limit: 1` for the count | Included; $0.0072 per email validated |
+| Contacts like my best customers | "lookalike", "people like these customers", "build me an ICP list" | `icp-list-builder` | `query_lead_database` with `limit: 1` for the count | Included; $0.00169 per email validated |
 | Every company in a market | "TAM", "how many", "every X in Y", "market map" | `tam-builder` | Database counts (lead and local) | Included; Maps or Store Leads for gaps |
 | Buyers at named accounts | "who do I talk to at", "decision makers at these domains" | `decision-maker-finder` | `query_lead_database` by `companyDomain` + `seniority` | Included; Website Finder $0.0499 per contact found; Email Finder $0.05 per email found |
 | Brief on one account | "research this company", "prep me for a call with" | `account-researcher` | `query_lead_database` by `companyDomain` | Included; Tech Stack Search $4.99 only when the stack changes the pitch |
 | Local businesses in an area | "plumbers in Denver", "dentists near", "restaurants in" | `local-business-list` | `query_local_business_database` with `keyword` and `location` | Included; Maps $0.0099 and Yelp $0.0099 for gaps |
-| Send-ready cold email list | "list for Instantly", "ready to upload", "emails for my campaign" | `cold-email-list` | Lead Database, then Email Finder for gaps | $0.05 per email found; $0.0072 per validation |
-| Clean an existing list | "clean this list", "verify these emails", "bounces are high" | `email-list-cleaner` | `validate_emails` | $0.0072 per unique email |
+| Send-ready cold email list | "list for Instantly", "ready to upload", "emails for my campaign" | `cold-email-list` | Lead Database, then Email Finder for gaps | $0.05 per email found; $0.00169 per validation |
+| Clean an existing list | "clean this list", "verify these emails", "bounces are high" | `email-list-cleaner` | `validate_emails` | $0.00169 per unique email |
 | Fill gaps in a CRM export | "enrich my CRM", "missing emails", "append titles" | `crm-enricher` | Lead Database lookup by `companyDomain` | Included; Email Finder and Mobile Finder pay on find |
 | Mobile numbers for a call list | "mobiles", "cell numbers", "phone numbers for these LinkedIn URLs" | `mobile-appender` | `find_mobiles` | $0.25 per number found |
 | Online stores by platform or app | "Shopify stores using", "WooCommerce stores in", "stores doing $X a month" | `ecommerce-by-techstack` | `scrape_store_leads` | $0.0039 per lead; Tech Stack Search $4.99 per technology |
@@ -29,7 +29,7 @@ Intent to skill. Match the request against the trigger phrases, then read the fi
 | Mix channels | "email and call", "LinkedIn plus email", "direct mail" | `multi-channel-outreach` | Channel roles and timing | Mobile Finder, postage |
 | Domains and DNS | "new domains", "SPF", "DMARC", "how many domains" | `domain-infrastructure` | Volume target to mailbox count | Domains and mailboxes |
 | Mailbox setup | "set up inboxes", "warmup", "signatures" | `inbox-setup` | Sender identity per mailbox | Mailbox seats |
-| Inbox placement | "spam folder", "blocklisted", "bounce rate", "Postmaster" | `email-deliverability` | Pre-send gate and health check | $0.0072 per validation |
+| Inbox placement | "spam folder", "blocklisted", "bounce rate", "Postmaster" | `email-deliverability` | Pre-send gate and health check | $0.00169 per validation |
 | Choose a sequencer | "Instantly or Smartlead", "import into Lemlist" | `sending-platforms` | Requirements table | Sequencer seats |
 | Cold calling | "call script", "SDR call blocks", "cold call local businesses" | `cold-calling` | Load the do-not-contact list into the dialer | Mobile Finder $0.25 per number found |
 | Event-based outreach | "new businesses", "just switched to Shopify", "pre-foreclosure list weekly" | `signal-triggered-outbound` | Define the signal and its repeat pull | Repeat-pull volume |

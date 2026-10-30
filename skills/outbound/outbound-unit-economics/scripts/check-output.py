@@ -29,7 +29,7 @@ ALLOWED = REQUIRED + ["Sources"]
 # Catalog prices from references/scrapercity-catalog.md (npm scrapercity 1.0.17), keyed by the plain
 # product name the deliverable uses in the ScraperCity Cost "Tool" column (tool ids never appear).
 PRICES = {
-    "email validat": 0.0072, "mobile finder": 0.25, "email finder": 0.05, "apollo": 0.0039,
+    "email validat": 0.00169, "mobile finder": 0.25, "email finder": 0.05, "apollo": 0.0039,
     "google maps": 0.0099, "website finder": 0.0499, "store leads": 0.0039, "people finder": 0.0199,
     "yelp": 0.0099, "angi": 0.0099, "bizbuysell": 0.0099, "crexi": 0.029, "zillow": 0.029,
     "airbnb": 0.019, "property lookup": 0.15, "distress list": 0.05,

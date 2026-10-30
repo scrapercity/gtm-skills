@@ -75,14 +75,14 @@ Show both when they differ. Billing units, from `references/scrapercity-catalog.
 | `scrape_website_finder` | Contact found | $0.0499 | domains x $0.0499 if every domain hits |
 | `find_emails` | Email found (free if not found) | $0.05 | contacts x $0.05 |
 | `find_mobiles` | Number found (free if not found) | $0.25 | inputs x $0.25 |
-| `validate_emails` | Email | $0.0072 | unique emails x $0.0072 |
+| `validate_emails` | Email | $0.00169 | unique emails x $0.00169 |
 | `find_people` | Result (0 matches billed as 1) | $0.0199 | searches x max(`max_results`, 1) x $0.0199 |
 | `scrape_property_lookup` | Property | $0.15 (+$0.10 owner contact) | addresses x $0.15, or x $0.25 with `includeOwnerContact` |
 | `scrape_distress_list` | Property | $0.05 | `maxItems` x $0.05 (max 500) |
 | `search_criminal_records` | Search with records found | $1.00 | searches x $1.00 |
 | `query_lead_database`, `query_local_business_database` | Included in Growth and Scale | $0 wallet | Daily allowance of 100,000 new records each |
 
-Worked check: 2,000 Apollo leads plus validating them is 2,000 x $0.0039 = $7.80 plus 2,000 x $0.0072 = $14.40, a ceiling of $22.20. Show it and wait for a yes.
+Worked check: 2,000 Apollo leads plus validating them is 2,000 x $0.0039 = $7.80 plus 2,000 x $0.00169 = $3.38, a ceiling of $11.18. Show it and wait for a yes.
 
 ## 4. Start, poll, download
 

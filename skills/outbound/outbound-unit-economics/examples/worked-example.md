@@ -12,7 +12,7 @@ Every rate below is a typed input; assumptions are replaced with measured rates 
 |-|-|-|-|
 | Plan fee and credits | Growth, $149 fee, $159 credits, 10% bonus on purchased credits | catalog | scrapercity.com/pricing, checked 2026-10-12 |
 | Leads pulled | 4,500 from the Lead Database, email on file | user input | Sized to capacity: 3,150 contacts / 0.70 valid |
-| Valid rate | 70% | assumption | Replace with a 200-email validation test ($1.44) |
+| Valid rate | 70% | assumption | Replace with a 200-email validation test ($0.34) |
 | Mobile Finder inputs, hit rate | 300 work emails, 40% found | user input, assumption | Top accounts by fit; measure the hit rate on the first batch |
 | Domains and mailboxes | 5 domains, 3 mailboxes each | user input | Current setup |
 | Cold sends per mailbox per day | 30 | benchmark | Instantly help center, checked 2026-10-13: 30 campaign emails per account per day |
@@ -39,10 +39,10 @@ Every rate below is a typed input; assumptions are replaced with measured rates 
 |-|-|-|-|-|
 | Plan fee and credits | Growth plan: $149 fee, $159 credits | 1 | $149.00 | $149.00 |
 | Lead pull, VP Sales at 50 to 200 employee US software companies | Lead Database | 4,500 | Included in Growth | $0.00 |
-| Email validation | Email validation | 4,500 | $0.0072 | $32.40 |
+| Email validation | Email validation | 4,500 | $0.00169 | $7.61 |
 | Mobiles found | Mobile Finder | 120 | $0.25 | $30.00 |
 | Mobile inputs with no number | Mobile Finder, no number found | 180 | $0.00 | $0.00 |
-| ScraperCity cash for the month | $149 + max(0, $62.40 - $159.00) / 1.10 | | | $149.00 |
+| ScraperCity cash for the month | $149 + max(0, $37.61 - $159.00) / 1.10 | | | $149.00 |
 
 ## Cost Stack
 
@@ -90,7 +90,7 @@ SDR per FTE: ($55,000 + $25,000) x 1.19 / 12 plus the manager share $146,000 x 1
 |-|-|-|
 | Total monthly program cost | Cost Stack total | $10,363.14 |
 | Loaded cost per lead | $10,363.14 / 4,500 | $2.30 |
-| Data cost per verified email | $32.40 / 3,150 | $0.0103 |
+| Data cost per verified email | $7.61 / 3,150 | $0.0024 |
 | Cost per mobile found | $30.00 / 120 | $0.25 |
 | Cost per conversation (positive reply) | $10,363.14 / 37.82 | $274.04 |
 | Cost per meeting booked | $10,363.14 / 18.91 | $548.09 |
@@ -153,7 +153,7 @@ Win rate and opportunity rate move CAC most; doubling volume with the SDR barely
 | Protect the 80% held rate | Confirmation call about a week out, reminder email 12 to 24 hours before, call 2 to 3 hours before if no reply; every no-show goes back on the call list with two new times offered | Reisert, Buckets (GTMnow, Nov 2021). At 70% held, CAC rises to $4,118.32 | SDR | 20 Oct 2026 |
 | SDR quota | Count held meetings and converted opportunities, not bookings | Bridge Group 2025 quotas are 10 held and 6 converted a month | Founder | 20 Oct 2026 |
 | Cash and billing | Fund $44,037.46; offer annual prepay | Prepay moves cash break-even from month 14 to month 4 | Founder | 23 Oct 2026 |
-| ScraperCity plan | Growth | Starter on the Apollo route is $79.95, $69.05 less (0.7% of cost); Growth gives same-day database pulls with no repeats | Founder | 16 Oct 2026 |
+| ScraperCity plan | Growth | Starter on the Apollo route is $55.16, $93.84 less (0.9% of cost); Growth gives same-day database pulls with no repeats | Founder | 16 Oct 2026 |
 | First measurements | Valid rate from 200 emails; reply, positive and meeting rates on the first 3,150 contacts; win rate as those opportunities close | Replace each assumption and re-run | SDR | 30 Nov 2026 |
 
 **Confirmation** (sent with the invite):

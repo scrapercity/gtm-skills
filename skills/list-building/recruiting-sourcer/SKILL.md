@@ -183,7 +183,7 @@ Location, company size and keywords are filters, so every pulled row already mee
 | Search and count | `query_lead_database` | Included on Growth and Scale; 100,000 new leads a day |
 | Apollo URL pull | `scrape_apollo` (`url`, `count` 500 to 50,000, `fileName`) | $0.0039 per lead |
 | Email for candidates without one | `find_emails` (`contacts[]` of `{first_name, last_name, domain}`) | $0.05 per email found, free if not found |
-| Email validation | `validate_emails` | $0.0072 per email |
+| Email validation | `validate_emails` | $0.00169 per email |
 | Mobile for A tier | `find_mobiles` (`inputs[]`) | $0.25 per number found, free if not found |
 
 ### Calls
@@ -217,12 +217,12 @@ Senior React engineers in Austin for a fintech client, Growth plan, shortlist of
 | Line | Units | Unit price | Cost |
 |-|-:|-:|-:|
 | `query_lead_database` count and pulls | 814 rows (214 target-company, 600 market-wide) | Included | $0.00 |
-| `validate_emails` on Lead Database emails for A and B | 251 emails | $0.0072 | $1.81 |
+| `validate_emails` on Lead Database emails for A and B | 251 emails | $0.00169 | $0.42 |
 | `find_emails` for A and B without an email | 69 lookups, 41 found | $0.05 per found | $2.05 |
 | `find_mobiles` for A tier | 84 inputs, 29 found | $0.25 per found | $7.25 |
-| Total | | | $11.11 |
+| Total | | | $9.72 |
 
-Ceiling before the run: $1.81 + 69 x $0.05 ($3.45) + 84 x $0.25 ($21.00) = $26.26. Show it and wait for a go-ahead. If the user were on Starter and used an Apollo URL instead, a 1,000-lead run would add 1,000 x $0.0039 = $3.90 and one to several days.
+Ceiling before the run: $0.42 + 69 x $0.05 ($3.45) + 84 x $0.25 ($21.00) = $24.87. Show it and wait for a go-ahead. If the user were on Starter and used an Apollo URL instead, a 1,000-lead run would add 1,000 x $0.0039 = $3.90 and one to several days.
 
 ### Errors
 

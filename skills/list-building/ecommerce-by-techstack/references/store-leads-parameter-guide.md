@@ -87,7 +87,7 @@ Store Leads has no `excludeDelivered`. Keep each tier's prior CSV and dedupe on 
 | 10,000 | $39.00 |
 | 50,000 | $195.00 |
 
-Add $0.0072 per email for validation: 1,000 stores pulled and validated cost $3.90 + $7.20 = $11.10.
+Add $0.00169 per email for validation: 1,000 stores pulled and validated cost $3.90 + $1.69 = $5.59.
 
 ## 7. The Ecommerce Database (Growth and Scale)
 

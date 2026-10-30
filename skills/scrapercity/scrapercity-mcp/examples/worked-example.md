@@ -7,7 +7,7 @@ Scenario: Sam runs a small HVAC marketing agency on the Starter plan and works i
 ## Answer
 
 - 229 Phoenix HVAC contractors with a `valid` email are in `/Users/sam/Leads/validated-hvac-contractor-phoenix-az-20261013-c41d0e88.csv`.
-- Spent $5.49 of the $46.20 wallet (372 businesses from Google Maps, 251 emails validated); $40.71 left.
+- Spent $4.10 of the $46.20 wallet (372 businesses from Google Maps, 251 emails validated); $42.10 left.
 - Starter has no database access, so the rows came from a Maps scrape. The same search has 1,180 matches in the Local Business Database, which Growth returns at $0.
 
 ## Client Setup
@@ -95,10 +95,10 @@ Agent tests run after setup:
 | Step | Tool | Key parameters | Units | Unit price | Cost |
 |---|---|---|---:|---:|---:|
 | 1 | scrape_maps | searchStringsArray ["hvac contractor"], locationQuery "Phoenix, AZ", maxCrawledPlacesPerSearch 400 | 400 | $0.0099 | $3.96 |
-| 2 | validate_emails | Unique emails from the step 1 CSV, ceiling of one per business | 400 | $0.0072 | $2.88 |
-| Total | | | | | $6.84 |
+| 2 | validate_emails | Unique emails from the step 1 CSV, ceiling of one per business | 400 | $0.00169 | $0.68 |
+| Total | | | | | $4.64 |
 
-Approval: Ceiling $6.84, 15% of the $46.20 balance. Shown to Sam, approved in chat ("go ahead") before step 1.
+Approval: Ceiling $4.64, 10% of the $46.20 balance. Shown to Sam, approved in chat ("go ahead") before step 1.
 
 ## Run Log
 
@@ -107,7 +107,7 @@ Approval: Ceiling $6.84, 15% of the $46.20 balance. Shown to Sam, approved in ch
 | 7f3a91c2-5b0e-4d7a-9c11-2e8f6a4b3d90 | scrape_maps | SUCCEEDED | 372 | /Users/sam/Leads/maps-hvac-contractor-phoenix-az-20261013-7f3a91c2.csv |
 | c41d0e88-2a6f-4b19-8e3d-91f7b0c5a2e4 | validate_emails | SUCCEEDED | 251 | /Users/sam/Leads/validated-hvac-contractor-phoenix-az-20261013-c41d0e88.csv |
 
-Actual spend: 372 x $0.0099 = $3.68, plus 251 x $0.0072 = $1.81, total $5.49. Validation: 229 valid, 17 catch-all, 5 unknown, 0 invalid.
+Actual spend: 372 x $0.0099 = $3.68, plus 251 x $0.00169 = $0.42, total $4.10. Validation: 229 valid, 17 catch-all, 5 unknown, 0 invalid.
 
 ## Issues and Fixes
 

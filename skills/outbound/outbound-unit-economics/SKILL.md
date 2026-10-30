@@ -238,7 +238,7 @@ The model runs on catalog prices; use tool runs only to measure rates cheaply:
 |-|-|-|-|
 | Wallet, plan and credits left | `check_wallet` | none | Free |
 | Size the market before buying | `query_lead_database` or `query_local_business_database` | ICP filters, `limit: 1`; read `pagination.total` | Included in Growth and Scale |
-| Measure the valid rate | `validate_emails` | 200 emails from the target segment | $1.44 |
+| Measure the valid rate | `validate_emails` | 200 emails from the target segment | $0.34 |
 | Measure the mobile hit rate | `find_mobiles` | 100 work emails or LinkedIn URLs | $0.25 per number found; ceiling $25.00 |
 | Measure the Email Finder hit rate | `find_emails` | 100 contacts with name and domain | $0.05 per email found; ceiling $5.00 |
 | Recent spend by tool | `list_runs` | `hours: 168`, `limit: 100` | Free |
@@ -247,10 +247,10 @@ Data cost per verified email by route, at a 70% valid rate (an assumption; measu
 
 | Route | Formula | Data cost per verified email |
 |-|-|-|
-| Lead Database on Growth or Scale, email on file | $0.0072 / 0.70 | $0.0103 |
-| Apollo URL (`scrape_apollo`) then validate | ($0.0039 + $0.0072) / 0.70 | $0.0159 |
-| Google Maps (`scrape_maps`), 40% of businesses with an email (assumption), then validate | ($0.0099 / 0.40 + $0.0072) / 0.70 | $0.0456 |
-| Website Finder (`scrape_website_finder`) per contact found, then validate | ($0.0499 + $0.0072) / 0.70 | $0.0816 |
+| Lead Database on Growth or Scale, email on file | $0.00169 / 0.70 | $0.0024 |
+| Apollo URL (`scrape_apollo`) then validate | ($0.0039 + $0.00169) / 0.70 | $0.0080 |
+| Google Maps (`scrape_maps`), 40% of businesses with an email (assumption), then validate | ($0.0099 / 0.40 + $0.00169) / 0.70 | $0.0378 |
+| Website Finder (`scrape_website_finder`) per contact found, then validate | ($0.0499 + $0.00169) / 0.70 | $0.0737 |
 | Email Finder (`find_emails`), validated at lookup | $0.05 per email found | $0.0500 |
 
 ### Worked cost estimate (data line only)
@@ -258,13 +258,13 @@ Data cost per verified email by route, at a 70% valid rate (an assumption; measu
 | Line | Count | Unit price | Cost |
 |-|-|-|-|
 | Lead Database pull, VP Sales at 50 to 200 employee US software companies, `hasEmail: true` | 4,500 | Included in Growth | $0.00 |
-| `validate_emails` | 4,500 | $0.0072 | $32.40 |
+| `validate_emails` | 4,500 | $0.00169 | $7.61 |
 | `find_mobiles` on 300 top accounts (assume 40% found) | 120 found | $0.25 | $30.00 |
-| Catalog spend | | | $62.40 |
-| Growth cash: $149 + max(0, $62.40 - $159) / 1.10 | | | $149.00 |
-| Starter alternative: Apollo 4,500 x $0.0039 = $17.55 plus the same validation and mobiles | | | $79.95 |
+| Catalog spend | | | $37.61 |
+| Growth cash: $149 + max(0, $37.61 - $159) / 1.10 | | | $149.00 |
+| Starter alternative: Apollo 4,500 x $0.0039 = $17.55 plus the same validation and mobiles | | | $55.16 |
 
-Starter is $69.05 a month cheaper at this volume, 0.7% of the worked example's $10,363.14 program cost. Growth buys same-day database pulls, `excludeDelivered` dedupe and no multi-day Apollo delivery. Spend over $5 still needs a `check_wallet` call and the user's go-ahead before any run.
+Starter is $93.84 a month cheaper at this volume, 0.9% of the worked example's $10,363.14 program cost. Growth buys same-day database pulls, `excludeDelivered` dedupe and no multi-day Apollo delivery. Spend over $5 still needs a `check_wallet` call and the user's go-ahead before any run.
 
 ## Output Format
 
@@ -300,7 +300,7 @@ Also check by reading: no headline rests on an assumed split or volume; the cash
 
 | Mistake | Why it fails | Fix |
 |-|-|-|
-| Reporting data cost per lead as "cost per lead" | A $0.0103 verified email is a rounding error next to people | Report data and loaded cost per lead side by side |
+| Reporting data cost per lead as "cost per lead" | A $0.0024 verified email is a rounding error next to people | Report data and loaded cost per lead side by side |
 | SDR priced at base salary | $4,583 a month of base becomes about $10,900 loaded | Build pay, 19% employer cost, manager share and ramp |
 | No AE time in CAC | First meetings and proposals cost $1,620.99 a deal in the worked example | Count AE hours per held meeting and per opportunity as variable cost |
 | CAC payback read as program payback | 5.44 month payback, yet monthly billing breaks even in month 14 and needs $44K | Run the cash curve; offer annual prepay when cash is tight |
@@ -310,7 +310,7 @@ Also check by reading: no headline rests on an assumed split or volume; the cash
 | A fix named but not written | "Add a reminder" leaves the work undone | Write the message in full, with an owner and a date |
 | Someone else's reply rate as a forecast | Hunter found 2.4% for 500+ recipient sequences vs 4.5% overall | Use a range; replace it with the measured rate as sends come in |
 | Raw replies as conversations | Opt-outs and refusals count as replies too | Positive share is its own input |
-| Fixing volume when rates are the problem | 3x volume lowers cost per meeting by 2.3% in the worked example | Fix the stage with the largest share of the gap first |
+| Fixing volume when rates are the problem | 3x volume lowers cost per meeting by 2.4% in the worked example | Fix the stage with the largest share of the gap first |
 | Cost month matched to another month's deals | Mixing periods makes CAC meaningless | Price one month of sends against the outcomes of that cohort |
 | Annualizing churn by multiplying by 12 | 2% a month is 21.5% a year | Use 1 - (1 - monthly churn)^12 |
 | One blended model for several segments | A strong segment hides a losing one | Run the model per campaign cell |
