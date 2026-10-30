@@ -253,7 +253,7 @@ Prices come from `references/scrapercity-catalog.md`; plan facts from `reference
 | Cell type | Source tool | Key parameters | Cost |
 |-|-|-|-|
 | B2B title at company size, revenue or industry | `query_lead_database` | `title`, `seniority`, `industry`, `minEmployees`, `maxEmployees`, `revenueMin`, `revenueMax`, `country`, `hasEmail: true`, `excludeDelivered: true` | Included on Growth ($149/mo) and Scale, 100,000 new leads a day |
-| Same, from a saved Apollo.io search | `scrape_apollo` | `url` (Filters 1.0), `count` 500 to 50,000 | $0.0039 per lead; runs take hours to days, use a webhook |
+| Same, from a saved Apollo.io search | `scrape_apollo` | `url` (Filters 1.0), `count` 500 to 50,000 | $0.0039 per lead; runs usually take 15 to 30 minutes, use a webhook |
 | Local business by category and city | `query_local_business_database` | `keyword` or `category`, `location` or `city` and `state`, `minRating`, `maxRating`, `minReviews`, `maxReviews`, `hasEmail`, `hasContact` | Included on Growth and Scale, 100,000 new businesses a day |
 | Local business, fresh from Maps | `scrape_maps` | `searchStringsArray`, `locationQuery`, `maxCrawledPlacesPerSearch` | $0.0099 per business |
 | Ecommerce store by platform, app or traffic | `scrape_store_leads` | `platform`, `apps`, `technologies`, `category`, `countryCode`, `minEstimatedMonthlyVisits`, `emails: true`, `totalLeads`, `offset` | $0.0039 per lead |

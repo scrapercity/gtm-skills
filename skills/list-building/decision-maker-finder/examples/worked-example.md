@@ -109,7 +109,7 @@ Output files: `decision-makers-food-mfg-2026-10-13.csv` (464 rows, valid only), 
 | Slot 1 empty | 35 | Read each company's leadership page for a named COO or VP Operations, then send the names to Email Finder ($0.05 per email found) |
 | Slot 2 empty | 58 | Run Website Finder once more with "Food Safety Manager" on these domains, estimated ceiling 58 x $0.0499 = $2.89 |
 | Held catch-all or unknown | 43 | Re-validate the 9 unknown rows on 2026-10-16; send catch-all rows as their own 100-contact cell once the first cell stays under 2% bounces |
-| 501-1,000 employee accounts with slot 1 empty | 6 | Build an Apollo.io people search for these domains and run Apollo Scraper (500 minimum, $1.95), with a webhook, since runs take hours to days |
+| 501-1,000 employee accounts with slot 1 empty | 6 | Build an Apollo.io people search for these domains and run Apollo Scraper (500 minimum, $1.95), with a webhook, since runs usually take 15 to 30 minutes |
 
 | # | Step | Owner | Date | Done when |
 |-|-|-|-|-|

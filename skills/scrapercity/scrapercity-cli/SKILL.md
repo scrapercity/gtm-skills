@@ -139,7 +139,7 @@ npx -y scrapercity@1.0.17 poll "$RUN" --interval 30
 npx -y scrapercity@1.0.17 download "$RUN" -o "maps-roofing-dallas-tx-$(date +%Y%m%d)-${RUN:0:8}.csv"
 ```
 
-`poll` checks every `--interval` seconds (default 15), stops after one hour, exits 1 on FAILED, CANCELLED or timeout, and does not download. Use `--interval 30` or more. Apollo never goes through `poll`: register a webhook at app.scrapercity.com/dashboard/webhooks and check `status` at most hourly.
+`poll` checks every `--interval` seconds (default 15), stops after one hour, exits 1 on FAILED, CANCELLED or timeout, and does not download. Use `--interval 30` or more. Apollo never goes through `poll`: register a webhook at app.scrapercity.com/dashboard/webhooks and check `status` every few minutes.
 
 ### 6. Schedule the recurring part
 
@@ -238,7 +238,7 @@ A one-command question ("what does `--after` do?", "the command to validate this
 | Cron with no env | Cron does not load your shell profile | Source a key file and set `PATH` in the script |
 | `--exclude-delivered --page 2` | Taking page 1 removes rows from the next query, so page 2 skips records | `--after 0`, then each printed cursor |
 | Copying a run id from `runs` | `runs` shows only the first 12 characters | Keep the full id from the start output |
-| `poll` on Apollo | Hits the 1-hour timeout and exits 1 while the run continues | Webhook, hourly `status` |
+| `poll` on Apollo | Hits the 1-hour timeout and exits 1 when a run takes longer than the usual 15 to 30 minutes | Webhook, or `status` every few minutes |
 | Validating `email-find` output again, or leaving the sender's import verification on | Email Finder results are validated when found; a second pass pays twice for the same answer | Skip validation on fresh `email-find` results; validate addresses from outside ScraperCity and any whose last check is older than the re-check window you set; `verify_leads_on_import: false` on the sender |
 | Scripting a push command that does not exist | The CLI has no sender or CRM push in 1.0.17 | Filter valid rows, then `curl` the sender API in batches (`references/scripting-patterns.md` section 7b) |
 

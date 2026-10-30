@@ -63,7 +63,7 @@ Everything here follows the published `scrapercity` npm package (`lib/client.mjs
 The mistakes it prevents:
 
 - A retry loop around `POST /api/v1/scrape/{slug}` that buys the same run twice after a timeout.
-- Polling an Apollo run every 15 seconds for two days instead of registering a webhook.
+- Polling an Apollo run every 15 seconds instead of registering a webhook.
 - `GET /api/v1/downloads/{runId}` (404) instead of `/api/downloads/{runId}`.
 - Paging the Lead Database with `page=2, 3, 4` and `excludeDelivered=true`, which skips records.
 - A 20KB query string from a long saved-search URL that the server refuses.
@@ -105,7 +105,7 @@ Use a different skill for nearby jobs:
 | Source | What it contributes |
 |---|---|
 | `scrapercity` npm package 1.0.17 | Host, Bearer header, error message order, download path without `/v1`, cancel as POST, GET to POST switch past 6,000 characters, start response fields per tool, database response shape, `filters_not_applied_yet`, duplicate windows, webhook payload fields `runId`, `fileName`, `leadsCount` |
-| scrapercity.com/api-docs and /how-to-use | 100 requests a minute per key, 10 concurrent scrapes, results stored 48 hours, database allowance reset at midnight UTC, status values, error codes, webhook trigger on `SUCCEEDED` or `FAILED`, Apollo 11 to 48+ hours |
+| scrapercity.com/api-docs and /how-to-use | 100 requests a minute per key, 10 concurrent scrapes, results stored 48 hours, database allowance reset at midnight UTC, status values, error codes, webhook trigger on `SUCCEEDED` or `FAILED`, Apollo usually 15 to 30 minutes |
 | `references/scrapercity-catalog.md` | Every tool id, endpoint, input schema and per-result price |
 | RFC 9110 | GET is safe and idempotent; POST is neither. Reads get retried, starts do not |
 | RFC 6585 section 4 | 429 Too Many Requests. No `Retry-After` is documented by ScraperCity, so wait a fixed 30 s |
@@ -129,7 +129,7 @@ Routing and detail: `references/framework-notes.md`.
 | Local businesses by keyword and place (Growth+) | `GET/POST /api/v1/database/local-businesses` | Sync, 100 per call |
 | Online stores (Growth+) | `GET /api/v1/database/ecommerce` | Sync, 100 per call |
 | Anything a scraper does | `POST /api/v1/scrape/{slug}` | Async: runId, then status, then download |
-| An Apollo people search URL | `POST /api/v1/scrape/apollo` | Async, hours to several days |
+| An Apollo people search URL | `POST /api/v1/scrape/apollo` | Async, usually 15 to 30 minutes |
 
 Full slug list, bodies and response fields: `references/endpoint-reference.md`.
 
@@ -158,7 +158,7 @@ The npm client polls every 15 s with a 1-hour timeout; AGENT_DOCS gives each too
 | `validate_emails`, `find_emails`, `find_mobiles`, `find_people`, `scrape_property_lookup`, `search_criminal_records`, `scrape_builtwith` | Poll every 15 s; alert if still running after 10 min (delivery 1 to 10 min) |
 | `scrape_store_leads` | Instant; one status check |
 | `scrape_maps`, `scrape_yelp`, `scrape_angi`, `scrape_zillow_agents`, `scrape_bizbuysell`, `scrape_crexi`, `scrape_airbnb`, `scrape_website_finder`, `scrape_distress_list` | Poll every 15 s; alert if still running after 30 min (delivery 5 to 30 min) |
-| `scrape_apollo` | Webhook. Without one, poll once an hour at most (delivery up to 4 days) |
+| `scrape_apollo` | Webhook. Without one, poll every few minutes after the first 15 (delivery usually 15 to 30 minutes) |
 
 Status is `RUNNING`, then `SUCCEEDED`, `FAILED` or `CANCELLED`. Show `handled / requested` as progress. On `FAILED`, read `statusMessage` and `GET /api/v1/scrape/logs/{runId}` before changing inputs.
 
@@ -285,7 +285,7 @@ A single-endpoint question (a path, a body, what a 409 means) gets the call and 
 - No API key appears in code, config committed to a repo, logs or the spec.
 - Any code path that resubmits a POST start checks `/api/v1/runs` first.
 - 409 is handled by reuse; 401, 402 and 403 stop the job.
-- Apollo uses a webhook plus an hourly sweep, or polls no more than once an hour.
+- Apollo uses a webhook plus an hourly sweep, or polls every few minutes after the first 15.
 - Database reads use `after` for multi-page pulls and never pair `excludeDelivered=true` with `page` above 1.
 - Requests over 6,000 characters of query string go as POST bodies.
 - Peak load stays under 100 requests a minute and 10 concurrent scrapes.
@@ -299,7 +299,7 @@ A single-endpoint question (a path, a body, what a 409 means) gets the call and 
 | Wrapping the POST start in a generic retry | A start that reached the server is a paid run; the retry buys it again once the 2-minute duplicate window passes | Retry reads only. For starts, check `/api/v1/runs` before any resubmit |
 | `/api/v1/downloads/{runId}` | Wrong path | `/api/downloads/{runId}` |
 | Key in a query string or a committed `.env` | Leaks through logs and history (RFC 6750, OWASP) | `Authorization` header; key in env or a secret store |
-| Polling Apollo every few seconds | Burns the 100 a minute budget for a run that takes hours or days | Webhook plus hourly sweep |
+| Polling Apollo every few seconds | Burns the 100 a minute budget on a run that usually takes 15 to 30 minutes | Webhook plus hourly sweep |
 | Trusting the webhook body alone | No signature is documented; anyone who finds the URL can post to it | Confirm with the status call; download only on `SUCCEEDED` |
 | `excludeDelivered=true` with `page=2` | Page 1's records are now delivered, so page 2 skips a page of new ones | `page=1` each call, or the `after` cursor |
 | Same database request every few seconds | Identical requests within 30 s return 429 | Advance `after` each call, or space calls over 30 s apart |

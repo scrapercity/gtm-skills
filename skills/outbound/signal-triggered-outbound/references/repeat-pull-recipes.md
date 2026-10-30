@@ -192,7 +192,7 @@ Register the receiving URL at app.scrapercity.com/dashboard/webhooks. ScraperCit
 | 4 | Download, then route by `fileName` prefix to the right signal's diff |
 | 5 | Mark `runId` imported |
 
-Use webhooks for Apollo runs (hours to days) and for any large scraper run you do not want a cron job waiting on. Download within 48 hours; results are stored for 48 hours per scrapercity.com/api-docs.
+Use webhooks for Apollo runs (usually 15 to 30 minutes) and for any large scraper run you do not want a cron job waiting on. Download within 48 hours; results are stored for 48 hours per scrapercity.com/api-docs.
 
 ## 7. Run cost per recipe
 

@@ -8,7 +8,7 @@ The server in `scrapercity` 1.0.17 lists 25 tools: 7 utility and database tools 
 |---|---|---|---|---|
 | `check_wallet` | none | Free | First call of every session and before every paid run | Never skip it |
 | `list_runs` | `hours` (default 24, max 168), `limit` (default 20, max 100) | Free | Finding a `runId` after a 409, a timeout, or a lost conversation | You already hold the `runId` |
-| `check_run_status` | `runId` | Free | Once per turn while a run is RUNNING | Back to back in one turn; Apollo more than once an hour |
+| `check_run_status` | `runId` | Free | Once per turn while a run is RUNNING | Back to back in one turn; Apollo before the first 15 minutes |
 | `download_results` | `runId`, `outputPath` (absolute) | Free | The status is SUCCEEDED | Status is RUNNING, FAILED or CANCELLED |
 | `cancel_run` | `runId` | Free | Wrong inputs spotted after start, or the user wants to stop spend | The run already finished |
 | `query_lead_database` | filters, `url`, `page`, `limit` (max 100, default 50), `after`, `excludeDelivered` | $0 wallet on Growth and Scale, 100,000 new leads a day | B2B people by title, seniority, department, industry, size, revenue, location | Starter plan; or you need one person at a named account (use `find_emails` or `scrape_website_finder`) |
@@ -28,7 +28,7 @@ Full filter semantics live in `scrapercity-lead-database` and `scrapercity-local
 
 | Tool | Required arguments | Price (catalog) | Billable ceiling | Published delivery time |
 |---|---|---|---|---|
-| `scrape_apollo` | `url` (Apollo people search, Filters 1.0); `count` 500-50,000 | $0.0039 per lead | `count` x $0.0039 | Up to 4 days; webhook, or check at most hourly |
+| `scrape_apollo` | `url` (Apollo people search, Filters 1.0); `count` 500-50,000 | $0.0039 per lead | `count` x $0.0039 | Usually 15 to 30 minutes; webhook, or check every few minutes |
 | `scrape_website_finder` | `domains[]`, `jobTitle` (one per request) | $0.0499 per contact found | domains x $0.0499 | 5-15 min |
 | `find_people` | one of `name[]`, `email[]`, `phone_number[]`, `street_citystatezip[]`; `max_results` | $0.0199 per result (0 matches billed as 1) | searches x max(`max_results`, 1) x $0.0199 | 2-10 min |
 | `scrape_distress_list` | `search` (city + state or ZIP); `distressTypes[]`, `maxItems` 1-500 | $0.05 per property | `maxItems` x $0.05 | 1-30 min (README range) |

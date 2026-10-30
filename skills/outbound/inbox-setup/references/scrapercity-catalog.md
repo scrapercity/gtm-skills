@@ -57,7 +57,7 @@ Every scraper follows the same pattern: start, poll, download.
 2. `GET /api/v1/scrape/status/{runId}` returns `{ status, handled, requested, outputUrl }`. Status is `RUNNING`, then `SUCCEEDED`, `FAILED` or `CANCELLED`.
 3. `GET /api/downloads/{runId}` returns the CSV once the run has SUCCEEDED.
 
-Apollo runs can take from hours up to several days. Register a webhook at app.scrapercity.com/dashboard/webhooks instead of polling; it fires when a run reaches SUCCEEDED or FAILED. If you must poll an Apollo run, check at most once an hour.
+Apollo runs usually take 15 to 30 minutes, and some take longer. Register a webhook at app.scrapercity.com/dashboard/webhooks instead of polling; it fires when a run reaches SUCCEEDED or FAILED. If you must poll an Apollo run, start after 15 minutes and check every few minutes.
 
 ## Error codes
 

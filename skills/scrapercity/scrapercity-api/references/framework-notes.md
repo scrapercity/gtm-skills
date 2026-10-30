@@ -30,7 +30,7 @@ Which sources shape this skill, what each contributes, and which file to open fo
 
 ### scrapercity.com/api-docs and scrapercity.com/how-to-use
 
-The base URL, Bearer auth, 100 requests a minute per key, 10 concurrent scrapes, 48-hour result storage, the midnight UTC reset of the database allowance, the status values, the error code list, the webhook trigger (a run reaching `SUCCEEDED` or `FAILED`), and Apollo delivery of 11 to 48 hours or more. Neither page documents a webhook signature, retry schedule or further payload fields, so this skill treats the status call as the authenticity check and adds an hourly sweep.
+The base URL, Bearer auth, 100 requests a minute per key, 10 concurrent scrapes, 48-hour result storage, the midnight UTC reset of the database allowance, the status values, the error code list, the webhook trigger (a run reaching `SUCCEEDED` or `FAILED`), and Apollo delivery of usually 15 to 30 minutes. Neither page documents a webhook signature, retry schedule or further payload fields, so this skill treats the status call as the authenticity check and adds an hourly sweep.
 
 ### `references/scrapercity-catalog.md` and `references/scrapercity-platform.md`
 

@@ -35,21 +35,21 @@
       },
       "references/scrapercity-agent-patterns.md": {
         "kind": "reference",
-        "sha256": "5bc3e0b5c0c547719d1123aef6cf7e7db9cee8d7e662a30f1d648e8a9ef79e44",
+        "sha256": "5abf71fac620cbac329a11cc6240b5c5b90d562d229c915ed5a30582579d60ef",
         "shared": true,
-        "size_bytes": 15560
+        "size_bytes": 15616
       },
       "references/scrapercity-catalog.md": {
         "kind": "reference",
-        "sha256": "6479b753d80b6f8461a2439fd7057a6ef9dbaef6c9de2b442e1fbc19c15ac6d8",
+        "sha256": "a8c81edae1dad5cdaadb2971d6bf9dec95d93e8d2d38dc65f64ee14aa036e074",
         "shared": true,
-        "size_bytes": 17959
+        "size_bytes": 17996
       },
       "references/scrapercity-platform.md": {
         "kind": "reference",
-        "sha256": "159c51347ca44d3236cab7ec3febb88532ded5e2586db0355f5d1943d9035bc7",
+        "sha256": "7bc566fe714386a4648ef2a943f02162df072caaa769daf8e3f86409db216016",
         "shared": true,
-        "size_bytes": 5487
+        "size_bytes": 5501
       },
       "references/tech-stack-decision-guide.md": {
         "kind": "reference",
@@ -70,8 +70,8 @@
     "list-building/cold-email-list": {
       "SKILL.md": {
         "kind": "skill entrypoint",
-        "sha256": "104577c34c85e9cf25cf94876a2f6a3852359a274bc017d4144ad583d5bbc45e",
-        "size_bytes": 21310
+        "sha256": "071a265079ad98c648c90a9a5b9e8b716caca4ccdebdbaea2ab36e85c76cbe24",
+        "size_bytes": 21350
       },
       "examples/worked-example.md": {
         "kind": "example",
@@ -103,26 +103,26 @@
       },
       "references/pipeline-runbook.md": {
         "kind": "reference",
-        "sha256": "e27fefd16d0019130e903ab43575604a5e687772b937f0ae518b332a90cbed92",
-        "size_bytes": 11736
+        "sha256": "ef7329b9563cf234b07a2325a1c5dc744312e1a3f43e247ab426247cffb16d95",
+        "size_bytes": 11747
       },
       "references/scrapercity-agent-patterns.md": {
         "kind": "reference",
-        "sha256": "5bc3e0b5c0c547719d1123aef6cf7e7db9cee8d7e662a30f1d648e8a9ef79e44",
+        "sha256": "5abf71fac620cbac329a11cc6240b5c5b90d562d229c915ed5a30582579d60ef",
         "shared": true,
-        "size_bytes": 15560
+        "size_bytes": 15616
       },
       "references/scrapercity-catalog.md": {
         "kind": "reference",
-        "sha256": "6479b753d80b6f8461a2439fd7057a6ef9dbaef6c9de2b442e1fbc19c15ac6d8",
+        "sha256": "a8c81edae1dad5cdaadb2971d6bf9dec95d93e8d2d38dc65f64ee14aa036e074",
         "shared": true,
-        "size_bytes": 17959
+        "size_bytes": 17996
       },
       "references/scrapercity-platform.md": {
         "kind": "reference",
-        "sha256": "159c51347ca44d3236cab7ec3febb88532ded5e2586db0355f5d1943d9035bc7",
+        "sha256": "7bc566fe714386a4648ef2a943f02162df072caaa769daf8e3f86409db216016",
         "shared": true,
-        "size_bytes": 5487
+        "size_bytes": 5501
       },
       "references/sequencer-import-specs.md": {
         "kind": "reference",
@@ -184,21 +184,21 @@
       },
       "references/scrapercity-agent-patterns.md": {
         "kind": "reference",
-        "sha256": "5bc3e0b5c0c547719d1123aef6cf7e7db9cee8d7e662a30f1d648e8a9ef79e44",
+        "sha256": "5abf71fac620cbac329a11cc6240b5c5b90d562d229c915ed5a30582579d60ef",
         "shared": true,
-        "size_bytes": 15560
+        "size_bytes": 15616
       },
       "references/scrapercity-catalog.md": {
         "kind": "reference",
-        "sha256": "6479b753d80b6f8461a2439fd7057a6ef9dbaef6c9de2b442e1fbc19c15ac6d8",
+        "sha256": "a8c81edae1dad5cdaadb2971d6bf9dec95d93e8d2d38dc65f64ee14aa036e074",
         "shared": true,
-        "size_bytes": 17959
+        "size_bytes": 17996
       },
       "references/scrapercity-platform.md": {
         "kind": "reference",
-        "sha256": "159c51347ca44d3236cab7ec3febb88532ded5e2586db0355f5d1943d9035bc7",
+        "sha256": "7bc566fe714386a4648ef2a943f02162df072caaa769daf8e3f86409db216016",
         "shared": true,
-        "size_bytes": 5487
+        "size_bytes": 5501
       },
       "references/waterfall-and-cost-control.md": {
         "kind": "reference",
@@ -219,13 +219,13 @@
     "list-building/decision-maker-finder": {
       "SKILL.md": {
         "kind": "skill entrypoint",
-        "sha256": "5cce7825ed5d3c772c3e7ce1a15a7c9658401e069b6d7415d305b7509d3fff6b",
-        "size_bytes": 19736
+        "sha256": "5c9f17b05f8433173beb2f393d7578ea1a4006aa374e3f00b5553944aa3b5bbe",
+        "size_bytes": 19820
       },
       "examples/worked-example.md": {
         "kind": "example",
-        "sha256": "c0a13ef0358d4bcf3a5548ca03c77cd169e6e2cba9f1b0cfa8679fd86509128b",
-        "size_bytes": 7825
+        "sha256": "8fdf5ca218c36aa763f4bfe6e4b7d9965c461297e59a8a127ad0a6690d63c9ff",
+        "size_bytes": 7836
       },
       "references/buying-role-map.md": {
         "kind": "reference",
@@ -234,8 +234,8 @@
       },
       "references/framework-notes.md": {
         "kind": "reference",
-        "sha256": "d3932c22911301098551ce5e944f720e188756578bea1ec330849de05b4bb222",
-        "size_bytes": 4798
+        "sha256": "3bfa84a8550d111439e45ba5d8ee70ba3066953eb647219022e04a7be4102ff7",
+        "size_bytes": 4802
       },
       "references/list-quality-standard.md": {
         "kind": "reference",
@@ -250,20 +250,20 @@
       },
       "references/scrapercity-catalog.md": {
         "kind": "reference",
-        "sha256": "6479b753d80b6f8461a2439fd7057a6ef9dbaef6c9de2b442e1fbc19c15ac6d8",
+        "sha256": "a8c81edae1dad5cdaadb2971d6bf9dec95d93e8d2d38dc65f64ee14aa036e074",
         "shared": true,
-        "size_bytes": 17959
+        "size_bytes": 17996
       },
       "references/scrapercity-platform.md": {
         "kind": "reference",
-        "sha256": "159c51347ca44d3236cab7ec3febb88532ded5e2586db0355f5d1943d9035bc7",
+        "sha256": "7bc566fe714386a4648ef2a943f02162df072caaa769daf8e3f86409db216016",
         "shared": true,
-        "size_bytes": 5487
+        "size_bytes": 5501
       },
       "references/waterfall-runbook.md": {
         "kind": "reference",
-        "sha256": "34fc73b60689005ca90794d4055ae63e6b7ddfd749e14fe621c47cbd2e6b2dae",
-        "size_bytes": 16967
+        "sha256": "63dcd096b1a40692abbe6a93105b4e3252e74d5a3f9bf7b1d950e5512c126913",
+        "size_bytes": 16978
       },
       "scripts/check-output.py": {
         "kind": "script",
@@ -311,21 +311,21 @@
       },
       "references/scrapercity-agent-patterns.md": {
         "kind": "reference",
-        "sha256": "5bc3e0b5c0c547719d1123aef6cf7e7db9cee8d7e662a30f1d648e8a9ef79e44",
+        "sha256": "5abf71fac620cbac329a11cc6240b5c5b90d562d229c915ed5a30582579d60ef",
         "shared": true,
-        "size_bytes": 15560
+        "size_bytes": 15616
       },
       "references/scrapercity-catalog.md": {
         "kind": "reference",
-        "sha256": "6479b753d80b6f8461a2439fd7057a6ef9dbaef6c9de2b442e1fbc19c15ac6d8",
+        "sha256": "a8c81edae1dad5cdaadb2971d6bf9dec95d93e8d2d38dc65f64ee14aa036e074",
         "shared": true,
-        "size_bytes": 17959
+        "size_bytes": 17996
       },
       "references/scrapercity-platform.md": {
         "kind": "reference",
-        "sha256": "159c51347ca44d3236cab7ec3febb88532ded5e2586db0355f5d1943d9035bc7",
+        "sha256": "7bc566fe714386a4648ef2a943f02162df072caaa769daf8e3f86409db216016",
         "shared": true,
-        "size_bytes": 5487
+        "size_bytes": 5501
       },
       "references/store-leads-parameter-guide.md": {
         "kind": "reference",
@@ -383,15 +383,15 @@
       },
       "references/scrapercity-catalog.md": {
         "kind": "reference",
-        "sha256": "6479b753d80b6f8461a2439fd7057a6ef9dbaef6c9de2b442e1fbc19c15ac6d8",
+        "sha256": "a8c81edae1dad5cdaadb2971d6bf9dec95d93e8d2d38dc65f64ee14aa036e074",
         "shared": true,
-        "size_bytes": 17959
+        "size_bytes": 17996
       },
       "references/scrapercity-platform.md": {
         "kind": "reference",
-        "sha256": "159c51347ca44d3236cab7ec3febb88532ded5e2586db0355f5d1943d9035bc7",
+        "sha256": "7bc566fe714386a4648ef2a943f02162df072caaa769daf8e3f86409db216016",
         "shared": true,
-        "size_bytes": 5487
+        "size_bytes": 5501
       },
       "references/status-handling-matrix.md": {
         "kind": "reference",
@@ -463,15 +463,15 @@
       },
       "references/scrapercity-catalog.md": {
         "kind": "reference",
-        "sha256": "6479b753d80b6f8461a2439fd7057a6ef9dbaef6c9de2b442e1fbc19c15ac6d8",
+        "sha256": "a8c81edae1dad5cdaadb2971d6bf9dec95d93e8d2d38dc65f64ee14aa036e074",
         "shared": true,
-        "size_bytes": 17959
+        "size_bytes": 17996
       },
       "references/scrapercity-platform.md": {
         "kind": "reference",
-        "sha256": "159c51347ca44d3236cab7ec3febb88532ded5e2586db0355f5d1943d9035bc7",
+        "sha256": "7bc566fe714386a4648ef2a943f02162df072caaa769daf8e3f86409db216016",
         "shared": true,
-        "size_bytes": 5487
+        "size_bytes": 5501
       },
       "references/title-synonyms-and-exclusions.md": {
         "kind": "reference",
@@ -539,21 +539,21 @@
       },
       "references/scrapercity-agent-patterns.md": {
         "kind": "reference",
-        "sha256": "5bc3e0b5c0c547719d1123aef6cf7e7db9cee8d7e662a30f1d648e8a9ef79e44",
+        "sha256": "5abf71fac620cbac329a11cc6240b5c5b90d562d229c915ed5a30582579d60ef",
         "shared": true,
-        "size_bytes": 15560
+        "size_bytes": 15616
       },
       "references/scrapercity-catalog.md": {
         "kind": "reference",
-        "sha256": "6479b753d80b6f8461a2439fd7057a6ef9dbaef6c9de2b442e1fbc19c15ac6d8",
+        "sha256": "a8c81edae1dad5cdaadb2971d6bf9dec95d93e8d2d38dc65f64ee14aa036e074",
         "shared": true,
-        "size_bytes": 17959
+        "size_bytes": 17996
       },
       "references/scrapercity-platform.md": {
         "kind": "reference",
-        "sha256": "159c51347ca44d3236cab7ec3febb88532ded5e2586db0355f5d1943d9035bc7",
+        "sha256": "7bc566fe714386a4648ef2a943f02162df072caaa769daf8e3f86409db216016",
         "shared": true,
-        "size_bytes": 5487
+        "size_bytes": 5501
       },
       "scripts/check-output.py": {
         "kind": "script",
@@ -610,21 +610,21 @@
       },
       "references/scrapercity-agent-patterns.md": {
         "kind": "reference",
-        "sha256": "5bc3e0b5c0c547719d1123aef6cf7e7db9cee8d7e662a30f1d648e8a9ef79e44",
+        "sha256": "5abf71fac620cbac329a11cc6240b5c5b90d562d229c915ed5a30582579d60ef",
         "shared": true,
-        "size_bytes": 15560
+        "size_bytes": 15616
       },
       "references/scrapercity-catalog.md": {
         "kind": "reference",
-        "sha256": "6479b753d80b6f8461a2439fd7057a6ef9dbaef6c9de2b442e1fbc19c15ac6d8",
+        "sha256": "a8c81edae1dad5cdaadb2971d6bf9dec95d93e8d2d38dc65f64ee14aa036e074",
         "shared": true,
-        "size_bytes": 17959
+        "size_bytes": 17996
       },
       "references/scrapercity-platform.md": {
         "kind": "reference",
-        "sha256": "159c51347ca44d3236cab7ec3febb88532ded5e2586db0355f5d1943d9035bc7",
+        "sha256": "7bc566fe714386a4648ef2a943f02162df072caaa769daf8e3f86409db216016",
         "shared": true,
-        "size_bytes": 5487
+        "size_bytes": 5501
       },
       "scripts/check-output.py": {
         "kind": "script",
@@ -640,13 +640,13 @@
     "list-building/recruiting-sourcer": {
       "SKILL.md": {
         "kind": "skill entrypoint",
-        "sha256": "d370bf170c73b7b9425a79bb827fdcd806d2ebc67e2aa34ade4374236a57fccf",
-        "size_bytes": 21594
+        "sha256": "36cc948ba8b01846e58e25d9f24291fbd747c58270799ae859365dd39b004cec",
+        "size_bytes": 21685
       },
       "examples/worked-example.md": {
         "kind": "example",
-        "sha256": "66e16ac172135ff57676f30a1236b443b57496e282142e5f59ce4d059a5481e3",
-        "size_bytes": 8157
+        "sha256": "633d2cb845fb192da8e24fc638bcd63a258d650dfdf72cd3700be6491830fa98",
+        "size_bytes": 8150
       },
       "references/candidate-messages-and-handoff.md": {
         "kind": "reference",
@@ -655,8 +655,8 @@
       },
       "references/framework-notes.md": {
         "kind": "reference",
-        "sha256": "f3e2deed291e52824f33f241ba96de8c82c9ffc0ea6ce9adb088a4238aefabe1",
-        "size_bytes": 5830
+        "sha256": "6ed86cfdc228a6e85d5f151a22823b187329249bc2497717c3cb19be14fac398",
+        "size_bytes": 5833
       },
       "references/list-quality-standard.md": {
         "kind": "reference",
@@ -666,21 +666,21 @@
       },
       "references/scrapercity-agent-patterns.md": {
         "kind": "reference",
-        "sha256": "5bc3e0b5c0c547719d1123aef6cf7e7db9cee8d7e662a30f1d648e8a9ef79e44",
+        "sha256": "5abf71fac620cbac329a11cc6240b5c5b90d562d229c915ed5a30582579d60ef",
         "shared": true,
-        "size_bytes": 15560
+        "size_bytes": 15616
       },
       "references/scrapercity-catalog.md": {
         "kind": "reference",
-        "sha256": "6479b753d80b6f8461a2439fd7057a6ef9dbaef6c9de2b442e1fbc19c15ac6d8",
+        "sha256": "a8c81edae1dad5cdaadb2971d6bf9dec95d93e8d2d38dc65f64ee14aa036e074",
         "shared": true,
-        "size_bytes": 17959
+        "size_bytes": 17996
       },
       "references/scrapercity-platform.md": {
         "kind": "reference",
-        "sha256": "159c51347ca44d3236cab7ec3febb88532ded5e2586db0355f5d1943d9035bc7",
+        "sha256": "7bc566fe714386a4648ef2a943f02162df072caaa769daf8e3f86409db216016",
         "shared": true,
-        "size_bytes": 5487
+        "size_bytes": 5501
       },
       "references/sourcing-runbook.md": {
         "kind": "reference",
@@ -732,21 +732,21 @@
       },
       "references/scrapercity-agent-patterns.md": {
         "kind": "reference",
-        "sha256": "5bc3e0b5c0c547719d1123aef6cf7e7db9cee8d7e662a30f1d648e8a9ef79e44",
+        "sha256": "5abf71fac620cbac329a11cc6240b5c5b90d562d229c915ed5a30582579d60ef",
         "shared": true,
-        "size_bytes": 15560
+        "size_bytes": 15616
       },
       "references/scrapercity-catalog.md": {
         "kind": "reference",
-        "sha256": "6479b753d80b6f8461a2439fd7057a6ef9dbaef6c9de2b442e1fbc19c15ac6d8",
+        "sha256": "a8c81edae1dad5cdaadb2971d6bf9dec95d93e8d2d38dc65f64ee14aa036e074",
         "shared": true,
-        "size_bytes": 17959
+        "size_bytes": 17996
       },
       "references/scrapercity-platform.md": {
         "kind": "reference",
-        "sha256": "159c51347ca44d3236cab7ec3febb88532ded5e2586db0355f5d1943d9035bc7",
+        "sha256": "7bc566fe714386a4648ef2a943f02162df072caaa769daf8e3f86409db216016",
         "shared": true,
-        "size_bytes": 5487
+        "size_bytes": 5501
       },
       "references/skip-trace-runbook.md": {
         "kind": "reference",
@@ -803,15 +803,15 @@
       },
       "references/scrapercity-catalog.md": {
         "kind": "reference",
-        "sha256": "6479b753d80b6f8461a2439fd7057a6ef9dbaef6c9de2b442e1fbc19c15ac6d8",
+        "sha256": "a8c81edae1dad5cdaadb2971d6bf9dec95d93e8d2d38dc65f64ee14aa036e074",
         "shared": true,
-        "size_bytes": 17959
+        "size_bytes": 17996
       },
       "references/scrapercity-platform.md": {
         "kind": "reference",
-        "sha256": "159c51347ca44d3236cab7ec3febb88532ded5e2586db0355f5d1943d9035bc7",
+        "sha256": "7bc566fe714386a4648ef2a943f02162df072caaa769daf8e3f86409db216016",
         "shared": true,
-        "size_bytes": 5487
+        "size_bytes": 5501
       },
       "scripts/check-output.py": {
         "kind": "script",
@@ -874,21 +874,21 @@
       },
       "references/scrapercity-agent-patterns.md": {
         "kind": "reference",
-        "sha256": "5bc3e0b5c0c547719d1123aef6cf7e7db9cee8d7e662a30f1d648e8a9ef79e44",
+        "sha256": "5abf71fac620cbac329a11cc6240b5c5b90d562d229c915ed5a30582579d60ef",
         "shared": true,
-        "size_bytes": 15560
+        "size_bytes": 15616
       },
       "references/scrapercity-catalog.md": {
         "kind": "reference",
-        "sha256": "6479b753d80b6f8461a2439fd7057a6ef9dbaef6c9de2b442e1fbc19c15ac6d8",
+        "sha256": "a8c81edae1dad5cdaadb2971d6bf9dec95d93e8d2d38dc65f64ee14aa036e074",
         "shared": true,
-        "size_bytes": 17959
+        "size_bytes": 17996
       },
       "references/scrapercity-platform.md": {
         "kind": "reference",
-        "sha256": "159c51347ca44d3236cab7ec3febb88532ded5e2586db0355f5d1943d9035bc7",
+        "sha256": "7bc566fe714386a4648ef2a943f02162df072caaa769daf8e3f86409db216016",
         "shared": true,
-        "size_bytes": 5487
+        "size_bytes": 5501
       },
       "scripts/check-output.py": {
         "kind": "script",
@@ -952,15 +952,15 @@
       },
       "references/scrapercity-catalog.md": {
         "kind": "reference",
-        "sha256": "6479b753d80b6f8461a2439fd7057a6ef9dbaef6c9de2b442e1fbc19c15ac6d8",
+        "sha256": "a8c81edae1dad5cdaadb2971d6bf9dec95d93e8d2d38dc65f64ee14aa036e074",
         "shared": true,
-        "size_bytes": 17959
+        "size_bytes": 17996
       },
       "references/scrapercity-platform.md": {
         "kind": "reference",
-        "sha256": "159c51347ca44d3236cab7ec3febb88532ded5e2586db0355f5d1943d9035bc7",
+        "sha256": "7bc566fe714386a4648ef2a943f02162df072caaa769daf8e3f86409db216016",
         "shared": true,
-        "size_bytes": 5487
+        "size_bytes": 5501
       },
       "references/subject-line-library.md": {
         "kind": "reference",
@@ -986,8 +986,8 @@
     "outbound/cold-email-strategy": {
       "SKILL.md": {
         "kind": "skill entrypoint",
-        "sha256": "2493460b5d846920179c77e2111d03cf4daf6d5fa8ade33ca05977988b30743a",
-        "size_bytes": 43013
+        "sha256": "375fc109088dd8e2a34d2beb40e81c31883a5f273f0f4cd60eccfbbc5a9e0c5d",
+        "size_bytes": 43024
       },
       "examples/worked-example.md": {
         "kind": "example",
@@ -1030,20 +1030,20 @@
       },
       "references/offer-and-cell-design.md": {
         "kind": "reference",
-        "sha256": "9899e78528d93b77813db912cddf7cf04eb8dbdb2f4234f2f77b4823a49720de",
-        "size_bytes": 14788
+        "sha256": "53266cbdef64460123ec562c12068103aeac17a03811c0163d95a77a7aec0ef9",
+        "size_bytes": 14794
       },
       "references/scrapercity-catalog.md": {
         "kind": "reference",
-        "sha256": "6479b753d80b6f8461a2439fd7057a6ef9dbaef6c9de2b442e1fbc19c15ac6d8",
+        "sha256": "a8c81edae1dad5cdaadb2971d6bf9dec95d93e8d2d38dc65f64ee14aa036e074",
         "shared": true,
-        "size_bytes": 17959
+        "size_bytes": 17996
       },
       "references/scrapercity-platform.md": {
         "kind": "reference",
-        "sha256": "159c51347ca44d3236cab7ec3febb88532ded5e2586db0355f5d1943d9035bc7",
+        "sha256": "7bc566fe714386a4648ef2a943f02162df072caaa769daf8e3f86409db216016",
         "shared": true,
-        "size_bytes": 5487
+        "size_bytes": 5501
       },
       "scripts/check-output.py": {
         "kind": "script",
@@ -1106,15 +1106,15 @@
       },
       "references/scrapercity-catalog.md": {
         "kind": "reference",
-        "sha256": "6479b753d80b6f8461a2439fd7057a6ef9dbaef6c9de2b442e1fbc19c15ac6d8",
+        "sha256": "a8c81edae1dad5cdaadb2971d6bf9dec95d93e8d2d38dc65f64ee14aa036e074",
         "shared": true,
-        "size_bytes": 17959
+        "size_bytes": 17996
       },
       "references/scrapercity-platform.md": {
         "kind": "reference",
-        "sha256": "159c51347ca44d3236cab7ec3febb88532ded5e2586db0355f5d1943d9035bc7",
+        "sha256": "7bc566fe714386a4648ef2a943f02162df072caaa769daf8e3f86409db216016",
         "shared": true,
-        "size_bytes": 5487
+        "size_bytes": 5501
       },
       "scripts/check-output.py": {
         "kind": "script",
@@ -1177,15 +1177,15 @@
       },
       "references/scrapercity-catalog.md": {
         "kind": "reference",
-        "sha256": "6479b753d80b6f8461a2439fd7057a6ef9dbaef6c9de2b442e1fbc19c15ac6d8",
+        "sha256": "a8c81edae1dad5cdaadb2971d6bf9dec95d93e8d2d38dc65f64ee14aa036e074",
         "shared": true,
-        "size_bytes": 17959
+        "size_bytes": 17996
       },
       "references/scrapercity-platform.md": {
         "kind": "reference",
-        "sha256": "159c51347ca44d3236cab7ec3febb88532ded5e2586db0355f5d1943d9035bc7",
+        "sha256": "7bc566fe714386a4648ef2a943f02162df072caaa769daf8e3f86409db216016",
         "shared": true,
-        "size_bytes": 5487
+        "size_bytes": 5501
       },
       "scripts/check-output.py": {
         "kind": "script",
@@ -1237,15 +1237,15 @@
       },
       "references/scrapercity-catalog.md": {
         "kind": "reference",
-        "sha256": "6479b753d80b6f8461a2439fd7057a6ef9dbaef6c9de2b442e1fbc19c15ac6d8",
+        "sha256": "a8c81edae1dad5cdaadb2971d6bf9dec95d93e8d2d38dc65f64ee14aa036e074",
         "shared": true,
-        "size_bytes": 17959
+        "size_bytes": 17996
       },
       "references/scrapercity-platform.md": {
         "kind": "reference",
-        "sha256": "159c51347ca44d3236cab7ec3febb88532ded5e2586db0355f5d1943d9035bc7",
+        "sha256": "7bc566fe714386a4648ef2a943f02162df072caaa769daf8e3f86409db216016",
         "shared": true,
-        "size_bytes": 5487
+        "size_bytes": 5501
       },
       "references/warmup-and-ramp.md": {
         "kind": "reference",
@@ -1308,15 +1308,15 @@
       },
       "references/scrapercity-catalog.md": {
         "kind": "reference",
-        "sha256": "6479b753d80b6f8461a2439fd7057a6ef9dbaef6c9de2b442e1fbc19c15ac6d8",
+        "sha256": "a8c81edae1dad5cdaadb2971d6bf9dec95d93e8d2d38dc65f64ee14aa036e074",
         "shared": true,
-        "size_bytes": 17959
+        "size_bytes": 17996
       },
       "references/scrapercity-platform.md": {
         "kind": "reference",
-        "sha256": "159c51347ca44d3236cab7ec3febb88532ded5e2586db0355f5d1943d9035bc7",
+        "sha256": "7bc566fe714386a4648ef2a943f02162df072caaa769daf8e3f86409db216016",
         "shared": true,
-        "size_bytes": 5487
+        "size_bytes": 5501
       },
       "scripts/check-output.py": {
         "kind": "script",
@@ -1380,21 +1380,21 @@
       },
       "references/scrapercity-agent-patterns.md": {
         "kind": "reference",
-        "sha256": "5bc3e0b5c0c547719d1123aef6cf7e7db9cee8d7e662a30f1d648e8a9ef79e44",
+        "sha256": "5abf71fac620cbac329a11cc6240b5c5b90d562d229c915ed5a30582579d60ef",
         "shared": true,
-        "size_bytes": 15560
+        "size_bytes": 15616
       },
       "references/scrapercity-catalog.md": {
         "kind": "reference",
-        "sha256": "6479b753d80b6f8461a2439fd7057a6ef9dbaef6c9de2b442e1fbc19c15ac6d8",
+        "sha256": "a8c81edae1dad5cdaadb2971d6bf9dec95d93e8d2d38dc65f64ee14aa036e074",
         "shared": true,
-        "size_bytes": 17959
+        "size_bytes": 17996
       },
       "references/scrapercity-platform.md": {
         "kind": "reference",
-        "sha256": "159c51347ca44d3236cab7ec3febb88532ded5e2586db0355f5d1943d9035bc7",
+        "sha256": "7bc566fe714386a4648ef2a943f02162df072caaa769daf8e3f86409db216016",
         "shared": true,
-        "size_bytes": 5487
+        "size_bytes": 5501
       },
       "references/unit-economics-model.md": {
         "kind": "reference",
@@ -1468,15 +1468,15 @@
       },
       "references/scrapercity-catalog.md": {
         "kind": "reference",
-        "sha256": "6479b753d80b6f8461a2439fd7057a6ef9dbaef6c9de2b442e1fbc19c15ac6d8",
+        "sha256": "a8c81edae1dad5cdaadb2971d6bf9dec95d93e8d2d38dc65f64ee14aa036e074",
         "shared": true,
-        "size_bytes": 17959
+        "size_bytes": 17996
       },
       "references/scrapercity-platform.md": {
         "kind": "reference",
-        "sha256": "159c51347ca44d3236cab7ec3febb88532ded5e2586db0355f5d1943d9035bc7",
+        "sha256": "7bc566fe714386a4648ef2a943f02162df072caaa769daf8e3f86409db216016",
         "shared": true,
-        "size_bytes": 5487
+        "size_bytes": 5501
       },
       "references/suppression-and-compliance.md": {
         "kind": "reference",
@@ -1502,8 +1502,8 @@
     "outbound/sending-platforms": {
       "SKILL.md": {
         "kind": "skill entrypoint",
-        "sha256": "e5917ffc69aca6855f88e941960e4f6dff42c6a768c18bceb419ac407dd63b07",
-        "size_bytes": 40002
+        "sha256": "3743745d44d7f7ba20cd396132d60474224b246c17c52c4ec02aeff62316966c",
+        "size_bytes": 40005
       },
       "examples/agency-example.md": {
         "kind": "example",
@@ -1544,8 +1544,8 @@
       },
       "references/platform-comparison.md": {
         "kind": "reference",
-        "sha256": "7c31baae25120006bf195f7250d35e6177bd683252641942c86e3eb37c204b69",
-        "size_bytes": 27078
+        "sha256": "92a86973a13d7a143280bf86456bd3637e7e0573f205b6033b568c54d4832a89",
+        "size_bytes": 27089
       },
       "references/platform-runbooks.md": {
         "kind": "reference",
@@ -1554,26 +1554,26 @@
       },
       "references/scrapercity-agent-patterns.md": {
         "kind": "reference",
-        "sha256": "5bc3e0b5c0c547719d1123aef6cf7e7db9cee8d7e662a30f1d648e8a9ef79e44",
+        "sha256": "5abf71fac620cbac329a11cc6240b5c5b90d562d229c915ed5a30582579d60ef",
         "shared": true,
-        "size_bytes": 15560
+        "size_bytes": 15616
       },
       "references/scrapercity-catalog.md": {
         "kind": "reference",
-        "sha256": "6479b753d80b6f8461a2439fd7057a6ef9dbaef6c9de2b442e1fbc19c15ac6d8",
+        "sha256": "a8c81edae1dad5cdaadb2971d6bf9dec95d93e8d2d38dc65f64ee14aa036e074",
         "shared": true,
-        "size_bytes": 17959
+        "size_bytes": 17996
       },
       "references/scrapercity-platform.md": {
         "kind": "reference",
-        "sha256": "159c51347ca44d3236cab7ec3febb88532ded5e2586db0355f5d1943d9035bc7",
+        "sha256": "7bc566fe714386a4648ef2a943f02162df072caaa769daf8e3f86409db216016",
         "shared": true,
-        "size_bytes": 5487
+        "size_bytes": 5501
       },
       "references/webhooks-and-crm-sync.md": {
         "kind": "reference",
-        "sha256": "225d70e88574a1c8a2c30b193b20435de64847ba9ec56acdabff76bd2dd540a8",
-        "size_bytes": 23134
+        "sha256": "f7eaf43c575a539e99f182089acc086d8d7249accbbbcc4a8fcb13ab0764dfa3",
+        "size_bytes": 23137
       },
       "scripts/check-output.py": {
         "kind": "script",
@@ -1616,8 +1616,8 @@
       },
       "references/repeat-pull-recipes.md": {
         "kind": "reference",
-        "sha256": "058a5a65f353790124661a66472549291997200bcaffaeee95f7af5476b20fde",
-        "size_bytes": 19243
+        "sha256": "0a70dc3647fa367994ef5334e86023995af9947f2352f603c6fd87104e72ed23",
+        "size_bytes": 19254
       },
       "references/scoring-and-freshness.md": {
         "kind": "reference",
@@ -1626,21 +1626,21 @@
       },
       "references/scrapercity-agent-patterns.md": {
         "kind": "reference",
-        "sha256": "5bc3e0b5c0c547719d1123aef6cf7e7db9cee8d7e662a30f1d648e8a9ef79e44",
+        "sha256": "5abf71fac620cbac329a11cc6240b5c5b90d562d229c915ed5a30582579d60ef",
         "shared": true,
-        "size_bytes": 15560
+        "size_bytes": 15616
       },
       "references/scrapercity-catalog.md": {
         "kind": "reference",
-        "sha256": "6479b753d80b6f8461a2439fd7057a6ef9dbaef6c9de2b442e1fbc19c15ac6d8",
+        "sha256": "a8c81edae1dad5cdaadb2971d6bf9dec95d93e8d2d38dc65f64ee14aa036e074",
         "shared": true,
-        "size_bytes": 17959
+        "size_bytes": 17996
       },
       "references/scrapercity-platform.md": {
         "kind": "reference",
-        "sha256": "159c51347ca44d3236cab7ec3febb88532ded5e2586db0355f5d1943d9035bc7",
+        "sha256": "7bc566fe714386a4648ef2a943f02162df072caaa769daf8e3f86409db216016",
         "shared": true,
-        "size_bytes": 5487
+        "size_bytes": 5501
       },
       "references/signal-catalog.md": {
         "kind": "reference",
@@ -1666,13 +1666,13 @@
     "scrapercity/scrapercity-api": {
       "SKILL.md": {
         "kind": "skill entrypoint",
-        "sha256": "e8b5556ad469032873a04e643a9cfdeb38d862ce11c6790039b6dfed0d9319e3",
-        "size_bytes": 21520
+        "sha256": "69ae59eb8d1bc16670d375baeabf226177c5c7d13a2436a7f3dbe7ecf6a8d005",
+        "size_bytes": 21568
       },
       "examples/worked-example.md": {
         "kind": "example",
-        "sha256": "ad8b66baf1ad3963a884ce9c9c37d6046fe81e9419254793ebb4ac9dbb95bb8f",
-        "size_bytes": 7228
+        "sha256": "faae89e122c784c4e8f68b8e17fe3697884e664c2e6c36e16736ea033f0d815b",
+        "size_bytes": 7257
       },
       "references/bulk-enrichment-pipeline.md": {
         "kind": "reference",
@@ -1691,31 +1691,31 @@
       },
       "references/errors-and-retries.md": {
         "kind": "reference",
-        "sha256": "d87f8a6de92b84b12db041bf07285b845b66e1f69fa1920a78f7c06179447ce4",
-        "size_bytes": 8762
+        "sha256": "f5bf623481c8cac415421f2aa51694aaeff70c687025020aba8713b776139c7f",
+        "size_bytes": 8808
       },
       "references/framework-notes.md": {
         "kind": "reference",
-        "sha256": "236469cbfc4241537d294fde21e6f9c8646503a42fe9913c26d7c40fbb6cff43",
-        "size_bytes": 5267
+        "sha256": "ee554d6e74ec7ede39f9db82bdee7f18b622f1e96cecd8179c7e22d0a379dc94",
+        "size_bytes": 5269
       },
       "references/scrapercity-agent-patterns.md": {
         "kind": "reference",
-        "sha256": "5bc3e0b5c0c547719d1123aef6cf7e7db9cee8d7e662a30f1d648e8a9ef79e44",
+        "sha256": "5abf71fac620cbac329a11cc6240b5c5b90d562d229c915ed5a30582579d60ef",
         "shared": true,
-        "size_bytes": 15560
+        "size_bytes": 15616
       },
       "references/scrapercity-catalog.md": {
         "kind": "reference",
-        "sha256": "6479b753d80b6f8461a2439fd7057a6ef9dbaef6c9de2b442e1fbc19c15ac6d8",
+        "sha256": "a8c81edae1dad5cdaadb2971d6bf9dec95d93e8d2d38dc65f64ee14aa036e074",
         "shared": true,
-        "size_bytes": 17959
+        "size_bytes": 17996
       },
       "references/scrapercity-platform.md": {
         "kind": "reference",
-        "sha256": "159c51347ca44d3236cab7ec3febb88532ded5e2586db0355f5d1943d9035bc7",
+        "sha256": "7bc566fe714386a4648ef2a943f02162df072caaa769daf8e3f86409db216016",
         "shared": true,
-        "size_bytes": 5487
+        "size_bytes": 5501
       },
       "scripts/check-output.py": {
         "kind": "script",
@@ -1731,8 +1731,8 @@
     "scrapercity/scrapercity-cli": {
       "SKILL.md": {
         "kind": "skill entrypoint",
-        "sha256": "51b797af133fb0c89e594d4bed15ed82f62c4dd2def6560fa032a55823a13d03",
-        "size_bytes": 16847
+        "sha256": "c2b63e5bd463888ff13b4aed63e1ff04b3876255e17fdb6221ff38c5b6236480",
+        "size_bytes": 16896
       },
       "examples/worked-example.md": {
         "kind": "example",
@@ -1746,8 +1746,8 @@
       },
       "references/framework-notes.md": {
         "kind": "reference",
-        "sha256": "12deba7458b52b8e14f80eae0bf704d4d404a2b912665ae6db5f847e1c96df13",
-        "size_bytes": 5329
+        "sha256": "127f24a0c48a97b67c334356ae300d8b19203a72625c171e4ee5509a61431aed",
+        "size_bytes": 5361
       },
       "references/gaps-and-quirks.md": {
         "kind": "reference",
@@ -1756,26 +1756,26 @@
       },
       "references/scrapercity-agent-patterns.md": {
         "kind": "reference",
-        "sha256": "5bc3e0b5c0c547719d1123aef6cf7e7db9cee8d7e662a30f1d648e8a9ef79e44",
+        "sha256": "5abf71fac620cbac329a11cc6240b5c5b90d562d229c915ed5a30582579d60ef",
         "shared": true,
-        "size_bytes": 15560
+        "size_bytes": 15616
       },
       "references/scrapercity-catalog.md": {
         "kind": "reference",
-        "sha256": "6479b753d80b6f8461a2439fd7057a6ef9dbaef6c9de2b442e1fbc19c15ac6d8",
+        "sha256": "a8c81edae1dad5cdaadb2971d6bf9dec95d93e8d2d38dc65f64ee14aa036e074",
         "shared": true,
-        "size_bytes": 17959
+        "size_bytes": 17996
       },
       "references/scrapercity-platform.md": {
         "kind": "reference",
-        "sha256": "159c51347ca44d3236cab7ec3febb88532ded5e2586db0355f5d1943d9035bc7",
+        "sha256": "7bc566fe714386a4648ef2a943f02162df072caaa769daf8e3f86409db216016",
         "shared": true,
-        "size_bytes": 5487
+        "size_bytes": 5501
       },
       "references/scripting-patterns.md": {
         "kind": "reference",
-        "sha256": "75eaab49473525fd74185ddd07d05f23523a2f6f2c075794e9b8078970094fde",
-        "size_bytes": 13923
+        "sha256": "0b2c9e7ac562858e6d293f957e95f74eafab826d91d2a5dda6de67a40756bc8a",
+        "size_bytes": 13932
       },
       "scripts/check-output.py": {
         "kind": "script",
@@ -1826,21 +1826,21 @@
       },
       "references/scrapercity-agent-patterns.md": {
         "kind": "reference",
-        "sha256": "5bc3e0b5c0c547719d1123aef6cf7e7db9cee8d7e662a30f1d648e8a9ef79e44",
+        "sha256": "5abf71fac620cbac329a11cc6240b5c5b90d562d229c915ed5a30582579d60ef",
         "shared": true,
-        "size_bytes": 15560
+        "size_bytes": 15616
       },
       "references/scrapercity-catalog.md": {
         "kind": "reference",
-        "sha256": "6479b753d80b6f8461a2439fd7057a6ef9dbaef6c9de2b442e1fbc19c15ac6d8",
+        "sha256": "a8c81edae1dad5cdaadb2971d6bf9dec95d93e8d2d38dc65f64ee14aa036e074",
         "shared": true,
-        "size_bytes": 17959
+        "size_bytes": 17996
       },
       "references/scrapercity-platform.md": {
         "kind": "reference",
-        "sha256": "159c51347ca44d3236cab7ec3febb88532ded5e2586db0355f5d1943d9035bc7",
+        "sha256": "7bc566fe714386a4648ef2a943f02162df072caaa769daf8e3f86409db216016",
         "shared": true,
-        "size_bytes": 5487
+        "size_bytes": 5501
       },
       "references/waterfall-recipes.md": {
         "kind": "reference",
@@ -1861,13 +1861,13 @@
     "scrapercity/scrapercity-lead-database": {
       "SKILL.md": {
         "kind": "skill entrypoint",
-        "sha256": "4f6a8c2f61cf8534dc3329fb4046707ad92fd8bbef8e6f4ebd6b3ec96cf2b8f2",
-        "size_bytes": 20405
+        "sha256": "97198627fd0e6a4b611fe929389e8c88ee53715395c39dcadea828b6343c442c",
+        "size_bytes": 20429
       },
       "examples/worked-example.md": {
         "kind": "example",
-        "sha256": "878bc4764966676ba984489d9d979612c23ef8f592421d1b4cf9f9190321e309",
-        "size_bytes": 4844
+        "sha256": "1c57cf278edc93a59212978c1527218778853fbf0608bc11d501be4e606c4fa4",
+        "size_bytes": 4853
       },
       "references/filter-cookbook.md": {
         "kind": "reference",
@@ -1892,26 +1892,26 @@
       },
       "references/scrapercity-agent-patterns.md": {
         "kind": "reference",
-        "sha256": "5bc3e0b5c0c547719d1123aef6cf7e7db9cee8d7e662a30f1d648e8a9ef79e44",
+        "sha256": "5abf71fac620cbac329a11cc6240b5c5b90d562d229c915ed5a30582579d60ef",
         "shared": true,
-        "size_bytes": 15560
+        "size_bytes": 15616
       },
       "references/scrapercity-catalog.md": {
         "kind": "reference",
-        "sha256": "6479b753d80b6f8461a2439fd7057a6ef9dbaef6c9de2b442e1fbc19c15ac6d8",
+        "sha256": "a8c81edae1dad5cdaadb2971d6bf9dec95d93e8d2d38dc65f64ee14aa036e074",
         "shared": true,
-        "size_bytes": 17959
+        "size_bytes": 17996
       },
       "references/scrapercity-platform.md": {
         "kind": "reference",
-        "sha256": "159c51347ca44d3236cab7ec3febb88532ded5e2586db0355f5d1943d9035bc7",
+        "sha256": "7bc566fe714386a4648ef2a943f02162df072caaa769daf8e3f86409db216016",
         "shared": true,
-        "size_bytes": 5487
+        "size_bytes": 5501
       },
       "references/troubleshooting.md": {
         "kind": "reference",
-        "sha256": "c6d4f73c6aa9d9612060b6754d84b7ca8cba827cf13637984c254967ebc51f94",
-        "size_bytes": 6459
+        "sha256": "0c105e918aa375ae060644a03b041f009c6abaac8edec9bb957ac0193cb27668",
+        "size_bytes": 6501
       },
       "scripts/check-output.py": {
         "kind": "script",
@@ -1958,21 +1958,21 @@
       },
       "references/scrapercity-agent-patterns.md": {
         "kind": "reference",
-        "sha256": "5bc3e0b5c0c547719d1123aef6cf7e7db9cee8d7e662a30f1d648e8a9ef79e44",
+        "sha256": "5abf71fac620cbac329a11cc6240b5c5b90d562d229c915ed5a30582579d60ef",
         "shared": true,
-        "size_bytes": 15560
+        "size_bytes": 15616
       },
       "references/scrapercity-catalog.md": {
         "kind": "reference",
-        "sha256": "6479b753d80b6f8461a2439fd7057a6ef9dbaef6c9de2b442e1fbc19c15ac6d8",
+        "sha256": "a8c81edae1dad5cdaadb2971d6bf9dec95d93e8d2d38dc65f64ee14aa036e074",
         "shared": true,
-        "size_bytes": 17959
+        "size_bytes": 17996
       },
       "references/scrapercity-platform.md": {
         "kind": "reference",
-        "sha256": "159c51347ca44d3236cab7ec3febb88532ded5e2586db0355f5d1943d9035bc7",
+        "sha256": "7bc566fe714386a4648ef2a943f02162df072caaa769daf8e3f86409db216016",
         "shared": true,
-        "size_bytes": 5487
+        "size_bytes": 5501
       },
       "references/segmentation-and-tiling.md": {
         "kind": "reference",
@@ -1993,8 +1993,8 @@
     "scrapercity/scrapercity-mcp": {
       "SKILL.md": {
         "kind": "skill entrypoint",
-        "sha256": "5dcd3c44ba22af4919e81397b45cd0bc247ed9f9f2c7f4637a5d488de9b64c6d",
-        "size_bytes": 29195
+        "sha256": "3a081f18d299578a1ccf38cf35effc0e473961337b7a5738095a15ced36f6f3b",
+        "size_bytes": 29237
       },
       "examples/plan-only-example.md": {
         "kind": "example",
@@ -2018,26 +2018,26 @@
       },
       "references/scrapercity-agent-patterns.md": {
         "kind": "reference",
-        "sha256": "5bc3e0b5c0c547719d1123aef6cf7e7db9cee8d7e662a30f1d648e8a9ef79e44",
+        "sha256": "5abf71fac620cbac329a11cc6240b5c5b90d562d229c915ed5a30582579d60ef",
         "shared": true,
-        "size_bytes": 15560
+        "size_bytes": 15616
       },
       "references/scrapercity-catalog.md": {
         "kind": "reference",
-        "sha256": "6479b753d80b6f8461a2439fd7057a6ef9dbaef6c9de2b442e1fbc19c15ac6d8",
+        "sha256": "a8c81edae1dad5cdaadb2971d6bf9dec95d93e8d2d38dc65f64ee14aa036e074",
         "shared": true,
-        "size_bytes": 17959
+        "size_bytes": 17996
       },
       "references/scrapercity-platform.md": {
         "kind": "reference",
-        "sha256": "159c51347ca44d3236cab7ec3febb88532ded5e2586db0355f5d1943d9035bc7",
+        "sha256": "7bc566fe714386a4648ef2a943f02162df072caaa769daf8e3f86409db216016",
         "shared": true,
-        "size_bytes": 5487
+        "size_bytes": 5501
       },
       "references/tool-reference.md": {
         "kind": "reference",
-        "sha256": "a49897b24b498c7356e6e45cea2ded2edb5ad28c2a16cff31e23ced7e19d00bb",
-        "size_bytes": 17655
+        "sha256": "95e6395c6d478e9358d55ed4aa3a404bd35e16e78d47ea5df9254f92af76abe5",
+        "size_bytes": 17675
       },
       "references/troubleshooting.md": {
         "kind": "reference",
@@ -2078,21 +2078,21 @@
       },
       "references/scrapercity-agent-patterns.md": {
         "kind": "reference",
-        "sha256": "5bc3e0b5c0c547719d1123aef6cf7e7db9cee8d7e662a30f1d648e8a9ef79e44",
+        "sha256": "5abf71fac620cbac329a11cc6240b5c5b90d562d229c915ed5a30582579d60ef",
         "shared": true,
-        "size_bytes": 15560
+        "size_bytes": 15616
       },
       "references/scrapercity-catalog.md": {
         "kind": "reference",
-        "sha256": "6479b753d80b6f8461a2439fd7057a6ef9dbaef6c9de2b442e1fbc19c15ac6d8",
+        "sha256": "a8c81edae1dad5cdaadb2971d6bf9dec95d93e8d2d38dc65f64ee14aa036e074",
         "shared": true,
-        "size_bytes": 17959
+        "size_bytes": 17996
       },
       "references/scrapercity-platform.md": {
         "kind": "reference",
-        "sha256": "159c51347ca44d3236cab7ec3febb88532ded5e2586db0355f5d1943d9035bc7",
+        "sha256": "7bc566fe714386a4648ef2a943f02162df072caaa769daf8e3f86409db216016",
         "shared": true,
-        "size_bytes": 5487
+        "size_bytes": 5501
       },
       "references/tool-reference.md": {
         "kind": "reference",
@@ -2118,13 +2118,13 @@
     "scrapercity/using-scrapercity-skills": {
       "SKILL.md": {
         "kind": "skill entrypoint",
-        "sha256": "d731896537584e2f1b36c9e09292fc476262d632549648cb685b8385aaf3725c",
-        "size_bytes": 18332
+        "sha256": "08ca7e11d5dd18e0e82d7b854f7ac9138312afae9e24381de30516437c09eed3",
+        "size_bytes": 18394
       },
       "examples/worked-example.md": {
         "kind": "example",
-        "sha256": "0c9a983b29cca98a7f12a42cb1b1eaead713a58dbb90babfe6e09f22bc18e088",
-        "size_bytes": 4865
+        "sha256": "7a64b1415855b82d7fe321e3517ed30b586c53c82ebd6ad2852ef22fc2230c4e",
+        "size_bytes": 4867
       },
       "references/alex-berman-cold-email.md": {
         "kind": "reference",
@@ -2167,21 +2167,21 @@
       },
       "references/scrapercity-agent-patterns.md": {
         "kind": "reference",
-        "sha256": "5bc3e0b5c0c547719d1123aef6cf7e7db9cee8d7e662a30f1d648e8a9ef79e44",
+        "sha256": "5abf71fac620cbac329a11cc6240b5c5b90d562d229c915ed5a30582579d60ef",
         "shared": true,
-        "size_bytes": 15560
+        "size_bytes": 15616
       },
       "references/scrapercity-catalog.md": {
         "kind": "reference",
-        "sha256": "6479b753d80b6f8461a2439fd7057a6ef9dbaef6c9de2b442e1fbc19c15ac6d8",
+        "sha256": "a8c81edae1dad5cdaadb2971d6bf9dec95d93e8d2d38dc65f64ee14aa036e074",
         "shared": true,
-        "size_bytes": 17959
+        "size_bytes": 17996
       },
       "references/scrapercity-platform.md": {
         "kind": "reference",
-        "sha256": "159c51347ca44d3236cab7ec3febb88532ded5e2586db0355f5d1943d9035bc7",
+        "sha256": "7bc566fe714386a4648ef2a943f02162df072caaa769daf8e3f86409db216016",
         "shared": true,
-        "size_bytes": 5487
+        "size_bytes": 5501
       },
       "scripts/check-output.py": {
         "kind": "script",
@@ -2195,7 +2195,7 @@
       }
     }
   },
-  "generatedFrom": "8a191c7af87611a9751d2bdc18e762c91796dc88",
+  "generatedFrom": "4c7860adb5dceec291274c89e4dc9e347bbe296e",
   "kinds": {
     "example": 38,
     "reference": 264,
@@ -2205,7 +2205,7 @@
   },
   "schemaVersion": 2,
   "totals": {
-    "bytes": 5736788,
+    "bytes": 5740198,
     "files": 400,
     "skills": 31
   }

@@ -57,7 +57,7 @@ The mistakes it prevents:
 - Pulling 20,000 rows on a filter that was wrong, because `pagination.total` and a 1-row sample were never checked first.
 - Using `country` (where the person lives) when the user meant `companyCountry` (where the company is headquartered).
 - Paging with `page=2, 3, 4` while `excludeDelivered=true`, which skips records.
-- Paying for an Apollo Scraper run and waiting days for leads the database already returns in seconds.
+- Paying for an Apollo Scraper run and waiting 15 to 30 minutes for leads the database already returns in seconds.
 
 ## When to Use
 
@@ -282,7 +282,7 @@ Run `python3 scripts/check-output.py plan.md` before sending.
 | One 300,000-lead mega query | 503 timeouts and a list too broad for one message | Split by state, size band or seniority |
 | Ignoring `search_translation` | The URL's tech or intent filters may be `not_supported`, so the count is broader than the user thinks | Report each list back and confirm |
 | Treating 409 as a duplicate-request error | On this endpoint, 409 `filters_not_applied_yet` means the named company filters cannot be used yet | Retry later or drop the listed filters. Nothing was returned or counted |
-| Running Apollo for leads already in the database | Pays $0.0039 per lead and waits days | Read the `lead_database` block, pull matches first |
+| Running Apollo for leads already in the database | Pays $0.0039 per lead and waits 15 to 30 minutes | Read the `lead_database` block, pull matches first |
 | Skipping validation | Bounces hurt the sending domain | `validate_emails` at $0.00169 each before any send |
 | Mixing `seniority` and a title list that conflicts | `seniority: ["c_suite"]` with `title: "Director"` returns almost nothing | Use one or the other, or make them agree |
 

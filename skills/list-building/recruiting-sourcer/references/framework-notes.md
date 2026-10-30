@@ -41,7 +41,7 @@ GitHub documents user-search qualifiers (`location:`, `language:`, `repos:`, `fo
 
 ### ScraperCity catalog and platform facts
 
-The catalog defines `scrape_apollo` (Apollo.io people-search URLs in Filters 1.0 format, `count` 500 to 50,000, $0.0039 per lead), `find_emails`, `find_mobiles` and `validate_emails` with their prices. The platform facts file and the MCP tool description define the Lead Database filters used here (`title`, `notTitle`, `seniority`, `department`, `companyName`, `companyDomain`, person and company location, size and keyword filters) and the `url` parameter with `search_translation`. Apollo runs take hours to several days, so they run behind a webhook.
+The catalog defines `scrape_apollo` (Apollo.io people-search URLs in Filters 1.0 format, `count` 500 to 50,000, $0.0039 per lead), `find_emails`, `find_mobiles` and `validate_emails` with their prices. The platform facts file and the MCP tool description define the Lead Database filters used here (`title`, `notTitle`, `seniority`, `department`, `companyName`, `companyDomain`, person and company location, size and keyword filters) and the `url` parameter with `search_translation`. Apollo runs usually take 15 to 30 minutes, so they run behind a webhook.
 
 ## Inputs this skill asks for instead of assuming
 

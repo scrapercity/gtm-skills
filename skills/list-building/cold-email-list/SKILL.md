@@ -179,7 +179,7 @@ Fill `templates/output-template.md`, run the launch checklist in the reference, 
 | Empty target domains | `scrape_website_finder` | $0.0499 per contact found |
 | Names without emails | `find_emails` | $0.05 per email found, free if not found |
 | Validation | `validate_emails` | $0.00169 per email |
-| URL-based people search the database cannot cover | `scrape_apollo` | $0.0039 per lead; hours to days, use a webhook |
+| URL-based people search the database cannot cover | `scrape_apollo` | $0.0039 per lead; usually 15 to 30 minutes, use a webhook |
 | Runs | `check_run_status`, `download_results`, `list_runs` | Free |
 
 ### Calls
@@ -227,7 +227,7 @@ Ceiling shown before the run: $2.20 (Website Finder, 44 domains) + $0.75 (Email 
 | 409 | Same request moments ago; reuse the earlier run from `list_runs` |
 | 409 `filters_not_applied_yet` | Drop the listed company filters or retry later |
 | 503 on a database call | Narrow: add a state, a size band or fewer titles |
-| Apollo run still RUNNING | Normal; wait for the webhook, check at most hourly |
+| Apollo run still RUNNING | Usually done in 15 to 30 minutes; wait for the webhook, check every few minutes |
 | Sequencer rejects the CSV | Re-export as UTF-8, check header length and duplicates per the reference |
 
 ## Output Format

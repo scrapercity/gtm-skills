@@ -43,7 +43,7 @@ One row per call the integration makes. Paths come from `references/endpoint-ref
 | Tool | Completion signal | Poll interval | Give up after |
 |---|---|---|---|
 | `validate_emails` | Poll status | Every 15 s (the npm client's interval) | 10 min, the top of its 1 to 10 minute delivery time, then alert with the runId |
-| `scrape_apollo` | Webhook to `https://feeds.example-agency.com/hooks/sc-7f3a9c2e41b8`, plus the hourly `sweep.py` | No polling; the sweep runs every 60 min | 4 days, the published maximum, then alert with the runId |
+| `scrape_apollo` | Webhook to `https://feeds.example-agency.com/hooks/sc-7f3a9c2e41b8`, plus the hourly `sweep.py` | No polling; the sweep runs every 60 min | 30 min, the top of its usual 15 to 30 minute delivery time, then alert with the runId |
 
 ## Database Paging
 

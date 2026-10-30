@@ -156,7 +156,7 @@ Before launch, the user sets the number of replies or connected calls to review 
 | Email from name and domain | `find_emails` | $0.05 per email found, free if not found |
 | Validation | `validate_emails` | $0.00169 per email |
 | Mobiles | `find_mobiles` | $0.25 per number found, free if not found |
-| Large-company search by URL | `scrape_apollo` | $0.0039 per lead, 500 minimum, hours to days, use a webhook |
+| Large-company search by URL | `scrape_apollo` | $0.0039 per lead, 500 minimum, usually 15 to 30 minutes, use a webhook |
 | Runs | `check_run_status`, `download_results`, `list_runs` | Free |
 
 ### Lead Database pass
@@ -214,7 +214,7 @@ Build the people search on Apollo.io (Filters 1.0 URL) for the large accounts th
 {"url": "https://app.apollo.io/#/people?organizationDomains[]=bigco.example&personSeniorities[]=vp", "count": 500, "fileName": "dmf-large-accounts"}
 ```
 
-Apollo runs take hours to several days; register a webhook at app.scrapercity.com/dashboard/webhooks or poll at most hourly.
+Apollo runs usually take 15 to 30 minutes; register a webhook at app.scrapercity.com/dashboard/webhooks or poll every few minutes.
 
 ### Worked cost estimate (ceiling)
 
@@ -264,7 +264,7 @@ What the reader receives is the deliverable only: no internal file paths, refere
 | Email Finder on names with no domain | Lower match rates | Resolve domains first; `company_name` only as a fallback. |
 | Validating Email Finder results again | They are validated at lookup | Validate only database and Website Finder emails. |
 | Mobile Finder on every contact | $0.25 each adds up for numbers nobody dials | Slot 1 only, only for a planned call block. |
-| Polling an Apollo run every minute | Runs take hours to days | Webhook, or hourly polling. |
+| Polling an Apollo run every few seconds | Burns the 100 a minute budget on a run that usually takes 15 to 30 minutes | Webhook, or polling every few minutes. |
 | Six contacts at one account at once | Berman: several people at one company at once can get the sender blocked company wide | Cap at the agreed number; send in slot order. |
 | Keeping a slot title after referrals pile up | Every new account repeats the miss | Role audit at the count the user set (step 9). |
 | Swapping titles after a run of "not now" answers | Timing replies come from the right person; the swap throws away a working slot | Count only wrong-person and referral answers against a title. |

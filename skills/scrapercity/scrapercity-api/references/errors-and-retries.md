@@ -79,7 +79,7 @@ Pacing that follows from those limits:
 | `validate_emails`, `find_emails`, `find_mobiles`, `find_people`, `scrape_property_lookup`, `search_criminal_records`, `scrape_builtwith` | 15 s | 10 min (1 to 10 min) |
 | `scrape_store_leads` | One check | Not `SUCCEEDED` on the first check (instant) |
 | `scrape_maps`, `scrape_yelp`, `scrape_angi`, `scrape_zillow_agents`, `scrape_bizbuysell`, `scrape_crexi`, `scrape_airbnb`, `scrape_website_finder`, `scrape_distress_list` | 15 s | 30 min (5 to 30 min) |
-| `scrape_apollo` | Webhook; once an hour at most without one | 4 days (up to 4 days) |
+| `scrape_apollo` | Webhook; every few minutes after the first 15 without one | 30 min (usually 15 to 30 min) |
 
 ## Daily database allowance
 
@@ -101,7 +101,7 @@ A pull that would pass 100,000 new records in a UTC day stops early. Split it ac
 | Database calls rejected (403 per the Clay guide on scrapercity.com) on a key that works for scrapers | Plan is Starter | `GET /api/v1/wallet` and read `plan.name` | Upgrade to Growth or use a scraper |
 | POST start 402 | Balance below the run | `wallet.total_balance_dollars` vs your estimate | Smaller run or a top-up |
 | Download non-2xx | Run not `SUCCEEDED`, or older than 48 hours | `GET /api/v1/scrape/status/{runId}` | Wait, or rerun if expired |
-| Status stays `RUNNING` for an Apollo run after a day | Normal; Apollo can take several days | `handled / requested` moving? | Leave it; the webhook will fire |
+| Status stays `RUNNING` for an Apollo run past 30 minutes | Some lists take longer than the usual 15 to 30 minutes | `handled / requested` moving? | Leave it; the webhook will fire |
 | Status `FAILED` | Bad input or a source-side failure | `statusMessage`, then `GET /api/v1/scrape/logs/{runId}` | Fix inputs before resubmitting |
 | Database 503 | Search too broad | Count the same filters with a narrower location | Add a location, size band or category; tile by state or map box |
 | Same rows every call | `page` fixed and no `after`, or `excludeDelivered` with `page` above 1 | Inspect the query string | Use `after` from `pagination.next_after` |

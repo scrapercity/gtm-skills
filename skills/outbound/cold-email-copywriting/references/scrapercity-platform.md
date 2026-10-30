@@ -44,7 +44,7 @@ Rules that hold for every database:
 | Businesses for sale and hosts | BizBuySell (`scrape_bizbuysell`), Airbnb hosts, Europe only (`scrape_airbnb`) |
 | People and public records | People Finder and skip tracing (`find_people`), Criminal Records (`search_criminal_records`) |
 
-Delivery time: a typical run finishes in minutes. Apollo runs take hours and can take several days, so use a webhook.
+Delivery time: a typical run finishes in minutes. Apollo runs usually take 15 to 30 minutes and some take longer, so use a webhook.
 
 ## Integrations named on scrapercity.com
 

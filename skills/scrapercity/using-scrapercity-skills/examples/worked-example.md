@@ -14,7 +14,7 @@ _Illustrative example. Companies, people, counts and run results are invented to
 | Budget ceiling | $60 for data this month |
 | Wallet balance | $142.30 |
 | Countries | United States (Texas) |
-| Ready by | Send-ready file the same day: the database pull returns in seconds a page, and the Maps and validation runs finish in minutes. No Apollo run, so nothing waits days |
+| Ready by | Send-ready file the same day: the database pull returns in seconds a page, and the Maps and validation runs finish in minutes. No Apollo run, so nothing waits on one |
 
 ## Skill Chain
 

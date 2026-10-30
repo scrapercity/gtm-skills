@@ -56,7 +56,7 @@ wait_run() {               # usage: wait_run RUN_ID SECONDS_BETWEEN MAX_CHECKS
 wait_run "$run" 60 "$MAX_CHECKS"   # one check a minute; set MAX_CHECKS from how long this job's runs take
 ```
 
-Apollo: do not script a wait at all in an interactive session. Start it, store the id, and let the webhook registered at app.scrapercity.com/dashboard/webhooks trigger the download job. If there is no webhook, `wait_run "$run" 3600 96` checks hourly for up to 4 days.
+Apollo: do not script a wait at all in an interactive session. Start it, store the id, and let the webhook registered at app.scrapercity.com/dashboard/webhooks trigger the download job. If there is no webhook, `wait_run "$run" 300 24` checks every 5 minutes for up to 2 hours.
 
 ## 3. Loop over segments
 

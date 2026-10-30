@@ -161,7 +161,7 @@ For 800 domains at a 45% find rate (assumed for this example): 360 contacts x $0
 
 ### F. Apollo.io saved search (when the user already has one)
 
-`scrape_apollo` with the Filters 1.0 `url` and `count` between 500 and 50,000. $0.0039 per lead: 5,000 leads = $19.50. Runs take hours to several days; register a webhook at app.scrapercity.com/dashboard/webhooks or poll at most hourly.
+`scrape_apollo` with the Filters 1.0 `url` and `count` between 500 and 50,000. $0.0039 per lead: 5,000 leads = $19.50. Runs usually take 15 to 30 minutes; register a webhook at app.scrapercity.com/dashboard/webhooks or poll every few minutes.
 
 ## 4. Enrichment and validation cost per 1,000 contacts
 

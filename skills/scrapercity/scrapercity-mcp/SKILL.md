@@ -65,7 +65,7 @@ The mistakes it prevents:
 - A config that runs `npx scrapercity-mcp` and fails with an npm 404, because the package name is missing.
 - A client that still shows last month's tools because npx served a cached copy, or because an old desktop extension sits beside the npm entry.
 - An agent that starts a $40 scrape without calling `check_wallet`, then hits a 402 halfway through a batch.
-- An agent that polls an Apollo run 60 times in one conversation when the run needs two days.
+- An agent that polls an Apollo run 60 times in one conversation instead of registering a webhook.
 - A CSV saved to `{runId}.csv` in a folder the user cannot find.
 - An agent that answers an Email Finder miss with a made-up `first.last@` address, or a client that auto-approves paid tools.
 
@@ -347,7 +347,7 @@ Economy rules the checker enforces:
 | Two ScraperCity tool sets | An old desktop extension serves a frozen tool list | Remove "ScraperCity - B2B Lead Generation" in Claude Desktop Settings, Extensions |
 | Key in a committed `.mcp.json` | Anyone with repo access can spend the wallet | `${SCRAPERCITY_API_KEY}` expansion, key in the shell |
 | Gemini CLI without the key in `env` | Gemini CLI redacts inherited variables matching `*KEY*` | List `SCRAPERCITY_API_KEY` in the server's `env` block |
-| Polling Apollo every minute | Apollo runs take hours to days; each poll burns a tool call | Webhook, or one check an hour at most |
+| Polling Apollo every few seconds | Apollo runs usually take 15 to 30 minutes; each poll burns a tool call | Webhook, or one check every few minutes after the first 15 |
 | `download_results` without `outputPath` | Saves `{runId}.csv` in the server's working directory | Pass an absolute path in a folder the user named |
 | 100-row database pages in chat | Large JSON results crowd the context; Claude Code warns past 10,000 tokens | Count with `limit: 1`, inspect with `limit: 10`; check where page 1 of the pull lands before paging on, and switch to the shell loop if it fills the chat |
 | `excludeDelivered: true` on a one-off list | Leads the account already owns drop out of the list | Leave it off for a one-off pull (re-fetching owned leads is free); use it for repeat and daily pulls |

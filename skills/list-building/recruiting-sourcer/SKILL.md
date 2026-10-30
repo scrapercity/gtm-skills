@@ -5,7 +5,7 @@ description: >-
   ScraperCity Lead Database (title, notTitle, seniority, department,
   companyName, companyDomain and location filters) or from an Apollo
   people-search URL (scrape_apollo, 500 to 50,000 leads at $0.0039 each,
-  delivered over hours to days through a webhook), removes people at the
+  usually delivered in 15 to 30 minutes through a webhook), removes people at the
   hiring company and do-not-poach accounts, tiers the shortlist, then adds
   verified emails (find_emails, validate_emails) and mobiles for the top tier
   (find_mobiles), with first messages for candidates. Use when the user says
@@ -136,7 +136,7 @@ Run two searches when there is a poach list: one with `companyDomain` (target co
 
 ### 4. Pull
 
-Database: page with `after: "0"` then `pagination.next_after`, `limit: 100`, until the planned rows. Apollo: register the webhook at app.scrapercity.com/dashboard/webhooks, start the run, save the `runId`, and stop the session; the webhook (or an hourly check at most) tells you when it reaches SUCCEEDED. Runs take hours to several days.
+Database: page with `after: "0"` then `pagination.next_after`, `limit: 100`, until the planned rows. Apollo: register the webhook at app.scrapercity.com/dashboard/webhooks, start the run, save the `runId`, and stop the session; the webhook (or a check every few minutes) tells you when it reaches SUCCEEDED. Runs usually take 15 to 30 minutes.
 
 ### 5. Exclude, dedupe, QA
 
@@ -208,7 +208,7 @@ Location, company size and keywords are filters, so every pulled row already mee
 
 `hasEmail: false` on the count keeps candidates without an email in the pool; Email Finder fills them later. Set it to `true` only when the budget rules out Email Finder. Replace each PASTE value with the URL copied from the browser.
 
-Apollo through the CLI: `npx scrapercity apollo "<url>"` with a count; the CLI prints that Apollo takes up to 4 days and points to the webhook page. Apollo URLs must use Filters 1.0 format per the catalog.
+Apollo through the CLI: `npx scrapercity apollo "<url>"` with a count; the CLI prints that Apollo usually takes 15 to 30 minutes and points to the webhook page. Apollo URLs must use Filters 1.0 format per the catalog.
 
 ### Worked cost estimate
 
@@ -222,7 +222,7 @@ Senior React engineers in Austin for a fintech client, Growth plan, shortlist of
 | `find_mobiles` for A tier | 84 inputs, 29 found | $0.25 per found | $7.25 |
 | Total | | | $9.72 |
 
-Ceiling before the run: $0.42 + 69 x $0.05 ($3.45) + 84 x $0.25 ($21.00) = $24.87. Show it and wait for a go-ahead. If the user were on Starter and used an Apollo URL instead, a 1,000-lead run would add 1,000 x $0.0039 = $3.90 and one to several days.
+Ceiling before the run: $0.42 + 69 x $0.05 ($3.45) + 84 x $0.25 ($21.00) = $24.87. Show it and wait for a go-ahead. If the user were on Starter and used an Apollo URL instead, a 1,000-lead run would add 1,000 x $0.0039 = $3.90 and a 15 to 30 minute wait.
 
 ### Errors
 
@@ -262,7 +262,7 @@ What the reader receives is the deliverable only: product names (Lead Database, 
 | `title: "Senior React Engineer"` | Partial match on one phrasing misses most of the market | Title family plus `seniority` |
 | No `notTitle` | "React" also matches React Native mobile engineers, engineering managers and recruiters hiring React engineers | Exclusion set per family |
 | Forgetting the client's own staff | The client's engineers get a recruiting email from the client's agency | Remove client domains and subsidiaries after every pull |
-| Polling an Apollo run every few minutes | Runs take hours to days | Webhook; hourly at most |
+| Polling an Apollo run every few seconds | Burns the 100 a minute budget on a run that usually takes 15 to 30 minutes | Webhook; every few minutes at most |
 | Mobiles for the long list | $0.25 per hit on people the recruiter will not call | A tier only |
 | Guessing `firstname@company.com` when Email Finder returns nothing | Pattern guesses bounce, and bounces hurt the recruiter's domain for every other send | Mark "no usable email"; reach the person by LinkedIn or a call |
 | A 1,200-character first message with the job description pasted in | LinkedIn's InMail data puts messages over 1,200 characters 11% below average and under 400 characters 22% above | Under 400 characters; the description goes out after the reply |

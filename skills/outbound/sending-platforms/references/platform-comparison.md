@@ -88,7 +88,7 @@ Fit: a team that already lives in HubSpot and sends one-to-one at low volume per
 | Import | CSV files under 10,000 rows recommended; weekly row limits scale with subscription value; custom fields must exist before the upload; imported contacts are added to a list, then to a sequence from the People view |
 | Multiple sequences | Apollo warns when a contact is already in another sequence; if you continue, the contact gets both |
 
-Apollo search URLs also feed ScraperCity's `scrape_apollo` ($0.0039 per lead, hours to days per run, webhook required).
+Apollo search URLs also feed ScraperCity's `scrape_apollo` ($0.0039 per lead, usually 15 to 30 minutes per run, webhook required).
 
 ## 3. Decision matrix
 

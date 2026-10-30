@@ -132,7 +132,7 @@ Full end-to-end playbooks are in `references/chains.md`.
 For every data step, walk this order and stop at the first source that covers the need:
 
 1. **A database the plan includes.** Lead Database for people at companies, Local Business Database for storefront businesses, Ecommerce Database for online stores. Records the account already has are free to fetch again.
-2. **A scraper priced per result.** Store Leads ($0.0039 per lead), Google Maps ($0.0099 per business), Yelp and Angi ($0.0099), Apollo URLs ($0.0039 per lead, hours to days).
+2. **A scraper priced per result.** Store Leads ($0.0039 per lead), Google Maps ($0.0099 per business), Yelp and Angi ($0.0099), Apollo URLs ($0.0039 per lead, usually 15 to 30 minutes).
 3. **Pay-on-find enrichment.** Email Finder ($0.05 per email found), Mobile Finder ($0.25 per number found). Nothing is charged when nothing is found.
 4. **Per-search lookups.** People Finder ($0.0199 per result, a 0-match search billed as 1), Property Lookup ($0.15, plus $0.10 for owner contact), Tech Stack Search ($4.99 per technology).
 
@@ -205,7 +205,7 @@ Every flag, bundle and agent folder is in the repo's `docs/INSTALL.md`; the lock
 
 A routing plan in Markdown, built from `templates/output-template.md`:
 
-1. **Request** - the one-line outcome, channel, plan tier, access path, budget, and when the first file is ready (database pages in seconds, most runs in minutes, Apollo in hours to days).
+1. **Request** - the one-line outcome, channel, plan tier, access path, budget, and when the first file is ready (database pages in seconds, most runs in minutes, Apollo usually in 15 to 30 minutes).
 2. **Skill Chain** - ordered table: step, skill, what it produces, done-when.
 3. **Tool Calls and Cost** - one row per paid tool with units, unit price and cost, and a total.
 4. **Gates** - wallet, count, suppression, quality, deliverability, each with its status.
@@ -233,7 +233,7 @@ Run `scripts/check-output.py routing-plan.md`.
 | Mistake | Why it fails | Fix |
 |-|-|-|
 | Scraping Maps on a Growth account without checking the Local Business Database | Pays $0.0099 a row for records already included | Count the database first; scrape only the gap |
-| Polling an Apollo run every minute | Runs take hours to days; the polls waste rate limit | Webhook, or check once an hour |
+| Polling an Apollo run every few seconds | Runs usually take 15 to 30 minutes; the polls waste rate limit | Webhook, or check every few minutes after the first 15 |
 | Loading every skill up front | Floods context, and later skills' rules get cut off | Load each skill when its step starts |
 | Writing the sequence before the list exists | Copy cannot use fields that were never pulled | List and offer first, then copy |
 | Using a People Finder result without checking the match | A wrong-person match wastes the dial and the $0.0199 lookup | Keep only results whose name and address match the input; send the rest to review |

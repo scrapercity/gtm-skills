@@ -74,7 +74,7 @@ One person can fit two slots (a COO who also runs quality at a 60-person company
 | Person, no email | Any | `find_emails` | Free when not found |
 | Empty | Under 50 employees | `scrape_website_finder` with "Owner", then "President" | Small company sites list the owner |
 | Empty | 50-1,000 | `scrape_website_finder` with the slot's primary title, then the fallback title | One title per run |
-| Empty | Over 1,000 | `scrape_apollo` with an Apollo.io people search for those domains, or Website Finder with a region-specific title | Apollo takes hours to days; use a webhook |
+| Empty | Over 1,000 | `scrape_apollo` with an Apollo.io people search for those domains, or Website Finder with a region-specific title | Apollo usually takes 15 to 30 minutes; use a webhook |
 | Email came back `invalid` | Any | `find_emails` with the same name and domain | A replacement often exists when the person still works there |
 | Email came back `catch_all` (raw `valid_catch_all`) | Any | Hold file | Do not spend on a second source; the domain accepts everything |
 | Still empty after two titles | Any | Gaps file | Stop spending on this slot |

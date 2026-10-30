@@ -48,7 +48,7 @@ The 20 days and 3 steps in the table are example inputs. When the user asks for 
 
 1. `query_lead_database` with `url` and `limit: 1`. Read `search_translation`: applied, approximated, not supported.
 2. Re-add unsupported filters as native parameters, then pull.
-3. Only when the database cannot express the search, run `scrape_apollo` with `url`, `count` (500 to 50,000) and `fileName`. Cost: count x $0.0039. Register a webhook first; runs take hours to days.
+3. Only when the database cannot express the search, run `scrape_apollo` with `url`, `count` (500 to 50,000) and `fileName`. Cost: count x $0.0039. Register a webhook first; runs usually take 15 to 30 minutes.
 
 ### D. From a CRM export
 

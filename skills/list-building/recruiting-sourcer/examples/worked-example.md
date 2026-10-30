@@ -77,7 +77,7 @@ Lead Database emails validated: 251 (214 valid, 22 catch_all, 5 unknown, 10 inva
 | Mobile Finder for A tier | 84 inputs, 29 found | $0.25 per number found | $7.25 |
 | Total | | | $9.72 |
 
-User go-ahead: agency lead approved the $24.87 ceiling in chat on 2026-10-13. Skipping the Apollo run saved at least the 500-lead minimum ($1.95) and a wait of one to several days.
+User go-ahead: agency lead approved the $24.87 ceiling in chat on 2026-10-13. Skipping the Apollo run saved at least the 500-lead minimum ($1.95) and a 15 to 30 minute wait.
 
 ## Shortlist Sample
 

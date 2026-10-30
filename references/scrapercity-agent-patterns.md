@@ -10,7 +10,7 @@ The rules every skill in this repo follows when it touches ScraperCity, whether 
 | 2 | Count before you pull. Size the audience with a 1-row database query or a small test run first. | Keeps cost predictable; scrapercity.com/how-to-use says to check result counts before exporting. |
 | 3 | Show the user the cost estimate before every paid run and wait for a go-ahead. Start without asking only under a per-run amount the user has set. | Scrapers draw from the wallet per result as they deliver (scrapercity.com/llm-info), so the go-ahead before the start is the one point where the user controls the spend. |
 | 4 | Every scraper is start, poll, download. Save the `runId` the moment a run starts. | The `runId` is the only handle for status, download, cancel and logs. |
-| 5 | Apollo runs go through a webhook. If you must poll, once an hour at most. | Apollo takes from hours to several days (scrapercity.com/how-to-use). |
+| 5 | Apollo runs go through a webhook. If you must poll, start after 15 minutes and check every few minutes. | Apollo usually takes 15 to 30 minutes (scrapercity.com/how-to-use). |
 | 6 | Never loop-poll inside a conversation. Check, report, and check again later. | Each check costs a tool call and context. A run that needs 20 minutes does not need 80 checks. |
 | 7 | Page databases with the `after` cursor and use `excludeDelivered=true` for repeat pulls. | Cursor paging does not skip or repeat rows; `excludeDelivered` returns only records the account does not already have. |
 | 8 | On a 409, find the earlier run instead of resubmitting. | The same search was already accepted. Resubmitting does not get a second run. |
@@ -101,7 +101,7 @@ Intervals come from the package: `pollUntilDone` in `lib/client.mjs` (and the CL
 | `validate_emails`, `find_emails`, `find_mobiles`, `find_people`, `scrape_property_lookup`, `search_criminal_records`, `scrape_builtwith` | 1 to 10 minutes | Every 15 s from a script; once per turn in a chat | Still `RUNNING` after 10 minutes |
 | `scrape_store_leads` | Instant (cached database) | Once | Not `SUCCEEDED` on the first check |
 | `scrape_maps`, `scrape_yelp`, `scrape_angi`, `scrape_zillow_agents`, `scrape_bizbuysell`, `scrape_crexi`, `scrape_airbnb`, `scrape_website_finder`, `scrape_distress_list` | 5 to 30 minutes (the README gives 1 to 30 minutes for every scraper but Apollo) | Every 15 s from a script; once per turn in a chat | Still `RUNNING` after 30 minutes |
-| `scrape_apollo` | Up to 4 days | Webhook; if you must poll, once an hour at most | Report the runId and stop the session |
+| `scrape_apollo` | Usually 15 to 30 minutes | Webhook; if you must poll, every few minutes after the first 15 | Report the runId and stop the session |
 
 Inside an agent conversation: check once, tell the user the status and `handled / requested`, and check again on the next turn or when the user asks. Do not chain status calls back to back.
 

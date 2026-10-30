@@ -44,7 +44,7 @@ Which sources shape this skill, what each one contributes, and which file to ope
 | REST for database rows, CLI for counts and starts | The CLI prints 3 rows per page; the REST response has all of them |
 | `--after 0` every day with `--exclude-delivered` | Starts from the beginning and returns only records the account does not have, without skipping |
 | `poll --interval 30` or slower | The default 15 s is 240 status calls an hour against a 100 per minute limit shared with everything else on the key |
-| Webhook for Apollo, never `poll` | `poll` gives up after one hour; Apollo runs take hours to days |
+| Webhook for Apollo, never `poll` | `poll` gives up after one hour; Apollo runs usually take 15 to 30 minutes and some take longer |
 | An explicit return-on-failure after every substitution inside functions | Bash does not apply `set -e` there |
 
 ## Sources

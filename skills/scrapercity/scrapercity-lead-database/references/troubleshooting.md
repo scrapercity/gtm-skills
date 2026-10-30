@@ -90,9 +90,9 @@ On a 503, the loop should catch the HTTP error, narrow the filters, and restart 
 | Starter plan | `scrape_apollo` at $0.0039 per lead, 500 minimum per run |
 | URL depends on a filter in `not_supported` and the user insists on it | `scrape_apollo` with a webhook |
 | `scrape_apollo` response shows a `lead_database` block with `matches` | Pull those matches now through the database `api` call, then size the Apollo run to the rest |
-| Need results today | Lead Database. Apollo runs take hours and can take several days |
+| Need results right now | Lead Database. Apollo runs usually take 15 to 30 minutes |
 
-Never poll an Apollo run more than once an hour. Register a webhook at app.scrapercity.com/dashboard/webhooks.
+Never poll an Apollo run in a tight loop: start after 15 minutes and check every few minutes. Register a webhook at app.scrapercity.com/dashboard/webhooks.
 
 ## Before you report a count to the user
 

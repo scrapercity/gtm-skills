@@ -290,7 +290,7 @@ Authorization: Bearer $INSTANTLY_API_KEY          (scope leads:create)
 
 Reconcile `leads_uploaded` and the skip counters (`in_blocklist`, `skipped_count`, `invalid_email_count`) against the rows sent before the next batch.
 
-**Apollo-sourced lists** (`scrape_apollo`, $0.0039 per lead) take hours to several days: register a ScraperCity webhook and let the pipeline in `references/webhooks-and-crm-sync.md` section 5 import into a paused campaign.
+**Apollo-sourced lists** (`scrape_apollo`, $0.0039 per lead) usually take 15 to 30 minutes: register a ScraperCity webhook and let the pipeline in `references/webhooks-and-crm-sync.md` section 5 import into a paused campaign.
 
 **Worked cost estimate** (Shopify apparel stores using Klaviyo, first month):
 

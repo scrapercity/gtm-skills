@@ -130,7 +130,7 @@ Instantly payloads always include `timestamp`, `event_type`, `workspace`, `campa
 
 ## 5. ScraperCity run webhooks into the import pipeline
 
-ScraperCity sends a POST when a run reaches SUCCEEDED or FAILED; register the URL at app.scrapercity.com/dashboard/webhooks. The payload includes `runId`, `fileName` and `leadsCount` (`references/scrapercity-agent-patterns.md`). Apollo runs take hours to several days, so a webhook is the trigger to use for them.
+ScraperCity sends a POST when a run reaches SUCCEEDED or FAILED; register the URL at app.scrapercity.com/dashboard/webhooks. The payload includes `runId`, `fileName` and `leadsCount` (`references/scrapercity-agent-patterns.md`). Apollo runs usually take 15 to 30 minutes, so a webhook is the trigger to use for them.
 
 ```text
 ScraperCity webhook (runId)

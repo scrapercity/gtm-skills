@@ -62,7 +62,7 @@ The 49 calls run at one call every 0.7 seconds, under the 100 requests a minute 
 | find_mobiles on the 300 accounts at 100-200 employees (40% found assumed) | 120 found | $0.25 | $30.00 |
 | Total paid | | | $38.13 |
 
-Allowance share: 4,812 of 100,000 new leads, 4.8% of one day. For comparison, the same 4,812 leads through `scrape_apollo` would cost 4,812 x $0.0039 = $18.77 and take hours to days. User approved the $38.13 before validation started.
+Allowance share: 4,812 of 100,000 new leads, 4.8% of one day. For comparison, the same 4,812 leads through `scrape_apollo` would cost 4,812 x $0.0039 = $18.77 and take about 15 to 30 minutes. User approved the $38.13 before validation started.
 
 ## Sample QA
 
