@@ -175,7 +175,7 @@ Checkers use only the Python standard library. Each one fails the unfilled templ
 | Deliverable checkers | 32 |
 | Common Pitfalls rows (references/pitfalls-index.md) | 457 |
 | Total packaged files | 400 |
-| Lines of Markdown (shared references counted once) | 41,977 |
+| Lines of Markdown (shared references counted once) | 41,993 |
 <!-- GENERATED:inventory:end -->
 
 ## Authorities
