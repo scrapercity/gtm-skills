@@ -25,7 +25,7 @@ Heavy dial blocks run Tuesday to Thursday; Wednesday and Thursday book the most 
 
 ## 3. LinkedIn account restrictions
 
-LinkedIn's User Agreement (section 8.2) and its help page "Prohibited software and extensions" bar third-party software, including bots, browser plug-ins and extensions, that scrapes LinkedIn or automates activity on it, and LinkedIn may restrict accounts that use it. A restricted seat loses every connection request in flight, so this skill plans manual activity only. LinkedIn's pages refuse automated readers; on 2026-10-13 this summary was matched against two write-ups of the same pages (Contentin and Gatling, 2026). Open the pages in a browser before relying on the wording.
+LinkedIn's User Agreement (section 8.2) and its help page "Prohibited software and extensions" bar third-party software, including bots, browser plug-ins and extensions, that automates activity on LinkedIn, and LinkedIn may restrict accounts that use it. A restricted seat loses every connection request in flight, so this skill plans manual activity only. LinkedIn's pages refuse automated readers; on 2026-10-13 this summary was matched against two write-ups of the same pages (Contentin and Gatling, 2026). Open the pages in a browser before relying on the wording.
 
 | Check | Rule | Source |
 |-|-|-|
